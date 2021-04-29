@@ -1,3 +1,0 @@
-Dentro de la carpeta a trabajar poner : npm init -y
-Despues instalar todo lo demas: npm i mongoose express nodemon
-... etc

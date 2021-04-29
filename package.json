@@ -1,19 +1,28 @@
 {
-  "name": "proyecto-dis-gimnasio",
+  "name": "Proyecto-DIS-Gimnasio",
   "version": "1.0.0",
-  "description": "Proyecto de Diseño de Software",
+  "description": "Proyecto de Diseño de Software, incluye todo lo de las distintas etapas",
   "main": "main.js",
   "scripts": {
-    "test": "run"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agusbrenes/Proyecto-DIS-Gimnasio.git"
   },
-  "author": "Agustín Brenes, Jesús Chavarría y Eduardo Saborío",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/agusbrenes/Proyecto-DIS-Gimnasio/issues"
   },
-  "homepage": "https://github.com/agusbrenes/Proyecto-DIS-Gimnasio#readme"
+  "homepage": "https://github.com/agusbrenes/Proyecto-DIS-Gimnasio#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "concurrently": "^6.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  }
 }
