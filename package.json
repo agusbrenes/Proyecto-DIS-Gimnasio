@@ -1,0 +1,19 @@
+{
+  "name": "proyecto-dis-gimnasio",
+  "version": "1.0.0",
+  "description": "Proyecto de Diseño de Software",
+  "main": "main.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agusbrenes/Proyecto-DIS-Gimnasio.git"
+  },
+  "author": "Agustín Brenes, Jesús Chavarría y Eduardo Saborío",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agusbrenes/Proyecto-DIS-Gimnasio/issues"
+  },
+  "homepage": "https://github.com/agusbrenes/Proyecto-DIS-Gimnasio#readme"
+}
