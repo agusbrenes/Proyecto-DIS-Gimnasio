@@ -1,0 +1,2 @@
+import Instructor from './instructor';
+
