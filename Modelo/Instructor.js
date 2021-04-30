@@ -12,6 +12,7 @@ export default class Instructor extends User {
     /**
      * @param {String} email
      */
+    /*
     set setEmail(email) {
         super.setEmail(email);
     }
@@ -23,13 +24,14 @@ export default class Instructor extends User {
     /**
      * @param {String} password
      */
+    /*
     set setPassword(password) {
         super.setPassword(password);
     }
 
     get getPassword() {
         return super.getPassword();
-    }    
+    }    */
 
     /**
      * @param {Number} id

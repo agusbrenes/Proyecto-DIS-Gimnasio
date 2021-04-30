@@ -14,6 +14,7 @@ export default class Client extends User {
     /**
      * @param {String} email
      */
+    /*
     set setEmail(email) {
         super.setEmail(email);
     }
@@ -25,6 +26,7 @@ export default class Client extends User {
     /**
      * @param {String} password
      */
+    /*
     set setPassword(password) {
         super.setPassword(password);
     }
