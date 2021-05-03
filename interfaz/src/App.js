@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import "./App.css"
-import GimMenu from './Windows/GimMenu';
+import GymMenu from './Windows/GymMenu';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
           <Switch>
-            <Route exact path = "/" component = {GimMenu}></Route>
+            <Route exact path = "/" component = {GymMenu}></Route>
           </Switch>
         </Router>
     </div>
