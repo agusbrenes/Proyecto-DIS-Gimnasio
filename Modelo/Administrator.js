@@ -1,30 +1,9 @@
-export default class Administrator {
-    constructor(username, password) {
-        this.#username = username;
-        this.#password = password;
+import User from './user';
+
+export default class Administrator extends User {
+    constructor(email, password, id, firstName, lastName, phone) {
+        super(email, password, id, firstName, lastName, phone);
         this.#adm_room = null;
-    }
-
-    /**
-     * @param {String} username
-     */
-    set setUsername(username) {
-        this.#username = username;
-    }
-
-    get getUsername(){
-        return this.#username;
-    }
-
-    /**
-     * @param {String} password
-     */
-    set setPassword(password) {
-        this.#password = password;
-    }
-
-    get getPassword() {
-        return this.#password;
     }
 
     /**
