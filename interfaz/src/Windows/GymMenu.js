@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios";
-import "./Styles.css";
-import image from "./Image.jpg";
+import "../App.css";
 
 class GymMenu extends Component {
     render() {
         return (
-            <div className="bgGymMenu">
-               Bienvenido
-            </div>
+            <h1 className="GymMenu">
+                MENU
+            </h1>
         )
     }
 }

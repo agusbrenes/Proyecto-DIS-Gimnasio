@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios";
+import Navbar from "./NavBar/NavBar";
 
 class Login extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <h1>
+                alooo
+            </h1>
         )
     }
 }
