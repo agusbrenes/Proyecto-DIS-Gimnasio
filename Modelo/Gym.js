@@ -1,4 +1,4 @@
-import Room from './room';
+import Room from './Room.js';
 
 export default class Gym {
     constructor(id, name) {
