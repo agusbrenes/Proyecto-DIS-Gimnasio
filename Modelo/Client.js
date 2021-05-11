@@ -5,6 +5,8 @@ export default class Client extends User {
     constructor(email, password, id, firstName, lastName, phone) {
         super(email, password, id, firstName, lastName, phone);
         this.#status = Al_Dia;
+        this.#reservations = [];
+        this.#subscriptions = [];
     }
 
     set setAlDia() {
