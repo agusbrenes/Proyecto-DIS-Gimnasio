@@ -37,7 +37,7 @@ export default class Gym {
     /**
      * @param {Room} room
      */
-    set add_room(room) {
+    add_room(room) {
         // Esto debería revisar si el room ya existe en el Gym, pero no estoy seguro si funciona. -Eduardo
         // Si comparo el objeto como tal esto da falso, por lo que hay que comparar con el String ._.
         if(!this.#rooms.includes(room.getName())){
@@ -48,11 +48,13 @@ export default class Gym {
     /**
      * @param {Room} room
      */
-    set delete_room(room) {
+    delete_room(room) {
         // Esto debería revisar si el room ya existe en el Gym, pero no estoy seguro si funciona. -Eduardo
         const index = this.#rooms.indexOf(room);
         if (index > -1) {
             this.#rooms.splice(index, 1);
+        } else {
+            throw new Error("This room doesn't exist in the Gym. Cannot perform delete operation.");
         }
     }
 
