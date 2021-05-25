@@ -36,7 +36,7 @@ export default class Gym {
     /**
      * @param {Room} room
      */
-    add_room(room) {
+    addRoom(room) {
         // Esto debería revisar si el room ya existe en el Gym, pero no estoy seguro si funciona. -Eduardo
         // Si comparo el objeto como tal esto da falso, por lo que hay que comparar con el String ._.
         if(!this.#rooms.includes(room.getName())){
@@ -47,7 +47,7 @@ export default class Gym {
     /**
      * @param {Room} room
      */
-    delete_room(room) {
+    deleteRoom(room) {
         // Esto debería revisar si el room ya existe en el Gym, pero no estoy seguro si funciona. -Eduardo
         const index = this.#rooms.indexOf(room);
         if (index > -1) {
@@ -57,7 +57,7 @@ export default class Gym {
         }
     }
 
-    get get_room(name) {
+    get getRoom(name) {
         let room = this.#rooms.find(room => room.getName() == name);
         return room;
     }
