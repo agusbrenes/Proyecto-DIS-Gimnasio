@@ -10,7 +10,7 @@ export default class Room {
         this.#max_capacity = max_capacity;
         this.#capacity = capacity;
         this.#schedule = schedule;
-        this.#administrators = [];
+        this.#administrators = [administrator];
         this.#instructors = [];
         this.#services = [];
         this.#calendars = [];
