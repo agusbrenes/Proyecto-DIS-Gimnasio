@@ -1,17 +1,16 @@
 import Room from './Room.js';
 
 export default class Gym {
-    constructor(id, name) {
-        this.#id = id;
+    static #id = 0;
+
+    constructor(name) {
+        this.#id = Gym.assignId();
         this.#name = name;
         this.#rooms = [];
     }
 
-    /**
-     * @param {int} id
-     */
-    set setId(id) {
-        this.#id = id;
+    static assignId() {
+        return ++this.#id;
     }
 
     get getId() {
@@ -58,8 +57,8 @@ export default class Gym {
         }
     }
 
-    get get_room(room) {
-        const index = this.#rooms.indexOf(room);
-        return this.#rooms[index];
+    get get_room(name) {
+        let room = this.#rooms.find(room => room.getName() == name);
+        return room;
     }
 }
