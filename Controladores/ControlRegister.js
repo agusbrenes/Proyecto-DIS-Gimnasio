@@ -1,18 +1,23 @@
-const ClientSchema = require("../Modelo/ClientSchema");
 const Client = require("../Modelo/Client");
 
 const bcrypt = require("bcryptjs");
+const DaoClient = require("./DaoClient");
 
 module.exports = class ControlRegister {
+    constructor(){
+        this.handler = null;
+    }
 
     async findClient(filter) {
-        return await ClientSchema.findOne(filter);
+        this.handler = new DaoClient();
+        return await this.handler.find(filter);
     }
 
     async saveClient(email, password, id, firstName, lastName, phone) {
+        this.handler = new DaoClient();
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
-        console.log(passwordHash);
+        //console.log(passwordHash);
         const client = new Client(
             email,
             passwordHash,
@@ -21,7 +26,6 @@ module.exports = class ControlRegister {
             lastName,
             phone
         );
-        const schema = client.toMongoSchema();
-        return await schema.save();
+        return await this.handler.save(client);
     }
 }

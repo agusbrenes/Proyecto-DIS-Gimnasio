@@ -1,6 +1,5 @@
 const Status = require('./status');
 const User = require('./user');
-const ClientSchema = require("./ClientSchema");
 
 module.exports = class Client extends User {
     constructor(email, password, id, firstName, lastName, phone) {
@@ -69,7 +68,7 @@ module.exports = class Client extends User {
         this.subscriptions.delete(id);
     }
 
-    toMongoSchema(){
+    /*toMongoSchema(){
         return new ClientSchema({
             email: this.email,
             password: this.password,
@@ -81,5 +80,5 @@ module.exports = class Client extends User {
             reservations: this.reservations.values(),
             subscriptions: this.subscriptions.values()
         });
-    }
+    }*/
 }
