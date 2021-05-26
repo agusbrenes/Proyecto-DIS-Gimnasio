@@ -25,7 +25,7 @@ module.exports = class Client extends User {
         return this.#reservations;
     }
 
-    get getReservation(id) {
+    getReservation(id) {
         return this.#reservations.get(id);
     }
 
@@ -47,7 +47,7 @@ module.exports = class Client extends User {
         return this.#subscriptions;
     }
 
-    get getSubscriptions(id) {
+    getSubscriptions(id) {
         return this.#subscriptions.get(id);
     }
 

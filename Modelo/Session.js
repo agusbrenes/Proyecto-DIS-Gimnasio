@@ -74,7 +74,7 @@ module.exports = class Session {
         return this.#reservations;
     }
 
-    get getReservation(id) {
+    getReservation(id) {
         return this.#reservations.get(id);
     }
 
