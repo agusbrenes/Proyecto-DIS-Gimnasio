@@ -1,8 +1,8 @@
-import Room from './Room.js';
-import Session from './Service.js';
-import Instructor from './Instructor.js';
+const Room = require('./Room.js');
+const Session = require('./Service.js');
+const Instructor = require('./Instructor.js');
 
-export default class Service {
+module.exports = class Service {
     static #id = 0;
 
     constructor(description, capacity, room, instructor) {

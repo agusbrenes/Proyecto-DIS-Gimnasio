@@ -1,6 +1,6 @@
-import Room from './Room.js';
+const Room = require('./Room.js');
 
-export default class Gym {
+module.exports = class Gym {
     static #id = 0;
 
     constructor(name) {

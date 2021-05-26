@@ -1,8 +1,8 @@
-import Calendar from './Calendar.js';
-import Session from './Session.js';
-import Schedule from './Schedule.js';
+const Calendar = require('./Calendar.js');
+const Session = require('./Session.js');
+const Schedule = require('./Schedule.js');
 
-export default class Day {
+module.exports = class Day {
     constructor(number, name, schedule) {
         this.#number = number;
         this.#name = name;
