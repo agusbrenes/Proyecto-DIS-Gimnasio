@@ -6,7 +6,7 @@ export default class Service {
     static #id = 0;
 
     constructor(description, capacity, room, instructor) {
-        this.#id = Service.assignId();
+        this.#id = Service.#assignId();
         this.#description = description;
         this.#capacity = capacity;
         this.#room = room;
@@ -14,7 +14,7 @@ export default class Service {
         this.#sessions = [];
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 
