@@ -1,4 +1,4 @@
-export default class User {
+module.exports = class User {
     constructor(email, password, id, firstName, lastName, phone) {
         this.#email = email;
         this.#password = password;
@@ -33,7 +33,7 @@ export default class User {
     /**
      * @param {Number} id
      */
-     set setId(id) {
+    set setId(id) {
         this.#id = id;
     }
 

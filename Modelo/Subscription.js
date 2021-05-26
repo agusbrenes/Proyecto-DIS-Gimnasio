@@ -1,4 +1,4 @@
-export default class Subscription {
+module.exports = class Subscription {
     static #id = 0;
 
     constructor(client) {
