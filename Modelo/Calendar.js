@@ -63,7 +63,7 @@ module.exports = class Calendar {
         return this.#days;
     }
 
-    get getDay(num) {
+    getDay(num) {
         return this.#days.get(num);
     }
 

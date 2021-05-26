@@ -82,7 +82,7 @@ module.exports = class Room {
         this.#calendars.push(c);
     }
 
-    get getCalendar(y, m) {
+    getCalendar(y, m) {
         const c = new Calendar(y, m);
         const index = this.#calendars.indexOf(c);
         return this.#calendars[index];
@@ -94,7 +94,7 @@ module.exports = class Room {
         }
     }
 
-    get getService(id) {
+    getService(id) {
         let serv = this.#services.find(service => service.getId() == id);
         return serv;
     }
@@ -105,7 +105,7 @@ module.exports = class Room {
         }
     }
 
-    get getInstructor(id) {
+    getInstructor(id) {
         let inst = this.#instructors.find(instructor => instructor.getId() == id);
     }
 
@@ -120,7 +120,7 @@ module.exports = class Room {
         }
     }
 
-    get getAdmin(id) {
+    getAdmin(id) {
         let adm = this.#administrators.find(administrator => administrator.getId() == id);
         return adm;
     }

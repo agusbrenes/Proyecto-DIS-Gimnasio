@@ -9,11 +9,11 @@ export default class Instructor extends User {
         this.#sessions = [];
     }
     
-    set setTemp() {
+    setTemp() {
         this.#isTemp = true;
     }
 
-    set setDefault() {
+    setDefault() {
         this.#isTemp = false;
     }
 

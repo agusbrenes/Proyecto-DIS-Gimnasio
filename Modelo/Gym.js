@@ -57,7 +57,7 @@ module.exports = class Gym {
         }
     }
 
-    get getRoom(name) {
+    getRoom(name) {
         let room = this.#rooms.find(room => room.getName() == name);
         return room;
     }
