@@ -2,7 +2,7 @@ export default class Session {
     static #id = 0;
 
     constructor(instructor, service, capacity, day, beginTime, endTime) {
-        this.#id = Session.assignId();
+        this.#id = Session.#assignId();
         this.#instructor = instructor;
         this.#service = service;
         this.#capacity = capacity;
@@ -11,7 +11,7 @@ export default class Session {
         this.#reservations = new Map();
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 

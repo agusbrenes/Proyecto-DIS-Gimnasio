@@ -2,11 +2,11 @@ export default class PaymentMethod {
     static #id = 0;
 
     constructor(description) {
-        this.#id = PaymentMethod.assignId();
+        this.#id = PaymentMethod.#assignId();
         this.#description = description;
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 

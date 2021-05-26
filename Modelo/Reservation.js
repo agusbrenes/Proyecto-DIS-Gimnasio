@@ -2,7 +2,7 @@ export default class Reservation {
     static #id = 0;
 
     constructor(client, session, date) {
-        this.#id = Reservation.assignId();
+        this.#id = Reservation.#assignId();
         this.#client = client;
         this.#session = session;
         this.#date = date;
@@ -10,7 +10,7 @@ export default class Reservation {
         this.#isConfirmed = false;
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 
