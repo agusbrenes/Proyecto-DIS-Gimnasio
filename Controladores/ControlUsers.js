@@ -3,7 +3,7 @@ const Client = require("../Modelo/Client");
 const bcrypt = require("bcryptjs");
 const DaoClient = require("./DaoClient");
 
-module.exports = class ControlRegister {
+module.exports = class ControlUsers {
     constructor(){
         this.handler = null;
     }

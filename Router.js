@@ -8,7 +8,7 @@ const router = express.Router();
 //const Client = require("./Modelo/Client");
 
 const AdminSchema = require("./Modelo/AdminSchema");
-const ControlRegister = require('./Controladores/ControlRegister');
+const ControlUsers = require('./Controladores/ControlUsers');
 //const RoomSchema = require('./Modelo/RoomSchema');
 
 //---------------Rutas----------------------//
@@ -16,7 +16,7 @@ const ControlRegister = require('./Controladores/ControlRegister');
 //Crear Usuario
 router.post("/NewClient", async (req, res) => {
     const object = req.body;
-    const control = new ControlRegister();
+    const control = new ControlUsers();
     try {
         const filter = {email: object.email};
         const findUser = await control.findClient(filter);
