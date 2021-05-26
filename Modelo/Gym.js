@@ -4,7 +4,7 @@ export default class Gym {
     static #id = 0;
 
     constructor(name) {
-        this.#id = Gym.assignId();
+        this.#id = Gym.#assignId();
         this.#name = name;
         this.#rooms = [];
     }
