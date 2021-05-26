@@ -7,14 +7,78 @@ export default class Calendar {
         this.#month = month;        
         this.#monthName = this.#getMonthName();
         this.#year = year;
-        this.days = new Map();
+        this.#days = new Map();
+    }
+
+    /**
+     * @param {Room} room
+     */
+    set setRoom(room) {
+        this.#room = room;
+    }
+
+    get getRoom() {
+        return this.#room;
+    }
+
+    /**
+     * @param {int} month
+     */
+    set setMonth(month) {
+        this.#month = month;
+        this.#monthName = this.#getMonthName();
+    }
+
+    get getMonth() {
+        return this.#month;
+    }
+
+    get getMonthName() {
+        return this.#monthName;
+    }
+
+    /**
+     * @param {int} year
+     */
+    set setYear(year) {
+        this.#year = year;
+    }
+
+    get getYear() {
+        return this.#year;
+    }
+
+    /**
+     * @param {int} month
+     */
+    set setMonth(month) {
+        this.#month = month;
+    }
+
+    get getMonth() {
+        return this.#month;
+    }
+    
+    get getDays() {
+        return this.#days;
+    }
+
+    get getDay(num) {
+        return this.#days.get(num);
     }
 
     addDay(number) {
         if (number < 1 || number > 7) {
             throw new Error("Invalid Day number. Cannot add such Day.");
         }
-        this.days.set(number, new Day(number));
+        this.#days.set(number, new Day(number));
+    }
+
+    deleteDay(num) {
+        if (this.#days.get(num) == undefined) {
+            throw new Error("This day isn't registered in the Calendar. Cannot perform delete operation.");
+        }
+        this.#days.delete(num);
     }
 
     get #getMonthName() {
