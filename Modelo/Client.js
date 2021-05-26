@@ -1,5 +1,6 @@
-/*const Status = require('./status');
+const Status = require('./status');
 const User = require('./user');
+const ClientSchema = require("./ClientSchema");
 
 module.exports = class Client extends User {
     constructor(email, password, id, firstName, lastName, phone) {
@@ -62,21 +63,17 @@ module.exports = class Client extends User {
         this.subscriptions.delete(id);
     }
 
+    toMongoSchema(){
+        return new ClientSchema({
+            email: this.email,
+            password: this.password,
+            id: this.id,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            phone: this.phone,
+            status: this.status,
+            reservations: this.reservations.values(),
+            subscriptions: this.subscriptions.values()
+        });
+    }
 }
-
-*/
-
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
-
-const Client = new Schema({
-    firstname: {type: String},
-    lastname: {type: String},
-    email: {type: String},
-    id: {type: String},
-    phone: {type: String},
-    password: {type: String, required: true, minlength: 8}
-});
-
-
-module.exports = mongoose.model("Client", Client);
