@@ -1,4 +1,4 @@
-export default class Session {
+module.exports = class Session {
     static #id = 0;
 
     constructor(instructor, service, capacity, day, beginTime, endTime) {

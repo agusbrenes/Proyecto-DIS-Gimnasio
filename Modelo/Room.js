@@ -1,10 +1,10 @@
-import Administrator from './Administrator.js';
-import Calendar from './Calendar.js';
-import Schedule from './Schedule.js';
-import Service from './Service.js';
-import Instructor from './Instructor.js';
+const Administrator = require('./Administrator.js');
+const Calendar = require('./Calendar.js');
+const Schedule = require('./Schedule.js');
+const Service = require('./Service.js');
+const Instructor = require('./Instructor.js');
 
-export default class Room {
+module.exports = class Room {
     constructor(name, max_capacity, capacity, administrator, schedule) {
         this.#name = name;
         this.#max_capacity = max_capacity;

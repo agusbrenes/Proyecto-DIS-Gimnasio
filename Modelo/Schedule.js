@@ -1,4 +1,4 @@
-export default class Schedule {
+module.exports = class Schedule {
     static #id = 0;
 
     constructor(begin_time, end_time) {

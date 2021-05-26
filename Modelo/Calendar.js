@@ -1,4 +1,4 @@
-export default class Calendar {
+module.exports = class Calendar {
     constructor(room, month, year) {
         if (month > 12) {
             throw new Error("Invalid Month number. Cannot create Calendar without valid Month number.");
