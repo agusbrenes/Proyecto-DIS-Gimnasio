@@ -20,3 +20,28 @@
     color: #fff;
     font-size: 100px;
   }
+
+  .Register {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+
+    background: black;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+  }
+
+  .SignUp {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+  }

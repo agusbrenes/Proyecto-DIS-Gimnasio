@@ -20,7 +20,7 @@ function Navbar() {
 
     return (
         <nav className="Navbar">
-            <h1 className="NavbarLogo">Gym</h1>
+            <h1 className="navbarLogo">Gimnasio Popeye</h1>
             <div className="menuIcon" onClick={handleClick}>
             </div>
             <ul className="navMenu">

@@ -3,6 +3,7 @@ import "./App.css"
 import GymMenu from './Windows/GymMenu';
 import Navbar from './Windows/NavBar/NavBar';
 import Register from './Windows/Register';
+import signUp from './Windows/SignUp';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={GymMenu} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/signUp" component={signUp}/>
       </Switch>
     </Router>
   );

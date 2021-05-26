@@ -23,8 +23,21 @@ class Register extends Component {
         });
     }
 
-    submit = () => {
-        
+    submit = (event) => {
+        event.preventDefault();
+        const user = {
+            email: this.state.email,
+            password: this.state.password,
+            id: this.state.id,
+            firstName: this.state.name,
+            lastName: this.state.lastname,
+            phone: this.state.phone,
+        }
+        axios({
+            url: "",
+            method: "POST",
+            data: user
+        })
     }
 
     render() {

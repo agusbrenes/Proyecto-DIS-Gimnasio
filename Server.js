@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
+//const session = require("express-session");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -9,7 +10,7 @@ const PORT = process.env.PORT || 8080;
 const rutas = require("./Router");
 
 //Conectar a la base MongoDB
-const MongoDBURI = "";
+const MongoDBURI = "mongodb+srv://EduRoot:root1234@gimnasiopopeye.pjwhf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(MongoDBURI, {
     useNewUrlParser: true,
