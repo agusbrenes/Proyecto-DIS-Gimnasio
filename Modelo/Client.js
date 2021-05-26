@@ -67,18 +67,4 @@ module.exports = class Client extends User {
         }
         this.subscriptions.delete(id);
     }
-
-    /*toMongoSchema(){
-        return new ClientSchema({
-            email: this.email,
-            password: this.password,
-            id: this.id,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            phone: this.phone,
-            status: this.status,
-            reservations: this.reservations.values(),
-            subscriptions: this.subscriptions.values()
-        });
-    }*/
 }

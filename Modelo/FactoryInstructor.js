@@ -1,7 +1,7 @@
-import Instructor from "./Instructor";
-import FactoryUser from "./FactoryUser";
+const Instructor = require("./Instructor");
+const FactoryUser = require("./FactoryUser");
 
-export default class FactoryInstructor extends FactoryUser { 
+module.exports = class FactoryInstructor extends FactoryUser { 
     
     createUser(email, password, id, firstName, lastName, phone) {
         console.log("Instructor created");

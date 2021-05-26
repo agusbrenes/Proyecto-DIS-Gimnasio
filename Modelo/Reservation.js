@@ -1,11 +1,10 @@
-export default class Reservation {
+module.exports = class Reservation {
     static #id = 0;
 
-    constructor(client, session, date) {
+    constructor(client, session) {
         this.id = Reservation.#assignId();
         this.client = client;
         this.session = session;
-        this.date = date;
         this.paymentMethod = null;
         this.isConfirmed = false;
     }
@@ -15,7 +14,7 @@ export default class Reservation {
     }
 
     get getId() {
-        return this.#id;
+        return this.id;
     }
 
     get getClient() {
@@ -31,17 +30,6 @@ export default class Reservation {
 
     get getSession() {
         return this.session;
-    }
-
-    /**
-     * @param {Date} date
-     */
-    set setDate(date) {
-        this.date = date;
-    }
-
-    get getDate() {
-        return this.date;
     }
 
     /**

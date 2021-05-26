@@ -1,4 +1,4 @@
-export default class FactoryUser {
+module.exports = class FactoryUser {
     constructor() {
         // if (this.constructor === FactoryUser) {
         //   throw new TypeError("Cannot construct abstract object type 'UserCreator', call for creation of a concrete type.");

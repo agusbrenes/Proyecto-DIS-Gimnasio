@@ -1,9 +1,9 @@
-export default class PaymentMethod {
+module.exports = class PaymentMethod {
     static #id = 0;
 
     constructor(description) {
-        this.#id = PaymentMethod.#assignId();
-        this.#description = description;
+        this.id = PaymentMethod.#assignId();
+        this.description = description;
     }
 
     static #assignId() {
@@ -11,17 +11,17 @@ export default class PaymentMethod {
     }
 
     get getId() {
-        return this.#id;
+        return this.id;
     }
 
     /**
      * @param {String} description
      */
     set setDescription(description) {
-        this.#description = description;
+        this.description = description;
     }
 
     get getDescription() {
-        return this.#description;
+        return this.description;
     }
 }

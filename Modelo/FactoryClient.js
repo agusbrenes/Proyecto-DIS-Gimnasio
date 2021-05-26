@@ -1,7 +1,7 @@
-import Client from "./Client";
-import FactoryUser from "./FactoryUser";
+const Client = require("./Client");
+const FactoryUser = require("./FactoryUser");
 
-export default class FactoryClient extends FactoryUser { 
+module.exports = class FactoryClient extends FactoryUser { 
     
     createUser(email, password, id, firstName, lastName, phone) {
         console.log("Client created");

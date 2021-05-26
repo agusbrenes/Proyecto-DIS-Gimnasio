@@ -7,7 +7,7 @@ const router = express.Router();
 //const ClientSchema = require("./Modelo/ClientSchema");
 //const Client = require("./Modelo/Client");
 
-const AdminSchema = require("./Modelo/AdminSchema");
+//const AdminSchema = require("./Modelo/AdminSchema");
 const ControlUsers = require('./Controladores/ControlUsers');
 //const RoomSchema = require('./Modelo/RoomSchema');
 
