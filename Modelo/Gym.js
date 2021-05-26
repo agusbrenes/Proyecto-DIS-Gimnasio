@@ -9,7 +9,7 @@ export default class Gym {
         this.#rooms = [];
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 

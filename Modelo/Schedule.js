@@ -7,7 +7,7 @@ export default class Schedule {
         this.#end_time = end_time;
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 

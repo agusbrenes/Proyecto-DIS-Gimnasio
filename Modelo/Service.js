@@ -14,7 +14,7 @@ export default class Service {
         this.#sessions = [];
     }
 
-    static assignId() {
+    static #assignId() {
         return ++this.#id;
     }
 
