@@ -1,19 +1,19 @@
-import User from './user';
+const User = require('./user');
 
-export default class Administrator extends User {
+module.exports = class Admin extends User {
     constructor(email, password, id, firstName, lastName, phone) {
         super(email, password, id, firstName, lastName, phone);
-        this.#adm_room = null;
+        this.admRoom = null;
     }
 
     /**
      * @param {Room} room
      */
     set setAdmRoom(room) {
-        this.#adm_room = room;
+        this.admRoom = room;
     }
 
     get getAdmRoom() {
-        return this.#adm_room;
+        return this.admRoom;
     }
 }

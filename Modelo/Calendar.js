@@ -3,85 +3,85 @@ module.exports = class Calendar {
         if (month > 12) {
             throw new Error("Invalid Month number. Cannot create Calendar without valid Month number.");
         }
-        this.#room = room;
-        this.#month = month;        
-        this.#monthName = this.#getMonthName();
-        this.#year = year;
-        this.#days = new Map();
+        this.room = room;
+        this.month = month;        
+        this.monthName = this.getMonthName();
+        this.year = year;
+        this.days = new Map();
     }
 
     /**
      * @param {Room} room
      */
     set setRoom(room) {
-        this.#room = room;
+        this.room = room;
     }
 
     get getRoom() {
-        return this.#room;
+        return this.room;
     }
 
     /**
      * @param {int} month
      */
     set setMonth(month) {
-        this.#month = month;
-        this.#monthName = this.#getMonthName();
+        this.month = month;
+        this.monthName = this.getMonthName();
     }
 
     get getMonth() {
-        return this.#month;
+        return this.month;
     }
 
     get getMonthName() {
-        return this.#monthName;
+        return this.monthName;
     }
 
     /**
      * @param {int} year
      */
     set setYear(year) {
-        this.#year = year;
+        this.year = year;
     }
 
     get getYear() {
-        return this.#year;
+        return this.year;
     }
 
     /**
      * @param {int} month
      */
     set setMonth(month) {
-        this.#month = month;
+        this.month = month;
     }
 
     get getMonth() {
-        return this.#month;
+        return this.month;
     }
     
     get getDays() {
-        return this.#days;
+        return this.days;
     }
 
     getDay(num) {
-        return this.#days.get(num);
+        return this.days.get(num);
     }
 
     addDay(number) {
         if (number < 1 || number > 7) {
             throw new Error("Invalid Day number. Cannot add such Day.");
         }
-        this.#days.set(number, new Day(number));
+        this.days.set(number, new Day(number));
     }
 
     deleteDay(num) {
-        if (this.#days.get(num) == undefined) {
+        if (this.days.get(num) == undefined) {
             throw new Error("This day isn't registered in the Calendar. Cannot perform delete operation.");
         }
-        this.#days.delete(num);
+        this.days.delete(num);
     }
 
-    get #getMonthName() {
+    get getMonthName() {
         switch (month) {
             case 1:
                 return "January";

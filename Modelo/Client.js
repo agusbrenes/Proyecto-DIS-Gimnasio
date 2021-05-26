@@ -44,11 +44,17 @@ module.exports = class Client extends User {
         this.reservations.delete(id);
     }
 
-    get getSubscription() {
+    payReservation(id, payMethod) { // la cantidad por pagar?
+        const reservation = this.reservations.get(id);
+        reservation.setPaymentMethod(payMethod);
+        reservation.pay();
+    }
+
+    get getSubscriptions() {
         return this.subscriptions;
     }
 
-    getSubscriptions(id) {
+    getSubscription(id) {
         return this.subscriptions.get(id);
     }
 
