@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
-    id: {type: Integer},
+    id: {type: Number},
     description: {type: String},
-    capacity: {type: Integer},
+    capacity: {type: Number},
     room: {
         name: {type: String}
     },
@@ -15,7 +15,7 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
         email: {type: String}
     }],
     sessions: [{
-        id: {type: Integer}
+        id: {type: Number}
     }]
 }));
 

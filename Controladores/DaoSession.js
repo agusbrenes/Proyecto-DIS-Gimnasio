@@ -10,19 +10,19 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         email: {type: String}
     },
     service: {
-        id: {type: Integer},
+        id: {type: Number},
         description: {type: String}
     },
-    capacity: {type: Integer},
+    capacity: {type: Number},
     day: {
-        number: {type: Integer},
+        number: {type: Number},
         name: {type: String}
     },
     schedule: {
-        id: {type: Integer}
+        id: {type: Number}
     },
     reservations: [{
-        id: {type: Integer}
+        id: {type: Number}
     }]
 }));
 

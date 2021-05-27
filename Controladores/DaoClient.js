@@ -13,10 +13,10 @@ const ClientSchema = mongoose.model("Client", new Schema({
     phone: {type: String},
     status: {type: String},
     reservations: [{
-        id: {type: Integer}
+        id: {type: Number}
     }],
     subscriptions: [{
-        id: {type: Integer}
+        id: {type: Number}
     }]
 }));
 

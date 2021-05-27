@@ -5,13 +5,13 @@ const Dao = require("./DAO");
 
 const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
     id: {type: String, required: true},
-    fee: {type: Double},
+    fee: {type: Number},
     client: {
         email: {type: String},
         id: {type: String}
     },
-    limit: {type: Integer},
-    sessionCost: {type: Double}
+    limit: {type: Number},
+    sessionCost: {type: Number}
 }));
 
 module.exports = class DaoSubscription extends Dao {
