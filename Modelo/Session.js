@@ -2,13 +2,13 @@ module.exports = class Session {
     static #id = 0;
 
     constructor(instructor, service, capacity, day, beginTime, endTime) {
-        this.#id = Session.#assignId();
-        this.#instructor = instructor;
-        this.#service = service;
-        this.#capacity = capacity;
-        this.#day = day;
-        this.#schedule = new Schedule(beginTime, endTime);
-        this.#reservations = new Map();
+        this.id = Session.#assignId();
+        this.instructor = instructor;
+        this.service = service;
+        this.capacity = capacity;
+        this.day = day;
+        this.schedule = new Schedule(beginTime, endTime);
+        this.reservations = new Map();
     }
 
     static #assignId() {
@@ -16,79 +16,79 @@ module.exports = class Session {
     }
 
     get getId() {
-        return this.#id;
+        return this.id;
     }
 
     /**
      * @param {Instructor} instructor
      */
     set setInstructor(instructor) {
-        this.#instructor = instructor;
+        this.instructor = instructor;
     }
 
     get getInstructor() {
-        return this.#instructor;
+        return this.instructor;
     }
 
     /**
      * @param {Service} service
      */
     set setService(service) {
-        this.#service = service;
+        this.service = service;
     }
 
     get getService() {
-        return this.#service;
+        return this.service;
     }
 
     /**
      * @param {Day} day
      */
     set setDay(day) {
-        this.#day = day;
+        this.day = day;
     }
 
     get getDay() {
-        return this.#day;
+        return this.day;
     }
 
     /**
      * @param {Any} beginTime
      */
     set setBeginTime(beginTime) {
-        this.#schedule.setBeginTime(beginTime);
+        this.schedule.setBeginTime(beginTime);
     }
 
     /**
      * @param {Any} endTime
      */
     set setEndTime(endTime) {
-        this.#schedule.setEndTime(endTime);
+        this.schedule.setEndTime(endTime);
     }
 
     get getSchedule() {
-        return this.#schedule;
+        return this.schedule;
     }
 
     get getReservations() {
-        return this.#reservations;
+        return this.reservations;
     }
 
     getReservation(id) {
-        return this.#reservations.get(id);
+        return this.reservations.get(id);
     }
 
     addReservation(reservation) {
-        if (this.#reservations.length == this.#capacity) {
+        if (this.reservations.length == this.capacity) {
             throw new Error("This session is at its maximum capacity. Cannot add another reservation.");
         }
-        this.#reservations.set(reservation.getId(), reservation);
+        this.reservations.set(reservation.getId(), reservation);
     }
 
     deleteReservation(id) {
-        if (this.#reservations.get(id) == undefined) {
+        if (this.reservations.get(id) == undefined) {
             throw new Error("This reservation doesn't exist in the Session. Cannot perform delete operation.");
         }
-        this.#reservations.delete(id);
+        this.reservations.delete(id);
     }
 }
