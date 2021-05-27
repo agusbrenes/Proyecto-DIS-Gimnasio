@@ -12,18 +12,18 @@ module.exports = class ControlUsers {
         this.factory = null;
     }
 
-    async findClient(filter) {
-        this.handler = new DaoClient();
+    async find(filter, handler) {
+        this.handler = handler;
         return await this.handler.find(filter);
     }
 
-    async saveClient(email, password, id, firstName, lastName, phone) {
-        this.handler = new DaoClient();
-        this.factory = new FactoryClient();
+    async save(handler, factory, email, password, id, firstName, lastName, phone) {
+        this.handler = handler;
+        this.factory = factory;
+
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
-        //console.log(passwordHash);
-        const client = this.factory.createUser(
+        const user = this.factory.createUser(
             email,
             passwordHash,
             id,
@@ -31,6 +31,6 @@ module.exports = class ControlUsers {
             lastName,
             phone
         );
-        return await this.handler.save(client);
+        return await this.handler.save(user);
     }
 }
