@@ -17,19 +17,19 @@ module.exports = class ControlUsers {
         return await this.handler.find(filter);
     }
 
-    async save(handler, factory, email, password, id, firstName, lastName, phone) {
+    async save(handler, factory, object) {
         this.handler = handler;
         this.factory = factory;
 
         const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+        const passwordHash = await bcrypt.hash(object.password, salt);
         const user = this.factory.createUser(
-            email,
+            object.email,
             passwordHash,
-            id,
-            firstName,
-            lastName,
-            phone
+            object.id,
+            object.firstName,
+            object.lastName,
+            object.phone
         );
         return await this.handler.save(user);
     }

@@ -12,8 +12,12 @@ const ClientSchema = mongoose.model("Client", new Schema({
     lastName: {type: String},
     phone: {type: String},
     status: {type: String},
-    reservations: [],
-    subscriptions: []
+    reservations: [{
+        id: {type: Number}
+    }],
+    subscriptions: [{
+        id: {type: Number}
+    }]
 }));
 
 module.exports = class DaoClient extends Dao {
@@ -35,7 +39,15 @@ module.exports = class DaoClient extends Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
-    toMongoSchema(object) {
+    #toMongoSchema(object) {
+        const reservations = [];
+        object.reservations.values().forEach(reservation => {
+            reservations.push(reservation.getId());
+        });
+        const subscriptions = [];
+        object.subscriptions.values().forEach(subscription => {
+            subscriptions.push(subscription.getId());
+        });
         return new ClientSchema({
             email: object.email,
             password: object.password,
@@ -44,8 +56,8 @@ module.exports = class DaoClient extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             status: object.status,
-            reservations: object.reservations.values(),
-            subscriptions: object.subscriptions.values()
+            reservations: reservations,
+            subscriptions: subscriptions
         });
     }    
 }
