@@ -12,8 +12,12 @@ const ClientSchema = mongoose.model("Client", new Schema({
     lastName: {type: String},
     phone: {type: String},
     status: {type: String},
-    reservations: [],
-    subscriptions: []
+    reservations: [{
+        id: {type: Integer}
+    }],
+    subscriptions: [{
+        id: {type: Integer}
+    }]
 }));
 
 module.exports = class DaoClient extends Dao {
@@ -44,8 +48,8 @@ module.exports = class DaoClient extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             status: object.status,
-            reservations: object.reservations.values(),
-            subscriptions: object.subscriptions.values()
+            reservations: object.reservations.values(), //TODO: fix this
+            subscriptions: object.subscriptions.values() //TODO: fix this
         });
     }    
 }
