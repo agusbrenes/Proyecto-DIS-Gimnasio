@@ -6,7 +6,7 @@ class GymMenu extends Component {
     render() {
         return (
             <h1 className="GymMenu">
-                MENU
+                Menu
             </h1>
         )
     }

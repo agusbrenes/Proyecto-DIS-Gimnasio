@@ -45,3 +45,15 @@
     background-repeat: no-repeat;
     color: white;
   }
+
+  .adminMenu {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./Windows/Imagen2.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }

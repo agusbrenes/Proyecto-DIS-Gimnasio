@@ -35,7 +35,7 @@ class signUp extends Component {
                         <input type="password" className="form-control" id="password"/>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
-                        Verficar
+                        Verificar
                     </button>
                 </form>
             </div>

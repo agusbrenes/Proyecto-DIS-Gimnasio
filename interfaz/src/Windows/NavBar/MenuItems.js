@@ -11,7 +11,7 @@ export const MenuItems = [
     },
     {
         title: "Register",
-        url: "/register",
+        url: "/register/client",
         cName: "navLinks"
     }
 ]

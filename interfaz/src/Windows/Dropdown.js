@@ -11,7 +11,7 @@ function Dropdown() {
     return(
         <ul onClick={handleClick} className={click ? 'dropdownMenu clicked' : 'dropdownMenu'}>
             <li>
-                <Link className="dropdownLink">
+                <Link className="dropdownLink" to="/">
                     Prueba
                 </Link>
             </li>

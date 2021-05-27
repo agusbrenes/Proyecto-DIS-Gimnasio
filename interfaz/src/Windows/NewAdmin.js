@@ -1,10 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
-import "../App.css"
 
-const swal = require('sweetalert2')
-
-class Register extends Component {
+class NewAdmin extends Component {
     state = {
         name: "",
         lastname: "",
@@ -13,77 +10,16 @@ class Register extends Component {
         phone: "",
         password: "",
         confirm: "",
-        is: "1",
-    }
-
-    //Función que actualiza los states
-    handleChange = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-
-        this.setState({
-            [name] : value
-        });
-    }
-
-    componentDidMount = () => {
-        this.setState.is = this.props.match.params;
-        console.log(this.props.match.params);
-    }
-
-    submit = (event) => {
-        event.preventDefault();
-        const user = {
-            email: this.state.email,
-            password: this.state.password,
-            id: this.state.id,
-            firstName: this.state.name,
-            lastName: this.state.lastname,
-            phone: this.state.phone,
-        }
-        axios({
-            url: "/api/NewClient",
-            method: "POST",
-            data: user
-        })
-        .then( (res) => {
-            console.log(res.data.msg);
-            if (res.data.msg === true) {
-                swal.fire({
-                    title: 'Error',
-                    text: 'Ya se encuentra una cuenta asociada a este correo.',
-                    icon: 'error'
-                }).then(() => {
-                    window.location.reload(false);
-                });
-                
-            } else {
-                swal.fire({
-                    title: 'Listo!',
-                    text: 'Su cuenta a sido registrada existosamente',
-                    icon: 'success'
-                }).then(() => {
-                    window.location = ("/");
-                });
-            }
-        })
-        .catch( (err) => {
-            swal.fire({
-                title: 'Ocurrio un problema al crear el usuario',
-                text: err.message,
-                icon: 'error'
-            });
-        })
+        is: "",
     }
 
     render() {
         return (
-            <div className="Register">
-                <form onSubmit={this.submit}>
-                    <h4 className="text-center">
-                        Ingrese sus datos
-                    </h4>
+            <div className="NewAdmin">
+                <form>
+                    <h2 className="text-center">
+                        Ingrese los datos del Admin
+                    </h2>
                     <div className="form-group">
                         <label for="email">Correo Electronico</label>
                         <input type="email" className="form-control" id="email" placeholder="nombre@ejemplo.com" name="email" value={this.state.email}
@@ -132,4 +68,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default NewAdmin;
