@@ -14,7 +14,7 @@ module.exports = class Subscription {
     }
 
     get getId() {
-        return this.#id;
+        return this.id;
     }
 
     get getClient() {

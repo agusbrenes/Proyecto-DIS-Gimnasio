@@ -13,10 +13,10 @@ const ClientSchema = mongoose.model("Client", new Schema({
     phone: {type: String},
     status: {type: String},
     reservations: [{
-        id: {type: Integer}
+        id: {type: Number}
     }],
     subscriptions: [{
-        id: {type: Integer}
+        id: {type: Number}
     }]
 }));
 
@@ -40,6 +40,14 @@ module.exports = class DaoClient extends Dao {
     }
 
     #toMongoSchema(object) {
+        const reservations = [];
+        object.reservations.values().forEach(reservation => {
+            reservations.push(reservation.getId());
+        });
+        const subscriptions = [];
+        object.subscriptions.values().forEach(subscription => {
+            subscriptions.push(subscription.getId());
+        });
         return new ClientSchema({
             email: object.email,
             password: object.password,
@@ -48,8 +56,8 @@ module.exports = class DaoClient extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             status: object.status,
-            reservations: object.reservations.values(), //TODO: fix this
-            subscriptions: object.subscriptions.values() //TODO: fix this
+            reservations: reservations,
+            subscriptions: subscriptions
         });
     }    
 }
