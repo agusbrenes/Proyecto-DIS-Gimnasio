@@ -33,12 +33,7 @@ router.post("/NewClient", async (req, res) => {
         const savedUser = await control.save(
             handler,
             factory,
-            object.email,
-            object.password,
-            object.id,
-            object.firstName,
-            object.lastName,
-            object.phone
+            object
         );
         res.json(savedUser);
     }
@@ -62,12 +57,7 @@ router.post("/NewInstructor", async (req, res) => {
         const savedUser = await control.save(
             handler,
             factory,
-            object.email,
-            object.password,
-            object.id,
-            object.firstName,
-            object.lastName,
-            object.phone
+            object
         );
         res.json(savedUser);
     }
@@ -91,12 +81,7 @@ router.post("/NewAdmin", async (req, res) => {
         const savedUser = await control.save(
             handler,
             factory,
-            object.email,
-            object.password,
-            object.id,
-            object.firstName,
-            object.lastName,
-            object.phone
+            object
         );
         res.json(savedUser);
     }
