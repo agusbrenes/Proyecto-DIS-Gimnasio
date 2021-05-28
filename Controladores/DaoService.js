@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
-    id: {type: Number},
+    id: {type: Number, unique: true},
     description: {type: String},
     capacity: {type: Number},
     room: {
@@ -12,10 +12,10 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
     },
     instructors: [{
         id: {type: String},
-        email: {type: String}
+        email: {type: String, unique: true}
     }],
     sessions: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }]
 }));
 

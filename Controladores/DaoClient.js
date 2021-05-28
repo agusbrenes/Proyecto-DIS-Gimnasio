@@ -5,9 +5,9 @@ const Dao = require("./DAO");
 //const ClientSchema = require("../Modelo/ClientSchema");
 
 const ClientSchema = mongoose.model("Client", new Schema({
-    email: {type: String},
+    email: {type: String, unique: true},
     password: {type: String, required: true, minlength: 8},
-    id: {type: String},
+    id: {type: String, unique: true},
     firstName: {type: String},
     lastName: {type: String},
     phone: {type: String},
@@ -27,7 +27,7 @@ module.exports = class DaoClient extends Dao {
     }
 
     async save(object) {
-        const schema = this.toMongoSchema(object); //object.toMongoSchema();//
+        const schema = this.#toMongoSchema(object);
         return await schema.save();
     }
 

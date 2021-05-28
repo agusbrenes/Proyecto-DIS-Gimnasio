@@ -4,10 +4,10 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const SessionSchema = mongoose.model("Session", new Schema ({
-    id: {type: Integer},
+    id: {type: Number},
     instructor: {
         id: {type: String},
-        email: {type: String}
+        email: {type: String, unique: true}
     },
     service: {
         id: {type: Number},
@@ -22,7 +22,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         id: {type: Number}
     },
     reservations: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }]
 }));
 

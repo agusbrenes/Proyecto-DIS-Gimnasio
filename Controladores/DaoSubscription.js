@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
-    id: {type: String, required: true},
+    id: {type: String, required: true, unique: true},
     fee: {type: Number},
     client: {
-        email: {type: String},
-        id: {type: String}
+        id: {type: String},
+        email: {type: String, unique: true}
     },
     limit: {type: Number},
     sessionCost: {type: Number}
