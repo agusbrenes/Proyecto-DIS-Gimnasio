@@ -27,7 +27,7 @@ module.exports = class DaoClient extends Dao {
     }
 
     async save(object) {
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save();
     }
 
@@ -39,7 +39,7 @@ module.exports = class DaoClient extends Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
-    #toMongoSchema(object) {
+    toMongoSchema(object) {
         const reservations = [];
         object.reservations.values().forEach(reservation => {
             reservations.push(reservation.getId());

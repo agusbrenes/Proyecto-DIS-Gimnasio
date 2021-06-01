@@ -5,7 +5,7 @@ import AdminMenu from './Windows/AdminMenu';
 import GymMenu from './Windows/GymMenu';
 import Navbar from './Windows/NavBar/NavBar';
 import Register from './Windows/Register';
-import signUp from './Windows/SignUp';
+import Login from './Windows/Login';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={GymMenu} />
         <Route exact path="/register/:is" component={Register} />
-        <Route exact path="/signUp" component={signUp}/>
+        <Route exact path="/login" component={Login}/>
         <Route exact path="/adminMenu" component={AdminMenu}/>
         <Route exact path="/adminMenu/adminManage" component={AdminManage}/>
       </Switch>

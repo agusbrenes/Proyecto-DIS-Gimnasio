@@ -1,15 +1,71 @@
-import React, {Component} from "react";
 import axios from "axios";
-import Navbar from "./NavBar/NavBar";
+import React, {Component} from "react";
+import "../App.css";
 
-class Login extends Component {
+const swal = require('sweetalert2');
+
+class signUp extends Component {
+    state = {
+        email: "",
+        password: ""
+    }
+
+    //Función que actualiza los states
+    handleChange = (event) => {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+
+        this.setState({
+            [name] : value
+        });
+    }
+
+    check = (event) => {
+        event.preventDefault();
+        
+        axios({
+            url: "/api/login",
+            method: "POST",
+            data: {
+                email: this.state.email,
+                password: this.state.password
+            }
+        })
+        .then((res) => {
+            window.location("/");
+        })
+        .catch((err) => {
+            swal.fire({
+                title: 'Ocurrio un problema al crear el usuario',
+                text: err.message,
+                icon: 'error'
+            });
+        })
+    }
+
     render() {
         return (
-            <h1>
-                alooo
-            </h1>
+            <div className="SignUp">
+                <form onSubmit={this.check}>
+                    <h4 className="text-center">
+                        Ingrese sus credenciales
+                    </h4>
+                    <div className="form-group">
+                        <label for="email">Correo Electronico</label>
+                        <input type="email" className="form-control" id="email" placeholder="nombre@ejemplo.com"/>
+                    </div>
+                    <div className="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" className="form-control" id="password"/>
+                    </div>
+                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
+                        Verificar
+                    </button>
+                </form>
+            </div>
         )
     }
 }
 
-export default Login;
+export default signUp
