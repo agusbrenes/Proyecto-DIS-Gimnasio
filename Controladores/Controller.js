@@ -1,6 +1,10 @@
-module.exports = class Dao {
+module.exports = class Controller {
+    constructor(handler){
+        this.handler = handler;
+    }
+
     async find(filter) {
-        throw new Error("Abstract Method has no implementation");
+        return await this.handler.find(filter);
     }
 
     async save(object) {
@@ -12,10 +16,6 @@ module.exports = class Dao {
     }
 
     async delete(filter) {
-        throw new Error("Abstract Method has no implementation");
+        return await this.handler.delete(filter);
     }
-
-    toMongoSchema(object) {
-        throw new Error("Abstract Method has no implementation");
-    }    
 }

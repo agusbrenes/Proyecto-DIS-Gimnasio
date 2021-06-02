@@ -1,4 +1,4 @@
-const Administrator = require('./Administrator.js');
+const Administrator = require('./Admin.js');
 const Calendar = require('./Calendar.js');
 const Schedule = require('./Schedule.js');
 const Service = require('./Service.js');

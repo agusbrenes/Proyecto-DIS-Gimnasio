@@ -1,13 +1,10 @@
 const bcrypt = require("bcryptjs");
+const Controller = require("./Controller");
 
-module.exports = class ControlUsers {
+module.exports = class ControlUsers extends Controller {
     constructor(handler){
-        this.handler = handler;
+        super(handler);
         this.factory = null;
-    }
-
-    async find(filter) {
-        return await this.handler.find(filter);
     }
 
     async save(factory, object) {
@@ -29,9 +26,5 @@ module.exports = class ControlUsers {
         const salt = await bcrypt.genSalt();
         object.password = await bcrypt.hash(object.password, salt);
         return await this.handler.modify(filter, object);
-    }
-
-    async delete(filter) {
-        return await this.handler.delete(filter);
     }
 }
