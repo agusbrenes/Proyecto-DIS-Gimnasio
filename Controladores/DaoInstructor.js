@@ -41,15 +41,20 @@ module.exports = class DaoInstructor extends Dao {
     }
 
     toMongoSchema(object) {
+        //Esto no funca tho
         const services1 = [];
-        object.services.values().forEach(service => {
-            services.push(service.getId());
-        });
+        if (object.services.size() > 0) {
+            object.services.values().forEach(service => {
+                services.push(service.getId());
+            });
+        }
 
         const sessions1 = [];
-        object.sessions.values().forEach(session => {
-            sessions.push(session.getId());
-        });
+        if (object.sessions.size() > 0) {
+            object.sessions.values().forEach(session => {
+                sessions.push(session.getId());
+            });
+        }
 
         return new InstructorSchema({
             email: object.email,

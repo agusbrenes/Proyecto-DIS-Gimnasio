@@ -42,20 +42,24 @@ module.exports = class DaoService extends Dao {
 
     #toMongoSchema(object) {
         const instructors1 = [];
-        object.instructors.values().forEach(instructor => {
-            const tempInstructor = new TempInstructorSchema({
-                email: instructor.email
+        if (object.instructors.size() > 0) {
+            object.instructors.values().forEach(instructor => {
+                const tempInstructor = new TempInstructorSchema({
+                    email: instructor.email
+                });
+                instructors1.push(tempInstructor);
             });
-            instructors1.push(tempInstructor);
-        });
+        }
 
         const sessions1 = [];
-        object.sessions.values().forEach(session => {
-            const tempSession = new TempSessionSchema({
-                id: session.id
-            });
-            sessions1.push(tempSession);
-        });
+        if (object.sessions.size() > 0) {
+            object.sessions.values().forEach(session => {
+                const tempSession = new TempSessionSchema({
+                    id: session.id
+                });
+                sessions1.push(tempSession);
+            }); 
+        }
 
         return new ServiceSchema({
             id: object.id,
