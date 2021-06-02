@@ -40,17 +40,21 @@ module.exports = class DaoInstructor extends Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
+    async getAll() {
+        return await InstructorSchema.find({ });
+    }
+
     toMongoSchema(object) {
         //Esto no funca tho
         const services1 = [];
-        if (object.services.size() > 0) {
+        if (object.services.size > 0) {
             object.services.values().forEach(service => {
                 services.push(service.getId());
             });
         }
 
         const sessions1 = [];
-        if (object.sessions.size() > 0) {
+        if (object.sessions.size > 0) {
             object.sessions.values().forEach(session => {
                 sessions.push(session.getId());
             });

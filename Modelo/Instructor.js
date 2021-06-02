@@ -9,7 +9,7 @@ module.exports = class Instructor extends User {
         this.sessions = [];
     }
 
-    get isTemp() {
+    isTemp() {
         return this.isTemp;
     }
     
@@ -30,10 +30,6 @@ module.exports = class Instructor extends User {
 
     get getRoom() {
         return this.room;
-    }
-
-    set addSpecialty(specialty) {
-
     }
 
     addService(service) {

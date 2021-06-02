@@ -27,4 +27,8 @@ module.exports = class ControlUsers extends Controller {
         object.password = await bcrypt.hash(object.password, salt);
         return await this.handler.modify(filter, object);
     }
+
+    async getAll() {
+        return await this.handler.getAll();
+    }
 }

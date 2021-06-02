@@ -33,6 +33,10 @@ module.exports = class DaoAdmin extends Dao {
         throw new Error("Abstract Method had no implementation");
     }
 
+    async getAll() {
+        return await AdminSchema.find({ });
+    }
+
     toMongoSchema(object) {
         return new AdminSchema({
             email: object.email,

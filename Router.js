@@ -67,13 +67,12 @@ router.post("/NewClient", async (req, res) => {
     const factory = new FactoryClient();
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (foundUser){
             return res.json({msg:true});
         }
 
         const savedUser = await control.save(
-            handler,
             factory,
             object
         );
@@ -91,7 +90,7 @@ router.post("/GetClient", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
@@ -109,14 +108,13 @@ router.post("/ModifyClient", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
 
         const modifiedUser = await control.modify(
             filter, 
-            handler,
             object
         );
         res.json(modifiedUser);
@@ -133,11 +131,11 @@ router.post("/DeleteClient", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
-        const deletedUser = await control.delete(filter, handler);
+        const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
     catch (err){
@@ -154,13 +152,12 @@ router.post("/NewInstructor", async (req, res) => {
     const factory = new FactoryInstructor();
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (foundUser){
             return res.json({msg:true});
         }
 
         const savedUser = await control.save(
-            handler,
             factory,
             object
         );
@@ -178,7 +175,7 @@ router.post("/GetInstructor", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
@@ -196,14 +193,13 @@ router.post("/ModifyInstructor", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
 
         const modifiedUser = await control.modify(
             filter, 
-            handler,
             object
         );
         res.json(modifiedUser);
@@ -220,16 +216,28 @@ router.post("/DeleteInstructor", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
-        const deletedUser = await control.delete(filter, handler);
+        const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
     catch (err){
         res.status(500).json({error: err.message});
     }
+});
+
+router.get("/GetInstructors", (req, res) => {    
+    const handler = new DaoInstructor();
+    const control = new ControlUsers(handler);
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });    
 });
 
 //---------------Admin----------------------//
@@ -241,13 +249,12 @@ router.post("/NewAdmin", async (req, res) => {
     const factory = new FactoryAdmin();
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (foundUser){
             return res.json({msg:true});
         }
 
         const savedUser = await control.save(
-            handler,
             factory,
             object
         );
@@ -265,7 +272,7 @@ router.post("/GetAdmin", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
@@ -283,14 +290,13 @@ router.post("/ModifyAdmin", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
 
         const modifiedUser = await control.modify(
             filter, 
-            handler,
             object
         );
         res.json(modifiedUser);
@@ -307,11 +313,11 @@ router.post("/DeleteAdmin", async (req, res) => {
     const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
+        const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
-        const deletedUser = await control.delete(filter, handler);
+        const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
     catch (err){
@@ -325,20 +331,15 @@ router.post("/NewService", async (req, res) => {
     const object = req.body;
     const handler = new DaoAdmin();
     const control = new ControlService(handler);
-    const factory = new FactoryAdmin();
     const filter = {email: object.email};
     try {        
-        const foundUser = await control.find(filter, handler);
-        if (foundUser){
+        const foundService = await control.find(filter);
+        if (foundService){
             return res.json({msg:true});
         }
 
-        const savedUser = await control.save(
-            handler,
-            factory,
-            object
-        );
-        res.json(savedUser);
+        const savedService = await control.save(object);
+        res.json(savedService);
     }
     catch (err){
         res.status(500).json({error: err.message});

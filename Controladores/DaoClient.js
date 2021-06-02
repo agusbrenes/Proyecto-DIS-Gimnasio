@@ -40,17 +40,19 @@ module.exports = class DaoClient extends Dao {
         return await ClientSchema.updateOne(filter, object);
     }
 
+    async getAll() {
+        return await ClientSchema.find({ });
+    }
+
     #toMongoSchema(object) {
         const reservations = [];
         if (object.reservations.size > 0) {
-            const reservations = [];
             object.reservations.values().forEach(reservation => {
                 reservations.push({id: reservation.getId()});
             });
         }
         const subscriptions = [];
         if (object.subscriptions.size > 0) {
-            const subscriptions = [];
             object.subscriptions.values().forEach(subscription => {
                 subscriptions.push({id: subscription.getId()});
             });
