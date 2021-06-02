@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
 
+const swal = require('sweetalert2');
+
 class NewService extends Component {
     state = {
         description: "",
@@ -24,26 +26,26 @@ class NewService extends Component {
     }
 
     componentDidMount = () => {
-        this.fill();
         this.getInstructors();
-        this.getRooms();
-        console.log(this.state.nums);
     }
 
     fill = () => {
-        for(var i=1; i <= 30; i++){
-            this.state.nums.push(i);
+        for(var j=1; j <= 30; j++){
+            this.state.nums.push(j);
         }
     }
 
     getInstructors = () => {
-        axios.get("/api/GetInstructors")
-        .then((response) => {
+        axios({
+            url: "/api/GetInstructors",
+            method: "GET",
+        })
+        .then( (response) => {
             const data = response.data;
-            this.setState({
-                instructors: data,
-                instructor: data[0].name
+             data.forEach((item) => {
+                this.state.instructors.push(item.firstName + " " + item.lastName);
             })
+            this.state.instructor = data[0].firstName + " " + data[0].lastName;
         })
         .catch(() => {
             console.log("Hubo un error al buscar los Instructores");
@@ -77,12 +79,29 @@ class NewService extends Component {
                 room: this.state.room
             }
         })
+        .then(() => {
+            swal.fire({
+                title: 'Listo!',
+                text: 'Se a creado el servicio',
+                icon: 'success'
+            }).then(() => {
+                window.location = ("/");
+            });
+        })
+        .catch(() => {
+            swal.fire({
+                title: 'Error',
+                text: 'Ha ocurrido un error al crear un servicio',
+                icon: 'error'
+            })
+        })
     }
 
     render() {
         return (
             <div className="window">
-                <form>
+                {this.fill()}
+                <form onSubmit={this.submit}>
                     <h4 className="text-center">
                         Ingrese los datos del nuevo servicio
                     </h4>
@@ -98,11 +117,11 @@ class NewService extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                        {this.state.nums.map((num,index) => 
-                            <option key={index}>
-                                {num}
-                            </option>
-                        )}
+                            {this.state.nums.map((num,index) => 
+                                <option key={index}>
+                                    {num}
+                                </option>
+                            )}
                         </select>
                     </div>
                     <div className="form-group">
@@ -112,11 +131,12 @@ class NewService extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                        {this.state.instructors.map((instructor,index) => 
-                            <option key={index}>
-                                {instructor}
-                            </option>
-                        )}
+                            {console.log(this.state.instructors,this.state.nums)}
+                            {this.state.instructors.map((num,index) => 
+                                <option key={index}>
+                                    {num}
+                                </option>
+                            )}
                         </select>
                     </div>
                     <div className="form-group">
@@ -126,11 +146,11 @@ class NewService extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                        {this.state.rooms.map((room,index) => 
-                            <option key={index}>
-                                {room}
-                            </option>
-                        )}
+                            {this.state.rooms.map((room,index) => 
+                                <option key={index}>
+                                    {room}
+                                </option>
+                            )}
                         </select>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>

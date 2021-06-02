@@ -22,7 +22,6 @@ mongoose.connection.on("connected", () => {
     console.log("MongoDB Conectado");
 });
 
-mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
