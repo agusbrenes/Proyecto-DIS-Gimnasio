@@ -11,7 +11,6 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
         name: {type: String}
     },
     instructors: [{
-        id: {type: String},
         email: {type: String, unique: true}
     }],
     sessions: [{
@@ -38,6 +37,16 @@ module.exports = class DaoService extends Dao {
     }
 
     #toMongoSchema(object) {
+        const instructors = [];
+        object.instructors.values().forEach(instructor => {
+            instructors.push(instructor.getEmail());
+        });
+
+        const sessions = [];
+        object.sessions.values().forEach(session => {
+            sessions.push(session.getId());
+        });
+
         return new ServiceSchema({
             id: object.id,
             description: object.description,
@@ -45,8 +54,8 @@ module.exports = class DaoService extends Dao {
             room: {
                 name: object.room.name
             },
-            instructors: [], //TODO: pending this
-            sessions: [] //TODO: pending this
+            instructors: instructors, 
+            sessions: sessions
         });
     }
 }
