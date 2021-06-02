@@ -18,4 +18,8 @@ module.exports = class Controller {
     async delete(filter) {
         return await this.handler.delete(filter);
     }
+
+    async getAll() {
+        return await this.handler.getAll();
+    }
 }

@@ -28,19 +28,20 @@ module.exports = class DaoService extends Dao {
     }
 
     async save(object) {
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await ServiceSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object){
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
     }
 
-    #toMongoSchema(object) {
+    toMongoSchema(object) {
         const instructors1 = [];
         if (object.instructors.size > 0) {
             object.instructors.values().forEach(instructor => {

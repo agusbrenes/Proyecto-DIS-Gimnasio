@@ -15,6 +15,7 @@ const ControlService = require('./Controladores/ControlService');
 const DaoClient = require('./Controladores/DaoClient');
 const DaoInstructor = require('./Controladores/DaoInstructor');
 const DaoAdmin = require('./Controladores/DaoAdmin');
+const DaoService = require('./Controladores/DaoService');
 
 // Factories - Patron Creacional
 const FactoryAdmin = require('./Modelo/FactoryAdmin');
@@ -141,6 +142,18 @@ router.post("/DeleteClient", async (req, res) => {
     catch (err){
         res.status(500).json({error: err.message});
     }
+});
+
+router.get("/GetClients", (req, res) => {    
+    const handler = new DaoClient();
+    const control = new ControlUsers(handler);
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });    
 });
 
 //---------------Instructor----------------------//
@@ -329,9 +342,9 @@ router.post("/DeleteAdmin", async (req, res) => {
 
 router.post("/NewService", async (req, res) => {
     const object = req.body;
-    const handler = new DaoAdmin();
+    const handler = new DaoService();
     const control = new ControlService(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundService = await control.find(filter);
         if (foundService){
@@ -344,6 +357,18 @@ router.post("/NewService", async (req, res) => {
     catch (err){
         res.status(500).json({error: err.message});
     }
+});
+
+router.get("/GetServices", (req, res) => {    
+    const handler = new DaoService();
+    const control = new ControlService(handler);
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });    
 });
 
 module.exports = router;

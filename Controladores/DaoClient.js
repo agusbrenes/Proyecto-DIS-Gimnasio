@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const ObjectId = mongoose.Types.ObjectId;
 
 const Dao = require("./DAO");
-//const ClientSchema = require("../Modelo/ClientSchema");
 
 const ClientSchema = mongoose.model("Client", new Schema({
     email: {type: String, unique: true},
@@ -28,8 +26,6 @@ module.exports = class DaoClient extends Dao {
     }
 
     async save(object) {
-        // const collection = mongoose.
-        // return await collection.insertOne(object);
         const schema = this.toMongoSchema(object);
         return await schema.save();
     }
@@ -43,8 +39,11 @@ module.exports = class DaoClient extends Dao {
         return await schema.save(id);
     }
 
+    async getAll() {
+        return await ClientSchema.find({ });
+    }
+
     toMongoSchema(object) {
-        console.log('What1');
         const reservations = [];
         if (object.reservations.size > 0) {
             object.reservations.values().forEach(reservation => {

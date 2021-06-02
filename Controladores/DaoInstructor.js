@@ -31,13 +31,14 @@ module.exports = class DaoInstructor extends Dao {
         const schema = this.toMongoSchema(object);
         return await schema.save();
     }
-    
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+
+    async delete(filter) {
+        return await InstructorSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object){
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
     }
 
     async getAll() {
