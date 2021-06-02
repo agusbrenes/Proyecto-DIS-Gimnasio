@@ -45,6 +45,11 @@ module.exports = class DaoSession extends Dao {
     }
 
     #toMongoSchema(object) {
+        const reservations = [];
+        object.reservations.values().forEach(reservation => {
+            reservations.push(reservation.getId());
+        });
+
         return new SessionSchema({
             id: object.id,
             instructor: {
@@ -63,7 +68,7 @@ module.exports = class DaoSession extends Dao {
             schedule: {
                 id: object.schedule.id
             },
-            reservations: [] //TODO: pending this.
+            reservations: reservations
         });
     }
 }
