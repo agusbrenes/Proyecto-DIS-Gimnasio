@@ -46,7 +46,7 @@ module.exports = class DaoCalendar extends Dao {
                 name: day.name
             });
 
-            days.push(tempDay);
+            days1.push(tempDay);
         });
 
         return new CalendarSchema({
