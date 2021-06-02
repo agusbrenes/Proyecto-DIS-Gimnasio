@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const ObjectId = mongoose.Types.ObjectId;
 
 const Dao = require("./DAO");
 //const ClientSchema = require("../Modelo/ClientSchema");
@@ -27,8 +28,6 @@ module.exports = class DaoClient extends Dao {
     }
 
     async save(object) {
-        // const collection = mongoose.
-        // return await collection.insertOne(object);
         const schema = this.#toMongoSchema(object);
         return await schema.save();
     }
@@ -37,26 +36,25 @@ module.exports = class DaoClient extends Dao {
         return await ClientSchema.remove(filter);
     }
 
-    async modify(id, object){
-        const schema = this.#toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object){        
+        return await ClientSchema.updateOne(filter, object);
     }
 
     #toMongoSchema(object) {
-        console.log('What1');
         const reservations = [];
-        // const reservationsIter = object.reservations.values();
-        // for (i = 0; i < object.reservations.size; i++) {
-        //     reservations.push(reservationsIter.next().getId());
-        // }
-        // object.reservations.values().forEach(reservation => {
-        //     reservations.push(reservation.getId());
-        // });
-        // console.log('What');
+        if (object.reservations.size > 0) {
+            const reservations = [];
+            object.reservations.values().forEach(reservation => {
+                reservations.push({id: reservation.getId()});
+            });
+        }
         const subscriptions = [];
-        // object.subscriptions.values().forEach(subscription => {
-        //     subscriptions.push(subscription.getId());
-        // });
+        if (object.subscriptions.size > 0) {
+            const subscriptions = [];
+            object.subscriptions.values().forEach(subscription => {
+                subscriptions.push({id: subscription.getId()});
+            });
+        }
         return new ClientSchema({
             email: object.email,
             password: object.password,

@@ -55,6 +55,7 @@ router.post('/login', async (req, res) => {
 
 
 //Crear Usuario
+// Ya funciona
 router.post("/NewClient", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();
@@ -79,7 +80,8 @@ router.post("/NewClient", async (req, res) => {
     }
 });
 
-router.get("/GetClient", async (req, res) => {
+// Ya funciona
+router.post("/GetClient", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();
     const handler = new DaoClient();
@@ -96,11 +98,11 @@ router.get("/GetClient", async (req, res) => {
     }
 });
 
+// Ya funciona
 router.post("/ModifyClient", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();
     const handler = new DaoClient();
-    const factory = new FactoryClient();
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -109,8 +111,8 @@ router.post("/ModifyClient", async (req, res) => {
         }
 
         const modifiedUser = await control.modify(
+            filter, 
             handler,
-            //factory,
             object
         );
         res.json(modifiedUser);
@@ -120,6 +122,7 @@ router.post("/ModifyClient", async (req, res) => {
     }
 });
 
+// Ya funciona
 router.post("/DeleteClient", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();

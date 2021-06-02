@@ -28,10 +28,10 @@ module.exports = class ControlUsers {
         return await this.handler.save(user);
     }
 
-    async modify(handler, object) {
+    async modify(filter, handler, object) {
         this.handler = handler;
-        const objectId = object.objectId;
-        return await this.handler.modify(objectId, object);
+        //const objectId = object._id;
+        return await this.handler.modify(filter, object);
     }
 
     async delete(filter, handler) {
