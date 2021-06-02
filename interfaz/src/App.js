@@ -6,6 +6,7 @@ import GymMenu from './Windows/GymMenu';
 import Navbar from './Windows/NavBar/NavBar';
 import Register from './Windows/Register';
 import Login from './Windows/Login';
+import ModifyClient from './Windows/ModifyClient';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/login" component={Login}/>
         <Route exact path="/adminMenu" component={AdminMenu}/>
         <Route exact path="/adminMenu/adminManage" component={AdminManage}/>
+        <Route exact path="/modifyClient" component={ModifyClient}/>
       </Switch>
     </Router>
   );

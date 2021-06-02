@@ -37,7 +37,7 @@ class signUp extends Component {
         })
         .catch((err) => {
             swal.fire({
-                title: 'Ocurrio un problema al crear el usuario',
+                title: 'No se pudo verificar sus credenciales',
                 text: err.message,
                 icon: 'error'
             });

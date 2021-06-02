@@ -1,4 +1,4 @@
 {
-    "mongoURI": "PUT_YOUR_MONGO_URI",
-    "jwtSecret": "sl_myJwtSecret"
+    "mongoURI": "mongodb+srv://EduRoot:root1234@gimnasiopopeye.pjwhf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "JwtSecret"
   }
