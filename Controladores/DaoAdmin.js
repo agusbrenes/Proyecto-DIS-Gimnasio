@@ -33,6 +33,10 @@ module.exports = class DaoAdmin extends Dao {
         throw new Error("Abstract Method had no implementation");
     }
 
+    async getAll() {
+        return await AdminSchema.find({ });
+    }
+
     toMongoSchema(object) {
         return new AdminSchema({
             email: object.email,
@@ -42,7 +46,7 @@ module.exports = class DaoAdmin extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             admRoom: {
-                roomName: object.admRoom.name
+                roomName: ""
             }
         });
     }

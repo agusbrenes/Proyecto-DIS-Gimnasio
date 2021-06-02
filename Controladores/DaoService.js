@@ -3,6 +3,14 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
+const TempInstructorSchema = mongoose.model("InstructorTemp", new Schema({
+    email: {type: String, unique: true}
+}));
+
+const TempSessionSchema = mongoose.model("SessionTemp", new Schema({
+    id: {type: Number}
+}));
+
 const ServiceSchema = mongoose.model("Service", new Schema ({
     id: {type: Number, unique: true},
     description: {type: String},
@@ -10,12 +18,8 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
     room: {
         name: {type: String}
     },
-    instructors: [{
-        email: {type: String, unique: true}
-    }],
-    sessions: [{
-        id: {type: Number, unique: true}
-    }]
+    instructors: [TempInstructorSchema],
+    sessions: [TempSessionSchema]
 }));
 
 module.exports = class DaoService extends Dao {
@@ -37,15 +41,25 @@ module.exports = class DaoService extends Dao {
     }
 
     #toMongoSchema(object) {
-        const instructors = [];
-        object.instructors.values().forEach(instructor => {
-            instructors.push(instructor.getEmail());
-        });
+        const instructors1 = [];
+        if (object.instructors.size > 0) {
+            object.instructors.values().forEach(instructor => {
+                const tempInstructor = new TempInstructorSchema({
+                    email: instructor.email
+                });
+                instructors1.push(tempInstructor);
+            });
+        }
 
-        const sessions = [];
-        object.sessions.values().forEach(session => {
-            sessions.push(session.getId());
-        });
+        const sessions1 = [];
+        if (object.sessions.size > 0) {
+            object.sessions.values().forEach(session => {
+                const tempSession = new TempSessionSchema({
+                    id: session.id
+                });
+                sessions1.push(tempSession);
+            }); 
+        }
 
         return new ServiceSchema({
             id: object.id,
@@ -54,8 +68,8 @@ module.exports = class DaoService extends Dao {
             room: {
                 name: object.room.name
             },
-            instructors: instructors, 
-            sessions: sessions
+            instructors: instructors1, 
+            sessions: sessions1
         });
     }
 }
