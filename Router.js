@@ -6,17 +6,18 @@ const jwt = require('jsonwebtoken');
 
 const { JWT_SECRET } = config;
 
-//Esquemas ahora se ponen en controles
-//const ClientSchema = require("./Modelo/ClientSchema");
-//const Client = require("./Modelo/Client");
-
-//const AdminSchema = require("./Modelo/AdminSchema");
+// Controladores
 const ControlUsers = require('./Controladores/ControlUsers');
+
+// DAOs
 const DaoClient = require('./Controladores/DaoClient');
+const DaoInstructor = require('./Controladores/DaoInstructor');
+const DaoAdmin = require('./Controladores/DaoAdmin');
+
+// Factories - Patron Creacional
 const FactoryAdmin = require('./Modelo/FactoryAdmin');
 const FactoryClient = require('./Modelo/FactoryClient');
 const FactoryInstructor = require('./Modelo/FactoryInstructor');
-//const RoomSchema = require('./Modelo/RoomSchema');
 
 //---------------Rutas----------------------//
 
@@ -144,7 +145,7 @@ router.post("/DeleteClient", async (req, res) => {
 router.post("/NewInstructor", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();
-    const handler = new DaoClient(); // Cambiar a DaoInstructors al hacerlo
+    const handler = new DaoInstructor();
     const factory = new FactoryInstructor();
     const filter = {email: object.email};
     try {        
@@ -165,10 +166,71 @@ router.post("/NewInstructor", async (req, res) => {
     }
 });
 
+// Ya funciona
+router.post("/GetInstructor", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoInstructor();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+        res.json(foundUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Ya funciona
+router.post("/ModifyInstructor", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoInstructor();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+
+        const modifiedUser = await control.modify(
+            filter, 
+            handler,
+            object
+        );
+        res.json(modifiedUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Ya funciona
+router.post("/DeleteInstructor", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoInstructor();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+        const deletedUser = await control.delete(filter, handler);
+        res.json(deletedUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
 router.post("/NewAdmin", async (req, res) => {
     const object = req.body;
     const control = new ControlUsers();
-    const handler = new DaoClient(); // Cambiar a DaoAdmin al hacerlo
+    const handler = new DaoAdmin();
     const factory = new FactoryAdmin();
     const filter = {email: object.email};
     try {        
@@ -183,6 +245,67 @@ router.post("/NewAdmin", async (req, res) => {
             object
         );
         res.json(savedUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Ya funciona
+router.post("/GetAdmin", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoAdmin();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+        res.json(foundUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Ya funciona
+router.post("/ModifyAdmin", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoAdmin();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+
+        const modifiedUser = await control.modify(
+            filter, 
+            handler,
+            object
+        );
+        res.json(modifiedUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Ya funciona
+router.post("/DeleteAdmin", async (req, res) => {
+    const object = req.body;
+    const control = new ControlUsers();
+    const handler = new DaoAdmin();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (!foundUser){
+            return res.json({msg:true});
+        }
+        const deletedUser = await control.delete(filter, handler);
+        res.json(deletedUser);
     }
     catch (err){
         res.status(500).json({error: err.message});

@@ -31,6 +31,8 @@ module.exports = class ControlUsers {
     async modify(filter, handler, object) {
         this.handler = handler;
         //const objectId = object._id;
+        const salt = await bcrypt.genSalt();
+        object.password = await bcrypt.hash(object.password, salt);
         return await this.handler.modify(filter, object);
     }
 
