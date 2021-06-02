@@ -1,10 +1,4 @@
-const Client = require("../Modelo/Client");
-const FactoryAdmin = require("../Modelo/FactoryAdmin");
-const FactoryClient = require("../Modelo/FactoryClient");
-const FactoryInstructor = require("../Modelo/FactoryInstructor");
-
 const bcrypt = require("bcryptjs");
-const DaoClient = require("./DaoClient");
 
 module.exports = class ControlUsers {
     constructor(){
@@ -32,5 +26,16 @@ module.exports = class ControlUsers {
             object.phone
         );
         return await this.handler.save(user);
+    }
+
+    async modify(handler, object) {
+        this.handler = handler;
+        const objectId = object.objectId;
+        return await this.handler.modify(objectId, object);
+    }
+
+    async delete(filter, handler) {
+        this.handler = handler;
+        return await this.handler.delete(filter);
     }
 }

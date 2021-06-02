@@ -27,27 +27,36 @@ module.exports = class DaoClient extends Dao {
     }
 
     async save(object) {
-        const schema = this.toMongoSchema(object);
+        // const collection = mongoose.
+        // return await collection.insertOne(object);
+        const schema = this.#toMongoSchema(object);
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await ClientSchema.remove(filter);
     }
 
-    modify(){
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object){
+        const schema = this.#toMongoSchema(object);
+        return await schema.save(id);
     }
 
-    toMongoSchema(object) {
+    #toMongoSchema(object) {
+        console.log('What1');
         const reservations = [];
-        object.reservations.values().forEach(reservation => {
-            reservations.push(reservation.getId());
-        });
+        // const reservationsIter = object.reservations.values();
+        // for (i = 0; i < object.reservations.size; i++) {
+        //     reservations.push(reservationsIter.next().getId());
+        // }
+        // object.reservations.values().forEach(reservation => {
+        //     reservations.push(reservation.getId());
+        // });
+        // console.log('What');
         const subscriptions = [];
-        object.subscriptions.values().forEach(subscription => {
-            subscriptions.push(subscription.getId());
-        });
+        // object.subscriptions.values().forEach(subscription => {
+        //     subscriptions.push(subscription.getId());
+        // });
         return new ClientSchema({
             email: object.email,
             password: object.password,
