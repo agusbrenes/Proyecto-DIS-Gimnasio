@@ -4,10 +4,12 @@ const router = express.Router();
 const config = require('./Config');
 const jwt = require('jsonwebtoken');
 
+// Token?
 const { JWT_SECRET } = config;
 
 // Controladores
 const ControlUsers = require('./Controladores/ControlUsers');
+const ControlService = require('./Controladores/ControlService');
 
 // DAOs
 const DaoClient = require('./Controladores/DaoClient');
@@ -54,13 +56,14 @@ router.post('/login', async (req, res) => {
     }
   });
 
+//---------------Client----------------------//
 
 //Crear Usuario
 // Ya funciona
 router.post("/NewClient", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoClient();
+    const control = new ControlUsers(handler);
     const factory = new FactoryClient();
     const filter = {email: object.email};
     try {        
@@ -84,8 +87,8 @@ router.post("/NewClient", async (req, res) => {
 // Ya funciona
 router.post("/GetClient", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoClient();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -102,8 +105,8 @@ router.post("/GetClient", async (req, res) => {
 // Ya funciona
 router.post("/ModifyClient", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoClient();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -126,8 +129,8 @@ router.post("/ModifyClient", async (req, res) => {
 // Ya funciona
 router.post("/DeleteClient", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoClient();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -142,10 +145,12 @@ router.post("/DeleteClient", async (req, res) => {
     }
 });
 
+//---------------Instructor----------------------//
+
 router.post("/NewInstructor", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoInstructor();
+    const control = new ControlUsers(handler);
     const factory = new FactoryInstructor();
     const filter = {email: object.email};
     try {        
@@ -169,8 +174,8 @@ router.post("/NewInstructor", async (req, res) => {
 // Ya funciona
 router.post("/GetInstructor", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoInstructor();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -187,8 +192,8 @@ router.post("/GetInstructor", async (req, res) => {
 // Ya funciona
 router.post("/ModifyInstructor", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoInstructor();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -211,8 +216,8 @@ router.post("/ModifyInstructor", async (req, res) => {
 // Ya funciona
 router.post("/DeleteInstructor", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoInstructor();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -227,10 +232,12 @@ router.post("/DeleteInstructor", async (req, res) => {
     }
 });
 
+//---------------Admin----------------------//
+
 router.post("/NewAdmin", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoAdmin();
+    const control = new ControlUsers(handler);
     const factory = new FactoryAdmin();
     const filter = {email: object.email};
     try {        
@@ -254,8 +261,8 @@ router.post("/NewAdmin", async (req, res) => {
 // Ya funciona
 router.post("/GetAdmin", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoAdmin();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -272,8 +279,8 @@ router.post("/GetAdmin", async (req, res) => {
 // Ya funciona
 router.post("/ModifyAdmin", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoAdmin();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -296,8 +303,8 @@ router.post("/ModifyAdmin", async (req, res) => {
 // Ya funciona
 router.post("/DeleteAdmin", async (req, res) => {
     const object = req.body;
-    const control = new ControlUsers();
     const handler = new DaoAdmin();
+    const control = new ControlUsers(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter, handler);
@@ -306,6 +313,32 @@ router.post("/DeleteAdmin", async (req, res) => {
         }
         const deletedUser = await control.delete(filter, handler);
         res.json(deletedUser);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+//---------------Service----------------------//
+
+router.post("/NewService", async (req, res) => {
+    const object = req.body;
+    const handler = new DaoAdmin();
+    const control = new ControlService(handler);
+    const factory = new FactoryAdmin();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter, handler);
+        if (foundUser){
+            return res.json({msg:true});
+        }
+
+        const savedUser = await control.save(
+            handler,
+            factory,
+            object
+        );
+        res.json(savedUser);
     }
     catch (err){
         res.status(500).json({error: err.message});

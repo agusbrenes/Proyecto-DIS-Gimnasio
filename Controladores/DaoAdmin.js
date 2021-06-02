@@ -42,7 +42,7 @@ module.exports = class DaoAdmin extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             admRoom: {
-                roomName: object.admRoom.name
+                roomName: ""
             }
         });
     }

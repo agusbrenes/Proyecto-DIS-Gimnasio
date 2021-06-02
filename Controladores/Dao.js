@@ -7,11 +7,11 @@ module.exports = class Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
-    delete() {
+    delete(filter) {
         throw new Error("Abstract Method has no implementation");
     }
 
-    modify(){
+    modify(filter, object){
         throw new Error("Abstract Method has no implementation");
     }
 

@@ -36,7 +36,7 @@ module.exports = class DaoClient extends Dao {
         return await ClientSchema.remove(filter);
     }
 
-    async modify(filter, object){        
+    async modify(filter, object) {        
         return await ClientSchema.updateOne(filter, object);
     }
 
