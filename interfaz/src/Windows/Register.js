@@ -79,7 +79,7 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="Register">
+            <div className="Register window">
                 <form onSubmit={this.submit}>
                     <h4 className="text-center">
                         Ingrese sus datos

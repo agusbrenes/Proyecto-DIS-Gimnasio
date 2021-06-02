@@ -21,12 +21,11 @@
     font-size: 100px;
   }
 
-  .Register {
+  .window {
     display: flex;
     height: 90vh;
     align-items: center;
     justify-content: center;
-
     background: black;
     background-position: center;
     background-size: cover;
@@ -34,16 +33,15 @@
     color: white;
   }
 
-  .SignUp {
+  .Register {
     display: flex;
     height: 90vh;
     align-items: center;
     justify-content: center;
-    background: black;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
+  }
+
+  .SignUp {
+
   }
 
   .adminMenu {
@@ -59,13 +57,5 @@
   }
 
   .modifyClient {
-    display: flex;
-    height: 90vh;
-    align-items: center;
-    justify-content: center;
-    background: black;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
+
   }

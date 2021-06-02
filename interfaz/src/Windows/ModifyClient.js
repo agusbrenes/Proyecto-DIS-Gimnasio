@@ -23,9 +23,13 @@ class ModifyClient extends Component {
         });
     }
 
+    componentDidMount = () => {
+
+    }
+
     render () {
         return (
-            <div className="modifyClient">
+            <div className="modifyClient window">
                 <form onSubmit={this.modify}>
                     <div className="form-group">
                         <label for="email">Correo Electronico</label>

@@ -7,6 +7,7 @@ import Navbar from './Windows/NavBar/NavBar';
 import Register from './Windows/Register';
 import Login from './Windows/Login';
 import ModifyClient from './Windows/ModifyClient';
+import NewService from './Windows/NewService';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/adminMenu" component={AdminMenu}/>
         <Route exact path="/adminMenu/adminManage" component={AdminManage}/>
         <Route exact path="/modifyClient" component={ModifyClient}/>
+        <Route exact path="/newService" component={NewService}/>
       </Switch>
     </Router>
   );

@@ -29,7 +29,7 @@ module.exports = class DaoClient extends Dao {
     async save(object) {
         // const collection = mongoose.
         // return await collection.insertOne(object);
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save();
     }
 
@@ -38,11 +38,11 @@ module.exports = class DaoClient extends Dao {
     }
 
     async modify(id, object){
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save(id);
     }
 
-    #toMongoSchema(object) {
+    toMongoSchema(object) {
         console.log('What1');
         const reservations = [];
         // const reservationsIter = object.reservations.values();
