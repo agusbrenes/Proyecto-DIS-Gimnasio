@@ -4,14 +4,14 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const AdminSchema = mongoose.model("Admin", new Schema({
-    email: {type: String, unique: true, required: true},
+    email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
-    id: {type: String, unique: true},
+    id: {type: String, index: true},
     firstName: {type: String},
     lastName: {type: String},
     phone: {type: String},
     admRoom: {
-        roomName: {type: String}
+        roomName: {type: String, unique: true}
     }
 }));
 

@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const PaymentMethodSchema = mongoose.model("PaymentMethod", new Schema({
-    id: {type: Number},
-    description: {type: String}
+    id: {type: Number, index: true},
+    description: {type: String, unique: true}
 }));
 
 module.exports = class DaoPaymentMethod extends Dao {

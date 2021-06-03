@@ -11,8 +11,8 @@ module.exports = class Controller {
         throw new Error("Abstract Method has no implementation");
     }
 
-    async modify(filter, object){
-        throw new Error("Abstract Method has no implementation");
+    async modify(filter, object) {
+        return await this.handler.modify(filter, object);
     }
 
     async delete(filter) {

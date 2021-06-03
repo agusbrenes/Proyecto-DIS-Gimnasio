@@ -1,7 +1,3 @@
-const Room = require('./Room.js');
-const Session = require('./Service.js');
-const Instructor = require('./Instructor.js');
-
 module.exports = class Service {
     static #id = 0;
 

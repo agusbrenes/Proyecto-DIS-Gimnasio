@@ -4,18 +4,18 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ClientSchema = mongoose.model("Client", new Schema({
-    email: {type: String, unique: true},
+    email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
-    id: {type: String, unique: true},
+    id: {type: String, index: true},
     firstName: {type: String},
     lastName: {type: String},
     phone: {type: String},
     status: {type: String},
     reservations: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }],
     subscriptions: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }]
 }));
 

@@ -4,21 +4,21 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const InstructorSchema = mongoose.model("Instructor", new Schema({
-    email: {type: String, unique: true, required: true},
+    email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
-    id: {type: String, unique: true},
+    id: {type: String, index: true},
     firstName: {type: String},
     lastName: {type: String},
     phone: {type: String},
     isTemp: {type: Boolean},
     room: {
-        name: {type: String}
+        name: {type: String, unique: true}
     },
     services: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }],
     sessions: [{
-        id: {type: Number}
+        id: {type: Number, unique: true}
     }]
 }));
 

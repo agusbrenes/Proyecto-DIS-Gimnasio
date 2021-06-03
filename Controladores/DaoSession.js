@@ -4,13 +4,13 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const SessionSchema = mongoose.model("Session", new Schema ({
-    id: {type: Number},
+    id: {type: Number, index: true},
     instructor: {
-        id: {type: String},
+        id: {type: String, unique: true},
         email: {type: String, unique: true}
     },
     service: {
-        id: {type: Number},
+        id: {type: Number, unique: true},
         description: {type: String}
     },
     capacity: {type: Number},
@@ -19,7 +19,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         name: {type: String}
     },
     schedule: {
-        id: {type: Number}
+        id: {type: Number, unique: true}
     },
     reservations: [{
         id: {type: Number, unique: true}
@@ -32,7 +32,7 @@ module.exports = class DaoSession extends Dao {
     }
 
     async save(object) {
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save();
     }
 
@@ -44,7 +44,7 @@ module.exports = class DaoSession extends Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
-    #toMongoSchema(object) {
+    toMongoSchema(object) {
         const reservations = [];
         object.reservations.values().forEach(reservation => {
             reservations.push(reservation.getId());

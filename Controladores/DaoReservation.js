@@ -4,15 +4,15 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ReservationSchema = mongoose.model("Reservation", new Schema ({
-    id: {type: Number},
+    id: {type: Number, index: true},
     client: {
-        email: {type: String}
+        email: {type: String, unique: true}
     },
     session: {
-        id: {type: Number}
+        id: {type: Number, unique: true}
     },
     paymentMethod: {
-        id: {type: Number, default: undefined}
+        id: {type: Number, unique: true}
     },
     isConfirmed: {type: Boolean}
 }));

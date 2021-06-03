@@ -15,8 +15,4 @@ module.exports = class ControlService extends Controller {
         );
         return await this.handler.save(service);
     }
-
-    async modify(filter, object) {
-        return await this.handler.modify(filter, object);
-    }
 }

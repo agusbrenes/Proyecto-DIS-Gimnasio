@@ -16,6 +16,7 @@ const DaoClient = require('./Controladores/DaoClient');
 const DaoInstructor = require('./Controladores/DaoInstructor');
 const DaoAdmin = require('./Controladores/DaoAdmin');
 const DaoService = require('./Controladores/DaoService');
+const DaoSession = require('./Controladores/DaoSession');
 
 // Factories - Patron Creacional
 const FactoryAdmin = require('./Modelo/FactoryAdmin');
