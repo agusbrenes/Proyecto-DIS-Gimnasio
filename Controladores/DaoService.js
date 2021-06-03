@@ -3,13 +3,13 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-// const TempInstructorSchema = mongoose.model("InstructorTemp", new Schema({
-//     email: {type: String, unique: true}
-// }));
+const TempInstructorSchema = new Schema({
+    email: {type: String, unique: true}
+});
 
-// const TempSessionSchema = mongoose.model("SessionTemp", new Schema({
-//     id: {type: Number}
-// }));
+const TempSessionSchema = new Schema({
+    id: {type: Number}
+});
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
     id: {type: Number, index: true},
@@ -18,12 +18,8 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
     room: {
         name: {type: String, unique: true}
     },
-    instructors: [{
-        email: {type: String, unique: true}
-    }],
-    sessions: [{
-        id: {type: Number, unique: true}
-    }]
+    instructors: [TempInstructorSchema],
+    sessions: [TempSessionSchema]
 }));
 
 module.exports = class DaoService extends Dao {
