@@ -51,7 +51,7 @@ module.exports = class DaoSession extends Dao {
 
     toMongoSchema(object) {
         const reservations1 = [];
-        if (object.reservations.size > 0) {
+        if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
                 const schema = new TempReservationSchema({
                     id: reservation.id

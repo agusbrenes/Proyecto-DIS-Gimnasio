@@ -43,7 +43,7 @@ module.exports = class DaoService extends Dao {
 
     toMongoSchema(object) {
         const instructors1 = [];
-        if (object.instructors.size > 0) {
+        if (object.instructors.length > 0) {
             object.instructors.values().forEach(instructor => {
                 const schema = new TempInstructorSchema({
                     email: instructor.email
@@ -53,7 +53,7 @@ module.exports = class DaoService extends Dao {
         }
 
         const sessions1 = [];
-        if (object.sessions.size > 0) {
+        if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
                 const schema = new TempSessionSchema({
                     id: session.id

@@ -47,21 +47,25 @@ module.exports = class DaoDay extends Dao {
 
     toMongoSchema(object) {
         calendars1 = [];
-        object.calendars.values().forEach(calendar => {
-            const tempCalendar = new TempCalendarSchema({
-                month: calendar.month,
-                year: calendar.year
+        if (object.calendars.length > 0) {
+            object.calendars.values().forEach(calendar => {
+                const tempCalendar = new TempCalendarSchema({
+                    month: calendar.month,
+                    year: calendar.year
+                });
+                calendars1.push(tempCalendar);
             });
-            calendars1.push(tempCalendar);
-        });
-
+        }
+        
         sessions1 = [];
-        object.sessions.values().forEach(session => {
-            const tempSession = new TempSessionSchema({
-                id: session.id
+        if (object.sessions.length > 0) {
+            object.sessions.values().forEach(session => {
+                const tempSession = new TempSessionSchema({
+                    id: session.id
+                });
+                sesssions1.push(tempSession);
             });
-            sesssions1.push(tempSession);
-        });
+        }
 
         return new DaySchema({
             number: object.number,

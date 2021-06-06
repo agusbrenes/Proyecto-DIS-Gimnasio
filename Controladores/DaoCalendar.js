@@ -44,7 +44,7 @@ module.exports = class DaoCalendar extends Dao {
     toMongoSchema(object) {
         const days1 = [];
 
-        if (object.days.size > 0) {
+        if (object.days.length > 0) {
             object.days.values().forEach(day => {
                 const tempDay = new DayTempSchema({
                     number: day.number,

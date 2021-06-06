@@ -58,7 +58,7 @@ module.exports = class DaoRoom extends Dao {
 
     toMongoSchema(object) {
         const administrators1 = [];
-        if (object.administrators.size > 0) {
+        if (object.administrators.length > 0) {
             object.administrators.values().forEach(administrator => {
                 const schema = new TempAdminSchema({
                     email: administrator.email
@@ -68,7 +68,7 @@ module.exports = class DaoRoom extends Dao {
         }
 
         const instructors1 = [];
-        if (object.instructors.size > 0) {
+        if (object.instructors.length > 0) {
             object.instructors.values().forEach(instructor => {
                 const schema = new TempInstructorSchema({
                     email: instructor.email
@@ -78,7 +78,7 @@ module.exports = class DaoRoom extends Dao {
         }
 
         const services1 = [];
-        if (object.services.size > 0) {
+        if (object.services.length > 0) {
             object.services.values().forEach(service => {
                 const schema = TempServiceSchema({
                     id: service.id
@@ -88,7 +88,7 @@ module.exports = class DaoRoom extends Dao {
         }   
 
         const calendars1 = [];
-        if (object.calendars.size > 0) {
+        if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
                 const schema = TempCalendarSchema({
                     month: calendar.month,
