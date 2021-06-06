@@ -3,14 +3,15 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const PaymentMethodSchema = mongoose.model("PaymentMethod", new Schema({
+const ScheduleSchema = mongoose.model("Schedule", new Schema({
     id: {type: Number, index: true},
-    description: {type: String, unique: true}
+    beginTime: {type: Date, required: true},
+    endTime: {type: Date, required: true}
 }));
 
-module.exports = class DaoPaymentMethod extends Dao {
+module.exports = class DaoSchedule extends Dao {
     async find(filter) {
-        return await PaymentMethodSchema.findOne(filter);
+        return await ScheduleSchema.findOne(filter);
     }
 
     async save(object) {
@@ -19,7 +20,7 @@ module.exports = class DaoPaymentMethod extends Dao {
     }
 
     async delete(filter) {
-        return await PaymentMethodSchema.remove(filter);
+        return await ScheduleSchema.remove(filter);
     }
 
     async modify(id, object) {
@@ -27,14 +28,11 @@ module.exports = class DaoPaymentMethod extends Dao {
         return await schema.save(id);
     }
 
-    async getAll() {
-        return await PaymentMethodSchema.find({ });
-    }
-
     toMongoSchema(object) {
-        return new PaymentMethodSchema({
+        return new ScheduleSchema({
             id: object.id,
-            description: object.description
+            beginTime: object.begin_time,
+            endTime: object.end_time
         });
     }
 }

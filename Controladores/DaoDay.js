@@ -3,14 +3,14 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const TempCalendarSchema = mongoose.model("CalendarTemp", new Schema({
+const TempCalendarSchema = new Schema({
     month: {type: Number},
     year: {type: Number}
-}));
+});
 
-const TempSessionSchema = mongoose.model("SessionTemp", new Schema({
+const TempSessionSchema = new Schema({
     id: {type: Number}
-}));
+});
 
 const DaySchema = mongoose.model("Day", new Schema({
     number: {type: Number},
@@ -36,8 +36,13 @@ module.exports = class DaoDay extends Dao {
         return await DaySchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
+    }
+
+    async getAll() {
+        return await DaySchema.find({ });
     }
 
     toMongoSchema(object) {
@@ -51,7 +56,7 @@ module.exports = class DaoDay extends Dao {
         });
 
         sessions1 = [];
-        object.sessions.values().forEacg(session => {
+        object.sessions.values().forEach(session => {
             const tempSession = new TempSessionSchema({
                 id: session.id
             });

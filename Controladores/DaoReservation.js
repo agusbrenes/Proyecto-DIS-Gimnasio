@@ -31,8 +31,13 @@ module.exports = class DaoReservation extends Dao {
         return await ReservationSchema.remove(filter);
     }
 
-    async modify(filter, object) {
-        return await ReservationSchema.updateOne(filter);
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
+    }
+
+    async getAll() {
+        return ReservationSchema.find({ });
     }
 
     toMongoSchema(object) {

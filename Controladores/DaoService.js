@@ -45,14 +45,20 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.size > 0) {
             object.instructors.values().forEach(instructor => {
-                instructors1.push({email: instructor.email});
+                const schema = new TempInstructorSchema({
+                    email: instructor.email
+                });
+                instructors1.push(schema);
             });
         }
 
         const sessions1 = [];
         if (object.sessions.size > 0) {
             object.sessions.values().forEach(session => {
-                sessions1.push({id: session.id});
+                const schema = new TempSessionSchema({
+                    id: session.id
+                });
+                sessions1.push(schema);
             }); 
         }
 

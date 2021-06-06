@@ -3,6 +3,14 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
+const TempServiceSchema = new Schema({
+    id: {type: Number, required: true}
+});
+
+const TempSessionSchema = new Schema({
+    id: {type: Number, required: true}
+});
+
 const InstructorSchema = mongoose.model("Instructor", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
@@ -14,12 +22,8 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     room: {
         name: {type: String, unique: true}
     },
-    services: [{
-        id: {type: Number, unique: true}
-    }],
-    sessions: [{
-        id: {type: Number, unique: true}
-    }]
+    services: [TempServiceSchema],
+    sessions: [TempSessionSchema]
 }));
 
 module.exports = class DaoInstructor extends Dao {
@@ -36,7 +40,7 @@ module.exports = class DaoInstructor extends Dao {
         return await InstructorSchema.remove(filter);
     }
 
-    async modify(id, object){
+    async modify(id, object) {
         const schema = this.toMongoSchema(object);
         return await schema.save(id);
     }
@@ -46,18 +50,23 @@ module.exports = class DaoInstructor extends Dao {
     }
 
     toMongoSchema(object) {
-        //Esto no funca tho
         const services1 = [];
         if (object.services.size > 0) {
             object.services.values().forEach(service => {
-                services.push(service.getId());
+                const schema = new TempServiceSchema({
+                    id: service.id
+                });
+                services1.push(schema);
             });
         }
 
         const sessions1 = [];
         if (object.sessions.size > 0) {
             object.sessions.values().forEach(session => {
-                sessions.push(session.getId());
+                const schema = new TempSessionSchema({
+                    id: session.id
+                });
+                sessions1.push(schema);
             });
         }
 

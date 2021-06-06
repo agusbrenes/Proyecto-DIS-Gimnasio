@@ -24,15 +24,20 @@ module.exports = class DaoSubscription extends Dao {
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await SubscriptionSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
     }
 
-    #toMongoSchema(object) {
+    async getAll() {
+        return await SubscriptionSchema.find({ });
+    }
+
+    toMongoSchema(object) {
         return new SubscriptionSchema({
             id: object.id,
             fee: object.fee,

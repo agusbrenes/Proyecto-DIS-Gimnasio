@@ -3,15 +3,17 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
+const TempReservationSchema = new Schema({
+    id: {type: Number, required: true}
+});
+
 const SessionSchema = mongoose.model("Session", new Schema ({
     id: {type: Number, index: true},
     instructor: {
-        id: {type: String, unique: true},
         email: {type: String, unique: true}
     },
     service: {
         id: {type: Number, unique: true},
-        description: {type: String}
     },
     capacity: {type: Number},
     day: {
@@ -21,9 +23,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
     schedule: {
         id: {type: Number, unique: true}
     },
-    reservations: [{
-        id: {type: Number, unique: true}
-    }]
+    reservations: [TempReservationSchema]
 }));
 
 module.exports = class DaoSession extends Dao {
@@ -36,29 +36,37 @@ module.exports = class DaoSession extends Dao {
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await SessionSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
+    }
+
+    async getAll() {
+        return await SessionSchema.find({ });
     }
 
     toMongoSchema(object) {
-        const reservations = [];
-        object.reservations.values().forEach(reservation => {
-            reservations.push(reservation.getId());
-        });
+        const reservations1 = [];
+        if (object.reservations.size > 0) {
+            object.reservations.values().forEach(reservation => {
+                const schema = new TempReservationSchema({
+                    id: reservation.id
+                });
+                reservations1.push(schema);
+            });
+        }
 
         return new SessionSchema({
             id: object.id,
             instructor: {
-                id: object.instructor.id,
                 email: object.instructor.email
             },
             service: {
-                id: object.service.id,
-                description: object.service.description
+                id: object.service.id
             },
             capacity: object.capacity,
             day: {
@@ -68,7 +76,7 @@ module.exports = class DaoSession extends Dao {
             schedule: {
                 id: object.schedule.id
             },
-            reservations: reservations
+            reservations: reservations1
         });
     }
 }

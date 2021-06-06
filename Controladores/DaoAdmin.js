@@ -25,12 +25,13 @@ module.exports = class DaoAdmin extends Dao {
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await AdminSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method had no implementation");
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
     }
 
     async getAll() {
