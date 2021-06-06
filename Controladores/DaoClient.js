@@ -37,9 +37,9 @@ module.exports = class DaoClient extends Dao {
     async delete(filter) {
         return await ClientSchema.remove(filter);
     }
-
     async modify(filter, object){
         const schema = await ClientSchema.findOne(filter);
+
         
         schema.email = object.email;
         schema.password = object.password;
