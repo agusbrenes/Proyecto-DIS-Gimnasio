@@ -3,6 +3,14 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
+const TempReservationSchema = new Schema({
+    id: {type: Number, required: true}
+});
+
+const TempSubscriptionSchema = new Schema({
+    id: {type: Number, required: true}
+});
+
 const ClientSchema = mongoose.model("Client", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
@@ -11,18 +19,14 @@ const ClientSchema = mongoose.model("Client", new Schema({
     lastName: {type: String},
     phone: {type: String},
     status: {type: String},
-    reservations: [{
-        id: {type: Number, unique: true}
-    }],
-    subscriptions: [{
-        id: {type: Number, unique: true}
-    }]
+    reservations: [TempReservationSchema],
+    subscriptions: [TempSubscriptionSchema]
 }));
 
 module.exports = class DaoClient extends Dao {
 
     async find(filter) {
-        return await ClientSchema.findOne(filter);
+        return await ClientSchema.find(filter);
     }
 
     async save(object) {
@@ -44,16 +48,22 @@ module.exports = class DaoClient extends Dao {
     }
 
     toMongoSchema(object) {
-        const reservations = [];
+        const reservations1 = [];
         if (object.reservations.size > 0) {
             object.reservations.values().forEach(reservation => {
-                reservations.push({id: reservation.getId()});
+                const schema = new TempReservationSchema({
+                    id: reservation.id
+                });
+                reservations1.push(schema);
             });
         }
-        const subscriptions = [];
+        const subscriptions1 = [];
         if (object.subscriptions.size > 0) {
             object.subscriptions.values().forEach(subscription => {
-                subscriptions.push({id: subscription.getId()});
+                const schema = new TempSubscriptionSchema({
+                    id: subscription.id
+                });
+                subscriptions1.push(schema);
             });
         }
         return new ClientSchema({
@@ -64,8 +74,8 @@ module.exports = class DaoClient extends Dao {
             lastName: object.lastName,
             phone: object.phone,
             status: object.status,
-            reservations: reservations,
-            subscriptions: subscriptions
+            reservations: reservations1,
+            subscriptions: subscriptions1
         });
     }    
 }

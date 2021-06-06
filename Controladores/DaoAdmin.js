@@ -17,7 +17,7 @@ const AdminSchema = mongoose.model("Admin", new Schema({
 
 module.exports = class DaoAdmin extends Dao {
     async find(filter) {
-        return await AdminSchema.findOne(filter);
+        return await AdminSchema.find(filter);
     }
 
     async save(object) {
@@ -25,12 +25,13 @@ module.exports = class DaoAdmin extends Dao {
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await AdminSchema.remove(filter);
     }
 
-    modify() {
-        throw new Error("Abstract Method had no implementation");
+    async modify(id, object) {
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
     }
 
     async getAll() {

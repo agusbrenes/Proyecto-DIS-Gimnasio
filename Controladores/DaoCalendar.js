@@ -3,10 +3,10 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const DayTempSchema = mongoose.model("DayTemp", new Schema ({
+const DayTempSchema = new Schema ({
     number: {type: Number},
     name: {type: String}
-}));
+});
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
@@ -20,7 +20,7 @@ const CalendarSchema = mongoose.model("Calendar", new Schema({
 
 module.exports = class DaoCalendar extends Dao {
     async find(filter) {
-        return await CalendarSchema.findOne(filter);
+        return await CalendarSchema.find(filter);
     }
 
     async save(object) {
@@ -28,26 +28,32 @@ module.exports = class DaoCalendar extends Dao {
         return await schema.save();
     }
 
-    delete() {
-        throw new Error("Abstract Method has no implementation");
+    async delete(filter) {
+        return await CalendarSchema.remove(filter);
     }
 
-    modify(){
-        throw new Error("Abstract Method has no implementation");
+    async modify(id, object){
+        const schema = this.toMongoSchema(object);
+        return await schema.save(id);
+    }
+
+    async getAll() {
+        return await CalendarSchema.find({ });
     }
 
     toMongoSchema(object) {
         const days1 = [];
 
-        //Experimental, might not work
-        object.days.values().forEach(day => {
-            const tempDay = new DayTempSchema({
-                number: day.number,
-                name: day.name
+        if (object.days.size > 0) {
+            object.days.values().forEach(day => {
+                const tempDay = new DayTempSchema({
+                    number: day.number,
+                    name: day.name
+                });
+    
+                days1.push(tempDay);
             });
-
-            days1.push(tempDay);
-        });
+        }
 
         return new CalendarSchema({
             room: {
