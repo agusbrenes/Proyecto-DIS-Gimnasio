@@ -23,7 +23,7 @@
 
   .window {
     display: flex;
-    height: 90vh;
+    height: 87.9vh;
     align-items: center;
     justify-content: center;
     background: black;
@@ -40,10 +40,6 @@
     justify-content: center;
   }
 
-  .SignUp {
-
-  }
-
   .adminMenu {
     display: flex;
     flex-direction: column;
@@ -56,6 +52,13 @@
     background-repeat: no-repeat;
   }
 
-  .modifyClient {
-
+  .menuClient { 
+    flex-direction: column;
+    background-image: url('./Windows/Image3.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 100px;
+    font-size: 3rem;
   }

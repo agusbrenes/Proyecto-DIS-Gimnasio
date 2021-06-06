@@ -9,22 +9,22 @@ class AdminMenu extends Component {
                     Bienvenido
                 </h1>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/adminManage")}}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageAdmins")}}>
                         Gestionar Administradores
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => { }}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageInstru")}}>
                         Gestionar Instructores
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => { }}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageClients")}}>
                         Gestionar Clientes
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => { }}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageServices")}}>
                         Gestionar Servicios
                     </button>
                 </div>

@@ -1,17 +1,16 @@
 import React, {Component} from "react";
 import axios from "axios";
 
-const swal = require('sweetalert2');
-
-class NewService extends Component {
+class ModifyService extends Component {
     state = {
-        description: "",
+        name: "",
         capacity: "",
         room: "",
         instructor: "",
         nums: [],
         instructors: [],
-        rooms: []
+        rooms: [],
+        services: []
     }
 
     //Función que actualiza los states
@@ -26,6 +25,7 @@ class NewService extends Component {
     }
 
     componentDidMount = async () => {
+        await this.getServices();
         await this.getInstructors();
     }
 
@@ -33,6 +33,10 @@ class NewService extends Component {
         for(var j=1; j <= 30; j++){
             this.state.nums.push(j);
         }
+    }
+
+    getServices = () => {
+    
     }
 
     getInstructors = () => {
@@ -54,49 +58,8 @@ class NewService extends Component {
         });
     }
 
-    getRooms = () => {
-        axios.get("/api/GetRooms")
-        .then((response) => {
-            const data = response.data;
-            this.setState({
-                instructors: data,
-                instructor: data[0].name
-            })
-        })
-        .catch(() => {
-            console.log("Hubo un error al buscar los Rooms");
-        });
-    }
+    submit = () => {
 
-    submit = (event) => {
-        event.preventDefault();
-
-        axios({
-            url: "/api/NewService",
-            method: "POST",
-            data: { 
-                description: this.state.description,
-                capacity: this.state.capacity,
-                instructor: this.state.instructor,
-                room: this.state.room
-            }
-        })
-        .then(() => {
-            swal.fire({
-                title: 'Listo!',
-                text: 'Se a creado el servicio',
-                icon: 'success'
-            }).then(() => {
-                window.location = ("/");
-            });
-        })
-        .catch(() => {
-            swal.fire({
-                title: 'Error',
-                text: 'Ha ocurrido un error al crear un servicio',
-                icon: 'error'
-            })
-        })
     }
 
     render() {
@@ -105,12 +68,31 @@ class NewService extends Component {
                 {this.fill()}
                 <form onSubmit={this.submit}>
                     <h4 className="text-center">
-                        Ingrese los datos del nuevo servicio
+                        Ingrese los nuevos datos del servicio
                     </h4>
                     <div className="form-group">
+                        <label for="description">Seleccione el servicio a modificar</label>
+                        <select
+                            name="name"
+                            className="form-control"
+                            onChange={this.handleChange}
+                        >
+                            {this.state.services.map((name,index) => 
+                                <option key={index}>
+                                    {name}
+                                </option>
+                            )}
+                        </select>
+                    </div>
+                    <div className="form-group">
                         <label for="description">Nombre</label>
-                        <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="description" value={this.state.description}
-                        onChange={this.handleChange}/>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            id="name"
+                            name="name" 
+                            value={this.state.description}
+                            onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
                         <label for="description">Capacidad de personas</label>
@@ -156,7 +138,7 @@ class NewService extends Component {
                         </select>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
-                        Crear
+                        Modificar
                     </button>
                 </form>
             </div>
@@ -164,4 +146,4 @@ class NewService extends Component {
     }
 }
 
-export default NewService;
+export default ModifyService

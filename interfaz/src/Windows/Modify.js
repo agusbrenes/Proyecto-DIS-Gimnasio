@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 
-class NewAdmin extends Component {
+class Modify extends Component {
     state = {
         name: "",
         lastname: "",
@@ -10,16 +10,30 @@ class NewAdmin extends Component {
         phone: "",
         password: "",
         confirm: "",
-        is: "",
+        is: ""
     }
 
-    render() {
+    //Función que actualiza los states
+    handleChange = (event) => {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+
+        this.setState({
+            [name] : value
+        });
+    }
+
+    componentDidMount = async () => {
+        await this.setState({
+            is: this.props.match.params.is
+        });
+    }
+
+    render () {
         return (
-            <div className="NewAdmin">
-                <form>
-                    <h2 className="text-center">
-                        Ingrese los datos del Admin
-                    </h2>
+            <div className="modifyClient window">
+                <form onSubmit={this.modify}>
                     <div className="form-group">
                         <label for="email">Correo Electronico</label>
                         <input type="email" className="form-control" id="email" placeholder="nombre@ejemplo.com" name="email" value={this.state.email}
@@ -60,7 +74,7 @@ class NewAdmin extends Component {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
-                        Registrarse
+                        Modificar
                     </button>
                 </form>
             </div>
@@ -68,4 +82,4 @@ class NewAdmin extends Component {
     }
 }
 
-export default NewAdmin;
+export default Modify;

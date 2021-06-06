@@ -13,7 +13,7 @@ class Register extends Component {
         phone: "",
         password: "",
         confirm: "",
-        is: "1",
+        is: "",
     }
 
     //Función que actualiza los states
@@ -27,9 +27,10 @@ class Register extends Component {
         });
     }
 
-    componentDidMount = () => {
-        this.setState.is = this.props.match.params;
-        console.log(this.props.match.params);
+    componentDidMount = async () => {
+        await this.setState({
+            is: this.props.match.params.is,
+          });
     }
 
     submit = (event) => {
