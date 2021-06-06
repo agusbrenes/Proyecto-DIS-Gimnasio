@@ -20,7 +20,7 @@ module.exports = class DaoSubscription extends Dao {
     }
 
     async save(object) {
-        const schema = this.#toMongoSchema(object);
+        const schema = this.toMongoSchema(object);
         return await schema.save();
     }
 

@@ -22,6 +22,7 @@ const DaoSession = require('./Controladores/DaoSession');
 const FactoryAdmin = require('./Modelo/FactoryAdmin');
 const FactoryClient = require('./Modelo/FactoryClient');
 const FactoryInstructor = require('./Modelo/FactoryInstructor');
+const ControlClient = require('./Controladores/ControlClient');
 
 //---------------Rutas----------------------//
 
@@ -65,8 +66,7 @@ router.post('/login', async (req, res) => {
 router.post("/NewClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
-    const control = new ControlUsers(handler);
-    const factory = new FactoryClient();
+    const control = new ControlClient(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
@@ -75,7 +75,6 @@ router.post("/NewClient", async (req, res) => {
         }
 
         const savedUser = await control.save(
-            factory,
             object
         );
         res.json(savedUser);
@@ -89,13 +88,14 @@ router.post("/NewClient", async (req, res) => {
 router.post("/GetClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
-    const control = new ControlUsers(handler);
+    const control = new ControlClient(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
+        
         res.json(foundUser);
     }
     catch (err){
@@ -107,7 +107,7 @@ router.post("/GetClient", async (req, res) => {
 router.post("/ModifyClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
-    const control = new ControlUsers(handler);
+    const control = new ControlClient(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
@@ -130,7 +130,7 @@ router.post("/ModifyClient", async (req, res) => {
 router.post("/DeleteClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
-    const control = new ControlUsers(handler);
+    const control = new ControlClient(handler);
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
@@ -147,7 +147,7 @@ router.post("/DeleteClient", async (req, res) => {
 
 router.get("/GetClients", (req, res) => {    
     const handler = new DaoClient();
-    const control = new ControlUsers(handler);
+    const control = new ControlClient(handler);
     control.getAll()
     .then((data) => {
         res.json(data);
@@ -163,7 +163,6 @@ router.post("/NewInstructor", async (req, res) => {
     const object = req.body;
     const handler = new DaoInstructor();
     const control = new ControlUsers(handler);
-    const factory = new FactoryInstructor();
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
@@ -172,7 +171,6 @@ router.post("/NewInstructor", async (req, res) => {
         }
 
         const savedUser = await control.save(
-            factory,
             object
         );
         res.json(savedUser);
@@ -260,7 +258,6 @@ router.post("/NewAdmin", async (req, res) => {
     const object = req.body;
     const handler = new DaoAdmin();
     const control = new ControlUsers(handler);
-    const factory = new FactoryAdmin();
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);
@@ -269,7 +266,6 @@ router.post("/NewAdmin", async (req, res) => {
         }
 
         const savedUser = await control.save(
-            factory,
             object
         );
         res.json(savedUser);

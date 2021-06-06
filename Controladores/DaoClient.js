@@ -26,7 +26,7 @@ const ClientSchema = mongoose.model("Client", new Schema({
 module.exports = class DaoClient extends Dao {
 
     async find(filter) {
-        return await ClientSchema.find(filter);
+        return await ClientSchema.findOne(filter);
     }
 
     async save(object) {
@@ -38,9 +38,42 @@ module.exports = class DaoClient extends Dao {
         return await ClientSchema.remove(filter);
     }
 
-    async modify(id, object){
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object){
+        const schema = await ClientSchema.findOne(filter);
+        
+        schema.email = object.email;
+        schema.password = object.password;
+        schema.id = object.id;
+        schema.firstName = object.firstName;
+        schema.lastName = object.lastName;
+        schema.phone = object.phone;
+        schema.status = object.phone;
+
+        const reservations1 = [];
+        if (object.reservations.length > 0) {
+            object.reservations.values().forEach(reservation => {
+                const schema1 = new TempReservationSchema({
+                    id: reservation.id
+                });
+                reservations1.push(schema1);
+            });
+        }
+        const subscriptions1 = [];
+        if (object.subscriptions.length > 0) {
+            object.subscriptions.values().forEach(subscription => {
+                const schema1 = new TempSubscriptionSchema({
+                    id: subscription.id
+                });
+                subscriptions1.push(schema1);
+            });
+        }
+
+        schema.reservations = reservations1;
+        schema.subscriptions = subscriptions1;
+
+        return await ClientSchema.updateOne(filter, schema);
+        //const schema = this.toMongoSchema(object);
+        //return await schema.save(id);
     }
 
     async getAll() {
@@ -49,7 +82,7 @@ module.exports = class DaoClient extends Dao {
 
     toMongoSchema(object) {
         const reservations1 = [];
-        if (object.reservations.size > 0) {
+        if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
                 const schema = new TempReservationSchema({
                     id: reservation.id
@@ -58,7 +91,7 @@ module.exports = class DaoClient extends Dao {
             });
         }
         const subscriptions1 = [];
-        if (object.subscriptions.size > 0) {
+        if (object.subscriptions.length > 0) {
             object.subscriptions.values().forEach(subscription => {
                 const schema = new TempSubscriptionSchema({
                     id: subscription.id

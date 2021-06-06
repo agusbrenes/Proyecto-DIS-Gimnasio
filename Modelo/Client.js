@@ -25,14 +25,15 @@ module.exports = class Client extends User {
         return this.reservations;
     }
 
+    set setReservations(reservations) {
+        this.reservations = reservations;
+    }
+
     getReservation(id) {
         return this.reservations.get(id);
     }
 
     addReservation(reservation) {
-        if (this.reservations.length == this.capacity) {
-            throw new Error("This session is at its maximum capacity. Cannot add another reservation.");
-        }
         this.reservations.set(reservation.getId(), reservation);
     }
 
@@ -51,6 +52,10 @@ module.exports = class Client extends User {
 
     get getSubscriptions() {
         return this.subscriptions;
+    }
+
+    set setReservations(reservations) {
+        this.reservations = reservations;
     }
 
     getSubscription(id) {
