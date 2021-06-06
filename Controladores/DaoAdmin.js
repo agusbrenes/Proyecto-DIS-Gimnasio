@@ -17,7 +17,7 @@ const AdminSchema = mongoose.model("Admin", new Schema({
 
 module.exports = class DaoAdmin extends Dao {
     async find(filter) {
-        return await AdminSchema.findOne(filter);
+        return await AdminSchema.find(filter);
     }
 
     async save(object) {

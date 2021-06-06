@@ -11,7 +11,7 @@ const ScheduleSchema = mongoose.model("Schedule", new Schema({
 
 module.exports = class DaoSchedule extends Dao {
     async find(filter) {
-        return await ScheduleSchema.findOne(filter);
+        return await ScheduleSchema.find(filter);
     }
 
     async save(object) {

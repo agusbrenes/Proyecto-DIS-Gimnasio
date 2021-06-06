@@ -16,7 +16,7 @@ const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
 
 module.exports = class DaoSubscription extends Dao {
     async find(filter) {
-        return await SubscriptionSchema.findOne(filter);
+        return await SubscriptionSchema.find(filter);
     }
 
     async save(object) {

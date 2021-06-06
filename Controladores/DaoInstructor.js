@@ -28,7 +28,7 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
 
 module.exports = class DaoInstructor extends Dao {
     async find(filter) {
-        return await InstructorSchema.findOne(filter);
+        return await InstructorSchema.find(filter);
     }
 
     async save(object) {

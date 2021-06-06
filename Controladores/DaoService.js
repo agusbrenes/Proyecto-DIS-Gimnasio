@@ -24,7 +24,7 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
 
 module.exports = class DaoService extends Dao {
     async find(filter) {
-        return await ServiceSchema.findOne(filter);
+        return await ServiceSchema.find(filter);
     }
 
     async save(object) {

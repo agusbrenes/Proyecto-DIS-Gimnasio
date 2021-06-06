@@ -35,7 +35,7 @@ const RoomSchema = mongoose.model("Room", new Schema({
 
 module.exports = class DaoRoom extends Dao {
     async find(filter) {
-        return await RoomSchema.findOne(filter);
+        return await RoomSchema.find(filter);
     }
 
     async save(object) {

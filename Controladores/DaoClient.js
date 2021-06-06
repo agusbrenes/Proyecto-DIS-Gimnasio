@@ -26,7 +26,7 @@ const ClientSchema = mongoose.model("Client", new Schema({
 module.exports = class DaoClient extends Dao {
 
     async find(filter) {
-        return await ClientSchema.findOne(filter);
+        return await ClientSchema.find(filter);
     }
 
     async save(object) {

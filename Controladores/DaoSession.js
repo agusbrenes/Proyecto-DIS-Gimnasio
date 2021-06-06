@@ -28,7 +28,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
 
 module.exports = class DaoSession extends Dao {
     async find(filter) {
-        return await SessionSchema.findOne(filter);
+        return await SessionSchema.find(filter);
     }
 
     async save(object) {

@@ -24,7 +24,7 @@ const DaySchema = mongoose.model("Day", new Schema({
 
 module.exports = class DaoDay extends Dao {
     async find(filter) {
-        return await DaySchema.findOne(filter);
+        return await DaySchema.find(filter);
     }
 
     async save(object) {

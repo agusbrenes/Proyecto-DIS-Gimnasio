@@ -20,7 +20,7 @@ const CalendarSchema = mongoose.model("Calendar", new Schema({
 
 module.exports = class DaoCalendar extends Dao {
     async find(filter) {
-        return await CalendarSchema.findOne(filter);
+        return await CalendarSchema.find(filter);
     }
 
     async save(object) {

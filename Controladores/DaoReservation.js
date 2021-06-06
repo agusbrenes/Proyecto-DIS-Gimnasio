@@ -19,7 +19,7 @@ const ReservationSchema = mongoose.model("Reservation", new Schema ({
 
 module.exports = class DaoReservation extends Dao {
     async find(filter) {
-        return await ReservationSchema.findOne(filter);
+        return await ReservationSchema.find(filter);
     }
 
     async save(object) {

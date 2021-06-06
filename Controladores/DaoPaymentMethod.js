@@ -10,7 +10,7 @@ const PaymentMethodSchema = mongoose.model("PaymentMethod", new Schema({
 
 module.exports = class DaoPaymentMethod extends Dao {
     async find(filter) {
-        return await PaymentMethodSchema.findOne(filter);
+        return await PaymentMethodSchema.find(filter);
     }
 
     async save(object) {
