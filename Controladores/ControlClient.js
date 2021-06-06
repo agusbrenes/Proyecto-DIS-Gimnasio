@@ -48,7 +48,7 @@ module.exports = class ControlClient extends ControlUsers {
     setClientReservations(client, reservationArray) {
         const handler = new DaoReservation();
         //const control = new ControlReservation(handler);
-        for (var i = 0; i < reservationArray.size; i++) {
+        for (var i = 0; i < reservationArray.length; i++) {
             const reservation = control.find(reservationArray[i]);
             client.addReservation(reservation);
         }
@@ -58,7 +58,7 @@ module.exports = class ControlClient extends ControlUsers {
     setClientSubscriptions(client, subscriptionArray) {
         const handler = new DaoSubscription();
         //const control = new ControlSubscription(handler);
-        for (var i = 0; i < subscriptionArray.size; i++) {
+        for (var i = 0; i < subscriptionArray.length; i++) {
             const subscription = control.find(subscriptionArray[i]);
             client.addSubscription(subscription);
         }
