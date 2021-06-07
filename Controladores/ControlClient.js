@@ -3,6 +3,8 @@ const Reservation = require("../Modelo/Reservation");
 const ControlUsers = require("./ControlUsers");
 const ControlSubscription = require('./ControlSubscription');
 const ControlReservation = require("./ControlReservation");
+const ControlSession = require('./ControlSession');
+const ControlService = require('./ControlService');
 
 module.exports = class ControlClient extends ControlUsers {
     constructor(handler) {
@@ -29,11 +31,6 @@ module.exports = class ControlClient extends ControlUsers {
         return this.toObject(schema);
     }
 
-    // async modify(filter, object) {
-    //     const schema = await super.modify(filter, object);
-    //     return this.toObject(schema);
-    // }
-
     setClientReservations(client, reservationArray) {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
@@ -56,8 +53,10 @@ module.exports = class ControlClient extends ControlUsers {
         const controlSession = new ControlSession();
         const controlReservation = new ControlReservation();
 
-        const client = this.find({id: idClient});
-        const session = controlSession.find({id: idSession});
+        const clientQuery = await this.find({id: idClient});
+        const client = clientQuery[0];
+        const sessionQuery = await controlSession.find({id: idSession});
+        const session = sessionQuery[0];
         const reservation = new Reservation(
             idClient, 
             idSession
@@ -86,4 +85,14 @@ module.exports = class ControlClient extends ControlUsers {
     //     );
     //     return await this.handler.save(reservation);
     // }
+
+    async getClientReservations(idClient) {
+        const controlReservation = new ControlReservation();
+        return await controlReservation.find({client: idClient});
+    }
+
+    async getServices() {
+        const controlService = new ControlService();
+        return await controlService.getAll();
+    }
 }

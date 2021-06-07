@@ -7,7 +7,7 @@ module.exports = class ControlUsers extends Controller {
         this.factory = null;
     }
 
-    set setFactory(factory) {
+    setFactory(factory) {
         this.factory = factory;
     }
 
