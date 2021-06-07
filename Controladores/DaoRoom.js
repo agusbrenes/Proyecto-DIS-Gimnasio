@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempAdminSchema = new Schema({
-    email: {type: String, unique: true}
+    id: {type: Number, unique: true}
 });
 
 const TempInstructorSchema = new Schema({
-    email: {type: String, unique: true}
+    id: {type: Number, unique: true}
 });
 
 const TempServiceSchema = new Schema({
@@ -59,7 +59,7 @@ module.exports = class DaoRoom extends Dao {
         if (object.administrators.length > 0) {
             object.administrators.values().forEach(administrator => {
                 const schema1 = new TempAdminSchema({
-                    email: administrator.email
+                    id: administrator.id
                 });
                 administrators1.push(schema1);
             });
@@ -69,7 +69,7 @@ module.exports = class DaoRoom extends Dao {
         if (object.instructors.length > 0) {
             object.instructors.values().forEach(instructor => {
                 const schema1 = new TempInstructorSchema({
-                    email: instructor.email
+                    id: instructor.id
                 });
                 instructors1.push(schema1);
             });
@@ -113,7 +113,7 @@ module.exports = class DaoRoom extends Dao {
         if (object.administrators.length > 0) {
             object.administrators.values().forEach(administrator => {
                 const schema = new TempAdminSchema({
-                    email: administrator.email
+                    id: administrator.id
                 });
                 administrators1.push(schema);
             });
@@ -123,7 +123,7 @@ module.exports = class DaoRoom extends Dao {
         if (object.instructors.length > 0) {
             object.instructors.values().forEach(instructor => {
                 const schema = new TempInstructorSchema({
-                    email: instructor.email
+                    id: instructor.id
                 });
                 instructors1.push(schema);
             });

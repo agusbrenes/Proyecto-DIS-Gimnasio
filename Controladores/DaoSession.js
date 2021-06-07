@@ -10,7 +10,7 @@ const TempReservationSchema = new Schema({
 const SessionSchema = mongoose.model("Session", new Schema ({
     id: {type: Number, index: true},
     instructor: {
-        email: {type: String, unique: true}
+        id: {type: Number, unique: true}
     },
     service: {
         id: {type: Number, unique: true},
@@ -44,7 +44,7 @@ module.exports = class DaoSession extends Dao {
         const schema = SessionSchema.findOne(filter);
 
         schema.id = object.id;
-        schema.instructor.email = object.instructor.email;
+        schema.instructor.id = object.instructor.id;
         schema.service.id = object.service.id;
         schema.capacity = object.capacity;
         schema.day.number = object.day.id;
@@ -84,7 +84,7 @@ module.exports = class DaoSession extends Dao {
         return new SessionSchema({
             id: object.id,
             instructor: {
-                email: object.instructor.email
+                id: object.instructor.id
             },
             service: {
                 id: object.service.id

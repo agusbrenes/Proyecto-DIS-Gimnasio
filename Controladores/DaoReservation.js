@@ -6,7 +6,7 @@ const Dao = require("./DAO");
 const ReservationSchema = mongoose.model("Reservation", new Schema ({
     id: {type: Number, index: true},
     client: {
-        email: {type: String, unique: true}
+        id: {type: Number, unique: true}
     },
     session1: {
         id: {type: Number, unique: true}
@@ -35,7 +35,7 @@ module.exports = class DaoReservation extends Dao {
         const schema = ReservationSchema.findOne(filter);
 
         schema.id = object.id;
-        schema.client.email = object.client.email;
+        schema.client.id = object.client.id;
         schema.session1.id = object.session.id;
         schema.paymentMethod.id = object.paymentMethod.id;
         schema.isConfirmed = object.isConfirmed;
@@ -49,7 +49,7 @@ module.exports = class DaoReservation extends Dao {
         return new ReservationSchema({
             id: object.id,
             client: {
-                email: object.client.email
+                id: object.client.id
             },
             session1: {
                 id: object.session.id
