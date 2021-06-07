@@ -47,9 +47,61 @@ module.exports = class DaoRoom extends Dao {
         return await RoomSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = RoomSchema.findOne(filter);
+
+        schema.name = object.name;
+        schema.maxCapacity = object.max_capacity;
+        schema.capacity = object.capacity;
+        schema.schedule.id = object.schedule.id;
+
+        const administrators1 = [];
+        if (object.administrators.length > 0) {
+            object.administrators.values().forEach(administrator => {
+                const schema1 = new TempAdminSchema({
+                    email: administrator.email
+                });
+                administrators1.push(schema1);
+            });
+        }
+
+        const instructors1 = [];
+        if (object.instructors.length > 0) {
+            object.instructors.values().forEach(instructor => {
+                const schema1 = new TempInstructorSchema({
+                    email: instructor.email
+                });
+                instructors1.push(schema1);
+            });
+        }
+
+        const services1 = [];
+        if (object.services.length > 0) {
+            object.services.values().forEach(service => {
+                const schema1 = TempServiceSchema({
+                    id: service.id
+                });
+                services1.push(schema1);
+            });
+        }   
+
+        const calendars1 = [];
+        if (object.calendars.length > 0) {
+            object.calendars.values().forEach(calendar => {
+                const schema1 = TempCalendarSchema({
+                    month: calendar.month,
+                    year: calendar.year
+                });
+                calendars1.push(schema1);
+            });
+        }
+
+        schema.administrators = administrators1;
+        schema.instructors = instructors1;
+        schema.services = services1;
+        schema.calendars = calendars1;
+
+        return await RoomSchema.updateOne(filter, schema);
     }
 
     async getAll() {

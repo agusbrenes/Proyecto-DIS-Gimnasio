@@ -8,7 +8,7 @@ const ReservationSchema = mongoose.model("Reservation", new Schema ({
     client: {
         email: {type: String, unique: true}
     },
-    session: {
+    session1: {
         id: {type: Number, unique: true}
     },
     paymentMethod: {
@@ -31,10 +31,15 @@ module.exports = class DaoReservation extends Dao {
         return await ReservationSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
-    }
+    async modify(filter, object) {
+        const schema = ReservationSchema.findOne(filter);
+
+        schema.id = object.id;
+        schema.client.email = object.client.email;
+        schema.session1.id = object.session.id;
+        schema.paymentMethod.id = object.paymentMethod.id;
+        schema.isConfirmed = object.isConfirmed;
+    }   
 
     async getAll() {
         return ReservationSchema.find({ });
@@ -46,7 +51,7 @@ module.exports = class DaoReservation extends Dao {
             client: {
                 email: object.client.email
             },
-            session: {
+            session1: {
                 id: object.session.id
             },
             paymentMethod: {

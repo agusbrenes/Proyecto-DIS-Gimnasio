@@ -36,17 +36,14 @@ module.exports = class DaoDay extends Dao {
         return await DaySchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
-    }
+    async modify(filter, object) {
+        const schema = DaySchema.findOne(filter);
 
-    async getAll() {
-        return await DaySchema.find({ });
-    }
-
-    toMongoSchema(object) {
-        calendars1 = [];
+        schema.number = object.number;
+        schema.name = object.name;
+        schema.schedule.id = object.schedule.id;
+        
+        const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
                 const tempCalendar = new TempCalendarSchema({
@@ -56,8 +53,40 @@ module.exports = class DaoDay extends Dao {
                 calendars1.push(tempCalendar);
             });
         }
-        
-        sessions1 = [];
+
+        const sessions1 = [];
+        if (object.sessions.length > 0) {
+            object.sessions.values().forEach(session => {
+                const tempSession = new TempSessionSchema({
+                    id: session.id
+                });
+                sesssions1.push(tempSession);
+            });
+        }
+
+        schema.calendars = calendars1;
+        schema.sessions = sessions1;
+
+        return await DaySchema.updateOne(filter);
+    }
+
+    async getAll() {
+        return await DaySchema.find({ });
+    }
+
+    toMongoSchema(object) {
+        const calendars1 = [];
+        if (object.calendars.length > 0) {
+            object.calendars.values().forEach(calendar => {
+                const tempCalendar = new TempCalendarSchema({
+                    month: calendar.month,
+                    year: calendar.year
+                });
+                calendars1.push(tempCalendar);
+            });
+        }
+
+        const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
                 const tempSession = new TempSessionSchema({

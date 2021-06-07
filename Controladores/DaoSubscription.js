@@ -10,7 +10,7 @@ const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
         id: {type: String, unique: true},
         email: {type: String, unique: true}
     },
-    limit: {type: Number},
+    limit1: {type: Number},
     sessionCost: {type: Number}
 }));
 
@@ -28,9 +28,15 @@ module.exports = class DaoSubscription extends Dao {
         return await SubscriptionSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = SubscriptionSchema.findOne(filter);
+
+        schema.id = object.id;
+        schema.fee = object.fee;
+        schema.client.email = object.client.email;
+        schema.client.id = object.client.id;
+        schema.limit1 = object.limit;
+        schema.sessionCost = object.sessionCost;
     }
 
     async getAll() {
@@ -45,7 +51,7 @@ module.exports = class DaoSubscription extends Dao {
                 email: object.client.email,
                 id: object.client.id
             },
-            limit: object.limit,
+            limit1: object.limit,
             sessionCost: object.sessionCost
         });
     }

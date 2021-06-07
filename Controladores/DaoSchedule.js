@@ -23,9 +23,14 @@ module.exports = class DaoSchedule extends Dao {
         return await ScheduleSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = ScheduleSchema.findOne(filter);
+
+        schema.id = object.id;
+        schema.beginTime = object.begin_time;
+        schema.endTime = object.end_time;
+
+        return await ScheduleSchema.updateOne(filter, schema);
     }
 
     toMongoSchema(object) {

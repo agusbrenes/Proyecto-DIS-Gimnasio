@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Admin = require("../Modelo/Admin");
 const { Schema } = mongoose;
 
 const Dao = require("./DAO");
@@ -29,9 +30,18 @@ module.exports = class DaoAdmin extends Dao {
         return await AdminSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = await AdminSchema.findOne(filter);
+
+        schema.email = object.email;
+        schema.password = object.password;
+        schema.id = object.id;
+        schema.firstName = object.firstName;
+        schema.lastName = object.lastName;
+        schema.phone = object.phone;
+        schema.admRoom.roomName = object.admRoom.name;
+
+        return await AdminSchema.updateOne(filter, schema);
     }
 
     async getAll() {

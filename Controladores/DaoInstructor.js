@@ -40,9 +40,41 @@ module.exports = class DaoInstructor extends Dao {
         return await InstructorSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = InstructorSchema.findOne(filter);
+
+        schema.email = object.email;
+        schema.password = object.password;
+        schema.id = object.id;
+        schema.firstName = object.firstName;
+        schema.lastName = object.lastName;
+        schema.phone = object.phone;
+        schema.isTemp = object.isTemp;
+
+        const services1 = [];
+        if (object.services.length > 0) {
+            object.services.values().forEach(service => {
+                const schema1 = new TempServiceSchema({
+                    id: service.id
+                });
+                services1.push(schema1);
+            });
+        }
+
+        const sessions1 = [];
+        if (object.sessions.length > 0) {
+            object.sessions.values().forEach(session => {
+                const schema1 = new TempSessionSchema({
+                    id: session.id
+                });
+                sessions1.push(schema1);
+            });
+        }
+
+        schema.services = services1;
+        schema.sessions = sessions1;
+
+        return await InstructorSchema.updateOne(filter, schema);
     }
 
     async getAll() {

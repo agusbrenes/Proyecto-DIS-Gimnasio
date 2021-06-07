@@ -22,9 +22,13 @@ module.exports = class DaoPaymentMethod extends Dao {
         return await PaymentMethodSchema.remove(filter);
     }
 
-    async modify(id, object) {
-        const schema = this.toMongoSchema(object);
-        return await schema.save(id);
+    async modify(filter, object) {
+        const schema = PaymentMethodSchema.findOne(filter);
+
+        schema.id = object.id;
+        schema.description = object.description;
+
+        return await PaymentMethodSchema.updateOne(filter, schema);
     }
 
     async getAll() {
