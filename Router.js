@@ -23,6 +23,7 @@ const FactoryAdmin = require('./Modelo/FactoryAdmin');
 const FactoryClient = require('./Modelo/FactoryClient');
 const FactoryInstructor = require('./Modelo/FactoryInstructor');
 const ControlClient = require('./Controladores/ControlClient');
+const ControlRoom = require('./Controladores/ControlRoom');
 
 //---------------Rutas----------------------//
 
@@ -335,6 +336,38 @@ router.post("/DeleteAdmin", async (req, res) => {
         res.status(500).json({error: err.message});
     }
 });
+
+//---------------Service----------------------//
+
+router.post("/NewRoom", async (req, res) => {
+    const object = req.body;
+    const control = new ControlRoom();
+    const filter = {name: object.name};
+    try {        
+        const foundRoom = await control.find(filter);
+        if (foundRoom.length != 0){
+            return res.json({msg:true});
+        }
+
+        const savedRoom = await control.save(object);
+        res.json(savedRoom);
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetRooms", (req, res) => {  
+    const control = new ControlRoom();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });    
+});
+
 
 //---------------Service----------------------//
 

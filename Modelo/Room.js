@@ -5,11 +5,11 @@ const Service = require('./Service.js');
 const Instructor = require('./Instructor.js');
 
 module.exports = class Room {
-    constructor(name, max_capacity, capacity, administrator, schedule) {
+    constructor(name, max_capacity, capacity, administrator, beginTime, endTime) {
         this.name = name;
         this.max_capacity = max_capacity;
         this.capacity = capacity;
-        this.schedule = schedule;
+        this.schedule = new Schedule(beginTime, endTime);
         this.administrators = [administrator];
         this.instructors = [];
         this.services = [];
