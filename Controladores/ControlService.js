@@ -1,9 +1,10 @@
 const Service = require("../Modelo/Service");
 const Controller = require("./Controller");
+const DaoService = require("./DaoService");
 
 module.exports = class ControlService extends Controller {
-    constructor(handler){
-        super(handler);
+    constructor() {
+        super(new DaoService());
     }
 
     async save(object) {

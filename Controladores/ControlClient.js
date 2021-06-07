@@ -1,11 +1,8 @@
 const FactoryClient = require("../Modelo/FactoryClient");
 const Reservation = require("../Modelo/Reservation");
 const ControlUsers = require("./ControlUsers");
-
-const DaoClient = require("./DaoClient");
-const DaoSession = require("./DaoSession");
-const DaoSubscription = require('./DaoSubscription');
-const DaoReservation = require('./DaoReservation');
+const ControlSubscription = require('./ControlSubscription');
+const ControlReservation = require("./ControlReservation");
 
 module.exports = class ControlClient extends ControlUsers {
     constructor(handler) {
@@ -27,27 +24,18 @@ module.exports = class ControlClient extends ControlUsers {
         return user;
     }
 
-    // async find(filter) {
-    //     const schema = await super.find(filter);
-    //     console.log(schema);
+    async save(object) {
+        const schema = await super.save(object);
+        return this.toObject(schema);
+    }
+
+    // async modify(filter, object) {
+    //     const schema = await super.modify(filter, object);
     //     return this.toObject(schema);
     // }
 
-    async save(object) {
-        const schema = await super.save(object);
-        console.log('save');
-        return this.toObject(schema);
-    }
-
-    async modify(filter, object) {
-        const schema = await super.modify(filter, object);
-        console.log('modify');
-        return this.toObject(schema);
-    }
-
     setClientReservations(client, reservationArray) {
-        const handler = new DaoReservation();
-        //const control = new ControlReservation(handler);
+        const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
             const reservation = control.find(reservationArray[i]);
             client.addReservation(reservation);
@@ -56,8 +44,7 @@ module.exports = class ControlClient extends ControlUsers {
     }
 
     setClientSubscriptions(client, subscriptionArray) {
-        const handler = new DaoSubscription();
-        //const control = new ControlSubscription(handler);
+        const control = new ControlSubscription();
         for (var i = 0; i < subscriptionArray.length; i++) {
             const subscription = control.find(subscriptionArray[i]);
             client.addSubscription(subscription);
@@ -66,6 +53,11 @@ module.exports = class ControlClient extends ControlUsers {
     }
 
     async reserveSession(idClient, idSession) {
+        const controlSession = new ControlSession();
+        const controlReservation = new ControlReservation();
+
+        const client = this.find({id: idClient});
+        const session = controlSession.find({id: idSession});
         const reservation = new Reservation(
             idClient, 
             idSession
@@ -74,20 +66,24 @@ module.exports = class ControlClient extends ControlUsers {
         client.addReservation(reservation);
         session.addReservation(reservation);
 
-        const daoClient = new DaoClient();
-        const daoSession = new DaoSession();
-
-        await daoClient.save(client);
-        await daoSession.save(session);
-
-        return await this.handler.save(reservation);
+        await this.handler.save(client);
+        await controlSession.save(session);
+        return await controlReservation.save(session);
     }
 
-    async payReservation(idClient, idSession, idPayMethod) {
-        reservation = new Reservation(
-            idClient, 
-            idSession
-        );
-        return await this.handler.save(reservation);
-    }
+    // async payReservation(idClient, idSession, idPayMethod) {
+    //     reservation = new Reservation(
+    //         idClient, 
+    //         idSession
+    //     );
+    //     return await this.handler.save(reservation);
+    // }
+
+    // async paySubscription(idClient, idSession, idPayMethod) {
+    //     reservation = new Reservation(
+    //         idClient, 
+    //         idSession
+    //     );
+    //     return await this.handler.save(reservation);
+    // }
 }

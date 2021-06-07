@@ -1,9 +1,10 @@
 const Session = require("../Modelo/Session");
 const Controller = require("./Controller");
+const DaoSession = require("./DaoSession");
 
 module.exports = class ControlSession extends Controller {
-    constructor(handler){
-        super(handler);
+    constructor() {
+        super(new DaoSession());
     }
 
     async save(object) {
