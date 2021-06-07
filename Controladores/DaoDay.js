@@ -6,11 +6,11 @@ const Dao = require("./DAO");
 const TempCalendarSchema = new Schema({
     month: {type: Number},
     year: {type: Number}
-});
+}, { _id: false });
 
 const TempSessionSchema = new Schema({
     id: {type: Number}
-});
+}, { _id: false });
 
 const DaySchema = mongoose.model("Day", new Schema({
     number: {type: Number},

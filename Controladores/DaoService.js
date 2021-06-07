@@ -5,11 +5,11 @@ const Dao = require("./DAO");
 
 const TempInstructorSchema = new Schema({
     id: {type: Number, unique: true}
-});
+}, { _id: false });
 
 const TempSessionSchema = new Schema({
     id: {type: Number}
-});
+}, { _id: false });
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
     id: {type: Number, index: true},

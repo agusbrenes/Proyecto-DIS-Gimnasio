@@ -5,11 +5,11 @@ const Dao = require("./DAO");
 
 const TempReservationSchema = new Schema({
     id: {type: Number, required: true}
-});
+}, { _id: false });
 
 const TempSubscriptionSchema = new Schema({
     id: {type: Number, required: true}
-});
+}, { _id: false });
 
 const ClientSchema = mongoose.model("Client", new Schema({
     email: {type: String, index: true},

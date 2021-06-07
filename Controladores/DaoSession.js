@@ -5,7 +5,7 @@ const Dao = require("./DAO");
 
 const TempReservationSchema = new Schema({
     id: {type: Number, required: true}
-});
+}, { _id: false });
 
 const SessionSchema = mongoose.model("Session", new Schema ({
     id: {type: Number, index: true},

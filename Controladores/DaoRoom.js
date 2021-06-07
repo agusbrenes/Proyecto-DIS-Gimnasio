@@ -5,20 +5,20 @@ const Dao = require("./DAO");
 
 const TempAdminSchema = new Schema({
     id: {type: Number, unique: true}
-});
+}, { _id: false });
 
 const TempInstructorSchema = new Schema({
     id: {type: Number, unique: true}
-});
+}, { _id: false });
 
 const TempServiceSchema = new Schema({
     id: {type: Number, unique: true}
-});
+}, { _id: false });
 
 const TempCalendarSchema = new Schema({
     month: {type: Number, required: true},
     year: {type: Number, required: true}
-});
+}, { _id: false });
 
 const RoomSchema = mongoose.model("Room", new Schema({
     name: {type: String, index: true},
