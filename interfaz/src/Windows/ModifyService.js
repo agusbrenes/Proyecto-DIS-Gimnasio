@@ -71,20 +71,6 @@ class ModifyService extends Component {
                         Ingrese los nuevos datos del servicio
                     </h4>
                     <div className="form-group">
-                        <label for="description">Seleccione el servicio a modificar</label>
-                        <select
-                            name="name"
-                            className="form-control"
-                            onChange={this.handleChange}
-                        >
-                            {this.state.services.map((name,index) => 
-                                <option key={index}>
-                                    {name}
-                                </option>
-                            )}
-                        </select>
-                    </div>
-                    <div className="form-group">
                         <label for="description">Nombre</label>
                         <input 
                             type="text" 

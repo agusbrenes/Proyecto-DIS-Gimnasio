@@ -2,14 +2,14 @@ module.exports = class Reservation {
     static #id = 0;
 
     constructor(client, session) {
-        this.id = Reservation.#assignId();
+        this.id = Reservation.assignId();
         this.client = client;
         this.session = session;
         this.paymentMethod = null;
         this.isConfirmed = false;
     }
 
-    static #assignId() {
+    static assignId() {
         return ++this.#id;
     }
 

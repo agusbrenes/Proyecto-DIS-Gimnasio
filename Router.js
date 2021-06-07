@@ -89,7 +89,7 @@ router.post("/GetClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
     const control = new ControlClient(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -108,13 +108,13 @@ router.post("/ModifyClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
     const control = new ControlClient(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
             return res.json({msg:true});
         }
-
+        
         const modifiedUser = await control.modify(
             filter, 
             object
@@ -131,7 +131,7 @@ router.post("/DeleteClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
     const control = new ControlClient(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -185,7 +185,7 @@ router.post("/GetInstructor", async (req, res) => {
     const object = req.body;
     const handler = new DaoInstructor();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -226,7 +226,7 @@ router.post("/DeleteInstructor", async (req, res) => {
     const object = req.body;
     const handler = new DaoInstructor();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){

@@ -47,9 +47,10 @@
     align-items: center;
     justify-content: center;
     background-image: url('./Windows/Imagen2.png');
-    background-position: center;
+    background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   .menuClient { 
@@ -61,4 +62,29 @@
     color: #fff;
     font-size: 100px;
     font-size: 3rem;
+  }
+
+  .modifyClient {
+    display: flex;
+    height: 97.9vh;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+  }
+
+  .showData {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./Windows/Imagen2.png');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }

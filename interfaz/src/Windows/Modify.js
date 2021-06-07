@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import swal from "sweetalert2";
 
 class Modify extends Component {
     state = {
@@ -10,7 +11,6 @@ class Modify extends Component {
         phone: "",
         password: "",
         confirm: "",
-        is: ""
     }
 
     //Función que actualiza los states
@@ -25,14 +25,61 @@ class Modify extends Component {
     }
 
     componentDidMount = async () => {
-        await this.setState({
-            is: this.props.match.params.is
+        if (this.props.match.params.is === "Admin"){
+            await this.setState({
+                is: "Administrador"
+            });
+        } else if (this.props.match.params.is === "Instructor"){
+            await this.setState({
+                is: "Instructor",
+            });
+            await this.getData();
+        } else if (this.props.match.params.is === "Client"){
+            await this.setState({
+                is: "Cliente",
+            });
+            await this.getData();
+        }
+    }
+
+    getData = async () => {
+        const dato = {id: this.props.match.params.id }
+        axios({
+            url: "/api/Get"+this.props.match.params.is,
+            method: "POST",
+            data: dato,
+        })
+        .then((response) => {
+            console.log(response.data[0]);
+            this.setState({
+                name: response.data[0].firstName,
+                lastname: response.data[0].lastName,
+                email: response.data[0].email,
+                id: response.data[0].id,
+                phone: response.data[0].phone,
+            })
+        })
+        .catch(() => {
+            swal.fire({
+                title: 'Ocurrio un problema al cargar los datos',
+                icon: 'error'
+            }).then(() => {
+                window.location=("/adminMenu/show"+this.props.match.params.is);
+            });
         });
+    }
+
+    modify = (event) => {
+        event.preventdefault();
+
+        const data = {
+            
+        }
     }
 
     render () {
         return (
-            <div className="modifyClient window">
+            <div className="window">
                 <form onSubmit={this.modify}>
                     <div className="form-group">
                         <label for="email">Correo Electronico</label>

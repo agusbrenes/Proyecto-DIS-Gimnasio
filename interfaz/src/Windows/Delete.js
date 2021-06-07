@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios";
+import swal from "sweetalert2";
 
 class Delete extends Component {
     state = {
         is: "",
         name: "",
-        info: []
+        list: [],
+        index: 0
     }
 
     componentDidMount = async () => {
@@ -13,19 +15,22 @@ class Delete extends Component {
             await this.setState({
                 is: "Administrador",
               });
-        } else if (this.props.match.params.is === "Instru"){
+            await this.getData();
+        } else if (this.props.match.params.is === "Instructor"){
             await this.setState({
                 is: "Instructor",
               });
-            await this.getInstructors();
+            await this.getData();
         } else if (this.props.match.params.is === "Client"){
             await this.setState({
                 is: "Cliente",
               });
+            await this.getData();
         } else {
             await this.setState({
                 is: "Servicio",
               });
+            await this.getData();
         }
     }
 
@@ -40,33 +45,69 @@ class Delete extends Component {
         });
     }
 
-    getInstructors = () => {
+    getData = () => {
         axios({
-            url: "/api/GetInstructors",
+            url: "/api/Get"+this.props.match.params.is+"s",
             method: "GET",
         })
-        .then( async (response) => {
+        .then( (response) => {
             const data = response.data;
-            await data.forEach((item) => {
-                this.state.info.push(item.firstName + " " + item.lastName);
-            })
-            await this.setState({
-                name: data[0].firstName + " " + data[0].lastName
+            data.forEach((item) => {
+                const info = {
+                    name: item.firstName,
+                    lastname: item.lastName,
+                    id: item.id,
+                }
+                this.state.list.push(info);
+            });
+            this.setState({
+                name: data[0].id + " - " + data[0].firstName + " " + data[0].lastName
             }); 
         })
         .catch(() => {
-            console.log("Hubo un error al buscar los Instructores");
+            swal.fire({
+                title: 'Ocurrio un problema al cargar los datos',
+                icon: 'error'
+            }).then(() => {
+                window.location=("/adminMenu/manage"+this.props.match.params.is+"s");
+            });
         });
     }
 
-    delete = () => {
-
+    delete = (event) => {
+        event.preventDefault();
+        
+        const dato = {id: this.state.list[document.form.name.selectedIndex].id};
+        axios({
+            url: "/api/Delete"+this.props.match.params.is,
+            method: "POST",
+            data: dato
+        })
+        .then( (res) => {
+            console.log(res.data.msg);
+            swal.fire({
+                title: 'Listo!',
+                text: 'Se elimino el ' + this.state.is + ' con éxito',
+                icon: 'success'
+            }).then(() => {
+                window.location=("/adminMenu/manage"+this.props.match.params.is+"s");
+            });
+        })
+        .catch( () => {
+            swal.fire({
+                title: 'Error',
+                text: 'Ocurrio un problema, vuelva a intentarlo más tarde',
+                icon: 'error'
+            }).then(() => {
+                window.location=("/adminMenu/manage"+this.props.match.params.is+"s");
+            });
+        })
     }
 
     render () {
         return (
             <div className="window">
-                <form onSubmit={this.delete}>
+                <form onSubmit={this.delete} name="form">
                     <h4 className="text-center">
                         Seleccione el {this.state.is} a eliminar 
                     </h4>
@@ -77,9 +118,9 @@ class Delete extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            {this.state.info.map((inf,index) => 
+                            {this.state.list.map((inf,index) => 
                                 <option key={index}>
-                                    {inf}
+                                    {inf.id} - {inf.name} {inf.lastname}
                                 </option>
                             )}
                         </select>

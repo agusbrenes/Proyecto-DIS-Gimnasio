@@ -14,7 +14,7 @@ class AdminMenu extends Component {
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageInstru")}}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/manageInstructors")}}>
                         Gestionar Instructores
                     </button>
                 </div>
