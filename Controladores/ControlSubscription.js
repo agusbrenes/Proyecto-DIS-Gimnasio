@@ -1,9 +1,10 @@
 const Subscription = require("../Modelo/Subscription");
 const Controller = require("./Controller");
+const DaoSubscription = require('./DaoSubscription');
 
 module.exports = class ControlSubscription extends Controller {
-    constructor(handler){
-        super(handler);
+    constructor() {
+        super(new DaoSubscription());
     }
 
     async save(object) {
