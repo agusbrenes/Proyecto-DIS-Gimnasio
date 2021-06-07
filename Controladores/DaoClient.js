@@ -70,8 +70,8 @@ module.exports = class DaoClient extends Dao {
             });
         }
 
-        schema.reservations = reservations1;
-        schema.subscriptions = subscriptions1;
+        schema.reservations.push(reservations1);
+        schema.subscriptions.push(subscriptions1);
 
         return await ClientSchema.updateOne(filter, schema);
     }
