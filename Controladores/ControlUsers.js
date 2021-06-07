@@ -31,7 +31,9 @@ module.exports = class ControlUsers extends Controller {
 
     async modify(filter, object) {
         const salt = await bcrypt.genSalt();
-        object.password = await bcrypt.hash(object.password, salt);
+        if (!(object.password.length === 0)) {
+            object.password = await bcrypt.hash(object.password, salt);
+        }
         return await this.handler.modify(filter, object);
     }
 

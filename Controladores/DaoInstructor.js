@@ -44,7 +44,9 @@ module.exports = class DaoInstructor extends Dao {
         const schema = InstructorSchema.findOne(filter);
 
         schema.email = object.email;
-        schema.password = object.password;
+        if (!(object.password.length === 0)) {
+            schema.password = object.password;
+        }
         schema.id = object.id;
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;

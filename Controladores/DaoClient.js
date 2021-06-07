@@ -42,7 +42,9 @@ module.exports = class DaoClient extends Dao {
         const schema = await ClientSchema.findOne(filter);
 
         schema.email = object.email;
-        schema.password = object.password;
+        if (!(object.password.length === 0)) {
+            schema.password = object.password;
+        }
         schema.id = object.id;
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;

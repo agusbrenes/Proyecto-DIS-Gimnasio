@@ -34,7 +34,9 @@ module.exports = class DaoAdmin extends Dao {
         const schema = await AdminSchema.findOne(filter);
 
         schema.email = object.email;
-        schema.password = object.password;
+        if (!(object.password.length === 0)) {
+            schema.password = object.password;
+        }
         schema.id = object.id;
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;
