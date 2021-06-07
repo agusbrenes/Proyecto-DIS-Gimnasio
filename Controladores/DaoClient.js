@@ -49,7 +49,7 @@ module.exports = class DaoClient extends Dao {
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;
         schema.phone = object.phone;
-        schema.status = object.phone;
+        schema.status = object.status;
 
         const reservations1 = [];
         if (object.reservations.length > 0) {
