@@ -63,6 +63,7 @@ module.exports = class DaoRoom extends Dao {
                 });
                 administrators1.push(schema1);
             });
+            schema.administrators = administrators1;
         }
 
         const instructors1 = [];
@@ -73,6 +74,7 @@ module.exports = class DaoRoom extends Dao {
                 });
                 instructors1.push(schema1);
             });
+            schema.instructors = instructors1;
         }
 
         const services1 = [];
@@ -83,6 +85,7 @@ module.exports = class DaoRoom extends Dao {
                 });
                 services1.push(schema1);
             });
+            schema.services = services1;
         }   
 
         const calendars1 = [];
@@ -94,12 +97,8 @@ module.exports = class DaoRoom extends Dao {
                 });
                 calendars1.push(schema1);
             });
+            schema.calendars = calendars1;
         }
-
-        schema.administrators = administrators1;
-        schema.instructors = instructors1;
-        schema.services = services1;
-        schema.calendars = calendars1;
 
         return await RoomSchema.updateOne(filter, schema);
     }

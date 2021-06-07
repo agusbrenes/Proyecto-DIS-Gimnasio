@@ -61,6 +61,7 @@ module.exports = class DaoInstructor extends Dao {
                 });
                 services1.push(schema1);
             });
+            schema.services = services1;
         }
 
         const sessions1 = [];
@@ -71,10 +72,8 @@ module.exports = class DaoInstructor extends Dao {
                 });
                 sessions1.push(schema1);
             });
+            schema.sessions = sessions1;
         }
-
-        schema.services = services1;
-        schema.sessions = sessions1;
 
         return await InstructorSchema.updateOne(filter, schema);
     }

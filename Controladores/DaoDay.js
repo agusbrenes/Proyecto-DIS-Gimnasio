@@ -52,6 +52,7 @@ module.exports = class DaoDay extends Dao {
                 });
                 calendars1.push(tempCalendar);
             });
+            schema.calendars = calendars1;
         }
 
         const sessions1 = [];
@@ -62,10 +63,8 @@ module.exports = class DaoDay extends Dao {
                 });
                 sesssions1.push(tempSession);
             });
+            schema.sessions = sessions1;
         }
-
-        schema.calendars = calendars1;
-        schema.sessions = sessions1;
 
         return await DaySchema.updateOne(filter);
     }

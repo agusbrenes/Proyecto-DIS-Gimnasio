@@ -59,9 +59,8 @@ module.exports = class DaoSession extends Dao {
                 });
                 reservations1.push(schema1);
             });
+            schema.reservations = reservations1;
         }
-
-        schema.reservations = reservations1;
 
         return await SessionSchema.updateOne(filter, schema);
     }

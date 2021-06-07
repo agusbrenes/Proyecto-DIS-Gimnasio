@@ -49,9 +49,8 @@ module.exports = class DaoCalendar extends Dao {
                 });
                 days1.push(schema1);
             });
+            schema.days = days1;
         }
-
-        schema.days = days1;
         
         return await CalendarSchema.updateOne(filter, schema);
     }

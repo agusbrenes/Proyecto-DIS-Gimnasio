@@ -52,6 +52,7 @@ module.exports = class DaoService extends Dao {
                 });
                 instructors1.push(schema1);
             });
+            schema.instructors = instructors1;
         }
 
         const sessions1 = [];
@@ -61,11 +62,9 @@ module.exports = class DaoService extends Dao {
                     id: session.id
                 });
                 sessions1.push(schema1);
-            }); 
+            });
+            schema.sessions = sessions1;
         }
-
-        schema.instructors = instructors1;
-        schema.sessions = sessions1;
 
         return await ServiceSchema.updateOne(filter, schema);
     }
