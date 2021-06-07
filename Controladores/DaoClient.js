@@ -59,6 +59,7 @@ module.exports = class DaoClient extends Dao {
                 });
                 reservations1.push(schema1);
             });
+            schema.reservations = reservations1;
         }
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
@@ -68,10 +69,8 @@ module.exports = class DaoClient extends Dao {
                 });
                 subscriptions1.push(schema1);
             });
+            schema.subscriptions = subscriptions1;
         }
-
-        schema.reservations.push(reservations1);
-        schema.subscriptions.push(subscriptions1);
 
         return await ClientSchema.updateOne(filter, schema);
     }
