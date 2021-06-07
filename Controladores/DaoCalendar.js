@@ -6,7 +6,7 @@ const Dao = require("./DAO");
 const DayTempSchema = new Schema ({
     number: {type: Number},
     name: {type: String}
-});
+}, { _id: false });
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
