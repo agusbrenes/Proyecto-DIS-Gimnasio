@@ -19,9 +19,13 @@ class AdminManage extends Component {
             await this.setState({
                 is: "Cliente",
               });
-        } else {
+        } else if (this.props.match.params.is === "Services"){
             await this.setState({
                 is: "Servicio",
+              });
+        } else {
+            await this.setState({
+                is: "Room",
               });
         }
     }
@@ -34,6 +38,8 @@ class AdminManage extends Component {
                 window.location=("/register/client");
             else if (this.state.is === "Instructor")
                 window.location=("/register/instructor");
+            else if (this.state.is === "Room")
+                    window.location=("/newRoom");
             else
                 window.location=("/newService");
         } else if (funct === "Modify"){
@@ -43,6 +49,8 @@ class AdminManage extends Component {
                 window.location=("/adminMenu/showClient");
             else if (this.state.is === "Instructor")
                 window.location=("/adminMenu/showInstructor");
+            else if (this.state.is === "Room")
+                window.location=("/adminMenu/viewRoom");
             else
                 window.location=("/adminMenu/changeService");
         } else {
@@ -52,6 +60,8 @@ class AdminManage extends Component {
                 window.location=("/deleteClient");
             else if (this.state.is === "Instructor")
                 window.location=("/deleteInstructor");
+            else if (this.state.is === "Room")
+                    window.location=("/deleteRoom");
             else
                 window.location=("/deleteService");
         }

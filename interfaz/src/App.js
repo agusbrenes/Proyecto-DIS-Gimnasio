@@ -13,6 +13,7 @@ import ModifyService from './Windows/ModifyService';
 import ClientMenu from './Windows/ClientMenu';
 import ShowData from './Windows/ShowData';
 import ShowService from './Windows/ShowService';
+import NewRoom from './Windows/NewRoom';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/adminMenu/show:is" component={ShowData}/>
         <Route exact path="/modify:is/:id" component={Modify}/>
         <Route exact path="/newService" component={NewService}/>
+        <Route exact path="/newRoom" component={NewRoom}/>
         <Route exact path="/adminMenu/changeService" component={ShowService}/>
         <Route exact path="/adminMenu/changeService/:name" component={ModifyService}/>
         <Route exact path="/delete:is" component={Delete}/>

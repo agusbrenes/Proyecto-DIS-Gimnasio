@@ -70,7 +70,8 @@ router.post("/NewClient", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (foundUser){
+        console.log(foundUser);
+        if (foundUser.length != 0){
             return res.json({msg:true});
         }
 
@@ -166,7 +167,7 @@ router.post("/NewInstructor", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (foundUser){
+        if (foundUser.length != 0){
             return res.json({msg:true});
         }
 
@@ -261,7 +262,7 @@ router.post("/NewAdmin", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (foundUser){
+        if (foundUser.length != 0){
             return res.json({msg:true});
         }
 
@@ -343,7 +344,7 @@ router.post("/NewService", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundService = await control.find(filter);
-        if (foundService){
+        if (foundService.length != 0){
             return res.json({msg:true});
         }
 

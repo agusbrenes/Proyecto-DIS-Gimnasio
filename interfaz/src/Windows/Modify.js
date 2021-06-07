@@ -70,11 +70,43 @@ class Modify extends Component {
     }
 
     modify = (event) => {
-        event.preventdefault();
+        event.preventDefault();
 
         const data = {
-            
+            id: this.state.id,
+            email: this.state.email,
+            phone: this.state.phone,
+            firstName: this.state.name,
+            lastName: this.state.lastName,
+            password: this.state.password,
+            status: "Al dia",
+	        reservations: [],
+	        subscriptions:[],
         }
+        axios({
+            url: "/api/Modify"+this.props.match.params.is,
+            method: "POST",
+            data: data
+        })
+        .then( (res) => {
+            console.log(res.data.msg);
+            swal.fire({
+                title: 'Listo!',
+                text: 'Se modifico el ' + this.state.is + ' con éxito',
+                icon: 'success'
+            }).then(() => {
+                window.location=("/adminMenu/show"+this.props.match.params.is);
+            });
+        })
+        .catch( () => {
+            swal.fire({
+                title: 'Error',
+                text: 'Ocurrio un problema, vuelva a intentarlo más tarde',
+                icon: 'error'
+            }).then(() => {
+                window.location=("/adminMenu/show"+this.props.match.params.is);
+            });
+        })
     }
 
     render () {
