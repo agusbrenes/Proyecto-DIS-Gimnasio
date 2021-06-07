@@ -112,7 +112,7 @@ module.exports = class Room {
 
     modifySchedule(bt, et) {
         this.schedule.setBeginTime(bt);
-        this.schedule.setEndTime(bt);
+        this.schedule.setEndTime(et);
     }
 
     addAdmin(adm) {
