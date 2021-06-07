@@ -10,20 +10,14 @@ const { JWT_SECRET } = config;
 // Controladores
 const ControlUsers = require('./Controladores/ControlUsers');
 const ControlService = require('./Controladores/ControlService');
+const ControlAdmin = require('./Controladores/ControlAdmin');
+const ControlClient = require('./Controladores/ControlClient');
+const ControlRoom = require('./Controladores/ControlRoom');
 
 // DAOs
 const DaoClient = require('./Controladores/DaoClient');
 const DaoInstructor = require('./Controladores/DaoInstructor');
 const DaoAdmin = require('./Controladores/DaoAdmin');
-const DaoService = require('./Controladores/DaoService');
-const DaoSession = require('./Controladores/DaoSession');
-
-// Factories - Patron Creacional
-const FactoryAdmin = require('./Modelo/FactoryAdmin');
-const FactoryClient = require('./Modelo/FactoryClient');
-const FactoryInstructor = require('./Modelo/FactoryInstructor');
-const ControlClient = require('./Controladores/ControlClient');
-const ControlRoom = require('./Controladores/ControlRoom');
 
 //---------------Rutas----------------------//
 
@@ -258,8 +252,7 @@ router.get("/GetInstructors", (req, res) => {
 
 router.post("/NewAdmin", async (req, res) => {
     const object = req.body;
-    const handler = new DaoAdmin();
-    const control = new ControlUsers(handler);
+    const control = new ControlAdmin();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -280,9 +273,8 @@ router.post("/NewAdmin", async (req, res) => {
 // Ya funciona
 router.post("/GetAdmin", async (req, res) => {
     const object = req.body;
-    const handler = new DaoAdmin();
-    const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const control = new ControlAdmin();
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -298,8 +290,7 @@ router.post("/GetAdmin", async (req, res) => {
 // Ya funciona
 router.post("/ModifyAdmin", async (req, res) => {
     const object = req.body;
-    const handler = new DaoAdmin();
-    const control = new ControlUsers(handler);
+    const control = new ControlAdmin();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -321,8 +312,7 @@ router.post("/ModifyAdmin", async (req, res) => {
 // Ya funciona
 router.post("/DeleteAdmin", async (req, res) => {
     const object = req.body;
-    const handler = new DaoAdmin();
-    const control = new ControlUsers(handler);
+    const control = new ControlAdmin();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -338,8 +328,7 @@ router.post("/DeleteAdmin", async (req, res) => {
 });
 
 router.get("/GetAdmins", (req, res) => {    
-    const handler = new DaoAdmin();
-    const control = new ControlUsers(handler);
+    const control = new ControlAdmin();
     control.getAll()
     .then((data) => {
         res.json(data);
