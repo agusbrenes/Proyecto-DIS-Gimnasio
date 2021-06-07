@@ -156,7 +156,7 @@ module.exports = class DaoRoom extends Dao {
             schedule: {
                 id: object.schedule.id
             },
-            administrators = administrators1,
+            administrators: administrators1,
             instructors: instructors1,
             services: services1,
             calendars: calendars1
