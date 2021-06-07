@@ -15,6 +15,10 @@ module.exports = class Dao {
         throw new Error("Abstract Method has no implementation");
     }
 
+    async getAll() {
+        throw new Error("Abstract Method has no implementation");
+    }
+
     toMongoSchema(object) {
         throw new Error("Abstract Method has no implementation");
     }    

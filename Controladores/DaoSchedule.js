@@ -33,6 +33,10 @@ module.exports = class DaoSchedule extends Dao {
         return await ScheduleSchema.updateOne(filter, schema);
     }
 
+    async getAll() {
+        return await ScheduleSchema.find({ });
+    }
+
     toMongoSchema(object) {
         return new ScheduleSchema({
             id: object.id,

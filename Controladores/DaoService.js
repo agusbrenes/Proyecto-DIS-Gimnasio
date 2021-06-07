@@ -69,6 +69,10 @@ module.exports = class DaoService extends Dao {
         return await ServiceSchema.updateOne(filter, schema);
     }
 
+    async getAll() {
+        return await ServiceSchema.find({ });
+    }
+
     toMongoSchema(object) {
         const instructors1 = [];
         if (object.instructors.length > 0) {
