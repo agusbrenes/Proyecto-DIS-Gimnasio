@@ -337,6 +337,18 @@ router.post("/DeleteAdmin", async (req, res) => {
     }
 });
 
+router.get("/GetAdmins", (req, res) => {    
+    const handler = new DaoAdmin();
+    const control = new ControlUsers(handler);
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });    
+});
+
 //---------------Service----------------------//
 
 router.post("/NewRoom", async (req, res) => {
