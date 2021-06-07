@@ -67,7 +67,7 @@ router.post("/NewClient", async (req, res) => {
     const object = req.body;
     const handler = new DaoClient();
     const control = new ControlClient(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (foundUser){
@@ -163,7 +163,7 @@ router.post("/NewInstructor", async (req, res) => {
     const object = req.body;
     const handler = new DaoInstructor();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (foundUser){
@@ -203,7 +203,7 @@ router.post("/ModifyInstructor", async (req, res) => {
     const object = req.body;
     const handler = new DaoInstructor();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -258,7 +258,7 @@ router.post("/NewAdmin", async (req, res) => {
     const object = req.body;
     const handler = new DaoAdmin();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (foundUser){
@@ -298,7 +298,7 @@ router.post("/ModifyAdmin", async (req, res) => {
     const object = req.body;
     const handler = new DaoAdmin();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -321,7 +321,7 @@ router.post("/DeleteAdmin", async (req, res) => {
     const object = req.body;
     const handler = new DaoAdmin();
     const control = new ControlUsers(handler);
-    const filter = {email: object.email};
+    const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser){
@@ -339,8 +339,7 @@ router.post("/DeleteAdmin", async (req, res) => {
 
 router.post("/NewService", async (req, res) => {
     const object = req.body;
-    const handler = new DaoService();
-    const control = new ControlService(handler);
+    const control = new ControlService();
     const filter = {id: object.id};
     try {        
         const foundService = await control.find(filter);
@@ -356,9 +355,8 @@ router.post("/NewService", async (req, res) => {
     }
 });
 
-router.get("/GetServices", (req, res) => {    
-    const handler = new DaoService();
-    const control = new ControlService(handler);
+router.get("/GetServices", (req, res) => {  
+    const control = new ControlService();
     control.getAll()
     .then((data) => {
         res.json(data);
