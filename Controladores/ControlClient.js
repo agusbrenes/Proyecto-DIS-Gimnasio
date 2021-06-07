@@ -86,12 +86,12 @@ module.exports = class ControlClient extends ControlUsers {
     //     return await this.handler.save(reservation);
     // }
 
-    getClientReservations(idClient) {
+    async getClientReservations(idClient) {
         const controlReservation = new ControlReservation();
         return await controlReservation.find({client: idClient});
     }
 
-    getServices() {
+    async getServices() {
         const controlService = new ControlService();
         return await controlService.getAll();
     }
