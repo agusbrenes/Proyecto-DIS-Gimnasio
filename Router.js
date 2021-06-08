@@ -60,7 +60,7 @@ router.post("/NewClient", async (req, res) => {
     try {        
         const foundUser = await control.find(filter);
         console.log(foundUser);
-        if (foundUser.length != 0){
+        if (foundUser.length != 0) {
             return res.json({msg:true});
         }
 
@@ -69,7 +69,7 @@ router.post("/NewClient", async (req, res) => {
         );
         res.json(savedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -81,13 +81,13 @@ router.post("/GetClient", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         
         res.json(foundUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -99,7 +99,7 @@ router.post("/ModifyClient", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         
@@ -109,7 +109,7 @@ router.post("/ModifyClient", async (req, res) => {
         );
         res.json(modifiedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -121,13 +121,13 @@ router.post("/DeleteClient", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -143,6 +143,47 @@ router.get("/GetClients", (req, res) => {
     });    
 });
 
+//Hecho por Eduardo, puede no funcionar
+router.post("/ReserveSession", async (req, res) => {
+    const control = new ControlClient();
+    const object = req.body;
+    try {
+        const reservationSuccess = await control.reserveSession(object.idClient, object.idSession);
+        res.json(reservationSuccess);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+//Hecho por Eduardo, puede no funcionar
+router.post("/PayReservation", async (req, res) => {
+    const control = new ControlClient();
+    const object = req.body;
+    try {
+        const paymentSuccess = await control.payReservation(object.idClient, object.idSession, object.idPayMethod);
+        res.json(paymentSuccess);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+//Hecho por Eduardo, puede no funcionar
+router.post("/GetClientReservation", (req, res) => {
+    const control = new ControlClient();
+    const object = req.body;
+    const filter = {id: object.idClient};
+    try {
+        const foundUser = await control.find(filter);
+        if(!foundUser) {
+            return res.json({msg:true});
+        }
+        const clientReservations = await control.getClientReservations(object.idClient);
+        res.json(clientReservations);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
 //---------------Instructor----------------------//
 
 router.post("/NewInstructor", async (req, res) => {
@@ -151,7 +192,7 @@ router.post("/NewInstructor", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (foundUser.length != 0){
+        if (foundUser.length != 0) {
             return res.json({msg:true});
         }
 
@@ -160,7 +201,7 @@ router.post("/NewInstructor", async (req, res) => {
         );
         res.json(savedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -172,12 +213,12 @@ router.post("/GetInstructor", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         res.json(foundUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -189,7 +230,7 @@ router.post("/ModifyInstructor", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
 
@@ -199,7 +240,7 @@ router.post("/ModifyInstructor", async (req, res) => {
         );
         res.json(modifiedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -211,13 +252,13 @@ router.post("/DeleteInstructor", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -241,7 +282,7 @@ router.post("/NewAdmin", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (foundUser.length != 0){
+        if (foundUser.length != 0) {
             return res.json({msg:true});
         }
 
@@ -250,7 +291,7 @@ router.post("/NewAdmin", async (req, res) => {
         );
         res.json(savedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -262,12 +303,12 @@ router.post("/GetAdmin", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         res.json(foundUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -279,7 +320,7 @@ router.post("/ModifyAdmin", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
 
@@ -289,7 +330,7 @@ router.post("/ModifyAdmin", async (req, res) => {
         );
         res.json(modifiedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -301,13 +342,13 @@ router.post("/DeleteAdmin", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser){
+        if (!foundUser) {
             return res.json({msg:true});
         }
         const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -331,14 +372,14 @@ router.post("/NewRoom", async (req, res) => {
     const filter = {name: object.name};
     try {        
         const foundRoom = await control.find(filter);
-        if (foundRoom.length != 0){
+        if (foundRoom.length != 0) {
             return res.json({msg:true});
         }
 
         const savedRoom = await control.save(object);
         res.json(savedRoom);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
@@ -362,14 +403,14 @@ router.post("/NewService", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundService = await control.find(filter);
-        if (foundService.length != 0){
+        if (foundService.length != 0) {
             return res.json({msg:true});
         }
 
         const savedService = await control.save(object);
         res.json(savedService);
     }
-    catch (err){
+    catch (err) {
         res.status(500).json({error: err.message});
     }
 });
