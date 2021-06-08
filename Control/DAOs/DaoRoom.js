@@ -3,8 +3,9 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const TempAdminSchema = mongoose.Schema({
-    id: {type: Number, unique: true}
+const TempAdminSchema = new Schema({
+    _id: false,
+    id: {type: String, unique: true}
 });
 
 const TempInstructorSchema = new Schema({
