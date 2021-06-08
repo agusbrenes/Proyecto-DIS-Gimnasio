@@ -11,6 +11,14 @@ module.exports = class Schedule {
         return ++this.#id;
     }
 
+    setId(id) {
+        this.id = id;
+    }
+
+    getId() {
+        return this.id;
+    }
+
     get getBeginTime() {
         return this.begin_time;
     }

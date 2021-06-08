@@ -29,10 +29,12 @@ module.exports = class ControlAdmin extends ControlUsers {
         return this.toObject(schema);
     }
 
-    setAdminRoom(admin, adminRoom) {
+    async setAdminRoom(admin, adminRoom) {
         const control = new ControlRoom();
-        const roomQuery = control.find({admRoom: adminRoom.roomName});
-        const room = roomQuery[0];
+
+        const roomQuery = await control.find({admRoom: adminRoom.roomName});
+        const room = control.toObject(roomQuery[0]); // falta toObject
+
         admin.setAdmRoom(room);
         return admin;
     }

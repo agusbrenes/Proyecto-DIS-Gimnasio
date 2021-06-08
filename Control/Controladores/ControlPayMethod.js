@@ -14,4 +14,10 @@ module.exports = class ControlPayMethod extends Controller {
         );
         return await this.handler.save(method);
     }
+
+    toObject(schema) {
+        return new PaymentMethod(
+            schema.description
+        );
+    }
 }

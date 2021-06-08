@@ -16,7 +16,7 @@ module.exports = class ControlClient extends ControlUsers {
         this.factory = new FactoryClient();
     }
 
-    toObject(schema) {
+    async toObject(schema) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -25,8 +25,8 @@ module.exports = class ControlClient extends ControlUsers {
             schema.lastName,
             schema.phone
         );
-        user = this.setClientReservations(user, schema.reservations);
-        user = this.setClientSubscriptions(user, schema.subscriptions);
+        user = await this.setClientReservations(user, schema.reservations);
+        user = await this.setClientSubscriptions(user, schema.subscriptions);
         return user;
     }
 
@@ -35,19 +35,19 @@ module.exports = class ControlClient extends ControlUsers {
         return this.toObject(schema);
     }
 
-    setClientReservations(client, reservationArray) {
+    async setClientReservations(client, reservationArray) {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
-            const reservation = control.find(reservationArray[i]);
+            const reservation = await control.find(reservationArray[i]);
             client.addReservation(reservation);
         }
         return client;
     }
 
-    setClientSubscriptions(client, subscriptionArray) {
+    async setClientSubscriptions(client, subscriptionArray) {
         const control = new ControlSubscription();
         for (var i = 0; i < subscriptionArray.length; i++) {
-            const subscription = control.find(subscriptionArray[i]);
+            const subscription = await control.find(subscriptionArray[i]);
             client.addSubscription(subscription);
         }
         return client;
@@ -59,12 +59,12 @@ module.exports = class ControlClient extends ControlUsers {
 
         // Obtener Client de BD
         const clientQuery = await this.find({id: idClient});
-        const client = this.toObject(clientQuery[0]);
+        const client = await this.toObject(clientQuery[0]);
 
         // Obtener Session de BD
         const sessionQuery = await controlSession.find({id: idSession});
-        const session = this.toObject(sessionQuery[0]); //////
-        const reservation = new Reservation(
+        const session = await this.toObject(sessionQuery[0]); //////
+        const reservation = new Reservation( ///
             idClient, 
             idSession
         );
@@ -87,11 +87,11 @@ module.exports = class ControlClient extends ControlUsers {
             session1: {id: idSession}
         };
         const reservationQuery = await controlReservation.find(query);
-        const reservation = controlReservation.toObject(reservationQuery[0]); ////
+        const reservation = await controlReservation.toObject(reservationQuery[0]);
 
         // Obtener PaymentMethod de BD
         const payMethodQuery = await controlPayMethod.find({id: idPayMethod});
-        const payMethod = controlPayMethod.toObject(payMethodQuery[0]); ////
+        const payMethod = await controlPayMethod.toObject(payMethodQuery[0]); 
         
         reservation.setPaymentMethod(payMethod);
         reservation.pay();

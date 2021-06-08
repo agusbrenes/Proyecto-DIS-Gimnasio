@@ -1,8 +1,5 @@
-const Administrator = require('./Admin.js');
 const Calendar = require('./Calendar.js');
 const Schedule = require('./Schedule.js');
-const Service = require('./Service.js');
-const Instructor = require('./Instructor.js');
 
 module.exports = class Room {
     constructor(name, maxCapacity, capacity, administrator, beginTime, endTime) {

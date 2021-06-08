@@ -13,6 +13,10 @@ module.exports = class Reservation {
         return ++this.#id;
     }
 
+    setId(id) {
+        this.id = id;
+    }
+
     get getId() {
         return this.id;
     }
