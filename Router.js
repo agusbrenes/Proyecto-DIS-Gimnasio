@@ -364,7 +364,7 @@ router.get("/GetAdmins", (req, res) => {
     });    
 });
 
-//---------------Service----------------------//
+//---------------Rooms----------------------//
 
 router.post("/NewRoom", async (req, res) => {
     const object = req.body;
@@ -380,6 +380,58 @@ router.post("/NewRoom", async (req, res) => {
         res.json(savedRoom);
     }
     catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetRoom", async (req, res) => {
+    const object = req.body;
+    const control = new ControlRoom();
+    const filter = {name: object.name};
+    try {
+        const foundRoom = await control.find(filter);
+        if (!foundRoom) {
+            return res.json({msg:true});
+        }
+        res.json(foundRoom);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyRoom", async (req, res) => {
+    const object = req.body;
+    const control = new ControlRoom();
+    const filter = {name: object.name};
+    try {
+        const foundRoom = await control.find(filter);
+        if (!foundRoom) {
+            return res.json({msg:true});
+        }
+
+        const modifiedRoom = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedRoom);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteRoom", async (req, res) => {
+    const object = req.body;
+    const control = new ControlRoom();
+    const filter = {name: object.name};
+    try {
+        const foundRoom = await control.find(filter);
+        if (!foundRoom) {
+            return res.json({msg:true});
+        }
+
+        const deletedRoom = await control.delete(filter);
+        res.json(deletedRoom);
+    } catch (err) {
         res.status(500).json({error: err.message});
     }
 });
