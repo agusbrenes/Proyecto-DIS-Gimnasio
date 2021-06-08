@@ -2,35 +2,14 @@ import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
 
-class Delete extends Component {
+class DeleteRoom extends Component {
     state = {
-        is: "",
         name: "",
         list: []
     }
 
     componentDidMount = () => {
-        if (this.props.match.params.is === "Admin"){
-            this.setState({
-                is: "Administrador",
-              });
-            this.getData();
-        } else if (this.props.match.params.is === "Instructor"){
-            this.setState({
-                is: "Instructor",
-              });
-            this.getData();
-        } else if (this.props.match.params.is === "Client"){
-            this.setState({
-                is: "Cliente",
-              });
-            this.getData();
-        } else {
-            this.setState({
-                is: "Servicio",
-              });
-            this.getData();
-        }
+        this.getData();
     }
 
     //Función que actualiza los states
@@ -46,21 +25,16 @@ class Delete extends Component {
 
     getData = () => {
         axios({
-            url: "/api/Get"+this.props.match.params.is+"s",
+            url: "/api/GetRooms",
             method: "GET",
         })
         .then( (response) => {
             const data = response.data;
             data.forEach((item) => {
-                const info = {
-                    name: item.firstName,
-                    lastname: item.lastName,
-                    id: item.id,
-                }
-                this.state.list.push(info);
+                this.state.list.push(item.name);
             });
             this.setState({
-                name: data[0].id + " - " + data[0].firstName + " " + data[0].lastName
+                name: data[0].name
             }); 
         })
         .catch(() => {
@@ -76,9 +50,9 @@ class Delete extends Component {
     delete = (event) => {
         event.preventDefault();
         
-        const dato = {id: this.state.list[document.form.name.selectedIndex].id};
+        const dato = {name: this.state.list[document.form.name.selectedIndex]};
         axios({
-            url: "/api/Delete"+this.props.match.params.is,
+            url: "/api/DeleteRoom",
             method: "POST",
             data: dato
         })
@@ -86,7 +60,7 @@ class Delete extends Component {
             console.log(res.data.msg);
             swal.fire({
                 title: 'Listo!',
-                text: 'Se elimino el ' + this.state.is + ' con éxito',
+                text: 'Se elimino el Room con éxito',
                 icon: 'success'
             }).then(() => {
                 window.history.back();
@@ -108,10 +82,10 @@ class Delete extends Component {
             <div className="window">
                 <form onSubmit={this.delete} name="form">
                     <h4 className="text-center">
-                        Seleccione el {this.state.is} a eliminar 
+                        Seleccione el Room a eliminar 
                     </h4>
                     <div className="form-group">
-                        <label for="description">{this.state.is}</label>
+                        <label for="description">Room</label>
                         <select
                             name="name"
                             className="form-control"
@@ -119,7 +93,7 @@ class Delete extends Component {
                         >
                             {this.state.list.map((inf,index) => 
                                 <option key={index}>
-                                    {inf.id} - {inf.name} {inf.lastname}
+                                    {inf}
                                 </option>
                             )}
                         </select>
@@ -133,4 +107,4 @@ class Delete extends Component {
     }
 }
 
-export default Delete;
+export default DeleteRoom;

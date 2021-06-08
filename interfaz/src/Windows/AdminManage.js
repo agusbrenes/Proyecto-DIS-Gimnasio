@@ -33,11 +33,11 @@ class AdminManage extends Component {
     click = (funct) => {
         if (funct === "Add"){
             if (this.state.is === "Administrador")
-                window.location=("/register/admin");
+                window.location=("/register/Admin");
             else if (this.state.is === "Cliente")
-                window.location=("/register/client");
+                window.location=("/register/Client");
             else if (this.state.is === "Instructor")
-                window.location=("/register/instructor");
+                window.location=("/register/Instructor");
             else if (this.state.is === "Room")
                     window.location=("/newRoom");
             else
@@ -61,7 +61,7 @@ class AdminManage extends Component {
             else if (this.state.is === "Instructor")
                 window.location=("/deleteInstructor");
             else if (this.state.is === "Room")
-                    window.location=("/deleteRoom");
+                    window.location=("/eraseRoom");
             else
                 window.location=("/deleteService");
         }

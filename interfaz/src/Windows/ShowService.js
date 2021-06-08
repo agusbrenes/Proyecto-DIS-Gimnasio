@@ -50,13 +50,13 @@ class ShowService extends Component {
     }
 
     modify = (id) => {
-        window.location=("/adminMenu/changeService/"+id);
+        window.history.back();
     }
 
     render() {
         return (
             <div className="showData">
-                <h4 >
+                <h4>
                     Seleccione el Servicio a modificar
                 </h4>
                 <div className="col-md-12">
@@ -82,6 +82,11 @@ class ShowService extends Component {
                             </div>
                         </div>
                         )}
+                    </div>
+                    <div className="card-footer text-center">
+                        <button className="btn btn-dark button" onClick={() => window.history.back()}>
+                            Regresar
+                        </button>
                     </div>
                 </div>
             </div>

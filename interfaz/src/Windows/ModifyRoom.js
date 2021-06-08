@@ -41,7 +41,7 @@ class NewRoom extends Component {
 
     getData = () => {
         axios({
-            url: "/api/GetAdmins",
+            url: "/api/GetRoom",
             method: "GET",
         })
         .then( async (response) => {
@@ -203,7 +203,7 @@ class NewRoom extends Component {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
-                        Crear
+                        Modificar
                     </button>
                 </form>
             </div>

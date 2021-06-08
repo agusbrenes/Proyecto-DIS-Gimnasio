@@ -29,6 +29,7 @@ class Modify extends Component {
             await this.setState({
                 is: "Administrador"
             });
+            await this.getData();
         } else if (this.props.match.params.is === "Instructor"){
             await this.setState({
                 is: "Instructor",
@@ -64,7 +65,7 @@ class Modify extends Component {
                 title: 'Ocurrio un problema al cargar los datos',
                 icon: 'error'
             }).then(() => {
-                window.location=("/adminMenu/show"+this.props.match.params.is);
+                window.history.back();
             });
         });
     }

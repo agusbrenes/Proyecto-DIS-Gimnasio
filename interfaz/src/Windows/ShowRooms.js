@@ -2,9 +2,8 @@ import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
 
-class ShowData extends Component {
+class ShowRooms extends Component {
     state = {
-        is: "",
         data: [],
         list: []
     }
@@ -21,38 +20,22 @@ class ShowData extends Component {
     }
 
     componentWillMount = () => {
-        if (this.props.match.params.is === "Admin"){
-            this.setState({
-                is: "Administrador"
-            });
-            this.getData();
-        } else if (this.props.match.params.is === "Instructor"){
-            this.setState({
-                is: "Instructor",
-            });
-            this.getData();
-        } else if (this.props.match.params.is === "Client"){
-            this.setState({
-                is: "Cliente",
-            });
-            this.getData();
-        }
+        this.getData();
     }
 
     getData = async () => {
         await axios({
-            url: "/api/Get"+this.props.match.params.is+"s",
+            url: "/api/GetRooms",
             method: "GET",
         })
         .then( async (response) => {
             const data = response.data;
             await data.forEach((item) => {
                 const info = {
-                    name: item.firstName,
-                    lastname: item.lastName,
-                    email: item.email,
-                    id: item.id,
-                    phone: item.phone,
+                    name: item.name,
+                    capacity: item.capacity,
+                    maxCapacity: item.maxCapacity,
+                    
                 }
                 this.state.list.push(info);
             });
@@ -71,20 +54,14 @@ class ShowData extends Component {
     }
 
     modify = (id) => {
-        console.log(id);
-        if (this.state.is === "Administrador")
-            window.location=("/modifyAdmin/"+id);
-        else if (this.state.is === "Cliente")
-            window.location=("/modifyClient/"+id);
-        else
-            window.location=("/modifyInstructor/"+id);
+
     }
 
     render() {
         return (
             <div className="showData">
                 <h4 >
-                    Seleccione el {this.state.is} a modificar
+                    Seleccione el Room a modificar
                 </h4>
                 <div className="col-md-12">
                     <div className="row">
@@ -95,13 +72,13 @@ class ShowData extends Component {
                                     {post.name} {post.lastname}
                                 </p>
                                 <p className="text-center">
-                                    Cédula: {post.id}
+                                    Capacidad Máxima: {post.maxCapacity}
                                 </p>
                                 <p className="text-center">
-                                    Teléfono: {post.phone}
+                                    Aforo Recomendado: {post.capacity}
                                 </p>
                                 <p className="text-center">
-                                    Email: {post.email}
+                                    Administrador asignado: 
                                 </p>
                                 <div className="card-footer text-center">
                                     <button className="btn btn-danger button" onClick={() => this.modify(post.id)}>
@@ -123,4 +100,4 @@ class ShowData extends Component {
     }
 }
 
-export default ShowData;
+export default ShowRooms;

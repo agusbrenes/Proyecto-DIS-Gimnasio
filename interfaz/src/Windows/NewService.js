@@ -5,7 +5,7 @@ const swal = require('sweetalert2');
 
 class NewService extends Component {
     state = {
-        description: "",
+        name: "",
         capacity: "",
         room: "",
         instructor: "",
@@ -25,13 +25,16 @@ class NewService extends Component {
         });
     }
 
-    componentDidMount = async () => {
-        await this.getInstructors();
+    componentDidMount = () => {
+        this.getInstructors();
+        this.getRooms();
     }
 
     fill = () => {
-        for(var j=1; j <= 30; j++){
-            this.state.nums.push(j);
+        if(this.state.nums.length === 0){
+            for(var j=1; j <= 30; j++){
+                this.state.nums.push(j);
+            }
         }
     }
 
@@ -43,11 +46,18 @@ class NewService extends Component {
         .then( async (response) => {
             const data = response.data;
             await data.forEach((item) => {
-                this.state.instructors.push(item.firstName + " " + item.lastName);
+                const info = {
+                    name: item.firstName,
+                    lastname: item.lastName,
+                    email: item.email,
+                    id: item.id,
+                    phone: item.phone,
+                }
+                this.state.instructors.push(info);
+            });
+            this.setState({
+                instructor: data[0].id + " - " + data[0].firstName + data[0].lastName
             })
-            await this.setState({
-                instructor: data[0].firstName + " " + data[0].lastName
-            }); 
         })
         .catch(() => {
             console.log("Hubo un error al buscar los Instructores");
@@ -55,29 +65,34 @@ class NewService extends Component {
     }
 
     getRooms = () => {
-        axios.get("/api/GetRooms")
-        .then((response) => {
+        axios({
+            url: "/api/GetRooms",
+            method: "GET",
+        })
+        .then( async (response) => {
             const data = response.data;
-            this.setState({
-                instructors: data,
-                instructor: data[0].name
+            await data.forEach((item) => {
+                this.state.rooms.push(item.name);
             })
+            await this.setState({
+                room: data[0].name
+            }); 
         })
         .catch(() => {
-            console.log("Hubo un error al buscar los Rooms");
+            console.log("Hubo un error al buscar los Instructores");
         });
     }
 
     submit = (event) => {
         event.preventDefault();
-
+        console.log("what",this.state.instructors[document.form.instructor.selectedIndex]);
         axios({
             url: "/api/NewService",
             method: "POST",
             data: { 
-                description: this.state.description,
+                description: this.state.name,
                 capacity: this.state.capacity,
-                instructor: this.state.instructor,
+                instructor: this.state.instructors[document.form.instructor.selectedIndex].id,
                 room: this.state.room
             }
         })
@@ -87,13 +102,13 @@ class NewService extends Component {
                 text: 'Se a creado el servicio',
                 icon: 'success'
             }).then(() => {
-                window.location = ("/");
+                window.history.back();
             });
         })
         .catch(() => {
             swal.fire({
                 title: 'Error',
-                text: 'Ha ocurrido un error al crear un servicio',
+                text: 'Ha ocurrido un error al crear el servicio',
                 icon: 'error'
             })
         })
@@ -103,17 +118,17 @@ class NewService extends Component {
         return (
             <div className="window">
                 {this.fill()}
-                <form onSubmit={this.submit}>
+                <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
                         Ingrese los datos del nuevo servicio
                     </h4>
                     <div className="form-group">
-                        <label for="description">Nombre</label>
-                        <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="description" value={this.state.description}
+                        <label>Nombre</label>
+                        <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="name" value={this.state.description}
                         onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                        <label for="description">Capacidad de personas</label>
+                        <label>Capacidad de personas</label>
                         <select
                             name="capacity"
                             className="form-control"
@@ -127,24 +142,23 @@ class NewService extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label for="description">Instructor del servicio</label>
+                        <label>Instructor del servicio</label>
                         <select
                             name="instructor"
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            {console.log(this.state.instructors,this.state.nums)}
                             {this.state.instructors.map((num,index) => 
                                 <option key={index}>
-                                    {num}
+                                    {num.id} - {num.name} {num.lastname}
                                 </option>
                             )}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label for="description">Room del servicio</label>
+                        <label>Room del servicio</label>
                         <select
-                            name="instructor"
+                            name="room"
                             className="form-control"
                             onChange={this.handleChange}
                         >
