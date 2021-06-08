@@ -20,7 +20,7 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     phone: {type: String},
     isTemp: {type: Boolean},
     room: {
-        name: {type: String, unique: true}
+        name: {type: String}
     },
     services: [TempServiceSchema],
     sessions: [TempSessionSchema]

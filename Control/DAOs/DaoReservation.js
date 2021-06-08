@@ -6,13 +6,13 @@ const Dao = require("./DAO");
 const ReservationSchema = mongoose.model("Reservation", new Schema ({
     id: {type: Number, index: true},
     client: {
-        id: {type: Number, unique: true}
+        id: {type: Number}
     },
     session1: {
-        id: {type: Number, unique: true}
+        id: {type: Number}
     },
     paymentMethod: {
-        id: {type: Number, unique: true}
+        id: {type: Number}
     },
     isConfirmed: {type: Boolean}
 }));

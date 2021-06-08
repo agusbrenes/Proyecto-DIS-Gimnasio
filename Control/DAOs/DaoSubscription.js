@@ -7,8 +7,8 @@ const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
     id: {type: String, index: true},
     fee: {type: Number},
     client: {
-        id: {type: String, unique: true},
-        email: {type: String, unique: true}
+        id: {type: String},
+        email: {type: String}
     },
     limit1: {type: Number},
     sessionCost: {type: Number}

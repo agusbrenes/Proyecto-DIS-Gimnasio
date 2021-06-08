@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempInstructorSchema = new Schema({
-    id: {type: Number, unique: true}
+    id: {type: Number}
 }, { _id: false });
 
 const TempSessionSchema = new Schema({
@@ -16,7 +16,7 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
     description: {type: String},
     capacity: {type: Number},
     room: {
-        name: {type: String, unique: true}
+        name: {type: String}
     },
     instructors: [TempInstructorSchema],
     sessions: [TempSessionSchema]

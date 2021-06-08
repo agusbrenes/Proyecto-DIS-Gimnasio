@@ -10,10 +10,10 @@ const TempReservationSchema = new Schema({
 const SessionSchema = mongoose.model("Session", new Schema ({
     id: {type: Number, index: true},
     instructor: {
-        id: {type: Number, unique: true}
+        id: {type: Number}
     },
     service: {
-        id: {type: Number, unique: true},
+        id: {type: Number},
     },
     capacity: {type: Number},
     day: {
@@ -21,7 +21,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         name: {type: String}
     },
     schedule: {
-        id: {type: Number, unique: true}
+        id: {type: Number}
     },
     reservations: [TempReservationSchema]
 }));

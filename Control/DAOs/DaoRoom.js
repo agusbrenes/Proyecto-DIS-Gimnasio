@@ -4,15 +4,15 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempAdminSchema = new Schema({
-    id: {type: String, unique: true}
+    id: {type: String}
 }, { _id: false });
 
 const TempInstructorSchema = new Schema({
-    id: {type: Number, unique: true}
+    id: {type: Number}
 }, { _id: false });
 
 const TempServiceSchema = new Schema({
-    id: {type: Number, unique: true}
+    id: {type: Number}
 }, { _id: false });
 
 const TempCalendarSchema = new Schema({
