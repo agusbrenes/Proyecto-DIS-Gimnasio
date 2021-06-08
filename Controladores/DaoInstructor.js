@@ -112,7 +112,7 @@ module.exports = class DaoInstructor extends Dao {
             phone: object.phone,
             isTemp: object.isTemp,
             room: {
-                name: ""
+                name: object.room.name
             },
             services: services1,
             sessions: sessions1
