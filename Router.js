@@ -467,6 +467,58 @@ router.post("/NewService", async (req, res) => {
     }
 });
 
+router.post("/GetService", async (req, res) => {
+    const object = req.body;
+    const control = new ControlService();
+    const filter = {id: object.id};
+    try {
+        const foundService = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+        res.json(foundService);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyService", async (req, res) => {
+    const object = req.body;
+    const control = new ControlService();
+    const filter = {id: object.id};
+    try {
+        const foundService = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+
+        const modifiedService = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedService);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteService", async (req, res) => {
+    const object = req.body;
+    const control = new ControlService();
+    const filter = {id: object.id};
+    try {
+        const foundService = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+
+        const deletedService = await control.delete(filter);
+        res.json(deletedService);
+    } catch (err) {
+        res.status(500).json({msg: err.message});
+    }
+});
+
 router.get("/GetServices", (req, res) => {  
     const control = new ControlService();
     control.getAll()
