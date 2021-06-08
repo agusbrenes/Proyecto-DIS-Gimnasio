@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempAdminSchema = mongoose.Schema({
-    _id: false,
     id: {type: Number, unique: true}
 });
 
