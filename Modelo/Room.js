@@ -5,9 +5,9 @@ const Service = require('./Service.js');
 const Instructor = require('./Instructor.js');
 
 module.exports = class Room {
-    constructor(name, max_capacity, capacity, administrator, beginTime, endTime) {
+    constructor(name, maxCapacity, capacity, administrator, beginTime, endTime) {
         this.name = name;
-        this.max_capacity = max_capacity;
+        this.maxCapacity = maxCapacity;
         this.capacity = capacity;
         this.schedule = new Schedule(beginTime, endTime);
         this.administrators = [administrator];
@@ -25,11 +25,11 @@ module.exports = class Room {
     }
 
     setMaxCapacity(max) {
-        this.max_capacity = max;
+        this.maxCapacity = max;
     }
 
     get getMaxCapacity() {
-        return this.max_capacity;
+        return this.maxCapacity;
     }
 
     setCapacity(cap) {

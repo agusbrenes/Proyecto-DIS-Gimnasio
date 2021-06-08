@@ -11,7 +11,7 @@ module.exports = class ControlRoom extends Controller {
     async save(object) {
         const room = new Room (
             object.name, 
-            object.max_capacity, 
+            object.maxCapacity, 
             object.capacity, 
             object.administrator, 
             object.beginTime, 

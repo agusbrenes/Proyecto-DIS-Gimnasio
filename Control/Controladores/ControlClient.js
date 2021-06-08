@@ -6,6 +6,7 @@ const ControlSubscription = require('./ControlSubscription');
 const ControlReservation = require("./ControlReservation");
 const ControlSession = require('./ControlSession');
 const ControlService = require('./ControlService');
+const ControlPayMethod = require('./ControlPayMethod');
 
 const DaoClient = require("../Daos/DaoClient");
 
@@ -56,10 +57,13 @@ module.exports = class ControlClient extends ControlUsers {
         const controlSession = new ControlSession();
         const controlReservation = new ControlReservation();
 
+        // Obtener Client de BD
         const clientQuery = await this.find({id: idClient});
-        const client = clientQuery[0];
+        const client = this.toObject(clientQuery[0]);
+
+        // Obtener Session de BD
         const sessionQuery = await controlSession.find({id: idSession});
-        const session = sessionQuery[0];
+        const session = this.toObject(sessionQuery[0]); //////
         const reservation = new Reservation(
             idClient, 
             idSession
@@ -70,16 +74,30 @@ module.exports = class ControlClient extends ControlUsers {
 
         await this.handler.save(client);
         await controlSession.save(session);
-        return await controlReservation.save(session);
+        return await controlReservation.save(reservation);
     }
 
-    // async payReservation(idClient, idSession, idPayMethod) {
-    //     reservation = new Reservation(
-    //         idClient, 
-    //         idSession
-    //     );
-    //     return await this.handler.save(reservation);
-    // }
+    async payReservation(idClient, idSession, idPayMethod) {
+        const controlReservation = new ControlReservation();
+        const controlPayMethod = new ControlPayMethod();
+
+        // Obtener Reservation de BD
+        const query = {
+            client: {id: idClient},
+            session1: {id: idSession}
+        };
+        const reservationQuery = await controlReservation.find(query);
+        const reservation = controlReservation.toObject(reservationQuery[0]); ////
+
+        // Obtener PaymentMethod de BD
+        const payMethodQuery = await controlPayMethod.find({id: idPayMethod});
+        const payMethod = controlPayMethod.toObject(payMethodQuery[0]); ////
+        
+        reservation.setPaymentMethod(payMethod);
+        reservation.pay();
+
+        return await controlReservation.save(reservation);
+    }
 
     // async paySubscription(idClient, idSession, idPayMethod) {
     //     reservation = new Reservation(
