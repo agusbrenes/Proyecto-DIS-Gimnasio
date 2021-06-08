@@ -56,9 +56,7 @@ module.exports = class DaoInstructor extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.values().forEach(service => {
-                const schema1 = new TempServiceSchema({
-                    id: service.id
-                });
+                const schema1 = { id: service.id };
                 services1.push(schema1);
             });
             schema.services = services1;
@@ -67,9 +65,7 @@ module.exports = class DaoInstructor extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const schema1 = new TempSessionSchema({
-                    id: session.id
-                });
+                const schema1 = { id: session.id };
                 sessions1.push(schema1);
             });
             schema.sessions = sessions1;
@@ -86,9 +82,7 @@ module.exports = class DaoInstructor extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.values().forEach(service => {
-                const schema = new TempServiceSchema({
-                    id: service.id
-                });
+                const schema = { id: service.id };
                 services1.push(schema);
             });
         }
@@ -96,9 +90,7 @@ module.exports = class DaoInstructor extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const schema = new TempSessionSchema({
-                    id: session.id
-                });
+                const schema = { id: session.id };
                 sessions1.push(schema);
             });
         }

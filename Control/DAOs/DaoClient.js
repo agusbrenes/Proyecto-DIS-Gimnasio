@@ -54,9 +54,7 @@ module.exports = class DaoClient extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema1 = new TempReservationSchema({
-                    id: reservation.id
-                });
+                const schema1 = { id: reservation.id };
                 reservations1.push(schema1);
             });
             schema.reservations = reservations1;
@@ -64,9 +62,7 @@ module.exports = class DaoClient extends Dao {
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
             object.subscriptions.values().forEach(subscription => {
-                const schema1 = new TempSubscriptionSchema({
-                    id: subscription.id
-                });
+                const schema1 = { id: subscription.id };
                 subscriptions1.push(schema1);
             });
             schema.subscriptions = subscriptions1;
@@ -83,18 +79,14 @@ module.exports = class DaoClient extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema = new TempReservationSchema({
-                    id: reservation.id
-                });
+                const schema = { id: reservation.id };
                 reservations1.push(schema);
             });
         }
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
             object.subscriptions.values().forEach(subscription => {
-                const schema = new TempSubscriptionSchema({
-                    id: subscription.id
-                });
+                const schema = { id: subscription.id };
                 subscriptions1.push(schema);
             });
         }

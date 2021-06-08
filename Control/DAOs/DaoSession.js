@@ -54,9 +54,7 @@ module.exports = class DaoSession extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema1 = new TempReservationSchema({
-                    id: reservation.id
-                });
+                const schema1 = { id: reservation.id };
                 reservations1.push(schema1);
             });
             schema.reservations = reservations1;
@@ -73,9 +71,7 @@ module.exports = class DaoSession extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema = new TempReservationSchema({
-                    id: reservation.id
-                });
+                const schema = { id: reservation.id };
                 reservations1.push(schema);
             });
         }

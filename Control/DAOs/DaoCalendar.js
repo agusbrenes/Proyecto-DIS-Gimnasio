@@ -43,10 +43,7 @@ module.exports = class DaoCalendar extends Dao {
         const days1 = [];
         if (object.days.values().length > 0) {
             object.days.values().forEach(day => {
-                const schema1 = new DayTempSchema({
-                    number: day.number,
-                    name: day.name
-                });
+                const schema1 = { number: day.number, name: day.name };
                 days1.push(schema1);
             });
             schema.days = days1;
@@ -64,11 +61,7 @@ module.exports = class DaoCalendar extends Dao {
 
         if (object.days.values().length > 0) {
             object.days.values().forEach(day => {
-                const tempDay = new DayTempSchema({
-                    number: day.number,
-                    name: day.name
-                });
-    
+                const tempDay = { number: day.number, name: day.name };
                 days1.push(tempDay);
             });
         }

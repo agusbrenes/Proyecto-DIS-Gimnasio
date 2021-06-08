@@ -46,10 +46,7 @@ module.exports = class DaoDay extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
-                const tempCalendar = new TempCalendarSchema({
-                    month: calendar.month,
-                    year: calendar.year
-                });
+                const tempCalendar = { month: calendar.month, year: calendar.year };
                 calendars1.push(tempCalendar);
             });
             schema.calendars = calendars1;
@@ -58,9 +55,7 @@ module.exports = class DaoDay extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const tempSession = new TempSessionSchema({
-                    id: session.id
-                });
+                const tempSession = { id: session.id };
                 sesssions1.push(tempSession);
             });
             schema.sessions = sessions1;
@@ -77,10 +72,7 @@ module.exports = class DaoDay extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
-                const tempCalendar = new TempCalendarSchema({
-                    month: calendar.month,
-                    year: calendar.year
-                });
+                const tempCalendar = { month: calendar.month, year: calendar.year };
                 calendars1.push(tempCalendar);
             });
         }
@@ -88,9 +80,7 @@ module.exports = class DaoDay extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const tempSession = new TempSessionSchema({
-                    id: session.id
-                });
+                const tempSession = { id: session.id };
                 sesssions1.push(tempSession);
             });
         }

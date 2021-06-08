@@ -4,9 +4,8 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempAdminSchema = new Schema({
-    _id: false,
     id: {type: String, unique: true}
-});
+}, { _id: false });
 
 const TempInstructorSchema = new Schema({
     id: {type: Number, unique: true}
@@ -59,9 +58,7 @@ module.exports = class DaoRoom extends Dao {
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema1 = new TempAdminSchema({
-                    id: administrator.id
-                });
+                const schema1 = { id: administrator.id };
                 administrators1.push(schema1);
             });
             schema.administrators = administrators1;
@@ -70,9 +67,7 @@ module.exports = class DaoRoom extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema1 = new TempInstructorSchema({
-                    id: instructor.id
-                });
+                const schema1 = { id: instructor.id };
                 instructors1.push(schema1);
             });
             schema.instructors = instructors1;
@@ -81,9 +76,7 @@ module.exports = class DaoRoom extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.forEach(service => {
-                const schema1 = TempServiceSchema({
-                    id: service.id
-                });
+                const schema1 = { id: service.id };
                 services1.push(schema1);
             });
             schema.services = services1;
@@ -92,10 +85,7 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema1 = TempCalendarSchema({
-                    month: calendar.month,
-                    year: calendar.year
-                });
+                const schema1 = { month: calendar.month, year: calendar.year };
                 calendars1.push(schema1);
             });
             schema.calendars = calendars1;
@@ -112,9 +102,7 @@ module.exports = class DaoRoom extends Dao {
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema = new TempAdminSchema({
-                    id: administrator.id
-                });
+                const schema = { id: administrator.id };
                 administrators1.push(schema);
             });
         }
@@ -122,9 +110,7 @@ module.exports = class DaoRoom extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema = new TempInstructorSchema({
-                    id: instructor.id
-                });
+                const schema = { id: instructor.id };
                 instructors1.push(schema);
             });
         }
@@ -132,9 +118,7 @@ module.exports = class DaoRoom extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.forEach(service => {
-                const schema = TempServiceSchema({
-                    id: service.id
-                });
+                const schema = { id: service.id };
                 services1.push(schema);
             });
         }   
@@ -142,10 +126,7 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema = TempCalendarSchema({
-                    month: calendar.month,
-                    year: calendar.year
-                });
+                const schema = { month: calendar.month, year: calendar.year };
                 calendars1.push(schema);
             });
         }
