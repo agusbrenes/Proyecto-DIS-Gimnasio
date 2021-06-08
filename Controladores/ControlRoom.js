@@ -1,6 +1,7 @@
 const Room = require('../Modelo/Room');
-const DaoRoom = require('./DaoRoom');
 const Controller = require("./Controller");
+
+const DaoRoom = require('./Daos/DaoRoom');
 
 module.exports = class ControlRoom extends Controller {
     constructor() {

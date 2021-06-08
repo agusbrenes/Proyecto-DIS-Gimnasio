@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Admin = require("../Modelo/Admin");
 const { Schema } = mongoose;
 
 const Dao = require("./DAO");

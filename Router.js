@@ -8,16 +8,11 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = config;
 
 // Controladores
-const ControlUsers = require('./Controladores/ControlUsers');
-const ControlService = require('./Controladores/ControlService');
 const ControlAdmin = require('./Controladores/ControlAdmin');
+const ControlInstructor = require('./Controladores/ControlInstructor');
 const ControlClient = require('./Controladores/ControlClient');
 const ControlRoom = require('./Controladores/ControlRoom');
-
-// DAOs
-const DaoClient = require('./Controladores/DaoClient');
-const DaoInstructor = require('./Controladores/DaoInstructor');
-const DaoAdmin = require('./Controladores/DaoAdmin');
+const ControlService = require('./Controladores/ControlService');
 
 //---------------Rutas----------------------//
 
@@ -59,9 +54,8 @@ router.post('/login', async (req, res) => {
 //Crear Usuario
 // Ya funciona
 router.post("/NewClient", async (req, res) => {
-    const object = req.body;
-    const handler = new DaoClient();
-    const control = new ControlClient(handler);
+    const object = req.body; 
+    const control = new ControlClient();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -82,9 +76,8 @@ router.post("/NewClient", async (req, res) => {
 
 // Ya funciona
 router.post("/GetClient", async (req, res) => {
-    const object = req.body;
-    const handler = new DaoClient();
-    const control = new ControlClient(handler);
+    const object = req.body; 
+    const control = new ControlClient();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -101,9 +94,8 @@ router.post("/GetClient", async (req, res) => {
 
 // Ya funciona
 router.post("/ModifyClient", async (req, res) => {
-    const object = req.body;
-    const handler = new DaoClient();
-    const control = new ControlClient(handler);
+    const object = req.body; 
+    const control = new ControlClient();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -124,9 +116,8 @@ router.post("/ModifyClient", async (req, res) => {
 
 // Ya funciona
 router.post("/DeleteClient", async (req, res) => {
-    const object = req.body;
-    const handler = new DaoClient();
-    const control = new ControlClient(handler);
+    const object = req.body; 
+    const control = new ControlClient();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -142,8 +133,7 @@ router.post("/DeleteClient", async (req, res) => {
 });
 
 router.get("/GetClients", (req, res) => {    
-    const handler = new DaoClient();
-    const control = new ControlClient(handler);
+    const control = new ControlClient();
     control.getAll()
     .then((data) => {
         res.json(data);
@@ -157,8 +147,7 @@ router.get("/GetClients", (req, res) => {
 
 router.post("/NewInstructor", async (req, res) => {
     const object = req.body;
-    const handler = new DaoInstructor();
-    const control = new ControlUsers(handler);
+    const control = new ControlInstructor();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -179,8 +168,7 @@ router.post("/NewInstructor", async (req, res) => {
 // Ya funciona
 router.post("/GetInstructor", async (req, res) => {
     const object = req.body;
-    const handler = new DaoInstructor();
-    const control = new ControlUsers(handler);
+    const control = new ControlInstructor();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -197,8 +185,7 @@ router.post("/GetInstructor", async (req, res) => {
 // Ya funciona
 router.post("/ModifyInstructor", async (req, res) => {
     const object = req.body;
-    const handler = new DaoInstructor();
-    const control = new ControlUsers(handler);
+    const control = new ControlInstructor();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -220,8 +207,7 @@ router.post("/ModifyInstructor", async (req, res) => {
 // Ya funciona
 router.post("/DeleteInstructor", async (req, res) => {
     const object = req.body;
-    const handler = new DaoInstructor();
-    const control = new ControlUsers(handler);
+    const control = new ControlInstructor();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -236,9 +222,8 @@ router.post("/DeleteInstructor", async (req, res) => {
     }
 });
 
-router.get("/GetInstructors", (req, res) => {    
-    const handler = new DaoInstructor();
-    const control = new ControlUsers(handler);
+router.get("/GetInstructors", (req, res) => {   
+    const control = new ControlInstructor();
     control.getAll()
     .then((data) => {
         res.json(data);

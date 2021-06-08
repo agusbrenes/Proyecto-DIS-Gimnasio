@@ -20,11 +20,8 @@ module.exports = class Instructor extends User {
     setDefault() {
         this.isTemp = false;
     }
-
-    /**
-     * @param {Room} room
-     */
-    set setRoom(room) {
+    
+    setRoom(room) {
         this.room = room;
     }
 
