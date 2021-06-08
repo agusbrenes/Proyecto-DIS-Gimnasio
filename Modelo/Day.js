@@ -15,10 +15,7 @@ module.exports = class Day {
         return this.number;
     }
 
-    /**
-     * @param {Number} num
-     */
-    set setNumber(num) {
+    setNumber(num) {
         this.number = num;
     }
 
@@ -26,10 +23,7 @@ module.exports = class Day {
         return this.name;
     }
 
-    /**
-     * @param {String} name
-     */
-    set setName(name) {
+    setName(name) {
         this.name = name;
     }
 
@@ -37,10 +31,7 @@ module.exports = class Day {
         return this.schedule;
     }
 
-    /**
-     * @param {Schedule} schedule
-     */
-    set setSchedule(schedule) {
+    setSchedule(schedule) {
         this.schedule = schedule;
     }
 

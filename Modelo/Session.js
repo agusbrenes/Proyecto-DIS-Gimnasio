@@ -19,10 +19,7 @@ module.exports = class Session {
         return this.id;
     }
 
-    /**
-     * @param {Instructor} instructor
-     */
-    set setInstructor(instructor) {
+    setInstructor(instructor) {
         this.instructor = instructor;
     }
 
@@ -30,10 +27,7 @@ module.exports = class Session {
         return this.instructor;
     }
 
-    /**
-     * @param {Service} service
-     */
-    set setService(service) {
+    setService(service) {
         this.service = service;
     }
 
@@ -41,10 +35,7 @@ module.exports = class Session {
         return this.service;
     }
 
-    /**
-     * @param {Day} day
-     */
-    set setDay(day) {
+    setDay(day) {
         this.day = day;
     }
 
@@ -52,17 +43,11 @@ module.exports = class Session {
         return this.day;
     }
 
-    /**
-     * @param {Any} beginTime
-     */
-    set setBeginTime(beginTime) {
+    setBeginTime(beginTime) {
         this.schedule.setBeginTime(beginTime);
     }
 
-    /**
-     * @param {Any} endTime
-     */
-    set setEndTime(endTime) {
+    setEndTime(endTime) {
         this.schedule.setEndTime(endTime);
     }
 

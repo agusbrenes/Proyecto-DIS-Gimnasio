@@ -25,10 +25,7 @@ module.exports = class Subscription {
         return this.fee;
     }
 
-    /**
-     * @param {float} sessionCost
-     */
-    set setSessionCost(sessionCost) {
+    setSessionCost(sessionCost) {
         this.sessionCost = sessionCost;
     }
 

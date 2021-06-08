@@ -17,10 +17,7 @@ module.exports = class Gym {
         return this.id;
     }
 
-    /**
-     * @param {String} name
-     */
-    set setName(name) {
+    setName(name) {
         this.name = name;
     }
 

@@ -10,10 +10,7 @@ module.exports = class Calendar {
         this.days = new Map();
     }
 
-    /**
-     * @param {Room} room
-     */
-    set setRoom(room) {
+    setRoom(room) {
         this.room = room;
     }
 
@@ -21,10 +18,7 @@ module.exports = class Calendar {
         return this.room;
     }
 
-    /**
-     * @param {int} month
-     */
-    set setMonth(month) {
+    setMonth(month) {
         this.month = month;
         this.monthName = this.getMonthName();
     }
@@ -37,10 +31,7 @@ module.exports = class Calendar {
         return this.monthName;
     }
 
-    /**
-     * @param {int} year
-     */
-    set setYear(year) {
+    setYear(year) {
         this.year = year;
     }
 
@@ -48,10 +39,7 @@ module.exports = class Calendar {
         return this.year;
     }
 
-    /**
-     * @param {int} month
-     */
-    set setMonth(month) {
+    setMonth(month) {
         this.month = month;
     }
 

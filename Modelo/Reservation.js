@@ -21,10 +21,7 @@ module.exports = class Reservation {
         return this.client;
     }
 
-    /**
-     * @param {Session} session
-     */
-    set setSession(session) {
+    setSession(session) {
         this.session = session;
     }
 
@@ -32,10 +29,7 @@ module.exports = class Reservation {
         return this.session;
     }
 
-    /**
-     * @param {PaymentMethod} paymentMethod
-     */
-    set setPaymentMethod(paymentMethod) {
+    setPaymentMethod(paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 

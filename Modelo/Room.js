@@ -16,11 +16,7 @@ module.exports = class Room {
         this.calendars = [];
     }
 
-    /* Setters y getters */
-    /**
-     * @param {String} name
-     */
-    set setName(name) {
+    setName(name) {
         this.name = name;
     }
 
@@ -28,10 +24,7 @@ module.exports = class Room {
         return this.name;
     }
 
-    /**
-     * @param {int} max
-     */
-    set setMaxCapacity(max) {
+    setMaxCapacity(max) {
         this.max_capacity = max;
     }
 
@@ -39,10 +32,7 @@ module.exports = class Room {
         return this.max_capacity;
     }
 
-    /**
-     * @param {int} cap
-     */
-    set setCapacity(cap) {
+    setCapacity(cap) {
         this.capacity = cap;
     }
 
@@ -50,10 +40,7 @@ module.exports = class Room {
         return this.capacity;
     }
 
-    /**
-     * @param {Schedule} schedule
-     */
-    set setSchedule(schedule) {
+    setSchedule(schedule) {
         this.schedule = schedule;
     }
 
