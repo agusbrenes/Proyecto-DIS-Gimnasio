@@ -168,7 +168,7 @@ router.post("/PayReservation", async (req, res) => {
 });
 
 //Hecho por Eduardo, puede no funcionar
-router.post("/GetClientReservation", (req, res) => {
+router.post("/GetClientReservation", async (req, res) => {
     const control = new ControlClient();
     const object = req.body;
     const filter = {id: object.idClient};
