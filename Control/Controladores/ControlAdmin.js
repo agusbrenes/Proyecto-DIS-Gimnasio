@@ -20,7 +20,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.lastName,
             schema.phone
         );
-        user = this.setAdminRoom(user, schema.room);
+        user = this.setAdminRoom(user, schema.admRoom);
         return user;
     }
 

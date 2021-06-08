@@ -11,7 +11,7 @@ const AdminSchema = mongoose.model("Admin", new Schema({
     lastName: {type: String},
     phone: {type: String},
     admRoom: {
-        roomName: {type: String, unique: true}
+        roomName: {type: String}
     }
 }));
 
