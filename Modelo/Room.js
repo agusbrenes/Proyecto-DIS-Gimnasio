@@ -5,9 +5,9 @@ const Service = require('./Service.js');
 const Instructor = require('./Instructor.js');
 
 module.exports = class Room {
-    constructor(name, max_capacity, capacity, administrator, beginTime, endTime) {
+    constructor(name, maxCapacity, capacity, administrator, beginTime, endTime) {
         this.name = name;
-        this.max_capacity = max_capacity;
+        this.maxCapacity = maxCapacity;
         this.capacity = capacity;
         this.schedule = new Schedule(beginTime, endTime);
         this.administrators = [administrator];
@@ -16,11 +16,7 @@ module.exports = class Room {
         this.calendars = [];
     }
 
-    /* Setters y getters */
-    /**
-     * @param {String} name
-     */
-    set setName(name) {
+    setName(name) {
         this.name = name;
     }
 
@@ -28,21 +24,15 @@ module.exports = class Room {
         return this.name;
     }
 
-    /**
-     * @param {int} max
-     */
-    set setMaxCapacity(max) {
-        this.max_capacity = max;
+    setMaxCapacity(max) {
+        this.maxCapacity = max;
     }
 
     get getMaxCapacity() {
-        return this.max_capacity;
+        return this.maxCapacity;
     }
 
-    /**
-     * @param {int} cap
-     */
-    set setCapacity(cap) {
+    setCapacity(cap) {
         this.capacity = cap;
     }
 
@@ -50,10 +40,7 @@ module.exports = class Room {
         return this.capacity;
     }
 
-    /**
-     * @param {Schedule} schedule
-     */
-    set setSchedule(schedule) {
+    setSchedule(schedule) {
         this.schedule = schedule;
     }
 

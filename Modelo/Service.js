@@ -18,10 +18,7 @@ module.exports = class Service {
         return this.id;
     }
 
-    /**
-     * @param {String} description
-     */
-    set setDescription(description) {
+    setDescription(description) {
         this.description = description;
     }
 
@@ -29,10 +26,7 @@ module.exports = class Service {
         return this.description;
     }
 
-    /**
-     * @param {Number} capacity
-     */
-    set setCapacity(capacity) {
+    setCapacity(capacity) {
         this.capacity = capacity;
     }
 

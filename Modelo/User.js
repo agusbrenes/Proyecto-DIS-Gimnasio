@@ -8,10 +8,7 @@ module.exports = class User {
         this.phone = phone;
     }
 
-    /**
-     * @param {String} email
-     */
-    set setEmail(email) {
+    setEmail(email) {
         this.email = email;
     }
 
@@ -19,10 +16,7 @@ module.exports = class User {
         return this.email;
     }
 
-    /**
-     * @param {String} password
-     */
-    set setPassword(password) {
+    setPassword(password) {
         this.password = password;
     }
 
@@ -30,10 +24,7 @@ module.exports = class User {
         return this.password;
     }
 
-    /**
-     * @param {Number} id
-     */
-    set setId(id) {
+    setId(id) {
         this.id = id;
     }
 
@@ -41,10 +32,7 @@ module.exports = class User {
         return this.id;
     }    
 
-    /**
-     * @param {String} firstName
-     */
-    set setFirstName(firstName) {
+    setFirstName(firstName) {
         this.firstName = firstName;
     }
 
@@ -52,10 +40,7 @@ module.exports = class User {
         return this.firstName;
     }    
 
-    /**
-     * @param {String} lastName
-     */
-    set setLastName(lastName) {
+    setLastName(lastName) {
         this.lastName = lastName;
     }
 
@@ -63,10 +48,7 @@ module.exports = class User {
         return this.lastName;
     }    
 
-    /**
-     * @param {Number} phone
-     */
-    set setPhone(phone) {
+    setPhone(phone) {
         this.phone = phone;
     }
 

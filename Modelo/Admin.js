@@ -5,11 +5,8 @@ module.exports = class Admin extends User {
         super(email, password, id, firstName, lastName, phone);
         this.admRoom = null;
     }
-
-    /**
-     * @param {Room} room
-     */
-    set setAdmRoom(room) {
+    
+    setAdmRoom(room) {
         this.admRoom = room;
     }
 

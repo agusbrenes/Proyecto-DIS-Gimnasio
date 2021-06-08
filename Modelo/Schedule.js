@@ -15,10 +15,7 @@ module.exports = class Schedule {
         return this.begin_time;
     }
 
-    /**
-     * @param {Date} bt
-     */
-    set setBeginTime(bt) {
+    setBeginTime(bt) {
         this.begin_time = bt;
     }
 
@@ -26,10 +23,7 @@ module.exports = class Schedule {
         return this.end_time;
     }
 
-    /**
-     * @param {Date} et
-     */
-    set setEndTime(et) {
+    setEndTime(et) {
         return this.end_time = et;
     }
 }

@@ -14,10 +14,7 @@ module.exports = class PaymentMethod {
         return this.id;
     }
 
-    /**
-     * @param {String} description
-     */
-    set setDescription(description) {
+    setDescription(description) {
         this.description = description;
     }
 

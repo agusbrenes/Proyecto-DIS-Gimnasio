@@ -25,7 +25,7 @@ module.exports = class Client extends User {
         return this.reservations;
     }
 
-    set setReservations(reservations) {
+    setReservations(reservations) {
         this.reservations = reservations;
     }
 
@@ -54,7 +54,7 @@ module.exports = class Client extends User {
         return this.subscriptions;
     }
 
-    set setReservations(reservations) {
+    setReservations(reservations) {
         this.reservations = reservations;
     }
 

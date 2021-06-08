@@ -52,13 +52,13 @@ module.exports = class DaoRoom extends Dao {
         const schema = RoomSchema.findOne(filter);
 
         schema.name = object.name;
-        schema.maxCapacity = object.max_capacity;
+        schema.maxCapacity = object.maxCapacity;
         schema.capacity = object.capacity;
         schema.schedule.id = object.schedule.id;
 
         const administrators1 = [];
         if (object.administrators.length > 0) {
-            object.administrators.values().forEach(administrator => {
+            object.administrators.forEach(administrator => {
                 const schema1 = new TempAdminSchema({
                     id: administrator.id
                 });
@@ -69,7 +69,7 @@ module.exports = class DaoRoom extends Dao {
 
         const instructors1 = [];
         if (object.instructors.length > 0) {
-            object.instructors.values().forEach(instructor => {
+            object.instructors.forEach(instructor => {
                 const schema1 = new TempInstructorSchema({
                     id: instructor.id
                 });
@@ -80,7 +80,7 @@ module.exports = class DaoRoom extends Dao {
 
         const services1 = [];
         if (object.services.length > 0) {
-            object.services.values().forEach(service => {
+            object.services.forEach(service => {
                 const schema1 = TempServiceSchema({
                     id: service.id
                 });
@@ -91,7 +91,7 @@ module.exports = class DaoRoom extends Dao {
 
         const calendars1 = [];
         if (object.calendars.length > 0) {
-            object.calendars.values().forEach(calendar => {
+            object.calendars.forEach(calendar => {
                 const schema1 = TempCalendarSchema({
                     month: calendar.month,
                     year: calendar.year
@@ -111,7 +111,7 @@ module.exports = class DaoRoom extends Dao {
     toMongoSchema(object) {
         const administrators1 = [];
         if (object.administrators.length > 0) {
-            object.administrators.values().forEach(administrator => {
+            object.administrators.forEach(administrator => {
                 const schema = new TempAdminSchema({
                     id: administrator.id
                 });
@@ -121,7 +121,7 @@ module.exports = class DaoRoom extends Dao {
 
         const instructors1 = [];
         if (object.instructors.length > 0) {
-            object.instructors.values().forEach(instructor => {
+            object.instructors.forEach(instructor => {
                 const schema = new TempInstructorSchema({
                     id: instructor.id
                 });
@@ -131,7 +131,7 @@ module.exports = class DaoRoom extends Dao {
 
         const services1 = [];
         if (object.services.length > 0) {
-            object.services.values().forEach(service => {
+            object.services.forEach(service => {
                 const schema = TempServiceSchema({
                     id: service.id
                 });
@@ -141,7 +141,7 @@ module.exports = class DaoRoom extends Dao {
 
         const calendars1 = [];
         if (object.calendars.length > 0) {
-            object.calendars.values().forEach(calendar => {
+            object.calendars.forEach(calendar => {
                 const schema = TempCalendarSchema({
                     month: calendar.month,
                     year: calendar.year
@@ -152,7 +152,7 @@ module.exports = class DaoRoom extends Dao {
 
         return new RoomSchema({
             name: object.name,
-            maxCapacity: object.max_capacity,
+            maxCapacity: object.maxCapacity,
             capacity: object.capacity,
             schedule: {
                 id: object.schedule.id
