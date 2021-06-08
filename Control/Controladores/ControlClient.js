@@ -1,5 +1,5 @@
-const FactoryClient = require("../Modelo/FactoryClient");
-const Reservation = require("../Modelo/Reservation");
+const FactoryClient = require("../../Modelo/FactoryClient");
+const Reservation = require("../../Modelo/Reservation");
 
 const ControlUsers = require("./ControlUsers");
 const ControlSubscription = require('./ControlSubscription');
@@ -7,7 +7,7 @@ const ControlReservation = require("./ControlReservation");
 const ControlSession = require('./ControlSession');
 const ControlService = require('./ControlService');
 
-const DaoClient = require("./Daos/DaoClient");
+const DaoClient = require("../Daos/DaoClient");
 
 module.exports = class ControlClient extends ControlUsers {
     constructor() {

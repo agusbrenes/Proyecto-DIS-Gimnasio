@@ -8,11 +8,11 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = config;
 
 // Controladores
-const ControlAdmin = require('./Controladores/ControlAdmin');
-const ControlInstructor = require('./Controladores/ControlInstructor');
-const ControlClient = require('./Controladores/ControlClient');
-const ControlRoom = require('./Controladores/ControlRoom');
-const ControlService = require('./Controladores/ControlService');
+const ControlAdmin = require('./Control/Controladores/ControlAdmin');
+const ControlInstructor = require('./Control/Controladores/ControlInstructor');
+const ControlClient = require('./Control/Controladores/ControlClient');
+const ControlRoom = require('./Control/Controladores/ControlRoom');
+const ControlService = require('./Control/Controladores/ControlService');
 
 //---------------Rutas----------------------//
 
@@ -353,7 +353,6 @@ router.get("/GetRooms", (req, res) => {
         console.log(error);
     });    
 });
-
 
 //---------------Service----------------------//
 

@@ -1,7 +1,7 @@
-const Reservation = require("../Modelo/Reservation");
+const Reservation = require("../../Modelo/Reservation");
 const Controller = require("./Controller");
 
-const DaoReservation = require('./Daos/DaoReservation');
+const DaoReservation = require('../Daos/DaoReservation');
 
 module.exports = class ControlReservation extends Controller {
     constructor() {

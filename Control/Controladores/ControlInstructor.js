@@ -1,11 +1,11 @@
-const FactoryInstructor = require("../Modelo/FactoryInstructor");
+const FactoryInstructor = require("../../Modelo/FactoryInstructor");
 
 const ControlRoom = require("./ControlRoom");
 const ControlService = require("./ControlService");
 const ControlSession = require("./ControlSession");
 const ControlUsers = require("./ControlUsers");
 
-const DaoInstructor = require("./Daos/DaoInstructor");
+const DaoInstructor = require("../Daos/DaoInstructor");
 
 module.exports = class ControlInstructor extends ControlUsers {
     constructor() {

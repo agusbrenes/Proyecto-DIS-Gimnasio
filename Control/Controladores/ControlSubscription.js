@@ -1,7 +1,7 @@
-const Subscription = require("../Modelo/Subscription");
+const Subscription = require("../../Modelo/Subscription");
 const Controller = require("./Controller");
 
-const DaoSubscription = require('./DAOs/DaoSubscription');
+const DaoSubscription = require('../DAOs/DaoSubscription');
 
 module.exports = class ControlSubscription extends Controller {
     constructor() {

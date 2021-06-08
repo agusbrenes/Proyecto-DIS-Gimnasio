@@ -1,7 +1,7 @@
-const Session = require("../Modelo/Session");
+const Session = require("../../Modelo/Session");
 const Controller = require("./Controller");
 
-const DaoSession = require("./DAOs/DaoSession");
+const DaoSession = require("../DAOs/DaoSession");
 
 module.exports = class ControlSession extends Controller {
     constructor() {

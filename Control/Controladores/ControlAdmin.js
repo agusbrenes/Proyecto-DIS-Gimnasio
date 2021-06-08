@@ -1,9 +1,9 @@
-const FactoryAdmin = require("../Modelo/FactoryAdmin");
+const FactoryAdmin = require("../../Modelo/FactoryAdmin");
 
 const ControlRoom = require("./ControlRoom");
 const ControlUsers = require("./ControlUsers");
 
-const DaoAdmin = require("./Daos/DaoAdmin");
+const DaoAdmin = require("../Daos/DaoAdmin");
 
 module.exports = class ControlAdmin extends ControlUsers {
     constructor() {

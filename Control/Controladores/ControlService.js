@@ -1,7 +1,7 @@
-const Service = require("../Modelo/Service");
+const Service = require("../../Modelo/Service");
 const Controller = require("./Controller");
 
-const DaoService = require("./DAOs/DaoService");
+const DaoService = require("../DAOs/DaoService");
 
 module.exports = class ControlService extends Controller {
     constructor() {
