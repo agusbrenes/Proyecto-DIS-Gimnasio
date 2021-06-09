@@ -38,7 +38,8 @@ module.exports = class ControlClient extends ControlUsers {
     async setClientReservations(client, reservationArray) {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
-            const reservation = await control.find(reservationArray[i]);
+            const reservationQuery = await control.find(reservationArray[i]);
+            const reservation = control.toObject(reservationQuery[0]);
             client.addReservation(reservation);
         }
         return client;
@@ -47,7 +48,8 @@ module.exports = class ControlClient extends ControlUsers {
     async setClientSubscriptions(client, subscriptionArray) {
         const control = new ControlSubscription();
         for (var i = 0; i < subscriptionArray.length; i++) {
-            const subscription = await control.find(subscriptionArray[i]);
+            const subscriptionQuery = await control.find(subscriptionArray[i]);
+            const subscription = control.toObject(subscriptionQuery[0]);
             client.addSubscription(subscription);
         }
         return client;

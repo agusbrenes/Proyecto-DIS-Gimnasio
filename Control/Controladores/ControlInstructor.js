@@ -45,7 +45,8 @@ module.exports = class ControlInstructor extends ControlUsers {
     async setInstructorServices(instructor, serviceArray) {
         const control = new ControlService();
         for (var i = 0; i < serviceArray.length; i++) {
-            const service = await control.find(serviceArray[i]);
+            const serviceQuery = await control.find(serviceArray[i]);
+            const service = control.toObject(serviceQuery[0]);
             instructor.addService(service);
         }
         return instructor;
@@ -54,7 +55,8 @@ module.exports = class ControlInstructor extends ControlUsers {
     async setInstructorSessions(instructor, sessionArray) {
         const control = new ControlSession();
         for (var i = 0; i < sessionArray.length; i++) {
-            const session = await control.find(sessionArray[i]);
+            const sessionQuery = await control.find(sessionArray[i]);
+            const session = control.toObject(sessionQuery[0]);
             instructor.addSession(session);
         }
         return instructor;

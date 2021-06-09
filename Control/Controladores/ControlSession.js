@@ -57,7 +57,8 @@ module.exports = class ControlSession extends Controller {
     async setSessionReservations(session, reservationArray) {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
-            const reservation = await control.find(reservationArray[i]);
+            const reservationQuery = await control.find(reservationArray[i]);
+            const reservation = control.toObject(reservationQuery[0]);
             session.addReservation(reservation);
         }
         return session;
