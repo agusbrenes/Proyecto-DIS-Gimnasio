@@ -41,7 +41,6 @@ module.exports = class DaoService extends Dao {
     async modify(filter, object){
         const schema = ServiceSchema.findOne(filter);
 
-        schema.id = object.id;
         schema.description = object.description;
         schema.capacity = object.capacity;
         schema.room = {room: object.room.name};
@@ -49,7 +48,7 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema1 = { id: instructor.id };
+                const schema1 = { id: instructor.id, firstName: instructor.first_name, lastName: instructor.last_name };
                 instructors1.push(schema1);
             });
             schema.instructors = instructors1;
