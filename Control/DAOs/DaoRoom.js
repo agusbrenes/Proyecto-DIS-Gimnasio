@@ -60,8 +60,8 @@ module.exports = class DaoRoom extends Dao {
         schema.capacity = object.capacity;
         schema.schedule = {
             id: object.schedule.id, 
-            beginTime: object.schedule.begin_time, 
-            endTime: object.schedule.end_time
+            beginTime: object.schedule.beginTime, 
+            endTime: object.schedule.endTime
         };
 
         const administrators1 = [];
@@ -146,8 +146,8 @@ module.exports = class DaoRoom extends Dao {
             capacity: object.capacity,
             schedule: {
                 id: object.schedule.id,
-                beginTime: object.schedule.begin_time,
-                endTime: object.schedule.end_time
+                beginTime: object.schedule.beginTime,
+                endTime: object.schedule.endTime
             },
             administrators: administrators1,
             instructors: instructors1,
