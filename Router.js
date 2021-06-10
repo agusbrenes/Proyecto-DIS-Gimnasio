@@ -13,6 +13,8 @@ const ControlInstructor = require('./Control/Controladores/ControlInstructor');
 const ControlClient = require('./Control/Controladores/ControlClient');
 const ControlRoom = require('./Control/Controladores/ControlRoom');
 const ControlService = require('./Control/Controladores/ControlService');
+const ControlPayMethod = require('./Control/Controladores/ControlPayMethod');
+const ControlReservation = require('./Control/Controladores/ControlReservation');
 
 //---------------Rutas----------------------//
 
@@ -531,8 +533,88 @@ router.get("/GetServices", (req, res) => {
 });
 
 //---------------PayMethod----------------------//
+router.post("/NewPayMethod", async (req, res) => {
+    const object = req.body;
+    const control = new ControlPayMethod();
+    const filter = {id: object.id};
+    try {
+        const foundPayMethod = await control.find(filter);
+        if (foundPayMethod != 0) {
+            return res.json({msg:true});
+        }
+
+        const savedPayMethod = await control.save(savedPayMethod);
+        res.json(savedPayMethod);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetPayMethod", async (req, res) => {
+    const object = req.body;
+    const control = new ControlPayMethod();
+    const filter = {id: object.id};
+    try {
+        const foundPayMethod = await control.find(filter);
+        if (!foundPayMethod) {
+            return res.json({msg:true});
+        }
+        res.json(foundPayMethod);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyPayMethod", async (req, res) => {
+    const object = req.body;
+    const control = new ControlPayMethod();
+    const filter = {id: object.id};
+    try {
+        const foundPayMethod = await control.find(filter);
+        if (!foundPayMethod) {
+            return res.json({msg:true});
+        }
+
+        const modifiedPayMethod = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedPayMethod);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeletePayMethod", async (req, res) => {
+    const object = req.body;
+    const control = new ControlPayMethod();
+    const filter = {id: object.id};
+    try {
+        const foundPayMethod = await control.find(filter);
+        if (!foundPayMethod) {
+            return res.json({msg:true});
+        }
+
+        const deletedPayMethod = await control.delete(filter);
+        res.json(deletedPayMethod);
+    } catch (err) {
+        res.status(500).json({msg: err.message});
+    }
+});
+
+router.get("/GetPayMethods", (req, res) => {
+    const control = new ControlPayMethod();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 //---------------Reservation----------------------//
+
 
 //---------------Session----------------------//
 
