@@ -58,9 +58,11 @@ module.exports = class DaoRoom extends Dao {
         schema.name = object.name;
         schema.maxCapacity = object.maxCapacity;
         schema.capacity = object.capacity;
-        schema.schedule.id = object.schedule.id;
-        schema.schedule.beginTime = object.schedule.begin_time;
-        schema.schedule.endTime = object.schedule.end_time;
+        schema.schedule = {
+            id: object.schedule.id, 
+            beginTime: object.schedule.begin_time, 
+            endTime: object.schedule.end_time
+        };
 
         const administrators1 = [];
         if (object.administrators.length > 0) {
