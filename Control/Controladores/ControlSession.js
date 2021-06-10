@@ -32,7 +32,7 @@ module.exports = class ControlSession extends Controller {
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toObject(instructorQuery[0]);
         const serviceQuery = await controlService.find({id: schema.service.id});
-        const service = await controlService.toObject(serviceQuery[0]); //////
+        const service = await controlService.toObject(serviceQuery[0]); 
 
         const query = {
             number: schema.day.number, 

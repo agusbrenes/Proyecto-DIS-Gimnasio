@@ -11,7 +11,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         this.factory = new FactoryAdmin();
     }
 
-    toObject(schema) {
+    async toObject(schema) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -20,7 +20,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.lastName,
             schema.phone
         );
-        user = this.setAdminRoom(user, schema.admRoom);
+        user = await this.setAdminRoom(user, schema.admRoom);
         return user;
     }
 
