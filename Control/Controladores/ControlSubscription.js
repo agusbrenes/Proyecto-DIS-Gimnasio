@@ -9,7 +9,7 @@ module.exports = class ControlSubscription extends Controller {
         super(new DaoSubscription());
     }
 
-    toObject(schema) {
+    async toObject(schema) {
         const control = new ControlClient();
 
         const clientQuery = await control.find({id: schema.client.id});
