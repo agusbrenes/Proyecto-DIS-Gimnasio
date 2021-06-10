@@ -4,28 +4,32 @@ module.exports = class Gym {
     static #id = 0;
 
     constructor(name) {
-        this.id = Gym.#assignId();
+        this.id = Gym.assignId();
         this.name = name;
         this.rooms = [];
     }
 
-    static #assignId() {
+    static assignId() {
         return ++this.#id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
+    }
+
+    setId(id) {
+        this.id = id;
     }
 
     setName(name) {
         this.name = name;
     }
 
-    get getName() {
+    getName() {
         return this.name;
     }
 
-    get getRooms() {
+    getRooms() {
         return this.rooms;
     }
 
