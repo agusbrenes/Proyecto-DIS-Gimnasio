@@ -41,7 +41,9 @@ module.exports = class DaoDay extends Dao {
 
         schema.number = object.number;
         schema.name = object.name;
-        schema.schedule.id = object.schedule.id;
+        schema.schedule = {
+            id: object.schedule.id
+        };
         
         const calendars1 = [];
         if (object.calendars.length > 0) {

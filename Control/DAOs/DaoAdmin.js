@@ -40,7 +40,9 @@ module.exports = class DaoAdmin extends Dao {
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;
         schema.phone = object.phone;
-        schema.admRoom.roomName = object.admRoom.name;
+        schema.admRoom = {
+            roomName: object.admRoom.name
+        };
 
         return await AdminSchema.updateOne(filter, schema);
     }

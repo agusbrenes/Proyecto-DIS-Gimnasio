@@ -48,7 +48,7 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema1 = { id: instructor.id, firstName: instructor.first_name, lastName: instructor.last_name };
+                const schema1 = { id: instructor.id, firstName: instructor.firstName, lastName: instructor.lastName };
                 instructors1.push(schema1);
             });
             schema.instructors = instructors1;
@@ -74,7 +74,7 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema = { id: instructor.id, firstName: instructor.first_name, lastName: instructor.last_name };
+                const schema = { id: instructor.id, firstName: instructor.firstName, lastName: instructor.lastName };
                 instructors1.push(schema);
             });
         }

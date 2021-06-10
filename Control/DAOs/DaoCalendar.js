@@ -36,7 +36,9 @@ module.exports = class DaoCalendar extends Dao {
     async modify(filter, object){
         const schema = await CalendarSchema.findOne(filter);
 
-        schema.room.name = object.room.name;
+        schema.room = {
+            name: object.room.name
+        };
         schema.month = object.month;
         schema.monthName = object.monthName;
         schema.year = object.year;

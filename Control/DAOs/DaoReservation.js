@@ -35,9 +35,15 @@ module.exports = class DaoReservation extends Dao {
         const schema = await ReservationSchema.findOne(filter);
 
         schema.id = object.id;
-        schema.client.id = object.client.id;
-        schema.session1.id = object.session.id;
-        schema.paymentMethod.id = object.paymentMethod.id;
+        schema.client = {
+            id: object.client.id
+        };
+        schema.session1 = {
+            id: object.session.id
+        };
+        schema.paymentMethod = {
+            id: object.paymentMethod.id
+        };
         schema.isConfirmed = object.isConfirmed;
     }   
 

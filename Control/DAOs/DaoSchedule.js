@@ -27,8 +27,8 @@ module.exports = class DaoSchedule extends Dao {
         const schema = await ScheduleSchema.findOne(filter);
 
         schema.id = object.id;
-        schema.beginTime = object.begin_time;
-        schema.endTime = object.end_time;
+        schema.beginTime = object.beginTime;
+        schema.endTime = object.endTime;
 
         return await ScheduleSchema.updateOne(filter, schema);
     }
@@ -40,8 +40,8 @@ module.exports = class DaoSchedule extends Dao {
     toMongoSchema(object) {
         return new ScheduleSchema({
             id: object.id,
-            beginTime: object.begin_time,
-            endTime: object.end_time
+            beginTime: object.beginTime,
+            endTime: object.endTime
         });
     }
 }

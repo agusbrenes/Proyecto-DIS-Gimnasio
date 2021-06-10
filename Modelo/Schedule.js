@@ -1,10 +1,10 @@
 module.exports = class Schedule {
     static #id = 0;
 
-    constructor(begin_time, end_time) {
+    constructor(beginTime, endTime) {
         this.id = Schedule.assignId();
-        this.begin_time = begin_time;
-        this.end_time = end_time;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
     }
 
     static assignId() {
@@ -20,18 +20,18 @@ module.exports = class Schedule {
     }
 
     getBeginTime() {
-        return this.begin_time;
+        return this.beginTime;
     }
 
     setBeginTime(bt) {
-        this.begin_time = bt;
+        this.beginTime = bt;
     }
 
     getEndTime() {
-        return this.end_time;
+        return this.endTime;
     }
 
     setEndTime(et) {
-        return this.end_time = et;
+        return this.endTime = et;
     }
 }

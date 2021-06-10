@@ -33,8 +33,10 @@ module.exports = class DaoSubscription extends Dao {
 
         schema.id = object.id;
         schema.fee = object.fee;
-        schema.client.email = object.client.email;
-        schema.client.id = object.client.id;
+        schema.client = {
+            email: object.client.email,
+            id: object.client.id
+        };
         schema.limit1 = object.limit;
         schema.sessionCost = object.sessionCost;
     }
