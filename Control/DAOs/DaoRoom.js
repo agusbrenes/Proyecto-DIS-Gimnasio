@@ -18,6 +18,7 @@ const TempServiceSchema = new Schema({
 }, { _id: false });
 
 const TempCalendarSchema = new Schema({
+    id: {type: Number},
     month: {type: Number, required: true},
     year: {type: Number, required: true}
 }, { _id: false });
@@ -91,7 +92,7 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema1 = { month: calendar.month, year: calendar.year };
+                const schema1 = { id: calendar.id, month: calendar.month, year: calendar.year };
                 calendars1.push(schema1);
             });
             schema.calendars = calendars1;
@@ -132,7 +133,7 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema = { month: calendar.month, year: calendar.year };
+                const schema = { id: calendar.id, month: calendar.month, year: calendar.year };
                 calendars1.push(schema);
             });
         }

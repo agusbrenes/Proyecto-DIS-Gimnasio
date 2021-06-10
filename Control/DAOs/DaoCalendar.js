@@ -9,6 +9,7 @@ const DayTempSchema = new Schema ({
 }, { _id: false });
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
+    id: {type: Number, index: true},
     room: {
         name: {type: String}
     },
@@ -67,6 +68,7 @@ module.exports = class DaoCalendar extends Dao {
         }
 
         return new CalendarSchema({
+            id: object.id,
             room: {
                 name: object.room.name
             },

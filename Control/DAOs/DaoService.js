@@ -44,7 +44,7 @@ module.exports = class DaoService extends Dao {
         schema.id = object.id;
         schema.description = object.description;
         schema.capacity = object.capacity;
-        schema.room.name = object.room.name;
+        schema.room = {room: object.room.name};
 
         const instructors1 = [];
         if (object.instructors.length > 0) {
