@@ -614,7 +614,85 @@ router.get("/GetPayMethods", (req, res) => {
 });
 
 //---------------Reservation----------------------//
+router.post("/NewReservation", async (req, res) => {
+    const object = req.body;
+    const control = new ControlReservation();
+    const filter = {id: object.id};
+    try {
+        const foundReservation = await control.find(filter);
+        if (foundReservation.length != 0) {
+            return res.json({msg:true});
+        }
 
+        const savedReservation = await control.save(object);
+        res.json(savedReservation);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetReservation", async (req, res) => {
+    const object = req.body;
+    const control = new ControlReservation();
+    const filter = {id: object.id};
+    try {
+        const foundReservation = await control.find(filter);
+        if (!foundReservation) {
+            return res.json({msg:true});
+        }
+        res.json(foundReservation);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyReservation", async (req, res) => {
+    const object = req.body;
+    const control = new ControlReservation();
+    const filter = {id: object.id};
+    try {
+        const foundReservation = await control.find(filter);
+        if (!foundReservation) {
+            return res.json({msg:true});
+        }
+
+        const modifiedReservation = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedReservation);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteReservation", async (req, res) => {
+    const object = req.body;
+    const control = new ControlReservation();
+    const filter = {id: object.id};
+    try {
+        const foundReservation = await control.find(filter);
+        if (!foundReservation) {
+            return res.json({msg:true});
+        }
+
+        const deletedReservation = await control.delete(filter);
+        res.json(deletedReservation);
+    } catch (err) {
+        res.status(500).json({msg: err.message});
+    }
+});
+
+router.get("/GetReservations", (req, res) => {
+    const control = new ControlReservation();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 //---------------Session----------------------//
 
