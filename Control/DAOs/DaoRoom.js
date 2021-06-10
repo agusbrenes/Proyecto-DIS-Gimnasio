@@ -53,7 +53,7 @@ module.exports = class DaoRoom extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = RoomSchema.findOne(filter);
+        const schema = await RoomSchema.findOne(filter);
 
         schema.name = object.name;
         schema.maxCapacity = object.maxCapacity;

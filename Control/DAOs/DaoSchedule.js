@@ -24,7 +24,7 @@ module.exports = class DaoSchedule extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = ScheduleSchema.findOne(filter);
+        const schema = await ScheduleSchema.findOne(filter);
 
         schema.id = object.id;
         schema.beginTime = object.begin_time;

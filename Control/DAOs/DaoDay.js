@@ -37,7 +37,7 @@ module.exports = class DaoDay extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = DaySchema.findOne(filter);
+        const schema = await DaySchema.findOne(filter);
 
         schema.number = object.number;
         schema.name = object.name;

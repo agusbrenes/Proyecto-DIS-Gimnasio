@@ -23,7 +23,7 @@ module.exports = class DaoPaymentMethod extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = PaymentMethodSchema.findOne(filter);
+        const schema = await PaymentMethodSchema.findOne(filter);
 
         schema.id = object.id;
         schema.description = object.description;

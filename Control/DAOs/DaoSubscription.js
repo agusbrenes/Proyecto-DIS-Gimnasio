@@ -29,7 +29,7 @@ module.exports = class DaoSubscription extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = SubscriptionSchema.findOne(filter);
+        const schema = await SubscriptionSchema.findOne(filter);
 
         schema.id = object.id;
         schema.fee = object.fee;

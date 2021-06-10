@@ -43,7 +43,7 @@ module.exports = class DaoSession extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = SessionSchema.findOne(filter);
+        const schema = await SessionSchema.findOne(filter);
 
         schema.id = object.id;
         schema.instructor.id = object.instructor.id;

@@ -17,6 +17,9 @@ const ControlPayMethod = require('./Control/Controladores/ControlPayMethod');
 const ControlReservation = require('./Control/Controladores/ControlReservation');
 const ControlSession = require('./Control/Controladores/ControlSession');
 const ControlSubscription = require('./Control/Controladores/ControlSubscription');
+const ControlCalendar = require('./Control/Controladores/ControlCalendar');
+const ControlSchedule = require('./Control/Controladores/ControlSchedule');
+const ControlDay = require('./Control/Controladores/ControlDay');
 
 //---------------Rutas----------------------//
 
@@ -858,5 +861,61 @@ router.get("/GetSubscriptions", (req, res) => {
     });
 });
 
-//---------------Service----------------------//
+//---------------Calendar----------------------//
+router.post("/NewCalendar", async (req, res) => {
+    const object = req.body;
+    const control = new ControlCalendar();
+    const filter = {id: object.id};
+    try {
+        const foundCalendar = await control.find(filter);
+        if (foundCalendar.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const savedCalendar = await control.save(object);
+        res.json(savedCalendar);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetCalendar", async (req, res) => {
+    const object = req.body;
+    const control = new ControlCalendar();
+    const filter = {id: object.id};
+    try {
+        const foundCalendar = await control.find(filter);
+        if (!foundCalendar) {
+            return res.json({msg:true});
+        }
+        res.json(foundCalendar);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyCalendar", async (req, res) => {
+    const object = req.body;
+    const control = new ControlCalendar();
+    const filter = {id: object.id};
+    try {
+        const foundCalendar = await control.find(filter);
+        if (!foundCalendar) {
+            return res.json({msg:true});
+        }
+        
+        const modifiedCalendar = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedCalendar);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+//---------------Schedule----------------------//
+
+//---------------Day---------------------------//
+
 module.exports = router;

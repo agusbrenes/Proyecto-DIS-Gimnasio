@@ -39,7 +39,7 @@ module.exports = class DaoService extends Dao {
     }
 
     async modify(filter, object){
-        const schema = ServiceSchema.findOne(filter);
+        const schema = await ServiceSchema.findOne(filter);
 
         schema.description = object.description;
         schema.capacity = object.capacity;

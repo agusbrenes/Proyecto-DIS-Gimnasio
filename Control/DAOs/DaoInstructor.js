@@ -41,7 +41,7 @@ module.exports = class DaoInstructor extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = InstructorSchema.findOne(filter);
+        const schema = await InstructorSchema.findOne(filter);
 
         schema.email = object.email;
         if (!(object.password.length === 0)) {

@@ -32,7 +32,7 @@ module.exports = class DaoReservation extends Dao {
     }
 
     async modify(filter, object) {
-        const schema = ReservationSchema.findOne(filter);
+        const schema = await ReservationSchema.findOne(filter);
 
         schema.id = object.id;
         schema.client.id = object.client.id;
