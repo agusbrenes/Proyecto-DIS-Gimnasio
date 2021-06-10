@@ -4,7 +4,9 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempInstructorSchema = new Schema({
-    id: {type: Number}
+    id: {type: Number},
+    firstName: {type: String},
+    lastName: {type: String}
 }, { _id: false });
 
 const TempSessionSchema = new Schema({
@@ -73,7 +75,7 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema = { id: instructor.id };
+                const schema = { id: instructor.id, firstName: instructor.first_name, lastName: instructor.last_name };
                 instructors1.push(schema);
             });
         }

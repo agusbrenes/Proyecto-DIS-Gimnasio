@@ -778,7 +778,85 @@ router.get("/GetSessions", (req, res) => {
 });
 
 //---------------Subscription----------------------//
+router.post("/NewSubscription", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSubscription();
+    const filter = {id: object.id};
+    try {
+        const foundSubscription = await control.find(filter);
+        if (foundSubscription.length != 0) {
+            return res.json({msg:true});
+        }
 
+        const savedSubscription = await control.save(object);
+        res.json(savedSubscription);
+    } catch (err) {
+        res.status(500).json({msg: err.message});
+    }
+});
+
+router.post("/GetSubscription", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSubscription();
+    const filter = {id: object.id};
+    try {
+        const foundSubscription = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+        res.json(foundSubscription);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifySubscription", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSubscription();
+    const filter = {id: object.id};
+    try {
+        const foundSubscription = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+
+        const modifiedSubscription = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedSubscription);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteSubscription", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSubscription();
+    const filter = {id: object.id};
+    try {
+        const foundSubscription = await control.find(filter);
+        if (!foundSubscription) {
+            return res.json({msg:true});
+        }
+
+        const deletedSubscription = await control.delete(filter);
+        res.json(deletedSubscription);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetSubscriptions", (req, res) => {
+    const control = new ControlSubscription();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 //---------------Service----------------------//
 module.exports = router;
