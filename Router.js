@@ -943,7 +943,165 @@ router.get("/GetCalendars", (req, res) => {
 });
 
 //---------------Schedule----------------------//
+router.post("/NewSchedule", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSchedule();
+    const filter = {id: object.id};
+    try {
+        const foundSchedule = await control.find(filter);
+        if (foundSchedule.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const savedSchedule = await control.save(object);
+        res.json(savedSchedule);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetSchedule", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSchedule();
+    const filter = {id: object.id};
+    try {
+        const foundSchedule = await control.find(filter);
+        if (!foundSchedule) {
+            return res.json({msg:true});
+        }
+        res.json(foundSchedule);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifySchedule", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSchedule();
+    const filter = {id: object.id};
+    try {
+        const foundSchedule = await control.find(filter);
+        if (!foundSchedule) {
+            return res.json({msg:true});
+        }
+        
+        const modifiedSchedule = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedSchedule);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteSchedule", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSchedule();
+    const filter = {id: object.id};
+    try {
+        const foundSchedule = await control.find(filter);
+        if (!foundSchedule) {
+            return res.json({msg:true});
+        }
+
+        const deletedSchedule = await control.delete(filter);
+        res.json(deletedSchedule);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetSchedules", (req, res) => {
+    const control = new ControlSchedule();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 //---------------Day---------------------------//
+router.post("/NewDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (foundDay.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const savedDay = await control.save(object);
+        res.json(savedDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (!foundDay) {
+            return res.json({msg:true});
+        }
+        res.json(foundDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifyDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (!foundDay) {
+            return res.json({msg:true});
+        }
+        
+        const modifiedDay = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (!foundDay) {
+            return res.json({msg:true});
+        }
+
+        const deletedDay = await control.delete(filter);
+        res.json(deletedDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetDays", (req, res) => {
+    const control = new ControlDay();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 module.exports = router;
