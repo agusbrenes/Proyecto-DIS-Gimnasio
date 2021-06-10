@@ -14,8 +14,8 @@ const TempSessionSchema = new Schema({
 }, { _id: false });
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
-    id: {type: Number, index: true},
-    description: {type: String},
+    id: {type: Number, unique: true},
+    description: {type: String, unique: true},
     capacity: {type: Number},
     room: {
         name: {type: String}
