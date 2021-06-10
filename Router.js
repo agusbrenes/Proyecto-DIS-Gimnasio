@@ -467,6 +467,20 @@ router.post("/NewService", async (req, res) => {
         }
 
         const savedService = await control.save(object);
+
+        //Puede no servir
+        const control2 = new ControlRoom();
+        const filter2 = {name: object.room.name};
+
+        const foundRoom = await control2.find(filter2);
+        if (!foundRoom) {
+            return res.json({msg:true});
+        }
+
+        const room = await control2.toObject(foundRoom[0]);
+        room.addService(object);
+        const modifiedRoom = await control2.modify(filter2, room);
+
         res.json(savedService);
     }
     catch (err) {
