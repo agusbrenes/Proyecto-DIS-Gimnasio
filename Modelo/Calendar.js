@@ -14,7 +14,7 @@ module.exports = class Calendar {
         this.room = room;
     }
 
-    get getRoom() {
+    getRoom() {
         return this.room;
     }
 
@@ -23,11 +23,11 @@ module.exports = class Calendar {
         this.monthName = this.getMonthName();
     }
 
-    get getMonth() {
+    getMonth() {
         return this.month;
     }
 
-    get getMonthName() {
+    getMonthName() {
         return this.monthName;
     }
 
@@ -35,7 +35,7 @@ module.exports = class Calendar {
         this.year = year;
     }
 
-    get getYear() {
+    getYear() {
         return this.year;
     }
 
@@ -43,11 +43,11 @@ module.exports = class Calendar {
         this.month = month;
     }
 
-    get getMonth() {
+    getMonth() {
         return this.month;
     }
     
-    get getDays() {
+    getDays() {
         return this.days;
     }
 
@@ -69,7 +69,7 @@ module.exports = class Calendar {
         this.days.delete(num);
     }
 
-    get getMonthName() {
+    getMonthName() {
         switch (month) {
             case 1:
                 return "January";

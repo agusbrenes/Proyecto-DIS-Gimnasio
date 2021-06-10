@@ -13,15 +13,19 @@ module.exports = class Subscription {
         return ++this.#id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
     }
 
-    get getClient() {
+    setId(id) {
+        this.id = id;
+    }
+
+    getClient() {
         return this.client;
     }
 
-    get getFee() {
+    getFee() {
         return this.fee;
     }
 
@@ -29,7 +33,7 @@ module.exports = class Subscription {
         this.sessionCost = sessionCost;
     }
 
-    get getSessionCost() {
+    getSessionCost() {
         return this.sessionCost;
     }
 

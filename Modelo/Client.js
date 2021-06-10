@@ -17,11 +17,11 @@ module.exports = class Client extends User {
         this.status = Status.Moroso;
     }  
 
-    get getStatus() {
+    getStatus() {
         return this.status;
     }
 
-    get getReservations() {
+    getReservations() {
         return this.reservations;
     }
 
@@ -50,7 +50,7 @@ module.exports = class Client extends User {
         reservation.pay();
     }
 
-    get getSubscriptions() {
+    getSubscriptions() {
         return this.subscriptions;
     }
 

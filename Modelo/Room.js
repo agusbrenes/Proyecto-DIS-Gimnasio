@@ -17,7 +17,7 @@ module.exports = class Room {
         this.name = name;
     }
 
-    get getName() {
+    getName() {
         return this.name;
     }
 
@@ -25,7 +25,7 @@ module.exports = class Room {
         this.maxCapacity = max;
     }
 
-    get getMaxCapacity() {
+    getMaxCapacity() {
         return this.maxCapacity;
     }
 
@@ -33,7 +33,7 @@ module.exports = class Room {
         this.capacity = cap;
     }
 
-    get getCapacity() {
+    getCapacity() {
         return this.capacity;
     }
 
@@ -41,23 +41,23 @@ module.exports = class Room {
         this.schedule = schedule;
     }
 
-    get getSchedule() {
+    getSchedule() {
         return this.schedule;
     }
 
-    get getAdministrators() {
+    getAdministrators() {
         return this.administrators;
     }
 
-    get getInstructors() {
+    getInstructors() {
         return this.instructors;
     }
 
-    get getServices() {
+    getServices() {
         return this.services;
     }
 
-    get getCalendars() {
+    getCalendars() {
         return this.calendars;
     }
 
