@@ -19,7 +19,7 @@ module.exports = class Schedule {
         return this.id;
     }
 
-    get getBeginTime() {
+    getBeginTime() {
         return this.begin_time;
     }
 
@@ -27,7 +27,7 @@ module.exports = class Schedule {
         this.begin_time = bt;
     }
 
-    get getEndTime() {
+    getEndTime() {
         return this.end_time;
     }
 

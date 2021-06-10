@@ -15,7 +15,7 @@ module.exports = class Session {
         return ++this.#id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
     }
 
@@ -23,7 +23,7 @@ module.exports = class Session {
         this.instructor = instructor;
     }
 
-    get getInstructor() {
+    getInstructor() {
         return this.instructor;
     }
 
@@ -31,7 +31,7 @@ module.exports = class Session {
         this.service = service;
     }
 
-    get getService() {
+    getService() {
         return this.service;
     }
 
@@ -39,7 +39,7 @@ module.exports = class Session {
         this.day = day;
     }
 
-    get getDay() {
+    getDay() {
         return this.day;
     }
 
@@ -51,11 +51,11 @@ module.exports = class Session {
         this.schedule.setEndTime(endTime);
     }
 
-    get getSchedule() {
+    getSchedule() {
         return this.schedule;
     }
 
-    get getReservations() {
+    getReservations() {
         return this.reservations;
     }
 

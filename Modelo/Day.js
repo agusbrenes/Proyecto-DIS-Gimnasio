@@ -11,7 +11,7 @@ module.exports = class Day {
         this.sessions = [];
     }
 
-    get getNumber() {
+    getNumber() {
         return this.number;
     }
 
@@ -19,7 +19,7 @@ module.exports = class Day {
         this.number = num;
     }
 
-    get getName() {
+    getName() {
         return this.name;
     }
 
@@ -27,7 +27,7 @@ module.exports = class Day {
         this.name = name;
     }
 
-    get getSchedule() {
+    getSchedule() {
         return this.schedule;
     }
 
@@ -35,11 +35,11 @@ module.exports = class Day {
         this.schedule = schedule;
     }
 
-    get getCalendars() {
+    getCalendars() {
         return this.calendars;
     }
 
-    get getSessions() {
+    getSessions() {
         return this.sessions;
     }
 

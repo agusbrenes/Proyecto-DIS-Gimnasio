@@ -14,15 +14,19 @@ module.exports = class Service {
         return ++this.#id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
+    }
+
+    setId(id) {
+        this.id = id;
     }
 
     setDescription(description) {
         this.description = description;
     }
 
-    get getDescription() {
+    getDescription() {
         return this.description;
     }
 
@@ -30,11 +34,11 @@ module.exports = class Service {
         this.capacity = capacity;
     }
 
-    get getCapacity() {
+    getCapacity() {
         return this.capacity;
     }
 
-    get getRoom() {
+    getRoom() {
         return this.room;
     }
 

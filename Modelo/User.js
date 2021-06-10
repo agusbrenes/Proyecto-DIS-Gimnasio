@@ -12,7 +12,7 @@ module.exports = class User {
         this.email = email;
     }
 
-    get getEmail() {
+    getEmail() {
         return this.email;
     }
 
@@ -20,7 +20,7 @@ module.exports = class User {
         this.password = password;
     }
 
-    get getPassword() {
+    getPassword() {
         return this.password;
     }
 
@@ -28,7 +28,7 @@ module.exports = class User {
         this.id = id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
     }    
 
@@ -36,7 +36,7 @@ module.exports = class User {
         this.firstName = firstName;
     }
 
-    get getFirstName() {
+    getFirstName() {
         return this.firstName;
     }    
 
@@ -44,7 +44,7 @@ module.exports = class User {
         this.lastName = lastName;
     }
 
-    get getLastName() {
+    getLastName() {
         return this.lastName;
     }    
 
@@ -52,7 +52,7 @@ module.exports = class User {
         this.phone = phone;
     }
 
-    get getPhone() {
+    getPhone() {
         return this.phone;
     }   
 

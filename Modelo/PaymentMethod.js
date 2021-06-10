@@ -10,15 +10,19 @@ module.exports = class PaymentMethod {
         return ++this.#id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
+    }
+
+    setId(id) {
+        this.id = id;
     }
 
     setDescription(description) {
         this.description = description;
     }
 
-    get getDescription() {
+    getDescription() {
         return this.description;
     }
 }

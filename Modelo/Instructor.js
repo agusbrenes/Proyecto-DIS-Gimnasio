@@ -25,7 +25,7 @@ module.exports = class Instructor extends User {
         this.room = room;
     }
 
-    get getRoom() {
+    getRoom() {
         return this.room;
     }
 

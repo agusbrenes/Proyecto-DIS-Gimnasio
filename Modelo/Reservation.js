@@ -17,11 +17,11 @@ module.exports = class Reservation {
         this.id = id;
     }
 
-    get getId() {
+    getId() {
         return this.id;
     }
 
-    get getClient() {
+    getClient() {
         return this.client;
     }
 
@@ -29,7 +29,7 @@ module.exports = class Reservation {
         this.session = session;
     }
 
-    get getSession() {
+    getSession() {
         return this.session;
     }
 
@@ -37,11 +37,11 @@ module.exports = class Reservation {
         this.paymentMethod = paymentMethod;
     }
 
-    get getPaymentMethod() {
+    getPaymentMethod() {
         return this.paymentMethod;
     }
 
-    get isConfirmed() {
+    isConfirmed() {
         return this.isConfirmed;
     }
 
