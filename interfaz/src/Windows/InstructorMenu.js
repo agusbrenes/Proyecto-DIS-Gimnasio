@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import axios from "axios";
 
-class ClientMenu extends Component {
+class InstructorMenu extends Component {
     render() {
         return (
             <div className="window menuClient">
@@ -15,17 +14,7 @@ class ClientMenu extends Component {
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
                     <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {}}>
-                        Ver Calendario
-                    </button>
-                </div>
-                <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/newReservation")}}>
-                        Hacer Reservación
-                    </button>
-                </div>
-                <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {}}>
-                        Ver Reservaciones
+                        Crear una Sesión
                     </button>
                 </div>
             </div>
@@ -33,4 +22,4 @@ class ClientMenu extends Component {
     }
 }
 
-export default ClientMenu
+export default InstructorMenu

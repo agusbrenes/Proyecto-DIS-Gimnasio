@@ -71,7 +71,6 @@ class ShowData extends Component {
     }
 
     modify = (id) => {
-        console.log(id);
         if (this.state.is === "Administrador")
             window.location=("/modifyAdmin/"+id);
         else if (this.state.is === "Cliente")

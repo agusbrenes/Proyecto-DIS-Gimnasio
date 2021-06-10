@@ -10,12 +10,15 @@ import Modify from './Windows/Modify';
 import NewService from './Windows/NewService';
 import Delete from './Windows/Delete';
 import ModifyService from './Windows/ModifyService';
+import ModifyRoom from './Windows/ModifyRoom';
 import ClientMenu from './Windows/ClientMenu';
 import ShowData from './Windows/ShowData';
 import ShowService from './Windows/ShowService';
 import NewRoom from './Windows/NewRoom';
 import ShowRooms from './Windows/ShowRooms';
 import DeleteRoom from './Windows/DeleteRoom';
+import InstructorMenu from './Windows/InstructorMenu';
+import NewReservation from './Windows/NewReservation';
 
 function App() {
   return (
@@ -29,6 +32,7 @@ function App() {
         <Route exact path="/adminMenu/manage:is" component={AdminManage}/>
         <Route exact path="/adminMenu/show:is" component={ShowData}/>
         <Route exact path="/adminMenu/viewRoom" component={ShowRooms}/>
+        <Route exact path="/adminMenu/viewRoom/:name" component={ModifyRoom}/>
         <Route exact path="/modify:is/:id" component={Modify}/>
         <Route exact path="/newService" component={NewService}/>
         <Route exact path="/newRoom" component={NewRoom}/>
@@ -37,6 +41,8 @@ function App() {
         <Route exact path="/delete:is" component={Delete}/>
         <Route exact path="/eraseRoom" component={DeleteRoom}/>
         <Route exact path="/clientMenu" component={ClientMenu}/>
+        <Route exact path="/instructorMenu" component={InstructorMenu}/>
+        <Route exact path="/newReservation" component={NewReservation}/>
       </Switch>
     </Router>
   );

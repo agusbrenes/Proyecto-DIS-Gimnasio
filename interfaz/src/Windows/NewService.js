@@ -85,16 +85,26 @@ class NewService extends Component {
 
     submit = (event) => {
         event.preventDefault();
-        console.log("what",this.state.instructors[document.form.instructor.selectedIndex]);
+
+        var index = document.form.instructor.selectedIndex;
+
+        const data = {
+            description: this.state.name,
+            capacity: this.state.capacity,
+            instructor: {
+                id: this.state.instructors[index].id,
+                first_name: this.state.instructors[index].name,
+                last_name: this.state.instructors[index].lastname
+            },
+            room: {name:this.state.room}
+        }
+
+        console.log(data);
+
         axios({
             url: "/api/NewService",
             method: "POST",
-            data: { 
-                description: this.state.name,
-                capacity: this.state.capacity,
-                instructor: this.state.instructors[document.form.instructor.selectedIndex].id,
-                room: this.state.room
-            }
+            data: data
         })
         .then(() => {
             swal.fire({

@@ -11,6 +11,7 @@ class Modify extends Component {
         phone: "",
         password: "",
         confirm: "",
+        check: false
     }
 
     //Función que actualiza los states
@@ -22,21 +23,24 @@ class Modify extends Component {
         this.setState({
             [name] : value
         });
+        console.log(this.state);
     }
+
+
 
     componentDidMount = async () => {
         if (this.props.match.params.is === "Admin"){
-            await this.setState({
+            this.setState({
                 is: "Administrador"
             });
             await this.getData();
         } else if (this.props.match.params.is === "Instructor"){
-            await this.setState({
+            this.setState({
                 is: "Instructor",
             });
             await this.getData();
         } else if (this.props.match.params.is === "Client"){
-            await this.setState({
+            this.setState({
                 is: "Cliente",
             });
             await this.getData();
@@ -68,6 +72,20 @@ class Modify extends Component {
                 window.history.back();
             });
         });
+    }
+
+    change = () => {
+        this.setState({
+            check: document.getElementById("check").checked
+        })
+
+        if (this.state.check){
+            document.getElementById("password").disabled="disabled"
+            document.getElementById("confirm").disabled="disabled"
+        } else {
+            document.getElementById("password").disabled=""
+            document.getElementById("confirm").disabled=""
+        }
     }
 
     modify = (event) => {
@@ -133,7 +151,7 @@ class Modify extends Component {
                     </div>
                     <div className="form-group">
                         <label for="id">Cédula</label>
-                        <input type="text" className="form-control" id="id" placeholder="#####" name="id" value={this.state.id}
+                        <input type="text" className="form-control" id="id" placeholder="#####" name="id" value={this.state.id} disabled= "disabled"
                         onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
@@ -141,16 +159,21 @@ class Modify extends Component {
                         <input type="text" className="form-control" id="phone" placeholder="#####" name="phone" value={this.state.phone}
                         onChange={this.handleChange}/>
                     </div>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input" id="check" placeholder="#####" name="check" value={this.state.check}
+                        onChange={this.change}/>
+                        <label for="check">Cambiar contraseña</label>
+                    </div>
                     <div className="row">
                         <div className="col">
                             <label for="password">Contraseña</label>
                             <input type="password" className="form-control" id="password" name="password" value={this.state.password}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange} disabled="disabled"/>
                         </div>
                         <div className="col">
                             <label for="confirm">Confirmar Contraseña</label>
                             <input type="password" className="form-control" id="confirm" name="confirm" value={this.state.confirm}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange} disabled="disabled"/>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>

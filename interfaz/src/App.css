@@ -88,3 +88,27 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+  .menuInstru { 
+    flex-direction: column;
+    background-image: url('./Windows/Imagen4.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 100px;
+    font-size: 3rem;
+  }
+
+  .showSessions {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./Windows/Image3.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }

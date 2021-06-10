@@ -56,6 +56,7 @@ class Delete extends Component {
                     name: item.firstName,
                     lastname: item.lastName,
                     id: item.id,
+                    description: item.description
                 }
                 this.state.list.push(info);
             });
@@ -119,7 +120,7 @@ class Delete extends Component {
                         >
                             {this.state.list.map((inf,index) => 
                                 <option key={index}>
-                                    {inf.id} - {inf.name} {inf.lastname}
+                                    {inf.id} - {inf.name} {inf.description} {inf.lastname}
                                 </option>
                             )}
                         </select>

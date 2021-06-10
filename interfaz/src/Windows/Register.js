@@ -35,6 +35,25 @@ class Register extends Component {
 
     submit = (event) => {
         event.preventDefault();
+
+        if(this.state.name === "" || this.state.lastname === "" || this.state.email === "" || this.state.id === "" || this.state.phone === "" ){
+            swal.fire({
+                title: 'Debe rellenar todos los campos',
+                icon: 'warning'
+            })
+            return;
+        }
+
+        if (this.state.password !== this.state.confirm){
+            swal.fire({
+                title: 'La contraseñas no coinciden',
+                icon: 'warning'
+            })
+            return;
+        }
+
+        console.log("khe");
+
         const user = {
             email: this.state.email,
             password: this.state.password,

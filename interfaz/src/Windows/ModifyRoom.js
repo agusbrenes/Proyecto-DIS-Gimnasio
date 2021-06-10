@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
 
-class NewRoom extends Component {
+class ModifyRoom extends Component {
     state = {
         name: "",
         maxCapacity: "1",
@@ -10,8 +10,10 @@ class NewRoom extends Component {
         admin: "",
         beginSchedule: "",
         endSchedule: "",
+        id: "",
         is: false,
-        admins: [],
+        adminO: {},
+        data: [],
         nums: []
     }
 
@@ -24,7 +26,6 @@ class NewRoom extends Component {
         this.setState({
             [name] : value
         });
-        console.log(this.state);
     }
 
     componentDidMount = async () => {
@@ -42,19 +43,45 @@ class NewRoom extends Component {
     getData = () => {
         axios({
             url: "/api/GetRoom",
-            method: "GET",
+            method: "POST",
+            data: {name: this.props.match.params.name}
         })
         .then( async (response) => {
             const data = response.data;
-            await data.forEach((item) => {
-                const info = {
-                    name: item.firstName,
-                    lastname: item.lastName,
-                    id: item.id,
-                }
-                this.state.admins.push(info);
-            });
             this.setState({
+                name: data[0].name,
+                maxCapacity: data[0].maxCapacity,
+                allowCapacity: data[0].capacity, 
+                beginSchedule: data[0].schedule.beginTime,
+                endSchedule: data[0].schedule.endTime,
+                id: data[0].schedule.id
+            });
+            this.getAdmin(data[0].administrators[0].id);
+        })
+        .catch(() => {
+            swal.fire({
+                title: 'Ocurrio un problema al cargar los datos',
+                icon: 'error'
+            }).then(() => {
+                window.history.back();
+            });
+        });
+    }
+
+    getAdmin = (data) => {
+        axios({
+            url: "/api/GetAdmin",
+            method: "POST",
+            data: {id: data}
+        })
+        .then( async (response) => {
+            const data = response.data;
+            this.setState({
+                adminO: {
+                    id: data[0].id,
+                    firstName: data[0].firstName,
+                    lastName: data[0].lastName
+                },
                 admin: data[0].id + " - " + data[0].firstName + " " + data[0].lastName
             })
         })
@@ -99,32 +126,34 @@ class NewRoom extends Component {
             name: this.state.name,
             maxCapacity: this.state.maxCapacity,
             capacity: this.state.allowCapacity,
-            administrator: {id:this.state.admins[document.form.admin.selectedIndex].id},
-            beginTime: this.state.beginSchedule,
-            endTime: this.state.endSchedule,
+            administrators: {
+                id: this.state.adminO.id,
+                firstName: this.state.adminO.firstName,
+                lastName: this.state.adminO.lastName
+            },
+            schedule: {
+                id: this.state.id,
+                beginTime: this.state.beginSchedule,
+                endTime: this.state.endSchedule,
+            },
+            instructors: [],
+            services: [],
+            calendars: [],
         }
         console.log(data);
         axios({
-            url: "/api/NewRoom",
+            url: "/api/ModifyRoom",
             method: "POST",
             data: data
         })
         .then((res) => {
-            if (res.data.msg === true) {
-                swal.fire({
-                    title: 'Error',
-                    text: 'Ya se encuentra un Room con este nombre',
-                    icon: 'error'
-                })                
-            } else {
-                swal.fire({
-                    title: 'Listo!',
-                    text: 'Se a creado el Room existosamente',
-                    icon: 'success'
-                }).then(() => {
-                    window.history.back();
-                });
-            }
+            swal.fire({
+                title: 'Listo!',
+                text: 'Se a Modificado el Room existosamente',
+                icon: 'success'
+            }).then(() => {
+                window.location=("/adminMenu/viewRoom");
+            });
         })
         .catch( (err) => {
             swal.fire({
@@ -139,13 +168,14 @@ class NewRoom extends Component {
         return (
             <div className="window">
                 {this.fill()}
+                {console.log(this.state)}
                 <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
                         Ingrese los datos del nuevo Room
                     </h4>
                     <div className="form-group">
                         <label>Nombre</label>
-                        <input type="text" className="form-control" placeholder="Nombre del room" name="name" value={this.state.description}
+                        <input type="text" className="form-control" placeholder="Nombre del room" name="name" value={this.state.name}
                         onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
@@ -154,6 +184,7 @@ class NewRoom extends Component {
                             name="maxCapacity"
                             className="form-control"
                             onChange={this.handleChange}
+                            value={this.state.maxCapacity}
                         >
                             {this.state.nums.map((num,index) => 
                                 <option key={index}>
@@ -168,6 +199,7 @@ class NewRoom extends Component {
                             name="allowCapacity"
                             className="form-control"
                             onChange={this.handleChange}
+                            value={this.state.allowCapacity}
                         >
                             {this.state.nums.map((num,index) => 
                                 <option key={index}>
@@ -178,17 +210,8 @@ class NewRoom extends Component {
                     </div>
                     <div className="form-group">
                         <label>Administrador Encargado</label>
-                        <select
-                            name="admin"
-                            className="form-control"
-                            onChange={this.handleChange}
-                        >
-                            {this.state.admins.map((inf,index) => 
-                                <option key={index}>
-                                    {inf.id} - {inf.name} {inf.lastname}
-                                </option>
-                            )}
-                        </select>
+                        <input type="input" className="form-control" id="admin" name="admin" value={this.state.admin} disabled="disabled"
+                        onChange={this.handleChange}/>
                     </div>
                     <div className="row">
                         <div className="col">
@@ -211,4 +234,4 @@ class NewRoom extends Component {
     }
 }
 
-export default NewRoom;
+export default ModifyRoom;

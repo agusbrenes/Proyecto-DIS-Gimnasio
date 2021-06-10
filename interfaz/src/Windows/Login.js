@@ -46,7 +46,7 @@ class signUp extends Component {
 
     render() {
         return (
-            <div className="SignUp">
+            <div className="window">
                 <form onSubmit={this.check}>
                     <h4 className="text-center">
                         Ingrese sus credenciales

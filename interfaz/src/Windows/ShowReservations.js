@@ -2,91 +2,76 @@ import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
 
-class ShowService extends Component {
+class NewReservation extends Component {
     state = {
-        services: [],
-        list: []
+        client:"",
+        sessions: []
     }
 
-    //Función que actualiza los states
-    handleChange = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-
-        this.setState({
-            [name] : value
-        });
+    componentDidMount = () => {
+        this.getData()
     }
 
-    componentWillMount = () => {
-        this.getServices();
-    }
-
-    getServices = async () => {
-        await axios({
-            url: "/api/GetServices",
+    getData = () => {
+        axios({
+            url: "/api/GetReservations",
             method: "GET",
         })
         .then( async (response) => {
             const data = response.data;
-            console.log("what", data);
             await data.forEach((item) => {
-                var instru = item.instructors[0].firstName + " " + item.instructors[0].lastName
                 const info = {
-                    name: item.description,
-                    capacity: item.capacity,
-                    room: item.room.name,
-                    instructor: instru,
+                    instructor: item.instructor,
+                    service: item.service,
+                    day: item.day,
+                    schedule: item.schedule
                 }
-                this.state.list.push(info);
-                console.log(this.state.services);
-            });
-            this.setState({
-                services: this.state.list
+                this.state.sessions.push(info);
             })
         })
-        .catch(() => {
+        .catch((err) => {
             swal.fire({
                 title: 'Ocurrio un problema al cargar los datos',
+                text: err.message,
                 icon: 'error'
-            }).then(() => {
-                window.history.back();
             });
+            window.history.back();
         });
     }
 
-    show = (name) => {
-        window.location=("/adminMenu/changeService/"+name)
+    pay = (id) => {
+        
     }
 
     render() {
         return (
-            <div className="showData">
+            <div className="showSessions">
                 <h4>
-                    Seleccione el Servicio a modificar
+                    
                 </h4>
                 <div className="col-md-12">
                     <div className="row">
-                    {console.log(this.state.data)}
-                        {this.state.services.map((post, index) =>
+                        {this.state.sessions.map((post, index) =>
                         <div key = {index} className="col-md-4">
                             <div className ="card text-white bg-dark mt-4">
                                 <p className="card-header text-center text">
-                                    {post.name}
+                                    {post.name} {post.lastname}
                                 </p>
                                 <p className="text-center">
-                                    Máximo de personas: {post.capacity}
+                                    Instructor: {post.instructor}
                                 </p>
                                 <p className="text-center">
-                                    Instructor asignado: {post.instructor}
+                                    Servicio: {post.service}
                                 </p>
                                 <p className="text-center">
-                                    Room asignado: {post.room}
+                                    Día: {post.day}
+                                </p>
+                                <p className="text-center">
+                                    Horario: - 
                                 </p>
                                 <div className="card-footer text-center">
-                                    <button className="btn btn-danger button" onClick={() => this.show(post.name)}>
-                                        Modificar
+                                    <button className="btn btn-danger button" onClick={() => this.pay(post.id)}>
+                                        Pagar
                                     </button>
                                 </div>
                             </div>
@@ -104,4 +89,4 @@ class ShowService extends Component {
     }
 }
 
-export default ShowService;
+export default NewReservation

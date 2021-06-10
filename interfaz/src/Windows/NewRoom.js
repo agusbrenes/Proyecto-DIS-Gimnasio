@@ -95,11 +95,17 @@ class NewRoom extends Component {
             })
         }
 
+        var index = document.form.admin.selectedIndex;
+
         const data = {
             name: this.state.name,
             maxCapacity: this.state.maxCapacity,
             capacity: this.state.allowCapacity,
-            administrator: {id:this.state.admins[document.form.admin.selectedIndex].id},
+            administrator: {
+                id: this.state.admins[index].id,
+                firstName: this.state.admins[index].name,
+                lastName: this.state.admins[index].lastname
+            },
             beginTime: this.state.beginSchedule,
             endTime: this.state.endSchedule,
         }
