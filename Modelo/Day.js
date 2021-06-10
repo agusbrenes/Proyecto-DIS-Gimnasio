@@ -1,9 +1,8 @@
-const Calendar = require('./Calendar.js');
-const Session = require('./Session.js');
-const Schedule = require('./Schedule.js');
-
 module.exports = class Day {
     constructor(number, name, schedule) {
+        if (number < 1 || number > 7) {
+            throw new Error("Invalid Day number. Cannot create such Day.");
+        }
         this.number = number;
         this.name = name;
         this.schedule = schedule;

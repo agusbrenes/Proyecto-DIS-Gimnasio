@@ -3,6 +3,9 @@ const Controller = require("./Controller");
 
 const DaoRoom = require('../Daos/DaoRoom');
 const ControlAdmin = require('./ControlAdmin');
+const ControlInstructor = require('./ControlInstructor');
+const ControlService = require('./ControlService');
+const ControlCalendar = require('./ControlCalendar');
 
 module.exports = class ControlRoom extends Controller {
     constructor() {
@@ -40,5 +43,33 @@ module.exports = class ControlRoom extends Controller {
         return await this.handler.save(room);
     }
 
-    // Setear
+    async setRoomInstructors(room, instructorArray) {
+        const control = new ControlInstructor();
+        for (var i = 0; i < instructorArray.length; i++) {
+            const instructorQuery = await control.find(instructorArray[i]);
+            const instructor = control.toObject(instructorQuery[0]);
+            room.addInstructor(instructor);
+        }
+        return room;
+    }
+
+    async setRoomServices(room, serviceArray) {
+        const control = new ControlService();
+        for (var i = 0; i < serviceArray.length; i++) {
+            const serviceQuery = await control.find(serviceArray[i]);
+            const service = control.toObject(serviceQuery[0]);
+            room.addService(service);
+        }
+        return room;
+    }
+
+    async setRoomCalendars(room, calendarArray) {
+        const control = new ControlCalendar();
+        for (var i = 0; i < calendarArray.length; i++) {
+            const calendarQuery = await control.find(calendarArray[i]);
+            const calendar = control.toObject(calendarQuery[0]);
+            room.addService(calendar);
+        }
+        return room;
+    }
 }

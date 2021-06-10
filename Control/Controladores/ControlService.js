@@ -30,12 +30,13 @@ module.exports = class ControlService extends Controller {
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toObject(instructorQuery[0]);
 
-        let service = new Session (
+        let service = new Service (
             schema.description,
             schema.capacity,
             room,
             instructor
         );
+        service.setId(schema.id);
         service = await this.setServiceInstructors(service, schema.instructors);
         service = await this.setServiceSessions(service, schema.sessions);
         return service;
