@@ -4,7 +4,9 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempAdminSchema = new Schema({
-    id: {type: String}
+    id: {type: String},
+    firstName: {type: String},
+    lastName: {type: String}
 }, { _id: false });
 
 const TempInstructorSchema = new Schema({
@@ -25,7 +27,9 @@ const RoomSchema = mongoose.model("Room", new Schema({
     maxCapacity: {type: Number, required: true},
     capacity: {type: Number},
     schedule: {
-        id: {type: Number, required: true}
+        id: {type: Number, required: true},
+        beginTime: {type: String},
+        endTime: {type: String}
     },
     administrators: [TempAdminSchema],
     instructors: [TempInstructorSchema],
@@ -54,11 +58,13 @@ module.exports = class DaoRoom extends Dao {
         schema.maxCapacity = object.maxCapacity;
         schema.capacity = object.capacity;
         schema.schedule.id = object.schedule.id;
+        schema.schedule.beginTime = object.schedule.begin_time;
+        schema.schedule.endTime = object.schedule.end_time;
 
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema1 = { id: administrator.id };
+                const schema1 = { id: administrator.id, firstName: administrator.firstName, lastName: administrator.lastName };
                 administrators1.push(schema1);
             });
             schema.administrators = administrators1;
@@ -102,7 +108,7 @@ module.exports = class DaoRoom extends Dao {
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema = { id: administrator.id };
+                const schema = { id: administrator.id, firstName: administrator.firstName, lastName: administrator.lastName };
                 administrators1.push(schema);
             });
         }
@@ -136,7 +142,9 @@ module.exports = class DaoRoom extends Dao {
             maxCapacity: object.maxCapacity,
             capacity: object.capacity,
             schedule: {
-                id: object.schedule.id
+                id: object.schedule.id,
+                beginTime: object.schedule.begin_time,
+                endTime: object.schedule.end_time
             },
             administrators: administrators1,
             instructors: instructors1,
