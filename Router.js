@@ -477,7 +477,7 @@ router.post("/NewService", async (req, res) => {
 router.post("/GetService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {id: object.id};
+    const filter = {description: object.description};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -492,7 +492,7 @@ router.post("/GetService", async (req, res) => {
 router.post("/ModifyService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {id: object.id};
+    const filter = {description: object.description};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -512,7 +512,7 @@ router.post("/ModifyService", async (req, res) => {
 router.post("/DeleteService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {id: object.id};
+    const filter = {description: object.description};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -912,6 +912,34 @@ router.post("/ModifyCalendar", async (req, res) => {
     } catch (err) {
         res.status(500).json({error: err.message});
     }
+});
+
+router.post("/DeleteCalendar", async (req, res) => {
+    const object = req.body;
+    const control = new ControlCalendar();
+    const filter = {id: object.id};
+    try {
+        const foundCalendar = await control.find(filter);
+        if (!foundCalendar) {
+            return res.json({msg:true});
+        }
+
+        const deletedCalendar = await control.delete(filter);
+        res.json(deletedCalendar);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetCalendars", (req, res) => {
+    const control = new ControlCalendar();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 });
 
 //---------------Schedule----------------------//
