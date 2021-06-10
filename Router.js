@@ -15,6 +15,8 @@ const ControlRoom = require('./Control/Controladores/ControlRoom');
 const ControlService = require('./Control/Controladores/ControlService');
 const ControlPayMethod = require('./Control/Controladores/ControlPayMethod');
 const ControlReservation = require('./Control/Controladores/ControlReservation');
+const ControlSession = require('./Control/Controladores/ControlSession');
+const ControlSubscription = require('./Control/Controladores/ControlSubscription');
 
 //---------------Rutas----------------------//
 
@@ -695,8 +697,88 @@ router.get("/GetReservations", (req, res) => {
 });
 
 //---------------Session----------------------//
+router.post("/NewSession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const filter = {id: object.id};
+    try {
+        const foundSession = await control.find(filter);
+        if (foundSession.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const savedSession = await control.save(object);
+        res.json(savedSession);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetSession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const filter = {id: object.id};
+    try {
+        const foundSession = await control.find(filter);
+        if (!foundSession) {
+            return res.json({msg:true});
+        }
+        res.json(foundSession);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifySession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const filter = {id: object.id};
+    try {
+        const foundSession = await control.find(filter);
+        if (!foundSession) {
+            return res.json({msg:true});
+        }
+
+        const modifiedSession = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedSession);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteSession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const filter = {id: object.id};
+    try {
+        const foundService = await control.find(filter);
+        if (!foundService) {
+            return res.json({msg:true});
+        }
+
+        const deletedSession = await control.delete(filter);
+        res.json(deletedSession);
+    } catch (err) {
+        res.status(500).json({msg: err.message});
+    }
+});
+
+router.get("/GetSessions", (req, res) => {
+    const control = new ControlSession();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
 
 //---------------Subscription----------------------//
+
 
 //---------------Service----------------------//
 module.exports = router;
