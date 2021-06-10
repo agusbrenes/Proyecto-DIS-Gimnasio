@@ -25,7 +25,9 @@ const RoomSchema = mongoose.model("Room", new Schema({
     maxCapacity: {type: Number, required: true},
     capacity: {type: Number},
     schedule: {
-        id: {type: Number, required: true}
+        id: {type: Number, required: true},
+        beginTime: {type: String},
+        endTime: {type: String}
     },
     administrators: [TempAdminSchema],
     instructors: [TempInstructorSchema],
@@ -54,6 +56,8 @@ module.exports = class DaoRoom extends Dao {
         schema.maxCapacity = object.maxCapacity;
         schema.capacity = object.capacity;
         schema.schedule.id = object.schedule.id;
+        schema.schedule.beginTime = object.schedule.begin_time;
+        schema.schedule.endTime = object.schedule.end_time;
 
         const administrators1 = [];
         if (object.administrators.length > 0) {
@@ -136,7 +140,9 @@ module.exports = class DaoRoom extends Dao {
             maxCapacity: object.maxCapacity,
             capacity: object.capacity,
             schedule: {
-                id: object.schedule.id
+                id: object.schedule.id,
+                beginTime: object.schedule.begin_time,
+                endTime: object.schedule.end_time
             },
             administrators: administrators1,
             instructors: instructors1,
