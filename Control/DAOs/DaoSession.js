@@ -21,7 +21,9 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         name: {type: String}
     },
     schedule: {
-        id: {type: Number}
+        id: {type: Number},
+        beginTime: {type: String},
+        endTime: {type: String}
     },
     reservations: [TempReservationSchema]
 }));
@@ -50,6 +52,8 @@ module.exports = class DaoSession extends Dao {
         schema.day.number = object.day.id;
         schema.day.name = object.day.name;
         schema.schedule.id = object.schedule.id;
+        schema.schedule.beginTime = object.schedule.begin_time;
+        schema.schedule.endTime = object.schedule.end_time;
 
         const reservations1 = [];
         if (object.reservations.length > 0) {
@@ -90,7 +94,9 @@ module.exports = class DaoSession extends Dao {
                 name: object.day.name
             },
             schedule: {
-                id: object.schedule.id
+                id: object.schedule.id,
+                beginTime: object.schedule.begin_time,
+                endTime: object.schedule.end_time
             },
             reservations: reservations1
         });
