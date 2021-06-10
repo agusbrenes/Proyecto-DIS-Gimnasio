@@ -33,7 +33,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const control = new ControlRoom();
 
         const roomQuery = await control.find({admRoom: adminRoom.roomName});
-        const room = control.toObject(roomQuery[0]); // falta toObject
+        const room = control.toObject(roomQuery[0]);
 
         admin.setAdmRoom(room);
         return admin;

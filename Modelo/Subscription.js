@@ -6,7 +6,7 @@ module.exports = class Subscription {
         this.client = client;
         this.fee = 0;
         this.limit = 0;
-        this.sessionCost = 1.0; // TODO conseguir precio de sesion
+        this.sessionCost = 10.0; // TODO conseguir precio de sesion
     }
 
     static assignId() {
