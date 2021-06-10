@@ -32,7 +32,6 @@ module.exports = class ControlService extends Controller {
 
         let service = new Service (
             schema.description,
-            schema.capacity,
             room,
             instructor
         );

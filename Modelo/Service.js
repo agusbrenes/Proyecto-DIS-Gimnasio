@@ -4,7 +4,6 @@ module.exports = class Service {
     constructor(description, capacity, room, instructor) {
         this.id = Service.assignId();
         this.description = description;
-        this.capacity = capacity;
         this.room = room;
         this.instructors = [instructor];
         this.sessions = [];
@@ -28,14 +27,6 @@ module.exports = class Service {
 
     getDescription() {
         return this.description;
-    }
-
-    setCapacity(capacity) {
-        this.capacity = capacity;
-    }
-
-    getCapacity() {
-        return this.capacity;
     }
 
     getRoom() {

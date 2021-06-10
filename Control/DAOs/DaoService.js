@@ -16,7 +16,6 @@ const TempSessionSchema = new Schema({
 const ServiceSchema = mongoose.model("Service", new Schema ({
     id: {type: Number, unique: true},
     description: {type: String, unique: true},
-    capacity: {type: Number},
     room: {
         name: {type: String}
     },
@@ -42,7 +41,6 @@ module.exports = class DaoService extends Dao {
         const schema = await ServiceSchema.findOne(filter);
 
         schema.description = object.description;
-        schema.capacity = object.capacity;
         schema.room = {room: object.room.name};
 
         const instructors1 = [];
@@ -90,7 +88,6 @@ module.exports = class DaoService extends Dao {
         return new ServiceSchema({
             id: object.id,
             description: object.description,
-            capacity: object.capacity,
             room: {
                 name: object.room.name
             },
