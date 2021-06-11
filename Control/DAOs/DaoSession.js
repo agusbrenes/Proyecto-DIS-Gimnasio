@@ -8,7 +8,7 @@ const TempReservationSchema = new Schema({
 }, { _id: false });
 
 const SessionSchema = mongoose.model("Session", new Schema ({
-    id: {type: Number, index: true},
+    id: {type: Number},
     instructor: {
         id: {type: Number},
         firstName: {type: String},

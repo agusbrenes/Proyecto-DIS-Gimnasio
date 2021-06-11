@@ -9,7 +9,7 @@ const DayTempSchema = new Schema ({
 }, { _id: false });
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
-    id: {type: Number, index: true},
+    id: {type: Number},
     room: {
         name: {type: String}
     },

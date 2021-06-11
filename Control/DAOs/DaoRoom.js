@@ -28,7 +28,7 @@ const RoomSchema = mongoose.model("Room", new Schema({
     maxCapacity: {type: Number, required: true},
     capacity: {type: Number},
     schedule: {
-        id: {type: Number, required: true},
+        id: {type: Number},
         beginTime: {type: String},
         endTime: {type: String}
     },
