@@ -1,3 +1,5 @@
+const Schedule = require("./Schedule");
+
 module.exports = class Session {
     static #id = 0;
 
