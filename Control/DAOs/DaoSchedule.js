@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ScheduleSchema = mongoose.model("Schedule", new Schema({
-    id: {type: Number, index: true},
+    id: {type: Number},
     beginTime: {type: Date, required: true},
     endTime: {type: Date, required: true}
 }));
