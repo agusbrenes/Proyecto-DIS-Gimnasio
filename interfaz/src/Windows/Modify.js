@@ -140,14 +140,16 @@ class Modify extends Component {
             else 
                 this.setState({var: true})
             var user = {
+                room: {name: this.state.room},
                 email: this.state.email,
                 password: this.state.password,
                 id: this.state.id,
                 firstName: this.state.name,
                 lastName: this.state.lastname,
                 phone: this.state.phone,
-                temp: this.state.temp,
-                room: {name: this.state.room}
+                isTemp: this.state.var,
+                services: [],
+                sessions: [],
             }
         } else if (this.state.is === "Cliente"){
             var user = {
