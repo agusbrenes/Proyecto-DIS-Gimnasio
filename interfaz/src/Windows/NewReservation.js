@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class NewReservation extends Component {
     state = {
@@ -9,6 +10,11 @@ class NewReservation extends Component {
     }
 
     componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getData()
     }
 
@@ -47,6 +53,8 @@ class NewReservation extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="showSessions">
                 <h4>
                     Seleccione la sesión para realizar la reservación
@@ -86,6 +94,7 @@ class NewReservation extends Component {
                         </button>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }

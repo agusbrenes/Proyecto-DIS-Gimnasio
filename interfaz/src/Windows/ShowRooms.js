@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class ShowRooms extends Component {
     state = {
@@ -21,6 +22,11 @@ class ShowRooms extends Component {
     }
 
     componentWillMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getData();
     }
 
@@ -64,6 +70,8 @@ class ShowRooms extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="showData">
                 <h4 >
                     Seleccione el Room a modificar
@@ -103,6 +111,7 @@ class ShowRooms extends Component {
                         </button>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }

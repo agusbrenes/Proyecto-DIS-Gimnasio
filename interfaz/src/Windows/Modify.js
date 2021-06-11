@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class Modify extends Component {
     state = {
@@ -29,6 +30,11 @@ class Modify extends Component {
 
 
     componentDidMount = async () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         if (this.props.match.params.is === "Admin"){
             this.setState({
                 is: "Administrador"
@@ -130,6 +136,8 @@ class Modify extends Component {
 
     render () {
         return (
+            <div>
+                <Navbar/>
             <div className="window">
                 <form onSubmit={this.modify}>
                     <div className="form-group">
@@ -180,6 +188,7 @@ class Modify extends Component {
                         Modificar
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

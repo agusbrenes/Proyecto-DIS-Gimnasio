@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import Navbar from "./NavBar/NavBar";
 
 const swal = require('sweetalert2');
 
@@ -26,6 +27,11 @@ class NewService extends Component {
     }
 
     componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getInstructors();
         this.getRooms();
     }
@@ -90,11 +96,10 @@ class NewService extends Component {
 
         const data = {
             description: this.state.name,
-            capacity: this.state.capacity,
             instructor: {
                 id: this.state.instructors[index].id,
-                first_name: this.state.instructors[index].name,
-                last_name: this.state.instructors[index].lastname
+                firstName: this.state.instructors[index].name,
+                lastName: this.state.instructors[index].lastname
             },
             room: {name:this.state.room}
         }
@@ -126,6 +131,8 @@ class NewService extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="window">
                 {this.fill()}
                 <form onSubmit={this.submit} name="form">
@@ -136,20 +143,6 @@ class NewService extends Component {
                         <label>Nombre</label>
                         <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="name" value={this.state.description}
                         onChange={this.handleChange}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Capacidad de personas</label>
-                        <select
-                            name="capacity"
-                            className="form-control"
-                            onChange={this.handleChange}
-                        >
-                            {this.state.nums.map((num,index) => 
-                                <option key={index}>
-                                    {num}
-                                </option>
-                            )}
-                        </select>
                     </div>
                     <div className="form-group">
                         <label>Instructor del servicio</label>
@@ -183,6 +176,7 @@ class NewService extends Component {
                         Crear
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

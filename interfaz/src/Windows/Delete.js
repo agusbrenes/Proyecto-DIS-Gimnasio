@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class Delete extends Component {
     state = {
@@ -10,6 +11,11 @@ class Delete extends Component {
     }
 
     componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         if (this.props.match.params.is === "Admin"){
             this.setState({
                 is: "Administrador",
@@ -106,6 +112,8 @@ class Delete extends Component {
 
     render () {
         return (
+            <div>
+                <Navbar/>
             <div className="window">
                 <form onSubmit={this.delete} name="form">
                     <h4 className="text-center">
@@ -129,6 +137,7 @@ class Delete extends Component {
                         Eliminar
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

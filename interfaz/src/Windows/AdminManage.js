@@ -1,30 +1,36 @@
 import React, {Component} from "react";
 import axios from "axios";
+import Navbar from "./NavBar/NavBar";
 
 class AdminManage extends Component {
     state = {
         is: ""
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         if (this.props.match.params.is === "Admins"){
-            await this.setState({
+            this.setState({
                 is: "Administrador",
               });
         } else if (this.props.match.params.is === "Instructors"){
-            await this.setState({
+            this.setState({
                 is: "Instructor",
               });
         } else if (this.props.match.params.is === "Clients"){
-            await this.setState({
+            this.setState({
                 is: "Cliente",
               });
         } else if (this.props.match.params.is === "Services"){
-            await this.setState({
+            this.setState({
                 is: "Servicio",
               });
         } else {
-            await this.setState({
+            this.setState({
                 is: "Room",
               });
         }
@@ -69,6 +75,8 @@ class AdminManage extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="adminMenu">
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
                     <button className="btn btn-primary" style={{width:"220px"}} onClick={() => this.click("Add")}>
@@ -90,6 +98,7 @@ class AdminManage extends Component {
                         Regresar
                     </button>
                 </div>
+            </div>
             </div>
         )
     }

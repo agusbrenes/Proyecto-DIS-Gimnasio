@@ -1,11 +1,12 @@
 // Express
 const express = require('express');
 const router = express.Router();
-const config = require('./Config');
+
 const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
 
 // Token?
-const { JWT_SECRET } = config;
+
 
 // Controladores
 const ControlAdmin = require('./Control/Controladores/ControlAdmin');
@@ -20,41 +21,87 @@ const ControlSubscription = require('./Control/Controladores/ControlSubscription
 const ControlCalendar = require('./Control/Controladores/ControlCalendar');
 const ControlSchedule = require('./Control/Controladores/ControlSchedule');
 const ControlDay = require('./Control/Controladores/ControlDay');
+const { compare } = require('bcryptjs');
 
 //---------------Rutas----------------------//
 
 //Login
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    // Simple validation
-    if (!email || !password) {
-      return res.status(400).json({ msg: 'Llene todos los campos' });
-    }
-  
-    try {
-      // Check for existing user
-      const user = await User.findOne({ email });
-      if (!user) throw Error('User does not exist');
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) throw Error('Invalid credentials');
-  
-      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
-      if (!token) throw Error('Couldnt sign the token');
-  
-      res.status(200).json({
-        token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email
-        }
-      });
+router.post('/loginClient', async (req, res) => {
+    const object = req.body; 
+    const control = new ControlClient();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter);
+        if (foundUser.length === 0) {
+            return res.json({msg:true});
+        }    
+    
+        const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
+        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+
+        const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
+        if (!token) throw Error('Couldnt sign the token');
+
+        res.json({
+            token,
+            id: foundUser[0].id,
+        })
     } catch (e) {
       res.status(400).json({ msg: e.message });
     }
   });
+
+router.post('/loginAdmin', async (req, res) => {
+    const object = req.body; 
+    const control = new ControlAdmin();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter);
+        if (foundUser.length === 0) {
+            return res.json({msg:true});
+        }    
+    
+        const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
+        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+
+        const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
+        if (!token) throw Error('Couldnt sign the token');
+
+        res.json({
+            token,
+            id: foundUser[0].id,
+        })
+    } catch (e) {
+      res.status(400).json({ msg: e.message });
+    }
+});
+
+router.post('/loginInstructor', async (req, res) => {
+    const object = req.body; 
+    const control = new ControlClient();
+    const filter = {email: object.email};
+    try {        
+        const foundUser = await control.find(filter);
+        if (foundUser.length === 0) {
+            return res.json({msg:true});
+        }    
+    
+        const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
+        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+
+        const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
+        if (!token) throw Error('Couldnt sign the token');
+
+        res.json({
+            token,
+            id: foundUser[0].id,
+        })
+    } catch (e) {
+      res.status(400).json({ msg: e.message });
+    }
+});
+
+
 
 //---------------Client----------------------//
 
@@ -66,7 +113,7 @@ router.post("/NewClient", async (req, res) => {
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        console.log(foundUser);
+
         if (foundUser.length != 0) {
             return res.json({msg:true});
         }

@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class ModifyService extends Component {
     state = {
+        id: "",
         name: "",
         capacity: "",
         room: "",
@@ -26,6 +28,11 @@ class ModifyService extends Component {
     }
 
     componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getData();
     }
 
@@ -46,6 +53,7 @@ class ModifyService extends Component {
         .then( (response) => {
             const data = response.data;
             this.setState({
+                id: data[0].id,
                 name: data[0].description,
                 capacity: data[0].capacity,
                 room: data[0].room.name, 
@@ -143,6 +151,8 @@ class ModifyService extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="window">
                 {this.fill()}
                 <form onSubmit={this.submit}>
@@ -205,6 +215,7 @@ class ModifyService extends Component {
                         Modificar
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

@@ -1,9 +1,20 @@
 import React, {Component} from "react";
 import axios from "axios";
+import NavBar from "./NavBar/NavBar";
 
 class AdminMenu extends Component {
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
+    }
+
     render() {
         return (
+            <div>
+                <NavBar/>
             <div className="adminMenu">
                 <h1 className="d-flex justify-content-center" style={{color:"black"}}>
                     Bienvenido
@@ -33,6 +44,7 @@ class AdminMenu extends Component {
                         Gestionar Rooms
                     </button>
                 </div>
+            </div>
             </div>
         )
     }

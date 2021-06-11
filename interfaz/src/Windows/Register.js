@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import "../App.css"
+import Navbar from "./NavBar/NavBar";
 
 const swal = require('sweetalert2')
 
@@ -13,7 +14,11 @@ class Register extends Component {
         phone: "",
         password: "",
         confirm: "",
+        temp: "",
+        room: "",
         is: "",
+        var: true,
+        rooms: []
     }
 
     //Función que actualiza los states
@@ -27,10 +32,38 @@ class Register extends Component {
         });
     }
 
-    componentDidMount = async () => {
-        await this.setState({
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null && this.props.match.params.is === "admin") {
+            window.location=("/loginClient");
+        }
+        this.setState({
             is: this.props.match.params.is,
           });
+        if (this.props.match.params.is === "Instructor"){
+            this.getData();
+            this.setState({var: false});
+        }
+    }
+
+    getData = () => {
+        axios({
+            url: "/api/GetRooms",
+            method: "GET",
+        })
+        .then( async (response) => {
+            const data = response.data;
+            await data.forEach((item) => {
+                this.state.rooms.push(item.name);
+            })
+            this.setState({
+                room: data[0].name
+            }); 
+        })
+        .catch(() => {
+            console.log("Hubo un error al buscar los Instructores");
+        });
     }
 
     submit = (event) => {
@@ -51,17 +84,32 @@ class Register extends Component {
             })
             return;
         }
-
-        console.log("khe");
-
-        const user = {
-            email: this.state.email,
-            password: this.state.password,
-            id: this.state.id,
-            firstName: this.state.name,
-            lastName: this.state.lastname,
-            phone: this.state.phone,
+        if (this.state.is === "Instructor"){
+            if (this.state.temp == "Fijo")
+                this.setState({var: false})
+            else 
+            this.setState({var: true})
+            var user = {
+                email: this.state.email,
+                password: this.state.password,
+                id: this.state.id,
+                firstName: this.state.name,
+                lastName: this.state.lastname,
+                phone: this.state.phone,
+                temp: this.state.temp,
+                room: {name: this.state.room}
+            }
+        } else {
+            var user = {
+                email: this.state.email,
+                password: this.state.password,
+                id: this.state.id,
+                firstName: this.state.name,
+                lastName: this.state.lastname,
+                phone: this.state.phone,
+            }
         }
+        console.log(user);
         axios({
             url: "/api/New"+this.state.is,
             method: "POST",
@@ -80,7 +128,7 @@ class Register extends Component {
             } else {
                 swal.fire({
                     title: 'Listo!',
-                    text: 'Su cuenta a sido registrada existosamente',
+                    text: 'La cuenta a sido registrada existosamente',
                     icon: 'success'
                 }).then(() => {
                     window.history.back();
@@ -96,9 +144,46 @@ class Register extends Component {
         })
     }
 
+    temp = () => {
+        console.log(this.props.match.params.is);
+        if (this.props.match.params.is === "Instructor"){
+            return ( 
+                <div>
+                <div className="form-group">
+                    <label>Contratación</label>
+                    <select
+                        name="temp"
+                        className="form-control"
+                        onChange={this.handleChange}
+                    >
+                        <option>Fijo</option>
+                        <option>Temporal</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Room a asignar</label>
+                    <select
+                        name="room"
+                        className="form-control"
+                        onChange={this.handleChange}
+                    >
+                        {this.state.rooms.map((room,index) => 
+                            <option key={index}>
+                                {room}
+                            </option>
+                        )}
+                    </select>
+                </div>
+                </div>
+            )
+        }
+    }
+
     render() {
         return (
-            <div className="Register window">
+            <div>
+                <Navbar/>
+            <div className={!this.state.var ? "Register" : "window"}>
                 <form onSubmit={this.submit}>
                     <h4 className="text-center">
                         Ingrese sus datos
@@ -130,6 +215,7 @@ class Register extends Component {
                         <input type="text" className="form-control" id="phone" placeholder="#####" name="phone" value={this.state.phone}
                         onChange={this.handleChange}/>
                     </div>
+                        {this.temp()}
                     <div className="row">
                         <div className="col">
                             <label for="password">Contraseña</label>
@@ -146,6 +232,7 @@ class Register extends Component {
                         Registrarse
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

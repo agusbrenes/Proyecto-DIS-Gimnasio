@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import swal from "sweetalert2";
+import Navbar from "./NavBar/NavBar";
 
 class NewRoom extends Component {
     state = {
@@ -28,6 +29,11 @@ class NewRoom extends Component {
     }
 
     componentDidMount = async () => {
+        const token = localStorage.getItem("token")
+        console.log(token);
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getData();
     }
 
@@ -76,6 +82,7 @@ class NewRoom extends Component {
                 title: 'Ingrese un nombre para el Room',
                 icon: 'warning'
             })
+            return
         }
 
         if (parseInt(this.state.maxCapacity) < parseInt(this.state.allowCapacity)){
@@ -83,6 +90,7 @@ class NewRoom extends Component {
                 title: 'La capacidad recomendada no debe ser mayor a la capacidad máxima',
                 icon: 'warning'
             })
+            return
         }
 
         var begin = this.state.beginSchedule.replace(/:/g,"");
@@ -93,6 +101,7 @@ class NewRoom extends Component {
                 title: 'Seleccione un horario adecuado, la hora final no debe ser mayor a la de inicio',
                 icon: 'warning'
             })
+            return
         }
 
         var index = document.form.admin.selectedIndex;
@@ -143,6 +152,8 @@ class NewRoom extends Component {
 
     render() {
         return (
+            <div>
+                <Navbar/>
             <div className="window">
                 {this.fill()}
                 <form onSubmit={this.submit} name="form">
@@ -212,6 +223,7 @@ class NewRoom extends Component {
                         Crear
                     </button>
                 </form>
+            </div>
             </div>
         )
     }

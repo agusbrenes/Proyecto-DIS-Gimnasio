@@ -19,15 +19,17 @@ import ShowRooms from './Windows/ShowRooms';
 import DeleteRoom from './Windows/DeleteRoom';
 import InstructorMenu from './Windows/InstructorMenu';
 import NewReservation from './Windows/NewReservation';
+import MyCalendar from './Windows/MyCalendar';
+import NewSession from './Windows/NewSession';
 
 function App() {
   return (
     <Router>
-      <Navbar/>
+      
       <Switch>
         <Route exact path="/" component={GymMenu} />
         <Route exact path="/register/:is" component={Register} />
-        <Route exact path="/login" component={Login}/>
+        <Route exact path="/login:is" component={Login}/>
         <Route exact path="/adminMenu" component={AdminMenu}/>
         <Route exact path="/adminMenu/manage:is" component={AdminManage}/>
         <Route exact path="/adminMenu/show:is" component={ShowData}/>
@@ -41,7 +43,9 @@ function App() {
         <Route exact path="/delete:is" component={Delete}/>
         <Route exact path="/eraseRoom" component={DeleteRoom}/>
         <Route exact path="/clientMenu" component={ClientMenu}/>
+        <Route exact path="/clientMenu/viewCalendar/:id" component={MyCalendar}/>
         <Route exact path="/instructorMenu" component={InstructorMenu}/>
+        <Route exact path="/instructorMenu/newSession" component={NewSession}/>
         <Route exact path="/newReservation" component={NewReservation}/>
       </Switch>
     </Router>

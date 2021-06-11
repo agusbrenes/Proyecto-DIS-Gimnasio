@@ -1,31 +1,49 @@
-import React, {useState} from "react";
+import React, {Component, useState} from "react";
 import { MenuItems } from "./MenuItems";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./NavBar.css";
 
-function Navbar() {
-    const [clicked, setClick] = useState(false);
+export default class Navbar extends Component {
+    state = {
+        clicked: false,
+        setClick: false,
+        show: false
+    }
 
-    const handleClick = () => setClick(!clicked);
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        if (token === null) {
+            this.setState({show: true})
+        }
+    }
 
+    handleClick = () => this.setState.setClick = !this.state.clicked;
+
+    render(){
     return (
         <nav className="Navbar">
             <h1 className="navbarLogo">Gimnasio Popeye</h1>
-            <div className="menuIcon" onClick={handleClick}>
+            <div className="menuIcon" onClick={this.handleClick}>
             </div>
             <ul className="navMenu">
-                {MenuItems.map((item, index) => {
+                {console.log(this.state.show)}
+                {this.state.show ? MenuItems.map((item, index) => {
                     return (
                         <li className="navItem" key={index}>
-                            <Link to={item.url} className={item.cName} onClick={handleClick}>
+                            <Link to={item.url} className={item.cName} onClick={this.handleClick}>
                                 {item.title}
                             </Link>
                         </li>
                     )
-                })}        
+                }) : 
+                    <li className="navItem" key="1">
+                        <Link className="navLinks" onClick={() => window.location=("/")}>
+                            Logout
+                        </Link>
+                    </li>
+                }        
             </ul>
         </nav>
     )
+    }
 }
-
-export default Navbar;
