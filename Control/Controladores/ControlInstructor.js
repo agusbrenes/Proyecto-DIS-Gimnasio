@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const FactoryInstructor = require("../../Modelo/FactoryInstructor");
 
 const ControlRoom = require("./ControlRoom");
@@ -30,8 +32,15 @@ module.exports = class ControlInstructor extends ControlUsers {
     }
 
     async save(object) {
-        const schema = await super.save(object);
-        return await this.toObject(schema);
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(object.password, salt);
+        const instructor = this.factory.createUser(object.email, passwordHash, object.id, object.firstName, object.lastName, object.phone);
+        instructor.setRoom(object.room);
+        instructor.setTemp(object.isTemp);
+
+        const handler = new DaoInstructor();
+
+        return await handler.save(instructor);
     }
 
     async setInstructorRoom(instructor, instructorRoom) {
