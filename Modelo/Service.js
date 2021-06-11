@@ -1,7 +1,7 @@
 module.exports = class Service {
     static #id = 0;
 
-    constructor(description, capacity, room, instructor) {
+    constructor(description, room, instructor) {
         this.id = Service.assignId();
         this.description = description;
         this.room = room;

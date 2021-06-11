@@ -14,7 +14,6 @@ module.exports = class ControlService extends Controller {
     async save(object) {
         const service = new Service (
             object.description,
-            object.capacity,
             object.room,
             object.instructor
         );
