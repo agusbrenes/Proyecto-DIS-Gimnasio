@@ -78,7 +78,7 @@ router.post('/loginAdmin', async (req, res) => {
 
 router.post('/loginInstructor', async (req, res) => {
     const object = req.body; 
-    const control = new ControlClient();
+    const control = new ControlInstructor();
     const filter = {email: object.email};
     try {        
         const foundUser = await control.find(filter);

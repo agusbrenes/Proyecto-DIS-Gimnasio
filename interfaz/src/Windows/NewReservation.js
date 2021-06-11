@@ -57,12 +57,12 @@ class NewReservation extends Component {
 
     reserve = (id) => {
         const data = {
-            idClient: "118160369",
-            idSession: id
+            client: "118160369",
+            session: id
         }
 
         axios({
-            url: "/api/ReserveSession",
+            url: "/api/NewReservation",
             method: "POST",
             data: data
         })

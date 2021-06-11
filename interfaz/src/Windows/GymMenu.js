@@ -11,9 +11,9 @@ class GymMenu extends Component {
         return (
             <div>
                 <Navbar/>
-            <h1 className="GymMenu">
-                Menu
-            </h1>
+            <h4 className="GymMenu">
+                Bienvenido
+            </h4>
             </div>
         )
     }
