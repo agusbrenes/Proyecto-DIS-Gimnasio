@@ -3,7 +3,7 @@ import axios from "axios";
 import swal from "sweetalert2";
 import Navbar from "./NavBar/NavBar";
 
-class NewReservation extends Component {
+class ShowReservations extends Component {
     state = {
         client:"",
         sessions: []
@@ -20,7 +20,7 @@ class NewReservation extends Component {
 
     getData = () => {
         axios({
-            url: "/api/GetReservations",
+            url: "/api/GetSessions",
             method: "GET",
         })
         .then( async (response) => {
@@ -40,13 +40,18 @@ class NewReservation extends Component {
                 title: 'Ocurrio un problema al cargar los datos',
                 text: err.message,
                 icon: 'error'
-            });
-            window.history.back();
+            }).then( () => {
+                window.history.back();
+            })
+            
         });
     }
 
     pay = (id) => {
-        
+        axios({
+            url: "/api/ReserveSession",
+            method: "POST"
+        }) 
     }
 
     render() {
@@ -55,7 +60,7 @@ class NewReservation extends Component {
                 <Navbar/>
             <div className="showSessions">
                 <h4>
-                    
+                    Estas son sus reservaciones
                 </h4>
                 <div className="col-md-12">
                     <div className="row">
@@ -78,7 +83,7 @@ class NewReservation extends Component {
                                     Horario: - 
                                 </p>
                                 <div className="card-footer text-center">
-                                    <button className="btn btn-danger button" onClick={() => this.pay(post.id)}>
+                                    <button className="btn btn-danger button" onClick={() => this.reserve(post.id)}>
                                         Pagar
                                     </button>
                                 </div>
@@ -98,4 +103,4 @@ class NewReservation extends Component {
     }
 }
 
-export default NewReservation
+export default ShowReservations

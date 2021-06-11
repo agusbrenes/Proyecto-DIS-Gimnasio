@@ -81,16 +81,25 @@ class Modify extends Component {
             data: dato,
         })
         .then((response) => {
-            console.log(response.data[0]);
-            this.setState({
-                name: response.data[0].firstName,
-                lastname: response.data[0].lastName,
-                email: response.data[0].email,
-                id: response.data[0].id,
-                phone: response.data[0].phone,
-                room: response.data[0].room.name,
-                temp: response.data[0].temp
-            })
+            if (this.props.match.params.is === "Instructor"){
+                this.setState({
+                    name: response.data[0].firstName,
+                    lastname: response.data[0].lastName,
+                    email: response.data[0].email,
+                    id: response.data[0].id,
+                    phone: response.data[0].phone,
+                    room: response.data[0].room.name,
+                    temp: response.data[0].temp
+                })
+            } else {
+                this.setState({
+                    name: response.data[0].firstName,
+                    lastname: response.data[0].lastName,
+                    email: response.data[0].email,
+                    id: response.data[0].id,
+                    phone: response.data[0].phone,
+                })
+            }
         })
         .catch(() => {
             swal.fire({

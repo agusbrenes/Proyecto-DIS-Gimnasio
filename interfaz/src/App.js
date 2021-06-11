@@ -18,9 +18,10 @@ import NewRoom from './Windows/NewRoom';
 import ShowRooms from './Windows/ShowRooms';
 import DeleteRoom from './Windows/DeleteRoom';
 import InstructorMenu from './Windows/InstructorMenu';
-import NewReservation from './Windows/NewReservation';
 import MyCalendar from './Windows/MyCalendar';
 import NewSession from './Windows/NewSession';
+import ShowReservations from './Windows/ShowReservations';
+import NewReservation from './Windows/NewReservation';
 
 function App() {
   return (
