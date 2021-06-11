@@ -62,41 +62,20 @@ module.exports = class ControlInstructor extends ControlUsers {
         return instructor;
     }
 
-    // addSpeciality(idInstructor, idSpeciality) {
-    //     //Speciality -> Service
-    //     //lol
+    async addServiceInstructor(idInstructor, idService) {
+        const controlService = new ControlService();
 
-    //     //fix this
-    //     const service = getService(idSpeciality)
-    //     const instructor = getInstructor(idInstructor)
+        // Obtener Instructor de BD
+        const instructorQuery = await this.find({id: idInstructor});
+        const instructor = await this.toObject(instructorQuery[0]);
 
-    //     //Esta función ya comprueba que el service ya está puesto en el instructor.
-    //     instructor.addService(service);
+        const serviceQuery = await controlService.find({id: idService});
+        const service = controlService.toObject(serviceQuery[0]);
 
-    //     //update instructor.
-    // }
+        instructor.addService(service);
+        service.addInstructor(instructor);
 
-    // createSession(idInstructor, idService, capacity, dayName, dayNumber, beginTime, endTime) {
-    //     const instructor = getInstructor(idInstructor); //fix
-    //     const service = instructor.getService(idService);
-    //     const day = getDay(dayName, dayNumber); //fix
-
-    //     session = new Session(instructor, service, capacity, day, beginTime, endTime);
-    //     instructor.addSession(session);
-
-    //     //update instructor.
-    //     //save session.
-    // }
-
-    // checkCalendar(idInstructor) {
-    //     const instructor = getInstructor(idInstructor);
-    //     const room = instructor.room;
-        
-    //     var today = new Date();
-    //     const year = Date.prototype.getFullYear(today);
-    //     const month = Date.prototype.getMonth(today);
-
-    //     const calendar = room.getCalendar(year, month);
-    //     return calendar;
-    // }
+        await controlService.save(service);
+        return await this.handler.save(instructor);
+    }
 }

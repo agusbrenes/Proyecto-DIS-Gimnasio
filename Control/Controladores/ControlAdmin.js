@@ -32,11 +32,21 @@ module.exports = class ControlAdmin extends ControlUsers {
     async setAdminRoom(admin, adminRoom) {
         const control = new ControlRoom();
 
-        const roomQuery = await control.find({admRoom: adminRoom.roomName});
+        const roomQuery = await control.find({name: adminRoom.roomName});
         const room = control.toObject(roomQuery[0]);
 
         admin.setAdmRoom(room);
         return admin;
+    }
+
+    async getAdminRoom(idAdmin) {
+        const control = new ControlRoom();
+
+        const admin = await this.find(idAdmin);
+        
+        return await control.find({name: admin.admRoom.roomName});
+        // const roomQuery = await control.find({admRoom: adminRoom.roomName});
+        // const room = control.toObject(roomQuery[0]);
     }
 
 }

@@ -65,8 +65,8 @@ module.exports = class ControlClient extends ControlUsers {
 
         // Obtener Session de BD
         const sessionQuery = await controlSession.find({id: idSession});
-        const session = await this.toObject(sessionQuery[0]); //////
-        const reservation = new Reservation( ///
+        const session = await this.toObject(sessionQuery[0]);
+        const reservation = new Reservation( 
             idClient, 
             idSession
         );
@@ -101,13 +101,27 @@ module.exports = class ControlClient extends ControlUsers {
         return await controlReservation.save(reservation);
     }
 
-    // async paySubscription(idClient, idSession, idPayMethod) {
-    //     reservation = new Reservation(
-    //         idClient, 
-    //         idSession
-    //     );
-    //     return await this.handler.save(reservation);
-    // }
+    async paySubscription(idClient, idSubscription, amount) { //////
+        const controlSubscription = new ControlSubscription();
+        // const controlPayMethod = new ControlPayMethod();
+
+        // Obtener Subscription de BD
+        const query = {
+            id: idSubscription,
+            client: {id: idClient}
+        };
+        const subscriptioQuery = await controlSubscription.find(query);
+        const subscription = await controlSubscription.toObject(subscriptioQuery[0]);
+
+        // Obtener PaymentMethod de BD
+        // const payMethodQuery = await controlPayMethod.find({id: idPayMethod});
+        // const payMethod = await controlPayMethod.toObject(payMethodQuery[0]); 
+        
+        // reservation.setPaymentMethod(payMethod);
+        subscription.pay(amount);
+
+        return await controlSubscription.save(subscription);
+    }
 
     async getClientReservations(idClient) {
         const controlReservation = new ControlReservation();
