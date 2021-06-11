@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const FactoryClient = require("../../Modelo/FactoryClient");
 const Reservation = require("../../Modelo/Reservation");
 
@@ -31,8 +33,18 @@ module.exports = class ControlClient extends ControlUsers {
     }
 
     async save(object) {
-        const schema = await super.save(object);
-        return this.toObject(schema);
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(object.password, salt);
+        const client = this.factory.createUser(object.email, passwordHash, object.id, object.firstName, object.lastName, object.phone);
+        if (object.status === "Al Dia") {
+            client.setAlDia();
+        } else {
+            client.setMoroso();
+        }
+
+        const handler = new DaoClient();
+
+        return await handler.save(client);
     }
 
     async setClientReservations(client, reservationArray) {
