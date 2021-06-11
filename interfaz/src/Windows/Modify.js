@@ -12,7 +12,11 @@ class Modify extends Component {
         phone: "",
         password: "",
         confirm: "",
-        check: false
+        room: "",
+        check: false,
+        temp: "",
+        var: true,
+        rooms: []
     }
 
     //Función que actualiza los states
@@ -24,7 +28,6 @@ class Modify extends Component {
         this.setState({
             [name] : value
         });
-        console.log(this.state);
     }
 
 
@@ -43,14 +46,31 @@ class Modify extends Component {
         } else if (this.props.match.params.is === "Instructor"){
             this.setState({
                 is: "Instructor",
-            });
-            await this.getData();
+            });           
+            await this.getRooms();
+            await this.getData(); 
         } else if (this.props.match.params.is === "Client"){
             this.setState({
                 is: "Cliente",
             });
             await this.getData();
         }
+    }
+
+    getRooms = async () => {
+        await axios({
+            url: "/api/GetRooms",
+            method: "GET",
+        })
+        .then( async (response) => {
+            const data = response.data;
+            await data.forEach((item) => {
+                this.state.rooms.push(item.name);
+            })
+        })
+        .catch(() => {
+            console.log("Hubo un error al buscar los Instructores");
+        });
     }
 
     getData = async () => {
@@ -68,6 +88,8 @@ class Modify extends Component {
                 email: response.data[0].email,
                 id: response.data[0].id,
                 phone: response.data[0].phone,
+                room: response.data[0].room.name,
+                temp: response.data[0].temp
             })
         })
         .catch(() => {
@@ -97,24 +119,67 @@ class Modify extends Component {
     modify = (event) => {
         event.preventDefault();
 
-        const data = {
-            id: this.state.id,
-            email: this.state.email,
-            phone: this.state.phone,
-            firstName: this.state.name,
-            lastName: this.state.lastName,
-            password: this.state.password,
-            status: "Al dia",
-	        reservations: [],
-	        subscriptions:[],
+        if(this.state.name === "" || this.state.lastname === "" || this.state.email === "" || this.state.id === "" || this.state.phone === "" ){
+            swal.fire({
+                title: 'Debe rellenar todos los campos',
+                icon: 'warning'
+            })
+            return;
         }
+
+        if (this.state.password !== this.state.confirm){
+            swal.fire({
+                title: 'La contraseñas no coinciden',
+                icon: 'warning'
+            })
+            return;
+        }
+        if (this.state.is === "Instructor"){
+            if (this.state.temp == "Fijo")
+                this.setState({var: false})
+            else 
+                this.setState({var: true})
+            var user = {
+                email: this.state.email,
+                password: this.state.password,
+                id: this.state.id,
+                firstName: this.state.name,
+                lastName: this.state.lastname,
+                phone: this.state.phone,
+                temp: this.state.temp,
+                room: {name: this.state.room}
+            }
+        } else if (this.state.is === "Cliente"){
+            var user = {
+                email: this.state.email,
+                password: this.state.password,
+                id: this.state.id,
+                firstName: this.state.name,
+                lastName: this.state.lastname,
+                phone: this.state.phone,
+                status: "Al dia",
+                reservations: [],
+                subscriptions:[],
+            }
+        } else {
+            var user = {
+                admRoom: {roomName: ""},
+                email: this.state.email,
+                password: this.state.password,
+                id: this.state.id,
+                firstName: this.state.name,
+                lastName: this.state.lastname,
+                phone: this.state.phone
+            }
+        }
+        console.log(user);
+
         axios({
             url: "/api/Modify"+this.props.match.params.is,
             method: "POST",
-            data: data
+            data: user
         })
         .then( (res) => {
-            console.log(res.data.msg);
             swal.fire({
                 title: 'Listo!',
                 text: 'Se modifico el ' + this.state.is + ' con éxito',
@@ -132,6 +197,41 @@ class Modify extends Component {
                 window.location=("/adminMenu/show"+this.props.match.params.is);
             });
         })
+    }
+
+    temp = () => {
+        console.log(this.props.match.params.is);
+        if (this.props.match.params.is === "Instructor"){
+            return ( 
+                <div>
+                <div className="form-group">
+                    <label>Contratación</label>
+                    <select
+                        name="temp"
+                        className="form-control"
+                        onChange={this.handleChange}
+                    >
+                        <option>Fijo</option>
+                        <option>Temporal</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Room a asignar</label>
+                    <select
+                        name="room"
+                        className="form-control"
+                        onChange={this.handleChange}
+                    >
+                        {this.state.rooms.map((room,index) => 
+                            <option key={index}>
+                                {room}
+                            </option>
+                        )}
+                    </select>
+                </div>
+                </div>
+            )
+        }
     }
 
     render () {
@@ -167,6 +267,7 @@ class Modify extends Component {
                         <input type="text" className="form-control" id="phone" placeholder="#####" name="phone" value={this.state.phone}
                         onChange={this.handleChange}/>
                     </div>
+                    {this.temp()}
                     <div className="form-check">
                         <input type="checkbox" className="form-check-input" id="check" placeholder="#####" name="check" value={this.state.check}
                         onChange={this.change}/>

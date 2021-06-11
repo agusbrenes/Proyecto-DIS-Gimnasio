@@ -71,7 +71,7 @@ class ShowData extends Component {
                 title: 'Ocurrio un problema al cargar los datos',
                 icon: 'error'
             }).then(() => {
-                window.history.back();
+                window.location=("/adminMenu/manage"+this.props.match.params.is+"s");
             });
         });
     }
@@ -120,7 +120,7 @@ class ShowData extends Component {
                         )}
                     </div>
                     <div className="card-footer text-center">
-                        <button className="btn btn-dark button" onClick={() => window.history.back()}>
+                        <button className="btn btn-dark button" onClick={() => window.location=("/adminMenu/manage"+this.props.match.params.is+"s")}>
                             Regresar
                         </button>
                     </div>
