@@ -8,7 +8,8 @@ module.exports = class FactoryAdmin extends FactoryUser {
         return new Admin(
             email, 
             password, 
-            id, firstName, 
+            id, 
+            firstName, 
             lastName, 
             phone
         );

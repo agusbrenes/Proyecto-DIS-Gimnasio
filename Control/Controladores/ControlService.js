@@ -13,7 +13,7 @@ module.exports = class ControlService extends Controller {
 
     async save(object) {
         const service = new Service (
-            object.description,
+            object.name,
             object.room,
             object.instructor
         );
@@ -30,7 +30,7 @@ module.exports = class ControlService extends Controller {
         const instructor = await controlInstructor.toObject(instructorQuery[0]);
 
         let service = new Service (
-            schema.description,
+            schema.name,
             room,
             instructor
         );

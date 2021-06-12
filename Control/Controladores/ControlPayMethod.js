@@ -10,14 +10,14 @@ module.exports = class ControlPayMethod extends Controller {
 
     async save(object) {
         const method = new PaymentMethod (
-            object.description
+            object.name
         );
         return await this.handler.save(method);
     }
 
     toObject(schema) {
         let method = new PaymentMethod(
-            schema.description
+            schema.name
         );
         method.setId(schema.id);
         return method;

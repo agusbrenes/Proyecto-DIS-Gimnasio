@@ -1,24 +1,9 @@
 module.exports = class Reservation {
-    static #id = 0;
-
     constructor(client, session) {
-        this.id = Reservation.assignId();
         this.client = client;
         this.session = session;
         this.paymentMethod = null;
         this.isConfirmed = false;
-    }
-
-    static assignId() {
-        return ++this.#id;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    getId() {
-        return this.id;
     }
 
     getClient() {

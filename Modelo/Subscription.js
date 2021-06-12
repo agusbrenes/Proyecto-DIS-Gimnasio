@@ -1,24 +1,9 @@
 module.exports = class Subscription {
-    static #id = 0;
-
     constructor(client) {
-        this.id = Subscription.assignId();
         this.client = client;
         this.fee = 0;
         this.limit = 0;
         this.sessionCost = 10.0; // TODO conseguir precio de sesion
-    }
-
-    static assignId() {
-        return ++this.#id;
-    }
-
-    getId() {
-        return this.id;
-    }
-
-    setId(id) {
-        this.id = id;
     }
 
     getClient() {

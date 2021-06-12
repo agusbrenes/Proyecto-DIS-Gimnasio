@@ -1,28 +1,13 @@
 module.exports = class Calendar {
-    static #id = 0;
-
     constructor(room, month, year) {
         if (month > 12) {
             throw new Error("Invalid Month number. Cannot create Calendar without valid Month number.");
         }
-        this.id = Calendar.assignId();
         this.room = room;
         this.month = month;        
         this.monthName = this.getMonthName();
         this.year = year;
         this.days = new Map();
-    }
-
-    static assignId() {
-        return ++this.#id;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    getId() {
-        return this.id;
     }
 
     setRoom(room) {

@@ -1,28 +1,13 @@
 module.exports = class PaymentMethod {
-    static #id = 0;
-
-    constructor(description) {
-        this.id = PaymentMethod.assignId();
-        this.description = description;
+    constructor(name) {
+        this.name = name;
     }
 
-    static assignId() {
-        return ++this.#id;
+    setName(name) {
+        this.name = name;
     }
 
-    getId() {
-        return this.id;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    setDescription(description) {
-        this.description = description;
-    }
-
-    getDescription() {
-        return this.description;
+    getName() {
+        return this.name;
     }
 }

@@ -1,28 +1,13 @@
 const Schedule = require("./Schedule");
 
 module.exports = class Session {
-    static #id = 0;
-
     constructor(instructor, service, capacity, day, beginTime, endTime) {
-        this.id = Session.assignId();
         this.instructor = instructor;
         this.service = service;
         this.capacity = capacity;
         this.day = day;
         this.schedule = new Schedule(beginTime, endTime);
         this.reservations = new Map();
-    }
-
-    static assignId() {
-        return ++this.#id;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    getId() {
-        return this.id;
     }
 
     setInstructor(instructor) {

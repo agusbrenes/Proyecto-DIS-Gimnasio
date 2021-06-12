@@ -20,7 +20,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.lastName,
             schema.phone
         );
-        user = await this.setAdminRoom(user, schema.admRoom);
+        user = await this.setAdminRoom(user, schema.room);
         return user;
     }
 
@@ -35,7 +35,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const roomQuery = await control.find({name: adminRoom.roomName});
         const room = control.toObject(roomQuery[0]);
 
-        admin.setAdmRoom(room);
+        admin.setroom(room);
         return admin;
     }
 
@@ -44,8 +44,8 @@ module.exports = class ControlAdmin extends ControlUsers {
 
         const admin = await this.find(idAdmin);
         
-        return await control.find({name: admin.admRoom.roomName});
-        // const roomQuery = await control.find({admRoom: adminRoom.roomName});
+        return await control.find({name: admin.room.roomName});
+        // const roomQuery = await control.find({room: adminRoom.roomName});
         // const room = control.toObject(roomQuery[0]);
     }
 

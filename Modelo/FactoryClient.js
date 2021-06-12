@@ -8,7 +8,8 @@ module.exports = class FactoryClient extends FactoryUser {
         return new Client(
             email, 
             password, 
-            id, firstName, 
+            id, 
+            firstName, 
             lastName, 
             phone
         );

@@ -8,7 +8,8 @@ module.exports = class FactoryInstructor extends FactoryUser {
         return new Instructor(
             email, 
             password, 
-            id, firstName, 
+            id, 
+            firstName, 
             lastName, 
             phone
         );

@@ -1,24 +1,9 @@
 const Room = require('./Room.js');
 
 module.exports = class Gym {
-    static #id = 0;
-
     constructor(name) {
-        this.id = Gym.assignId();
         this.name = name;
         this.rooms = [];
-    }
-
-    static assignId() {
-        return ++this.#id;
-    }
-
-    getId() {
-        return this.id;
-    }
-
-    setId(id) {
-        this.id = id;
     }
 
     setName(name) {

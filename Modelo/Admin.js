@@ -3,14 +3,14 @@ const User = require('./user');
 module.exports = class Admin extends User {
     constructor(email, password, id, firstName, lastName, phone) {
         super(email, password, id, firstName, lastName, phone);
-        this.admRoom = null;
+        this.room = null;
     }
     
-    setAdmRoom(room) {
-        this.admRoom = room;
+    setRoom(room) {
+        this.room = room;
     }
 
-    get getAdmRoom() {
-        return this.admRoom;
+    get getRoom() {
+        return this.room;
     }
 }

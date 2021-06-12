@@ -1,32 +1,17 @@
 module.exports = class Service {
-    static #id = 0;
-
-    constructor(description, room, instructor) {
-        this.id = Service.assignId();
-        this.description = description;
+    constructor(name, room, instructor) {
+        this.name = name;
         this.room = room;
         this.instructors = [instructor];
         this.sessions = [];
     }
 
-    static assignId() {
-        return ++this.#id;
+    setName(name) {
+        this.name = name;
     }
 
-    getId() {
-        return this.id;
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    setDescription(description) {
-        this.description = description;
-    }
-
-    getDescription() {
-        return this.description;
+    getName() {
+        return this.name;
     }
 
     getRoom() {
