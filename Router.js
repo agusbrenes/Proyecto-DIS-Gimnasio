@@ -596,7 +596,7 @@ router.post("/NewPayMethod", async (req, res) => {
             return res.json({msg:true});
         }
 
-        const savedPayMethod = await control.save(savedPayMethod);
+        const savedPayMethod = await control.save(foundPayMethod);
         res.json(savedPayMethod);
     } catch (err) {
         res.status(500).json({error: err.message});
