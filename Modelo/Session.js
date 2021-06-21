@@ -1,13 +1,14 @@
 const Schedule = require("./Schedule");
+const Status = require('./SessionStatus');
 
 module.exports = class Session {
-    constructor(instructor, service, capacity, day, beginTime, endTime) {
+    constructor(instructor, service, capacity, month, day, initialHour, totalHours, status) {
         this.instructor = instructor;
         this.service = service;
         this.capacity = capacity;
-        this.day = day;
-        this.schedule = new Schedule(beginTime, endTime);
+        this.schedule = new Schedule(initialHour, totalHours, month, day);
         this.reservations = new Map();
+        this.status = status;
     }
 
     setInstructor(instructor) {
@@ -26,20 +27,36 @@ module.exports = class Session {
         return this.service;
     }
 
-    setDay(day) {
-        this.day = day;
+    getMonth() {
+        return this.schedule.getMonth();
+    }
+
+    setMonth(month) {
+        this.schedule.setMonth(month);
     }
 
     getDay() {
-        return this.day;
+        return this.schedule.getDay();
     }
 
-    setBeginTime(beginTime) {
-        this.schedule.setBeginTime(beginTime);
+    setDay(day) {
+        this.schedule.setDay(day);
     }
 
-    setEndTime(endTime) {
-        this.schedule.setEndTime(endTime);
+    getInitialHour() {
+        return this.schedule.getInitialHour();
+    }
+
+    setInitialHour(hour) {
+        this.schedule.setInitialHour(hour);
+    }
+
+    getTotalHours() {
+        return this.schedule.getTotalHours();
+    }
+
+    setTotalHours(hours) {
+        this.schedule.setTotalHours(hours);
     }
 
     getSchedule() {
@@ -66,5 +83,17 @@ module.exports = class Session {
             throw new Error("This reservation doesn't exist in the Session. Cannot perform delete operation.");
         }
         this.reservations.delete(id);
+    }
+
+    getStatus() {
+        return this.status;
+    }
+
+    authorize() {
+        this.status = Status.Authorized;
+    }
+
+    reject() {
+        this.status = Status.Rejected;
     }
 }

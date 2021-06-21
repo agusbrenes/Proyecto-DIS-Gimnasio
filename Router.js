@@ -202,7 +202,7 @@ router.post("/ReserveSession", async (req, res) => {
     const control = new ControlClient();
     const object = req.body;
     try {
-        const reservationSuccess = await control.reserveSession(object.idClient, object.idSession);
+        const reservationSuccess = await control.reserveSession(object.idClient, object.session);
         res.json(reservationSuccess);
     } catch (err) {
         res.status(500).json({error: err.message});
@@ -214,7 +214,7 @@ router.post("/PayReservation", async (req, res) => {
     const control = new ControlClient();
     const object = req.body;
     try {
-        const paymentSuccess = await control.payReservation(object.idClient, object.idSession, object.idPayMethod);
+        const paymentSuccess = await control.payReservation(object.idClient, object.session, object.payMethod);
         res.json(paymentSuccess);
     } catch (err) {
         res.status(500).json({error: err.message});
@@ -506,7 +506,7 @@ router.get("/GetRooms", (req, res) => {
 router.post("/NewService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {id: object.id};
+    const filter = {name: object.name};
     try {        
         const foundService = await control.find(filter);
         if (foundService.length != 0) {
@@ -525,7 +525,7 @@ router.post("/NewService", async (req, res) => {
 router.post("/GetService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {description: object.description};
+    const filter = {name: object.name};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -540,7 +540,7 @@ router.post("/GetService", async (req, res) => {
 router.post("/ModifyService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {description: object.description};
+    const filter = {name: object.name};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -560,7 +560,7 @@ router.post("/ModifyService", async (req, res) => {
 router.post("/DeleteService", async (req, res) => {
     const object = req.body;
     const control = new ControlService();
-    const filter = {description: object.description};
+    const filter = {name: object.name};
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -589,7 +589,7 @@ router.get("/GetServices", (req, res) => {
 router.post("/NewPayMethod", async (req, res) => {
     const object = req.body;
     const control = new ControlPayMethod();
-    const filter = {id: object.id};
+    const filter = {name: object.name};
     try {
         const foundPayMethod = await control.find(filter);
         if (foundPayMethod != 0) {
@@ -606,7 +606,7 @@ router.post("/NewPayMethod", async (req, res) => {
 router.post("/GetPayMethod", async (req, res) => {
     const object = req.body;
     const control = new ControlPayMethod();
-    const filter = {id: object.id};
+    const filter = {name: object.name};
     try {
         const foundPayMethod = await control.find(filter);
         if (!foundPayMethod) {
@@ -621,7 +621,7 @@ router.post("/GetPayMethod", async (req, res) => {
 router.post("/ModifyPayMethod", async (req, res) => {
     const object = req.body;
     const control = new ControlPayMethod();
-    const filter = {id: object.id};
+    const filter = {name: object.name};
     try {
         const foundPayMethod = await control.find(filter);
         if (!foundPayMethod) {
@@ -641,7 +641,7 @@ router.post("/ModifyPayMethod", async (req, res) => {
 router.post("/DeletePayMethod", async (req, res) => {
     const object = req.body;
     const control = new ControlPayMethod();
-    const filter = {id: object.id};
+    const filter = {name: object.name};
     try {
         const foundPayMethod = await control.find(filter);
         if (!foundPayMethod) {
@@ -913,7 +913,13 @@ router.get("/GetSubscriptions", (req, res) => {
 router.post("/NewCalendar", async (req, res) => {
     const object = req.body;
     const control = new ControlCalendar();
-    const filter = {id: object.id};
+    const filter = {
+        room: {
+            name: object.roomNoom
+        }, 
+        month: object.month, 
+        year: object.year
+    };
     try {
         const foundCalendar = await control.find(filter);
         if (foundCalendar.length != 0) {
@@ -930,7 +936,13 @@ router.post("/NewCalendar", async (req, res) => {
 router.post("/GetCalendar", async (req, res) => {
     const object = req.body;
     const control = new ControlCalendar();
-    const filter = {id: object.id};
+    const filter = {
+        room: {
+            name: object.roomNoom
+        }, 
+        month: object.month, 
+        year: object.year
+    }
     try {
         const foundCalendar = await control.find(filter);
         if (!foundCalendar) {
@@ -945,7 +957,13 @@ router.post("/GetCalendar", async (req, res) => {
 router.post("/ModifyCalendar", async (req, res) => {
     const object = req.body;
     const control = new ControlCalendar();
-    const filter = {id: object.id};
+    const filter = {
+        room: {
+            name: object.roomNoom
+        }, 
+        month: object.month, 
+        year: object.year
+    }
     try {
         const foundCalendar = await control.find(filter);
         if (!foundCalendar) {
@@ -965,7 +983,13 @@ router.post("/ModifyCalendar", async (req, res) => {
 router.post("/DeleteCalendar", async (req, res) => {
     const object = req.body;
     const control = new ControlCalendar();
-    const filter = {id: object.id};
+    const filter = {
+        room: {
+            name: object.roomNoom
+        }, 
+        month: object.month, 
+        year: object.year
+    }
     try {
         const foundCalendar = await control.find(filter);
         if (!foundCalendar) {
@@ -994,7 +1018,12 @@ router.get("/GetCalendars", (req, res) => {
 router.post("/NewSchedule", async (req, res) => {
     const object = req.body;
     const control = new ControlSchedule();
-    const filter = {id: object.id};
+    const filter = {
+        month: object.month, 
+        day: object.day, 
+        initialHour: object.initialHour, 
+        totalHours: object.totalHours
+    }
     try {
         const foundSchedule = await control.find(filter);
         if (foundSchedule.length != 0) {
@@ -1011,7 +1040,11 @@ router.post("/NewSchedule", async (req, res) => {
 router.post("/GetSchedule", async (req, res) => {
     const object = req.body;
     const control = new ControlSchedule();
-    const filter = {id: object.id};
+    const filter = {
+        month: object.month, 
+        day: object.day, 
+        initialHour: object.initialHour
+    }
     try {
         const foundSchedule = await control.find(filter);
         if (!foundSchedule) {
@@ -1026,7 +1059,12 @@ router.post("/GetSchedule", async (req, res) => {
 router.post("/ModifySchedule", async (req, res) => {
     const object = req.body;
     const control = new ControlSchedule();
-    const filter = {id: object.id};
+    const filter = {
+        month: object.month, 
+        day: object.day, 
+        initialHour: object.initialHour,
+        totalHours: object.totalHours
+    }
     try {
         const foundSchedule = await control.find(filter);
         if (!foundSchedule) {
@@ -1046,7 +1084,11 @@ router.post("/ModifySchedule", async (req, res) => {
 router.post("/DeleteSchedule", async (req, res) => {
     const object = req.body;
     const control = new ControlSchedule();
-    const filter = {id: object.id};
+    const filter = {
+        month: object.month, 
+        day: object.day, 
+        initialHour: object.initialHour
+    }
     try {
         const foundSchedule = await control.find(filter);
         if (!foundSchedule) {

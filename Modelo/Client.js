@@ -1,4 +1,4 @@
-const Status = require('./status');
+const Status = require('./UserStatus');
 const User = require('./user');
 
 module.exports = class Client extends User {
