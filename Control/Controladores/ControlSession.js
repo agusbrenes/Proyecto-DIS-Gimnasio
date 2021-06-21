@@ -6,6 +6,8 @@ const ControlInstructor = require("./ControlInstructor");
 const ControlService = require("./ControlService");
 const ControlDay = require("./ControlDay");
 const ControlReservation = require("./ControlReservation");
+const SessionRegisterAdmin = require("../../Modelo/SessionRegisterAdmin");
+const SessionRegisterInstructor = require("../../Modelo/SessionRegisterInstructor");
 
 module.exports = class ControlSession extends Controller {
     constructor() {
@@ -13,13 +15,19 @@ module.exports = class ControlSession extends Controller {
     }
 
     async save(object) {
-        const session = new Session (
+        if (object.isAdmin) {
+            var strategy = new SessionRegisterAdmin();
+        } else {
+            var strategy = new SessionRegisterInstructor();
+        }
+        const session = strategy.createSession(
             object.instructor,
             object.service,
             object.capacity,
-            object.day,
-            object.beginTime, 
-            object.endTime
+            object.month,
+            object.day,            
+            object.initialHour,
+            object.totalHours,
         );
         return await this.handler.save(session);
     }
@@ -45,9 +53,11 @@ module.exports = class ControlSession extends Controller {
             instructor,
             service,
             schema.capacity,
-            day,
-            schema.beginTime,
-            schema.endTime
+            schema.month,
+            schema.day,            
+            schema.initialHour,
+            schema.totalHours,
+            schema.status
         );
         session.setId(schema.id);
         session = await this.setSessionReservations(reservation, schema.reservations);
