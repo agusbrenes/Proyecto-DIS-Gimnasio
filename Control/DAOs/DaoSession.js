@@ -22,7 +22,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
     },
     capacity: {type: Number},
     schedule: {
-        initialHour: {type: Date, required: true},
+        initialHour: {type: Number, required: true},
         totalHours: {type: Number},
         month: {type: Number},
         day: {type: Number}

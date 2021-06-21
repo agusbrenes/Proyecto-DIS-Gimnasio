@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const PaymentMethodSchema = mongoose.model("PaymentMethod", new Schema({
-    description: {type: String, index: true}
+    name: {type: String, index: true}
 }));
 
 module.exports = class DaoPaymentMethod extends Dao {
@@ -24,7 +24,7 @@ module.exports = class DaoPaymentMethod extends Dao {
     async modify(filter, object) {
         const schema = await PaymentMethodSchema.findOne(filter);
 
-        schema.description = object.description;
+        schema.name = object.name;
 
         return await PaymentMethodSchema.updateOne(filter, schema);
     }
@@ -35,7 +35,7 @@ module.exports = class DaoPaymentMethod extends Dao {
 
     toMongoSchema(object) {
         return new PaymentMethodSchema({
-            description: object.description
+            name: object.name
         });
     }
 }
