@@ -17,7 +17,13 @@ const ReservationSchema = mongoose.model("Reservation", new Schema ({
         },
         service: {
             name: {type: String}
-        }
+        },
+        schedule: {
+            initialHour: {type: Date, required: true},
+            totalHours: {type: Number},
+            month: {type: Number},
+            day: {type: Number}
+        },
     },
     paymentMethod: {
         name: {type: String}
@@ -55,6 +61,12 @@ module.exports = class DaoReservation extends Dao {
             },
             service: {
                 name: object.session.service.name
+            },
+            schedule: {
+                initialHour: object.session.schedule.initialHour,
+                totalHours: object.session.schedule.totalHours,
+                month: object.session.schedule.month,
+                day: object.session.schedule.day
             }
         };
         schema.paymentMethod = {
@@ -83,6 +95,12 @@ module.exports = class DaoReservation extends Dao {
                 },
                 service: {
                     name: object.session.service.name
+                },
+                schedule: {
+                    initialHour: object.session.schedule.initialHour,
+                    totalHours: object.session.schedule.totalHours,
+                    month: object.session.schedule.month,
+                    day: object.session.schedule.day
                 }
             },
             paymentMethod: {
