@@ -8,6 +8,26 @@ const DayTempSchema = new Schema ({
     name: {type: String}
 }, { _id: false });
 
+const SessionTempSchema = new Schema({
+    instructor: {
+        id: {type: Number},
+        firstName: {type: String},
+        lastName: {type: String}
+    },
+    service: {
+        description: {type: String},
+        roomCapacity: {type: Number}
+    },
+    capacity: {type: Number},
+    schedule: {
+        initialHour: {type: Number},
+        totalHours: {type: Number},
+        month: {type: Number},
+        day: {type: Number}
+    },
+    status: {type: String}
+}, { _id: false });
+
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
         name: {type: String}
@@ -15,7 +35,8 @@ const CalendarSchema = mongoose.model("Calendar", new Schema({
     month: {type: Number},
     monthName: {type: String},
     year: {type: Number},
-    days: [DayTempSchema]
+    days: [DayTempSchema],
+    sessions: [SessionTempSchema]
 }));
 
 module.exports = class DaoCalendar extends Dao {
@@ -45,10 +66,38 @@ module.exports = class DaoCalendar extends Dao {
         const days1 = [];
         if (object.days.values().length > 0) {
             object.days.values().forEach(day => {
-                const schema1 = { number: day.number, name: day.name };
+                const schema1 = { 
+                    number: day.number, 
+                    name: day.name 
+                };
                 days1.push(schema1);
             });
             schema.days = days1;
+        }
+
+        const sessions1 = [];
+        if (object.sessions.values().length > 0) {
+            object.sessions.values().forEach(session => {
+                const schema1 = {
+                    instructor: {
+                        id: session.instructor.id,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    },
+                    service: {
+                        description: session.service.description,
+                        roomCapacity: session.service.roomCapacity
+                    },
+                    capacity: session.capacity,
+                    schedule: {
+                        initialHour: session.schedule.initialHour,
+                        totalHours: session.schedule.totalHours,
+                        month: session.schedule.month,
+                        day: session.schedule.day
+                    },
+                    status: session.status
+                }
+            });
         }
         
         return await CalendarSchema.updateOne(filter, schema);
@@ -65,6 +114,31 @@ module.exports = class DaoCalendar extends Dao {
             object.days.values().forEach(day => {
                 const tempDay = { number: day.number, name: day.name };
                 days1.push(tempDay);
+            });
+        }
+
+        const sessions1 = [];
+        if (object.sessions.values().length > 0) {
+            object.sessions.values().forEach(session => {
+                const schema1 = {
+                    instructor: {
+                        id: session.instructor.id,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    },
+                    service: {
+                        description: session.service.description,
+                        roomCapacity: session.service.roomCapacity
+                    },
+                    capacity: session.capacity,
+                    schedule: {
+                        initialHour: session.schedule.initialHour,
+                        totalHours: session.schedule.totalHours,
+                        month: session.schedule.month,
+                        day: session.schedule.day
+                    },
+                    status: session.status
+                }
             });
         }
 
