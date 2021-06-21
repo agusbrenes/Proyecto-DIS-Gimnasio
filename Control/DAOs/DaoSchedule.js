@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ScheduleSchema = mongoose.model("Schedule", new Schema({
-    initialHour: {type: Date, required: true},
+    initialHour: {type: Number, required: true},
     totalHours: {type: Number},
     month: {type: Number},
     day: {type: Number}
