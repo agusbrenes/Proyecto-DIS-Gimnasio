@@ -10,11 +10,6 @@ const ReservationSchema = mongoose.model("Reservation", new Schema ({
         lastName: {type: String}
     },
     session1: {
-        instructor: {
-            id: {type: String},
-            firstName: {type: String},
-            lastName: {type: String}
-        },
         service: {
             name: {type: String}
         },
