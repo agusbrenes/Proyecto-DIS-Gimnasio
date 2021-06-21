@@ -22,6 +22,7 @@ const ServiceSchema = mongoose.model("Service", new Schema ({
     room: {
         name: {type: String}
     },
+    roomCapacity: {type: Number},
     instructors: [TempInstructorSchema],
     sessions: [TempSessionSchema]
 }));
@@ -45,6 +46,7 @@ module.exports = class DaoService extends Dao {
 
         schema.description = object.description;
         schema.room = {room: object.room.name};
+        schema.roomCapacity = object.roomCapacity;
 
         const instructors1 = [];
         if (object.instructors.length > 0) {
@@ -110,6 +112,7 @@ module.exports = class DaoService extends Dao {
 
         return new ServiceSchema({
             description: object.description,
+            roomCapacity: object.roomCapacity,
             room: {
                 name: object.room.name
             },
