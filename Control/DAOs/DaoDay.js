@@ -9,14 +9,23 @@ const TempCalendarSchema = new Schema({
 }, { _id: false });
 
 const TempSessionSchema = new Schema({
-    id: {type: Number}
+    instructor: {
+        id: {type: String},
+        firstName: {type: String},
+        lastName: {type: String}
+    },
+    service: {
+        name: {type: String}
+    }
 }, { _id: false });
 
 const DaySchema = mongoose.model("Day", new Schema({
     number: {type: Number},
     name: {type: String},
     schedule: {
-        id: {type: Number}
+        initialHour: {type: Date},
+        totalHours: {type: Number},
+        month: {type: Number}
     },
     calendars: [TempCalendarSchema],
     sessions: [TempSessionSchema]
@@ -42,13 +51,18 @@ module.exports = class DaoDay extends Dao {
         schema.number = object.number;
         schema.name = object.name;
         schema.schedule = {
-            id: object.schedule.id
+            initialHour: object.schedule.initialHour,
+            totalHours: object.schedule.totalHours,
+            month: object.schedule.month
         };
         
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
-                const tempCalendar = { month: calendar.month, year: calendar.year };
+                const tempCalendar = { 
+                    month: calendar.month, 
+                    year: calendar.year 
+                };
                 calendars1.push(tempCalendar);
             });
             schema.calendars = calendars1;
@@ -57,7 +71,16 @@ module.exports = class DaoDay extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const tempSession = { id: session.id };
+                const tempSession = { 
+                    instructor: {
+                        id: session.instructor.id,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    },
+                    service: {
+                        name: session.service.name
+                    }
+                };
                 sesssions1.push(tempSession);
             });
             schema.sessions = sessions1;
@@ -74,7 +97,10 @@ module.exports = class DaoDay extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.values().forEach(calendar => {
-                const tempCalendar = { month: calendar.month, year: calendar.year };
+                const tempCalendar = { 
+                    month: calendar.month, 
+                    year: calendar.year 
+                };
                 calendars1.push(tempCalendar);
             });
         }
@@ -82,7 +108,16 @@ module.exports = class DaoDay extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const tempSession = { id: session.id };
+                const tempSession = { 
+                    instructor: {
+                        id: session.instructor.id,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    },
+                    service: {
+                        name: session.service.name
+                    } 
+                };
                 sesssions1.push(tempSession);
             });
         }
@@ -91,7 +126,9 @@ module.exports = class DaoDay extends Dao {
             number: object.number,
             name: object.name,
             schedule: {
-                id: object.schedule.id
+                initialHour: object.schedule.initialHour,
+                totalHours: object.schedule.totalHours,
+                month: object.schedule.month
             },
             calendars: calendars1,
             sessions: sessions1

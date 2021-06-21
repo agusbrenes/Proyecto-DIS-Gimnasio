@@ -4,9 +4,10 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ScheduleSchema = mongoose.model("Schedule", new Schema({
-    id: {type: Number},
-    beginTime: {type: Date, required: true},
-    endTime: {type: Date, required: true}
+    initialHour: {type: Date, required: true},
+    totalHours: {type: Number},
+    month: {type: Number},
+    day: {type: Number}
 }));
 
 module.exports = class DaoSchedule extends Dao {
@@ -26,9 +27,10 @@ module.exports = class DaoSchedule extends Dao {
     async modify(filter, object) {
         const schema = await ScheduleSchema.findOne(filter);
 
-        schema.id = object.id;
-        schema.beginTime = object.beginTime;
-        schema.endTime = object.endTime;
+        schema.initialHour = object.initialHour;
+        schema.totalHours = object.totalHours;
+        schema.month = object.month;
+        schema.day = object.day;
 
         return await ScheduleSchema.updateOne(filter, schema);
     }
@@ -39,9 +41,10 @@ module.exports = class DaoSchedule extends Dao {
 
     toMongoSchema(object) {
         return new ScheduleSchema({
-            id: object.id,
-            beginTime: object.beginTime,
-            endTime: object.endTime
+            initialHour: object.initialHour,
+            totalHours: object.totalHours,
+            month: object.month,
+            day: object.day
         });
     }
 }

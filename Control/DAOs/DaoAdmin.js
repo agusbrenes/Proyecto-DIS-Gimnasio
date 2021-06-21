@@ -10,8 +10,8 @@ const AdminSchema = mongoose.model("Admin", new Schema({
     firstName: {type: String},
     lastName: {type: String},
     phone: {type: String},
-    admRoom: {
-        roomName: {type: String}
+    room: {
+        name: {type: String}
     }
 }));
 
@@ -40,8 +40,8 @@ module.exports = class DaoAdmin extends Dao {
         schema.firstName = object.firstName;
         schema.lastName = object.lastName;
         schema.phone = object.phone;
-        schema.admRoom = {
-            roomName: object.admRoom.name
+        schema.room = {
+            room: object.room.name
         };
 
         return await AdminSchema.updateOne(filter, schema);
@@ -59,8 +59,8 @@ module.exports = class DaoAdmin extends Dao {
             firstName: object.firstName,
             lastName: object.lastName,
             phone: object.phone,
-            admRoom: {
-                roomName: ""
+            room: {
+                name: ""
             }
         });
     }

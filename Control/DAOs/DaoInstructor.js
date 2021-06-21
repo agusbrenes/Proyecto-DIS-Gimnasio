@@ -4,11 +4,13 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempServiceSchema = new Schema({
-    id: {type: Number, required: true}
+    name: {type: String, required: true}
 }, { _id: false });
 
 const TempSessionSchema = new Schema({
-    id: {type: Number, required: true}
+    service: {
+        name: {type: String}
+    }
 }, { _id: false });
 
 const InstructorSchema = mongoose.model("Instructor", new Schema({
@@ -56,7 +58,9 @@ module.exports = class DaoInstructor extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.values().forEach(service => {
-                const schema1 = { id: service.id };
+                const schema1 = { 
+                    name: service.name 
+                };
                 services1.push(schema1);
             });
             schema.services = services1;
@@ -65,7 +69,11 @@ module.exports = class DaoInstructor extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const schema1 = { id: session.id };
+                const schema1 = { 
+                    service: {
+                        name: session.service.name
+                    }
+                };
                 sessions1.push(schema1);
             });
             schema.sessions = sessions1;
@@ -82,7 +90,9 @@ module.exports = class DaoInstructor extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.values().forEach(service => {
-                const schema = { id: service.id };
+                const schema = { 
+                    name: service.name 
+                };
                 services1.push(schema);
             });
         }
@@ -90,7 +100,11 @@ module.exports = class DaoInstructor extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.values().forEach(session => {
-                const schema = { id: session.id };
+                const schema = { 
+                    service: {
+                        name: session.service.name
+                    } 
+                };
                 sessions1.push(schema);
             });
         }

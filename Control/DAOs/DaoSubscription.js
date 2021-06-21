@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const SubscriptionSchema = mongoose.model("Subscription", new Schema ({
-    id: {type: String},
     fee: {type: Number},
     client: {
         id: {type: String},
@@ -31,7 +30,6 @@ module.exports = class DaoSubscription extends Dao {
     async modify(filter, object) {
         const schema = await SubscriptionSchema.findOne(filter);
 
-        schema.id = object.id;
         schema.fee = object.fee;
         schema.client = {
             email: object.client.email,
@@ -47,7 +45,6 @@ module.exports = class DaoSubscription extends Dao {
 
     toMongoSchema(object) {
         return new SubscriptionSchema({
-            id: object.id,
             fee: object.fee,
             client: {
                 email: object.client.email,

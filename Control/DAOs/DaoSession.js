@@ -4,31 +4,30 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempReservationSchema = new Schema({
-    id: {type: Number, required: true}
+    client: {
+        email: {type: String}
+    },
+    isConfirmed: {type: String}
 }, { _id: false });
 
 const SessionSchema = mongoose.model("Session", new Schema ({
-    id: {type: Number},
     instructor: {
         id: {type: Number},
         firstName: {type: String},
         lastName: {type: String}
     },
     service: {
-        id: {type: Number},
         description: {type: String}
     },
     capacity: {type: Number},
-    day: {
-        number: {type: Number},
-        name: {type: String}
-    },
     schedule: {
-        id: {type: Number},
-        beginTime: {type: String},
-        endTime: {type: String}
+        initialHour: {type: Date, required: true},
+        totalHours: {type: Number},
+        month: {type: Number},
+        day: {type: Number}
     },
-    reservations: [TempReservationSchema]
+    reservations: [TempReservationSchema],
+    status: {type: String}
 }));
 
 module.exports = class DaoSession extends Dao {
@@ -48,31 +47,32 @@ module.exports = class DaoSession extends Dao {
     async modify(filter, object) {
         const schema = await SessionSchema.findOne(filter);
 
-        schema.id = object.id;
         schema.instructor = {
             id: object.instructor.id,
             firstName: object.instructor.firstName,
             lastName: object.instructor.lastName
         };
         schema.service = {
-            id: object.service.id,
             description: object.service.description
         };
         schema.capacity = object.capacity;
-        schema.day = {
-            number: object.day.number,
-            name: object.day.name
-        };
         schema.schedule = {
-            id: object.schedule.id,
-            beginTime: object.schedule.beginTime,
-            endTime: object.schedule.endTime
+            initialHour: object.schedule.initialHour,
+            totalHours: object.schedule.totalHours,
+            month: object.schedule.month,
+            day: object.schedule.day
         };
+        schema.status = object.status;
 
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema1 = { id: reservation.id };
+                const schema1 = { 
+                    client: {
+                        email: reservation.client.email
+                    },
+                    isConfirmed: reservation.isConfirmed
+                };
                 reservations1.push(schema1);
             });
             schema.reservations = reservations1;
@@ -89,33 +89,34 @@ module.exports = class DaoSession extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema = { id: reservation.id };
+                const schema = { 
+                    client: {
+                        email: reservation.client.email
+                    },
+                    isConfirmed: reservation.isConfirmed
+                };
                 reservations1.push(schema);
             });
         }
 
         return new SessionSchema({
-            id: object.id,
             instructor: {
                 id: object.instructor.id,
                 firstName: object.instructor.firstName,
                 lastName: object.instructor.lastName
             },
             service: {
-                id: object.service.id,
                 description: object.service.description
             },
             capacity: object.capacity,
-            day: {
-                number: object.day.number,
-                name: object.day.name
-            },
             schedule: {
-                id: object.schedule.id,
-                beginTime: object.schedule.beginTime,
-                endTime: object.schedule.endTime
+                initialHour: object.schedule.initialHour,
+                totalHours: object.schedule.totalHours,
+                month: object.schedule.month,
+                day: object.schedule.day
             },
-            reservations: reservations1
+            reservations: reservations1,
+            status: object.status
         });
     }
 }

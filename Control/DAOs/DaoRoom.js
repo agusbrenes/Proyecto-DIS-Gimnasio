@@ -10,15 +10,16 @@ const TempAdminSchema = new Schema({
 }, { _id: false });
 
 const TempInstructorSchema = new Schema({
-    id: {type: Number}
+    id: {type: Number},
+    firstName: {type: String},
+    lastName: {type: String}
 }, { _id: false });
 
 const TempServiceSchema = new Schema({
-    id: {type: Number}
+    name: {type: String}
 }, { _id: false });
 
 const TempCalendarSchema = new Schema({
-    id: {type: Number},
     month: {type: Number, required: true},
     year: {type: Number, required: true}
 }, { _id: false });
@@ -28,9 +29,10 @@ const RoomSchema = mongoose.model("Room", new Schema({
     maxCapacity: {type: Number, required: true},
     capacity: {type: Number},
     schedule: {
-        id: {type: Number},
-        beginTime: {type: String},
-        endTime: {type: String}
+        initialHour: {type: String},
+        totalHours: {type: String},
+        month: {type: Number},
+        day: {type: Number}
     },
     administrators: [TempAdminSchema],
     instructors: [TempInstructorSchema],
@@ -59,15 +61,20 @@ module.exports = class DaoRoom extends Dao {
         schema.maxCapacity = object.maxCapacity;
         schema.capacity = object.capacity;
         schema.schedule = {
-            id: object.schedule.id, 
-            beginTime: object.schedule.beginTime, 
-            endTime: object.schedule.endTime
+            initialHour: object.schedule.initialHour, 
+            totalHours: object.schedule.totalHours,
+            month: object.schedule.month,
+            day: object.schedule.day
         };
 
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema1 = { id: administrator.id, firstName: administrator.firstName, lastName: administrator.lastName };
+                const schema1 = { 
+                    id: administrator.id, 
+                    firstName: administrator.firstName, 
+                    lastName: administrator.lastName 
+                };
                 administrators1.push(schema1);
             });
             schema.administrators = administrators1;
@@ -76,7 +83,11 @@ module.exports = class DaoRoom extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema1 = { id: instructor.id };
+                const schema1 = { 
+                    id: instructor.id,
+                    firstName: instructor.firstName,
+                    lastName: instructor.lastName 
+                };
                 instructors1.push(schema1);
             });
             schema.instructors = instructors1;
@@ -85,7 +96,9 @@ module.exports = class DaoRoom extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.forEach(service => {
-                const schema1 = { id: service.id };
+                const schema1 = { 
+                    name: service.name 
+                };
                 services1.push(schema1);
             });
             schema.services = services1;
@@ -94,7 +107,10 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema1 = { id: calendar.id, month: calendar.month, year: calendar.year };
+                const schema1 = { 
+                    month: calendar.month, 
+                    year: calendar.year 
+                };
                 calendars1.push(schema1);
             });
             schema.calendars = calendars1;
@@ -111,7 +127,11 @@ module.exports = class DaoRoom extends Dao {
         const administrators1 = [];
         if (object.administrators.length > 0) {
             object.administrators.forEach(administrator => {
-                const schema = { id: administrator.id, firstName: administrator.firstName, lastName: administrator.lastName };
+                const schema = { 
+                    id: administrator.id, 
+                    firstName: administrator.firstName, 
+                    lastName: administrator.lastName 
+                };
                 administrators1.push(schema);
             });
         }
@@ -119,7 +139,11 @@ module.exports = class DaoRoom extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema = { id: instructor.id };
+                const schema = { 
+                    id: instructor.id,
+                    firstName: instructor.firstName,
+                    lastName: instructor.lastName 
+                };
                 instructors1.push(schema);
             });
         }
@@ -127,7 +151,9 @@ module.exports = class DaoRoom extends Dao {
         const services1 = [];
         if (object.services.length > 0) {
             object.services.forEach(service => {
-                const schema = { id: service.id };
+                const schema = { 
+                    name: service.name 
+                };
                 services1.push(schema);
             });
         }   
@@ -135,7 +161,10 @@ module.exports = class DaoRoom extends Dao {
         const calendars1 = [];
         if (object.calendars.length > 0) {
             object.calendars.forEach(calendar => {
-                const schema = { id: calendar.id, month: calendar.month, year: calendar.year };
+                const schema = { 
+                    month: calendar.month, 
+                    year: calendar.year 
+                };
                 calendars1.push(schema);
             });
         }
@@ -145,9 +174,10 @@ module.exports = class DaoRoom extends Dao {
             maxCapacity: object.maxCapacity,
             capacity: object.capacity,
             schedule: {
-                id: object.schedule.id,
-                beginTime: object.schedule.beginTime,
-                endTime: object.schedule.endTime
+                initialHour: object.schedule.initialHour,
+                totalHours: object.schedule.totalHours,
+                month: object.schedule.month,
+                day: object.schedule.day
             },
             administrators: administrators1,
             instructors: instructors1,

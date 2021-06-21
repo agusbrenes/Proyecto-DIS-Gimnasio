@@ -4,11 +4,25 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const TempReservationSchema = new Schema({
-    id: {type: Number, required: true}
+    session: {
+        instructor: {
+            id: {type: String},
+            firstName: {type: String},
+            lastName: {type: String}
+        },
+        service: {
+            name: {type: String}
+        }
+    },
+    paymentMethod: {
+        name: {type: String}
+    },
+    isConfirmed: {type: Boolean}
 }, { _id: false });
 
 const TempSubscriptionSchema = new Schema({
-    id: {type: Number, required: true}
+    fee: {type: Number},
+    limit: {type: Number}
 }, { _id: false });
 
 const ClientSchema = mongoose.model("Client", new Schema({
@@ -54,7 +68,22 @@ module.exports = class DaoClient extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema1 = { id: reservation.id };
+                const schema1 = { 
+                    session: {
+                        instructor: {
+                            id: reservation.session.instructor.id,
+                            firstName: reservation.session.instructor.firstName,
+                            lastName: reservation.session.instructor.lastName
+                        },
+                        service: {
+                            name: reservation.session.service.name
+                        }
+                    },
+                    paymentMethod: {
+                        name: reservation.paymentMethod.name
+                    },
+                    isConfirmed: reservation.isConfirmed
+                };
                 reservations1.push(schema1);
             });
             schema.reservations = reservations1;
@@ -62,7 +91,10 @@ module.exports = class DaoClient extends Dao {
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
             object.subscriptions.values().forEach(subscription => {
-                const schema1 = { id: subscription.id };
+                const schema1 = { 
+                    fee: subscription.fee,
+                    limit: subscription.limit 
+                };
                 subscriptions1.push(schema1);
             });
             schema.subscriptions = subscriptions1;
@@ -79,14 +111,32 @@ module.exports = class DaoClient extends Dao {
         const reservations1 = [];
         if (object.reservations.length > 0) {
             object.reservations.values().forEach(reservation => {
-                const schema = { id: reservation.id };
+                const schema = { 
+                    session: {
+                        instructor: {
+                            id: reservation.session.instructor.id,
+                            firstName: reservation.session.instructor.firstName,
+                            lastName: reservation.session.instructor.lastName
+                        },
+                        service: {
+                            name: reservation.session.service.name
+                        }
+                    },
+                    paymentMethod: {
+                        name: reservation.paymentMethod.name
+                    },
+                    isConfirmed: reservation.isConfirmed
+                };
                 reservations1.push(schema);
             });
         }
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
             object.subscriptions.values().forEach(subscription => {
-                const schema = { id: subscription.id };
+                const schema = { 
+                    fee: subscription.fee,
+                    limit: subscription.limit 
+                };
                 subscriptions1.push(schema);
             });
         }

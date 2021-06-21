@@ -4,15 +4,23 @@ const { Schema } = mongoose;
 const Dao = require("./DAO");
 
 const ReservationSchema = mongoose.model("Reservation", new Schema ({
-    id: {type: Number, index: true},
     client: {
-        id: {type: Number}
+        id: {type: Number},
+        firstName: {type: String},
+        lastName: {type: String}
     },
     session1: {
-        id: {type: Number}
+        instructor: {
+            id: {type: String},
+            firstName: {type: String},
+            lastName: {type: String}
+        },
+        service: {
+            name: {type: String}
+        }
     },
     paymentMethod: {
-        id: {type: Number}
+        name: {type: String}
     },
     isConfirmed: {type: Boolean}
 }));
@@ -34,15 +42,23 @@ module.exports = class DaoReservation extends Dao {
     async modify(filter, object) {
         const schema = await ReservationSchema.findOne(filter);
 
-        schema.id = object.id;
         schema.client = {
-            id: object.client.id
+            id: object.client.id,
+            firstName: object.client.firstName,
+            lastName: object.client.lastName
         };
         schema.session1 = {
-            id: object.session.id
+            instructor: {
+                id: object.session.instructor.id,
+                firstName: object.session.instructor.firstName,
+                lastName: object.session.instructor.lastName
+            },
+            service: {
+                name: object.session.service.name
+            }
         };
         schema.paymentMethod = {
-            id: object.paymentMethod.id
+            name: object.paymentMethod.name
         };
         schema.isConfirmed = object.isConfirmed;
     }   
@@ -55,13 +71,22 @@ module.exports = class DaoReservation extends Dao {
         return new ReservationSchema({
             id: object.id,
             client: {
-                id: object.client.id
+                id: object.client.id,
+                firstName: object.client.firstName,
+                lastName: object.client.lastName
             },
             session1: {
-                id: object.session.id
+                instructor: {
+                    id: object.session.instructor.id,
+                    firstName: object.session.instructor.firstName,
+                    lastName: object.session.instructor.lastName
+                },
+                service: {
+                    name: object.session.service.name
+                }
             },
             paymentMethod: {
-                id: object.paymentMethod.id
+                name: object.paymentMethod.name
             },
             isConfirmed: object.isConfirmed
         });

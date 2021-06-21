@@ -10,11 +10,14 @@ const TempInstructorSchema = new Schema({
 }, { _id: false });
 
 const TempSessionSchema = new Schema({
-    id: {type: Number}
+    instructor: {
+        email: {type: String},
+        firstName: {type: String},
+        lastName: {type: String}
+    }
 }, { _id: false });
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
-    id: {type: Number, unique: true},
     description: {type: String, unique: true},
     room: {
         name: {type: String}
@@ -46,7 +49,11 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema1 = { id: instructor.id, firstName: instructor.firstName, lastName: instructor.lastName };
+                const schema1 = { 
+                    id: instructor.id, 
+                    firstName: instructor.firstName, 
+                    lastName: instructor.lastName 
+                };
                 instructors1.push(schema1);
             });
             schema.instructors = instructors1;
@@ -55,7 +62,13 @@ module.exports = class DaoService extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.forEach(session => {
-                const schema1 = { id: session.id };
+                const schema1 = { 
+                    instructor: {
+                        email: session.instructor.email,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    }
+                };
                 sessions1.push(schema1);
             });
             schema.sessions = sessions1;
@@ -72,7 +85,11 @@ module.exports = class DaoService extends Dao {
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
-                const schema = { id: instructor.id, firstName: instructor.firstName, lastName: instructor.lastName };
+                const schema = { 
+                    id: instructor.id, 
+                    firstName: instructor.firstName, 
+                    lastName: instructor.lastName 
+                };
                 instructors1.push(schema);
             });
         }
@@ -80,13 +97,18 @@ module.exports = class DaoService extends Dao {
         const sessions1 = [];
         if (object.sessions.length > 0) {
             object.sessions.forEach(session => {
-                const schema = { id: session.id };
+                const schema = { 
+                    instructor: {
+                        email: session.instructor.email,
+                        firstName: session.instructor.firstName,
+                        lastName: session.instructor.lastName
+                    }
+                };
                 sessions1.push(schema);
             }); 
         }
 
         return new ServiceSchema({
-            id: object.id,
             description: object.description,
             room: {
                 name: object.room.name
