@@ -33,18 +33,21 @@ router.post('/loginClient', async (req, res) => {
     try {        
         const foundUser = await control.find(filter);
         if (foundUser.length === 0) {
-            return res.json({msg:true});
+            return res.json({valid: false, msg:"El correo ingresado no esta registrado"});
         }    
     
         const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
-        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+        if (!isMatch) return res.json({valid: false, msg: "Datos invalidos"});
 
         const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
         if (!token) throw Error('Couldnt sign the token');
 
         res.json({
+            valid: true,
             token,
             id: foundUser[0].id,
+            name: foundUser[0].firstName,
+            lastName: foundUser[0].lastName
         })
     } catch (e) {
       res.status(400).json({ msg: e.message });
@@ -58,18 +61,21 @@ router.post('/loginAdmin', async (req, res) => {
     try {        
         const foundUser = await control.find(filter);
         if (foundUser.length === 0) {
-            return res.json({msg:true});
+            return res.json({valid: false, msg:"El correo ingresado no esta registrado"});
         }    
     
         const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
-        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+        if (!isMatch) return res.json({valid: false, msg: "Datos invalidos"});
 
         const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
         if (!token) throw Error('Couldnt sign the token');
 
         res.json({
+            valid: true,
             token,
             id: foundUser[0].id,
+            name: foundUser[0].firstName,
+            lastName: foundUser[0].lastName
         })
     } catch (e) {
       res.status(400).json({ msg: e.message });
@@ -83,18 +89,21 @@ router.post('/loginInstructor', async (req, res) => {
     try {        
         const foundUser = await control.find(filter);
         if (foundUser.length === 0) {
-            return res.json({msg:true});
+            return res.json({valid: false, msg:"El correo ingresado no esta registrado"});
         }    
     
         const isMatch = await bcrypt.compare(object.password, foundUser[0].password);
-        if (!isMatch) return res.status(500).json({msg: "Datos invalidos"});
+        if (!isMatch) return res.json({valid: false, msg: "Datos invalidos"});
 
         const token = jwt.sign({ id: foundUser[0].id }, "jwtSecret", { expiresIn: 3600 });
         if (!token) throw Error('Couldnt sign the token');
 
         res.json({
+            valid: true,
             token,
             id: foundUser[0].id,
+            name: foundUser[0].firstName,
+            lastName: foundUser[0].lastName
         })
     } catch (e) {
       res.status(400).json({ msg: e.message });

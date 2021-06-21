@@ -29,11 +29,14 @@ class NewSession extends Component {
     }
 
     componentDidMount = async () => {
-        const token = localStorage.getItem("token")
+        const token = JSON.parse(localStorage.getItem("token"));
         console.log(token);
         if (token === null) {
             window.location=("/loginClient");
         }
+        this.setState({
+            instructor: token.name + " " + token.lastName
+        });
         this.getServices();
     }
 

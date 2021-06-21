@@ -20,8 +20,8 @@ import DeleteRoom from './Windows/DeleteRoom';
 import InstructorMenu from './Windows/InstructorMenu';
 import MyCalendar from './Windows/MyCalendar';
 import NewSession from './Windows/NewSession';
-import ShowReservations from './Windows/ShowReservations';
 import NewReservation from './Windows/NewReservation';
+import ManageSessions from './Windows/ManageSessions';
 
 function App() {
   return (
@@ -33,6 +33,7 @@ function App() {
         <Route exact path="/login:is" component={Login}/>
         <Route exact path="/adminMenu" component={AdminMenu}/>
         <Route exact path="/adminMenu/manage:is" component={AdminManage}/>
+        <Route exact path="/adminMenu/sessionManage" component={ManageSessions}/>
         <Route exact path="/adminMenu/show:is" component={ShowData}/>
         <Route exact path="/adminMenu/viewRoom" component={ShowRooms}/>
         <Route exact path="/adminMenu/viewRoom/:name" component={ModifyRoom}/>

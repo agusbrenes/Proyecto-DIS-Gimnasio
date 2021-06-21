@@ -64,18 +64,27 @@ class Login extends Component {
             }
         })
         .then((res) => {
-            localStorage.setItem('token', JSON.stringify(res.data));
-            if (this.state.is === "Admin")
-                window.location=("/adminMenu")
-            else if (this.state.is === "Instructor")
-                window.location=("/instructorMenu")
-            else 
-                window.location=("/clientMenu")
+            console.log("msg", res.data, res.data.msg);
+            if (res.data.valid === false){
+                swal.fire({
+                    title: 'Aviso',
+                    text: res.data.msg,
+                    icon: 'warning'
+                });
+            }else{
+                localStorage.setItem('token', JSON.stringify(res.data));
+                if (this.state.is === "Admin")
+                    window.location=("/adminMenu")
+                else if (this.state.is === "Instructor")
+                    window.location=("/instructorMenu")
+                else 
+                    window.location=("/clientMenu")
+            }
         })
         .catch((err) => {
             swal.fire({
                 title: 'No se pudo verificar sus credenciales',
-                text: err.msg,
+                text: err,
                 icon: 'error'
             });
         })

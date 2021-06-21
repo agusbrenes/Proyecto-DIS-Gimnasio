@@ -180,17 +180,22 @@ class NewRoom extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Capacidad recomendada</label>
+                        <label>Aforo Recomendado</label>
                         <select
                             name="allowCapacity"
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            {this.state.nums.map((num,index) => 
-                                <option key={index}>
-                                    {num}
-                                </option>
-                            )}
+                            <option>10 %</option>
+                            <option>20 %</option>
+                            <option>30 %</option>
+                            <option>40 %</option>
+                            <option>50 %</option>
+                            <option>60 %</option>
+                            <option>70 %</option>
+                            <option>80 %</option>
+                            <option>90 %</option>
+                            <option>100 %</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -210,13 +215,18 @@ class NewRoom extends Component {
                     <div className="row">
                         <div className="col">
                             <label for="begin">Horario de Inicio</label>
-                            <input type="time" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
+                            <input type="text" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
                             onChange={this.handleChange}/>
                         </div>
                         <div className="col">
-                            <label for="end">Horario Final</label>
-                            <input type="time" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
-                            onChange={this.handleChange}/>
+                            <label for="end">Duracion de la clase (Horas)</label>
+                            <select type="text" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
+                            onChange={this.handleChange}>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
