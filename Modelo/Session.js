@@ -6,7 +6,7 @@ module.exports = class Session {
         this.instructor = instructor;
         this.service = service;
         this.capacity = capacity;
-        this.schedule = new Schedule(initialHour, totalHours, month, day);
+        this.schedule = new Schedule(month, day, initialHour, totalHours);
         this.reservations = new Map();
         this.status = status;
     }

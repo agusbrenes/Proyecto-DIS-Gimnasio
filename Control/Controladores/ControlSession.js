@@ -4,7 +4,6 @@ const Controller = require("./Controller");
 const DaoSession = require("../DAOs/DaoSession");
 const ControlInstructor = require("./ControlInstructor");
 const ControlService = require("./ControlService");
-const ControlDay = require("./ControlDay");
 const ControlReservation = require("./ControlReservation");
 const SessionRegisterAdmin = require("../../Modelo/SessionRegisterAdmin");
 const SessionRegisterInstructor = require("../../Modelo/SessionRegisterInstructor");
@@ -24,10 +23,10 @@ module.exports = class ControlSession extends Controller {
             object.instructor,
             object.service,
             object.capacity,
-            object.month,
-            object.day,            
-            object.initialHour,
-            object.totalHours
+            object.schedule.month,
+            object.schedule.day,            
+            object.schedule.initialHour,
+            object.schedule.totalHours
         );
         return await this.handler.save(session);
     }
@@ -35,19 +34,11 @@ module.exports = class ControlSession extends Controller {
     async toObject(schema) {
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
-        // const controlDay = new ControlDay();
 
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toObject(instructorQuery[0]);
         const serviceQuery = await controlService.find({name: schema.service.name});
         const service = await controlService.toObject(serviceQuery[0]); 
-
-        // const query = {
-        //     number: schema.day.number, 
-        //     name: schema.day.name
-        // };
-        // const dayQuery = await controlDay.find(query);
-        // const day = await controlService.toObject(dayQuery[0]);
 
         let session = new Session (
             instructor,

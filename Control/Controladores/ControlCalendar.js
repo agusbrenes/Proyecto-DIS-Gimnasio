@@ -24,7 +24,6 @@ module.exports = class ControlCalendar extends Controller {
     }
 
     async save(object) {
-        console.log(object);
         const calendar = new Calendar (
             object.room, 
             object.month, 

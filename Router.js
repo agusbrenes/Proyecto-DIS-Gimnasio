@@ -762,10 +762,10 @@ router.post("/NewSession", async (req, res) => {
     const control = new ControlSession();
     const filter = {
         schedule: {
-            initialHour: object.initialHour,
-            totalHours: object.totalHours,
             month: object.month,
-            day: object.day
+            day: object.day,
+            initialHour: object.initialHour,
+            totalHours: object.totalHours
         }
     };
     try {
@@ -775,6 +775,8 @@ router.post("/NewSession", async (req, res) => {
         }
 
         const savedSession = await control.save(object);
+        // control.addtoCalendar(savedSesion)
+        // control.addtoService(savedSession)
         res.json(savedSession);
     } catch (err) {
         res.status(500).json({error: err.message});
@@ -786,10 +788,10 @@ router.post("/GetSession", async (req, res) => {
     const control = new ControlSession();
     const filter = {
         schedule: {
-            initialHour: object.initialHour,
-            totalHours: object.totalHours,
             month: object.month,
-            day: object.day
+            day: object.day,
+            initialHour: object.initialHour,
+            totalHours: object.totalHours
         }
     };
     try {
@@ -808,10 +810,10 @@ router.post("/ModifySession", async (req, res) => {
     const control = new ControlSession();
     const filter = {
         schedule: {
-            initialHour: object.initialHour,
-            totalHours: object.totalHours,
             month: object.month,
-            day: object.day
+            day: object.day,
+            initialHour: object.initialHour,
+            totalHours: object.totalHours
         }
     };
     try {
@@ -835,10 +837,10 @@ router.post("/DeleteSession", async (req, res) => {
     const control = new ControlSession();
     const filter = {
         schedule: {
-            initialHour: object.initialHour,
-            totalHours: object.totalHours,
             month: object.month,
-            day: object.day
+            day: object.day,
+            initialHour: object.initialHour,
+            totalHours: object.totalHours
         }
     };
     try {
