@@ -71,14 +71,14 @@ module.exports = class ControlInstructor extends ControlUsers {
         return instructor;
     }
 
-    async addServiceInstructor(idInstructor, idService) {
+    async addServiceInstructor(idInstructor, serviceName) {
         const controlService = new ControlService();
 
         // Obtener Instructor de BD
         const instructorQuery = await this.find({id: idInstructor});
         const instructor = await this.toObject(instructorQuery[0]);
 
-        const serviceQuery = await controlService.find({id: idService});
+        const serviceQuery = await controlService.find({name: serviceName});
         const service = controlService.toObject(serviceQuery[0]);
 
         instructor.addService(service);

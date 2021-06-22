@@ -32,7 +32,7 @@ module.exports = class ControlAdmin extends ControlUsers {
     async setAdminRoom(admin, adminRoom) {
         const control = new ControlRoom();
 
-        const roomQuery = await control.find({name: adminRoom.roomName});
+        const roomQuery = await control.find({name: adminRoom.name});
         const room = control.toObject(roomQuery[0]);
 
         admin.setroom(room);
@@ -44,7 +44,7 @@ module.exports = class ControlAdmin extends ControlUsers {
 
         const admin = await this.find(idAdmin);
         
-        return await control.find({name: admin.room.roomName});
+        return await control.find({name: admin.room.name});
         // const roomQuery = await control.find({room: adminRoom.roomName});
         // const room = control.toObject(roomQuery[0]);
     }
