@@ -22,8 +22,8 @@ module.exports = class ControlRoom extends Controller {
             schema.maxCapacity, 
             schema.capacity, 
             admin, 
-            schema.beginTime, 
-            schema.endTime
+            schema.initialHour, 
+            schema.totalHours
         );
         room = await this.setRoomInstructors(room, schema.instructors);
         room = await this.setRoomServices(room, schema.services);

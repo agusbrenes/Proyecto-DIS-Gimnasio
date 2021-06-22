@@ -1,8 +1,7 @@
 module.exports = class Service {
-    constructor(name, room, roomCapacity, instructor) {
+    constructor(name, room, instructor) {
         this.name = name;
         this.room = room;
-        this.roomCapacity = roomCapacity;
         this.instructors = [instructor];
         this.sessions = [];
     }

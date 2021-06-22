@@ -24,9 +24,10 @@ const TempSessionSchema = new Schema({
 }, { _id: false });
 
 const ServiceSchema = mongoose.model("Service", new Schema ({
-    name: {type: String, unique: true},
+    name: {type: String, index: true},
     room: {
-        name: {type: String}
+        name: {type: String},
+        capacity: {type: Number}
     },
     roomCapacity: {type: Number},
     instructors: [TempInstructorSchema],
@@ -51,8 +52,11 @@ module.exports = class DaoService extends Dao {
         const schema = await ServiceSchema.findOne(filter);
 
         schema.description = object.description;
-        schema.room = {room: object.room.name};
-        schema.roomCapacity = object.roomCapacity;
+        schema.room = {
+            name: object.room.name,
+            capacity: object.room.capacity
+        };
+        // schema.roomCapacity = object.roomCapacity;
 
         const instructors1 = [];
         if (object.instructors.length > 0) {
@@ -96,6 +100,7 @@ module.exports = class DaoService extends Dao {
     }
 
     toMongoSchema(object) {
+        console.log(object);
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {
@@ -129,10 +134,10 @@ module.exports = class DaoService extends Dao {
         }
 
         return new ServiceSchema({
-            description: object.description,
-            roomCapacity: object.roomCapacity,
+            name: object.name,
             room: {
-                name: object.room.name
+                name: object.room.name,
+                capacity: object.room.capacity
             },
             instructors: instructors1, 
             sessions: sessions1

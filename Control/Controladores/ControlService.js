@@ -12,7 +12,7 @@ module.exports = class ControlService extends Controller {
     }
 
     async save(object) {
-        const service = new Service (
+        const service = new Service ( 
             object.name,
             object.room,
             object.instructor
@@ -34,7 +34,6 @@ module.exports = class ControlService extends Controller {
             room,
             instructor
         );
-        service.setId(schema.id);
         service = await this.setServiceInstructors(service, schema.instructors);
         service = await this.setServiceSessions(service, schema.sessions);
         return service;
