@@ -7,9 +7,9 @@ module.exports = class Room {
         this.maxCapacity = maxCapacity;
         this.capacity = capacity;
         this.schedule = {
-            initialHour,
-            totalHours
-        }
+            initialHour: initialHour, 
+            totalHours: totalHours
+        };
         this.administrators = [administrator];
         this.instructors = [];
         this.services = [];

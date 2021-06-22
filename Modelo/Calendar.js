@@ -5,9 +5,11 @@ module.exports = class Calendar {
         }
         this.room = room;
         this.month = month;        
-        this.monthName = this.getMonthName();
+        this.monthName = this.setMonthName();
         this.year = year;
         this.days = new Map();
+        this.sessions = new Map();
+        this.setDays();
     }
 
     setRoom(room) {
@@ -20,7 +22,7 @@ module.exports = class Calendar {
 
     setMonth(month) {
         this.month = month;
-        this.monthName = this.getMonthName();
+        this.monthName = this.setMonthName();
     }
 
     getMonth() {
@@ -38,62 +40,84 @@ module.exports = class Calendar {
     getYear() {
         return this.year;
     }
-
-    setMonth(month) {
-        this.month = month;
-    }
-
-    getMonth() {
-        return this.month;
-    }
     
     getDays() {
         return this.days;
     }
 
     getDay(num) {
-        return this.days.get(num);
+        return this.days[num];
     }
 
-    addDay(day) {
-        this.days.set(day.getNumber(), day);
-    }
-
-    deleteDay(num) {
-        if (this.days.get(num) == undefined) {
-            throw new Error("This day isn't registered in the Calendar. Cannot perform delete operation.");
-        }
-        this.days.delete(num);
-    }
-
-    getMonthName() {
+    setMonthName() {
         switch (month) {
             case 1:
-                return "January";
+                return "Enero";
             case 2:
-                return "February";
+                return "Febrero";
             case 3:
-                return "March";
+                return "Marzo";
             case 4:
-                return "April";
+                return "Abril";
             case 5:
-                return "May";
+                return "Mayo";
             case 6:
-                return "June";
+                return "Junio";
             case 7:
-                return "July";
+                return "Julio";
             case 8:
-                return "August";
+                return "Agosto";
             case 9:
-                return "September";
+                return "Setiembre";
             case 10:
-                return "October";
+                return "Octubre";
             case 11:
-                return "November";
+                return "Noviembre";
             case 12:
-                return "December";
+                return "Diciembre";
             default:
                 throw new Error("Invalid Month number. Cannot create Calendar without valid Month number.");
+        }
+    }
+
+    setDays() {
+        const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+        for (var dayNum = 0; dayNum < 7; dayNum++) {
+            this.days.set(dayNum, days[dayNum]);
+            this.sessions.set(dayNum, []);
+        }        
+    }
+
+    addSession(session, dayNum) {
+        if (dayNum < 0 || dayNum > 6) {
+            throw new Error("Invalid day number. Please choose a valid day.");
+        } else if (sessionScheduleCollides(dayNum, session.schedule)) {
+            print();
+        }
+        var daySessions = this.sessions.get(dayNum);
+        daySessions.push(session);
+    }
+
+    sessionScheduleCollides(dayNum, schedule) {
+        var daySessions = this.sessions.get(dayNum);
+        if (daySessions.length > 0) {
+            daySession.forEach(session => {
+                if (schedulesCollidese(session.schedule, schedule)) {
+                    return true;
+                }
+            });
+        }
+        return false;
+    }
+
+    schedulesCollidese(schedule1, schedule2) {
+        const firstSchedule = (schedule1.initialHour < schedule2.initialHour ? schedule1 : schedule2);
+        const secondSchedule = (firstSchedule === schedule1 ? schedule2 : schedule1);        
+        const lastHour = firstSchedule.initialHour + firstSchedule.totalHours - 1;
+        if (lastHour < secondSchedule.initialHour) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

@@ -760,7 +760,7 @@ router.get("/GetReservations", (req, res) => {
 router.post("/NewSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
-    const filter = {id: object.id};
+    const filter = {id: object.id}; // como revisar si ya existe
     try {
         const foundSession = await control.find(filter);
         if (foundSession.length != 0) {
@@ -924,7 +924,7 @@ router.post("/NewCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomNoom
+            name: object.roomName
         }, 
         month: object.month, 
         year: object.year
@@ -947,7 +947,7 @@ router.post("/GetCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomNoom
+            name: object.roomName
         }, 
         month: object.month, 
         year: object.year
@@ -968,7 +968,7 @@ router.post("/ModifyCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomNoom
+            name: object.roomName
         }, 
         month: object.month, 
         year: object.year
@@ -994,7 +994,7 @@ router.post("/DeleteCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomNoom
+            name: object.roomName
         }, 
         month: object.month, 
         year: object.year
