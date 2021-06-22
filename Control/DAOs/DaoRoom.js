@@ -30,9 +30,7 @@ const RoomSchema = mongoose.model("Room", new Schema({
     capacity: {type: Number},
     schedule: {
         initialHour: {type: Number},
-        totalHours: {type: Number},
-        month: {type: Number},
-        day: {type: Number}
+        totalHours: {type: Number}
     },
     administrators: [TempAdminSchema],
     instructors: [TempInstructorSchema],
