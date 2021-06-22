@@ -78,10 +78,14 @@ class NewService extends Component {
         .then( async (response) => {
             const data = response.data;
             await data.forEach((item) => {
-                this.state.rooms.push(item.name);
+                const info = {
+                    name: item.name,
+                    capacity: item.capacity
+                }
+                this.state.rooms.push(info);
             })
-            await this.setState({
-                room: data[0].name
+            this.setState({
+                room: data[0].name + " - Capacidad: " + data[0].capacity
             }); 
         })
         .catch(() => {
@@ -93,15 +97,19 @@ class NewService extends Component {
         event.preventDefault();
 
         var index = document.form.instructor.selectedIndex;
+        var index2 = document.form.room.selectedIndex;
 
         const data = {
-            description: this.state.name,
+            name: this.state.name,
             instructor: {
                 id: this.state.instructors[index].id,
                 firstName: this.state.instructors[index].name,
                 lastName: this.state.instructors[index].lastname
             },
-            room: {name:this.state.room}
+            room: {
+                name: this.state.rooms[index2].name,
+                capacity: this.state.rooms[index2].capacity 
+            }
         }
 
         console.log(data);
@@ -141,7 +149,7 @@ class NewService extends Component {
                     </h4>
                     <div className="form-group">
                         <label>Nombre</label>
-                        <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="name" value={this.state.description}
+                        <input type="text" className="form-control" id="description" placeholder="Nombre del servicio" name="name" value={this.state.name}
                         onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
@@ -167,7 +175,7 @@ class NewService extends Component {
                         >
                             {this.state.rooms.map((room,index) => 
                                 <option key={index}>
-                                    {room}
+                                    {room.name} - Capacidad: {room.capacity}
                                 </option>
                             )}
                         </select>

@@ -44,8 +44,8 @@ class ShowRooms extends Component {
                     capacity: item.capacity,
                     maxCapacity: item.maxCapacity,
                     admin: admin,
-                    beginTime: item.schedule.beginTime,
-                    endTime: item.schedule.endTime
+                    beginTime: item.schedule.initialHour,
+                    endTime: item.schedule.initialHour + item.schedule.totalHours
                 }
                 this.state.list.push(info);
             });
@@ -81,6 +81,7 @@ class ShowRooms extends Component {
                         {this.state.data.map((post, index) =>
                         <div key = {index} className="col-md-4">
                             <div className ="card text-white bg-dark mt-4">
+                                {console.log(post)}
                                 <p className="card-header text-center text">
                                     {post.name}
                                 </p>
@@ -94,7 +95,7 @@ class ShowRooms extends Component {
                                     Administrador asignado: {post.admin}
                                 </p>
                                 <p className="text-center">
-                                    Horario Disponible: {post.beginTime} - {post.endTime}
+                                    Abierto desde las {post.beginTime}, hasta las {post.endTime} horas
                                 </p>
                                 <div className="card-footer text-center">
                                     <button className="btn btn-danger button" onClick={() => this.modify(post.name)}>
@@ -106,7 +107,7 @@ class ShowRooms extends Component {
                         )}
                     </div>
                     <div className="card-footer text-center">
-                        <button className="btn btn-dark button" onClick={() => window.history.back()}>
+                        <button className="btn btn-dark button" onClick={() => window.location=("/adminMenu/manageRooms")}>
                             Regresar
                         </button>
                     </div>

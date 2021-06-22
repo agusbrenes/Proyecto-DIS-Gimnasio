@@ -54,12 +54,13 @@ class ModifyRoom extends Component {
         })
         .then( async (response) => {
             const data = response.data;
+            const porcentaje = Math.round((Math.round((data[0].capacity * 100) / data[0].maxCapacity))/10)*10;
             this.setState({
                 name: data[0].name,
                 maxCapacity: data[0].maxCapacity,
-                allowCapacity: data[0].capacity, 
-                beginSchedule: data[0].schedule.beginTime,
-                endSchedule: data[0].schedule.endTime,
+                allowCapacity: porcentaje,
+                beginSchedule: data[0].schedule.initialHour,
+                endSchedule: data[0].schedule.totalHours,
                 id: data[0].schedule.id
             });
             this.getAdmin(data[0].administrators[0].id);
@@ -111,42 +112,23 @@ class ModifyRoom extends Component {
             })
         }
 
-        if (parseInt(this.state.maxCapacity) < parseInt(this.state.allowCapacity)){
-            swal.fire({
-                title: 'La capacidad recomendada no debe ser mayor a la capacidad máxima',
-                icon: 'warning'
-            })
-        }
-
-        var begin = this.state.beginSchedule.replace(/:/g,"");
-        var end = this.state.endSchedule.replace(/:/g,"");
-
-        if (parseInt(begin) > parseInt(end)){
-            swal.fire({
-                title: 'Seleccione un horario adecuado, la hora final no debe ser mayor a la de inicio',
-                icon: 'warning'
-            })
-        }
-
         const data = {
             name: this.state.name,
-            maxCapacity: this.state.maxCapacity,
-            capacity: this.state.allowCapacity,
+            maxCapacity: parseInt(this.state.maxCapacity),
+            capacity: Math.floor((parseInt(this.state.maxCapacity) * parseInt(this.state.allowCapacity))/100),
             administrators: {
                 id: this.state.adminO.id,
-                firstName: this.state.adminO.firstName,
-                lastName: this.state.adminO.lastName
+                firstName: this.state.adminO.name,
+                lastName: this.state.adminO.lastname
             },
             schedule: {
-                id: this.state.id,
-                beginTime: this.state.beginSchedule,
-                endTime: this.state.endSchedule,
+                initialHour: parseInt(this.state.beginSchedule),
+                totalHours: parseInt(this.state.endSchedule),
             },
             instructors: [],
             services: [],
             calendars: [],
         }
-        console.log(data);
         axios({
             url: "/api/ModifyRoom",
             method: "POST",
@@ -163,7 +145,7 @@ class ModifyRoom extends Component {
         })
         .catch( (err) => {
             swal.fire({
-                title: 'Ocurrio un problema al crear el Room',
+                title: 'Ocurrio un problema al modificar el Room',
                 text: err.message,
                 icon: 'error'
             });
@@ -176,7 +158,6 @@ class ModifyRoom extends Component {
                 <Navbar/>
             <div className="window">
                 {this.fill()}
-                {console.log(this.state)}
                 <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
                         Ingrese los datos del nuevo Room
@@ -187,7 +168,7 @@ class ModifyRoom extends Component {
                         onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                        <label>Capacidad de maxima personas</label>
+                        <label>Capacidad Máxima</label>
                         <select
                             name="maxCapacity"
                             className="form-control"
@@ -202,18 +183,23 @@ class ModifyRoom extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Capacidad recomendada</label>
+                        <label>Porcentaje de aforo Recomendado (%)</label>
                         <select
                             name="allowCapacity"
                             className="form-control"
                             onChange={this.handleChange}
                             value={this.state.allowCapacity}
                         >
-                            {this.state.nums.map((num,index) => 
-                                <option key={index}>
-                                    {num}
-                                </option>
-                            )}
+                            <option>10</option>
+                            <option>20</option>
+                            <option>30</option>
+                            <option>40</option>
+                            <option>50</option>
+                            <option>60</option>
+                            <option>70</option>
+                            <option>80</option>
+                            <option>90</option>
+                            <option>100</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -223,18 +209,59 @@ class ModifyRoom extends Component {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <label for="begin">Horario de Inicio</label>
-                            <input type="time" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
-                            onChange={this.handleChange}/>
+                            <label for="begin">Hora de apertura (24h)</label>
+                            <select type="text" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
+                            onChange={this.handleChange}>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                            </select>
                         </div>
                         <div className="col">
-                            <label for="end">Horario Final</label>
-                            <input type="time" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
-                            onChange={this.handleChange}/>
+                            <label for="end">Horas abierto</label>
+                            <select type="text" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
+                            onChange={this.handleChange}>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
                         Modificar
+                    </button>
+                    <button className="btn btn-secondary" onClick={() => window.location=("/adminMenu/viewRoom")} style={{marginTop:"20px", marginLeft: "20px"}}>
+                        Regresar
                     </button>
                 </form>
             </div>

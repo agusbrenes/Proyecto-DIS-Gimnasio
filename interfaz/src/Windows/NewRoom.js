@@ -200,16 +200,16 @@ class NewRoom extends Component {
                             <label for="begin">Hora de apertura (24h)</label>
                             <select type="text" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
                             onChange={this.handleChange}>
-                                <option>00</option>
-                                <option>01</option>
-                                <option>02</option>
-                                <option>03</option>
-                                <option>04</option>
-                                <option>05</option>
-                                <option>06</option>
-                                <option>07</option>
-                                <option>08</option>
-                                <option>09</option>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
                                 <option>10</option>
                                 <option>11</option>
                                 <option>12</option>

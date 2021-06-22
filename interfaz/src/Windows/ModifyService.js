@@ -48,14 +48,14 @@ class ModifyService extends Component {
         await axios({
             url: "/api/GetService",
             method: "POST",
-            data: {description: this.props.match.params.name}
+            data: {name: this.props.match.params.name}
         })
         .then( (response) => {
             const data = response.data;
             this.setState({
                 id: data[0].id,
-                name: data[0].description,
-                capacity: data[0].capacity,
+                name: data[0].name,
+                capacity: data[0].room.capacity,
                 room: data[0].room.name, 
                 instructorO: {
                     name: data[0].instructors[0].firstName,
@@ -84,11 +84,15 @@ class ModifyService extends Component {
         .then( async (response) => {
             const data = response.data;
             await data.forEach((item) => {
-                this.state.list.push(item.name);
-            });
-            this.setState({
-                rooms: this.state.list
+                const info = {
+                    name: item.name,
+                    capacity: item.capacity
+                }
+                this.state.rooms.push(info);
             })
+            this.setState({
+                room: data[0].name + " - Capacidad: " + data[0].capacity
+            }); 
         })
         .catch(() => {
             swal.fire({
@@ -105,14 +109,17 @@ class ModifyService extends Component {
         event.preventDefault();
 
         const data = {
-            description: this.state.name,
+            name: this.state.name,
             capacity: this.state.capacity,
             instructors: {
                 id: this.state.instructorO.id,
                 first_name: this.state.instructorO.name,
                 last_name: this.state.instructorO.lastName
             },
-            room: {name:this.state.room},
+            room: {
+                name: this.state.room,
+                capacity: this.state.capacity
+            },
             sessions: []
         }
 
@@ -157,7 +164,7 @@ class ModifyService extends Component {
                 {this.fill()}
                 <form onSubmit={this.submit}>
                     <h4 className="text-center">
-                        Ingrese los nuevos datos del servicio
+                        Ingrese los nuevos datos del servicio para modificar
                     </h4>
                     <div className="form-group">
                         <label for="description">Nombre</label>
@@ -206,7 +213,7 @@ class ModifyService extends Component {
                         >
                             {this.state.rooms.map((room,index) => 
                                 <option key={index}>
-                                    {room}
+                                    {room.name} - Capacidad: {room.capacity}
                                 </option>
                             )}
                         </select>

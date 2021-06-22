@@ -91,7 +91,11 @@ class NewSession extends Component {
             const data = response.data;
 
             await data.forEach((item) => {
-                    this.state.list.push(item.name);
+                    const info = {
+                        name: item.name,
+                        capacity: item.room.capacity
+                    }
+                    this.state.list.push(info);
             });
             this.setState({
                 services: this.state.list
@@ -146,7 +150,19 @@ class NewSession extends Component {
         else 
             var status = "aprove"
 
-        
+        /*const data = {
+            instructor:
+            service:
+            capacity:
+            schedule: {
+                month:
+                day:
+                initialHour:
+                totalHours:
+            },
+            isAdmin: !this.state.isInstru
+
+        }*/
     }
 
     render() {
@@ -169,23 +185,28 @@ class NewSession extends Component {
                         >
                             {this.state.list.map((num,index) => 
                                 <option key={index}>
-                                    {num}
+                                    {num.name} - Capacidad: {num.capacity}
                                 </option>
                             )}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Capacidad de personas</label>
+                        <label>Porcentaje de aforo para la sesión (%)</label>
                         <select
-                            name="capacity"
+                            name="allowCapacity"
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            {this.state.nums.map((num,index) => 
-                                <option key={index}>
-                                    {num}
-                                </option>
-                            )}
+                            <option>10</option>
+                            <option>20</option>
+                            <option>30</option>
+                            <option>40</option>
+                            <option>50</option>
+                            <option>60</option>
+                            <option>70</option>
+                            <option>80</option>
+                            <option>90</option>
+                            <option>100</option>
                         </select>
                     </div>
                     <div className="form-group">

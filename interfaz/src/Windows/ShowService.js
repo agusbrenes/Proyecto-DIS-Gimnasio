@@ -40,8 +40,8 @@ class ShowService extends Component {
             await data.forEach((item) => {
                 var instru = item.instructors[0].firstName + " " + item.instructors[0].lastName
                 const info = {
-                    name: item.description,
-                    capacity: item.capacity,
+                    name: item.name,
+                    capacity: item.room.capacity,
                     room: item.room.name,
                     instructor: instru,
                 }
