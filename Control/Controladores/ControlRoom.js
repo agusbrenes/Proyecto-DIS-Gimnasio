@@ -37,8 +37,8 @@ module.exports = class ControlRoom extends Controller {
             object.maxCapacity, 
             object.capacity, 
             object.administrator, 
-            object.beginTime, 
-            object.endTime
+            object.schedule.initialHour, 
+            object.schedule.totalHours
         );
         return await this.handler.save(room);
     }
