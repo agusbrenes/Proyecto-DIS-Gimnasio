@@ -7,12 +7,14 @@ class NewSession extends Component {
     state = {
         instructor: "",
         service: "",
-        capacity: "",
+        capacity: "1",
         day: "",
-        beginTime: "",
-        endTime: "",
+        beginTime: "00",
+        endTime: "1",
+        isInstru: true,
         nums: [], 
         services: [], 
+        instructors: [],
         list: []
     }
 
@@ -25,18 +27,23 @@ class NewSession extends Component {
         this.setState({
             [name] : value
         });
-        console.log(this.state)
+
     }
 
     componentDidMount = async () => {
         const token = JSON.parse(localStorage.getItem("token"));
-        console.log(token);
+
         if (token === null) {
             window.location=("/loginClient");
         }
-        this.setState({
-            instructor: token.name + " " + token.lastName
-        });
+
+        if (this.props.match.params.is === "admin"){
+            this.getInstructors();
+        } else {
+            this.setState({
+                instructor: token.name + " " + token.lastName
+            });
+        }
         this.getServices();
     }
 
@@ -48,6 +55,33 @@ class NewSession extends Component {
         }
     }
 
+    getInstructors = () => {
+        axios({
+            url: "/api/GetInstructors",
+            method: "GET",
+        })
+        .then( async (response) => {
+            const data = response.data;
+            await data.forEach((item) => {
+                const info = {
+                    name: item.firstName,
+                    lastname: item.lastName,
+                    email: item.email,
+                    id: item.id,
+                    phone: item.phone,
+                }
+                this.state.instructors.push(info);
+            });
+            this.setState({
+                instructor: data[0].id + " - " + data[0].firstName + data[0].lastName,
+                isInstru: false
+            })
+        })
+        .catch(() => {
+            console.log("Hubo un error al buscar los Instructores");
+        });
+    }
+
     getServices = async () => {
         await axios({
             url: "/api/GetServices",
@@ -57,12 +91,12 @@ class NewSession extends Component {
             const data = response.data;
 
             await data.forEach((item) => {
-                //if(item.instructors[0].id ==)
-                    this.state.list.push(item.room.name);
+                    this.state.list.push(item.name);
             });
             this.setState({
                 services: this.state.list
             })
+            console.log(this.state)
         })
         .catch(() => {
             swal.fire({
@@ -74,19 +108,45 @@ class NewSession extends Component {
         });
     }
 
+    show = () => {
+        if (!this.state.isInstru) {
+            return (
+                <div className="form-group">
+                    <label>Instructor</label>
+                    <select
+                        name="instructor"
+                        className="form-control"
+                        onChange={this.handleChange}
+                    >
+                        {this.state.instructors.map((num,index) => 
+                            <option key={index}>
+                                {num.id} - {num.name} {num.lastname}
+                            </option>
+                        )}
+                    </select>
+                </div>
+            )
+        } else {
+            return (
+                <div className="form-group">
+                    <label>Instructor</label>
+                    <input type="text" className="form-control" placeholder="Nombre del instructor" name="name" value={this.state.instructor}
+                    onChange={this.handleChange} disabled="disabled"/>
+                </div>
+                
+            )
+        }
+    }
+
     submit = (event) => {
         event.preventDefault();
 
-        var begin = this.state.beginTime.replace(/:/g,"");
-        var end = this.state.endTime.replace(/:/g,"");
+        if (this.state.isInstru)
+            var status = "standBy"
+        else 
+            var status = "aprove"
 
-        if (parseInt(begin) > parseInt(end)){
-            swal.fire({
-                title: 'Seleccione un horario adecuado, la hora final no debe ser mayor a la de inicio',
-                icon: 'warning'
-            })
-            return
-        }
+        
     }
 
     render() {
@@ -99,11 +159,7 @@ class NewSession extends Component {
                     <h4 className="text-center">
                         Ingrese los datos de la sesión
                     </h4>
-                    <div className="form-group">
-                        <label>Instructor</label>
-                        <input type="text" className="form-control" placeholder="Nombre del instructor" name="name" value={this.state.instructor}
-                        onChange={this.handleChange} disabled="disabled"/>
-                    </div>
+                    {this.show()}
                     <div className="form-group">
                         <label>Seleccione el Servicio para el que sera la sesión</label>
                         <select
@@ -134,49 +190,6 @@ class NewSession extends Component {
                     </div>
                     <div className="form-group">
                         <label>Seleccione el dia</label>
-                        {/*<div className="row">
-                            <div className="col">
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check">Lunes</label>
-                                </div>
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check2" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check2">Martes</label>
-                                </div>
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check3" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check3">Miercoles</label>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check4" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check4">Jueves</label>
-                                </div>
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check5" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check5">Viernes</label>
-                                </div>
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check6" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check6">Sábado</label>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="check2" placeholder="#####" name="check" value={this.state.check}
-                                    onChange={this.change}/>
-                                    <label for="check2">Domingo</label>
-                                </div>
-                            </div>
-                            </div>*/}
                             <select
                             name="capacity"
                             className="form-control"
@@ -193,18 +206,59 @@ class NewSession extends Component {
                     </div>    
                     <div className="row">
                         <div className="col">
-                            <label for="begin">Horario de Inicio</label>
-                            <input type="time" className="form-control" id="begin" name="beginTime"
-                            onChange={this.handleChange}/>
+                            <label for="begin">Hora de Inicio</label>
+                            <select type="text" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
+                            onChange={this.handleChange}>
+                                <option>00</option>
+                                <option>01</option>
+                                <option>02</option>
+                                <option>03</option>
+                                <option>04</option>
+                                <option>05</option>
+                                <option>06</option>
+                                <option>07</option>
+                                <option>08</option>
+                                <option>09</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                            </select>
                         </div>
                         <div className="col">
-                            <label for="end">Horario Final</label>
-                            <input type="time" className="form-control" id="end" name="endTime"
-                            onChange={this.handleChange}/>
+                            <label for="end">Duración</label>
+                            <select type="text" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
+                            onChange={this.handleChange}>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
                         Crear
+                    </button>
+                    <button className="btn btn-secondary" onClick={() => window.location=("/adminMenu/sessionManage")} style={{marginTop:"20px", marginLeft: "20px"}}>
+                        Regresar
                     </button>
                 </form>
             </div>

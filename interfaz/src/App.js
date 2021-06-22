@@ -47,7 +47,8 @@ function App() {
         <Route exact path="/clientMenu" component={ClientMenu}/>
         <Route exact path="/clientMenu/viewCalendar/:id" component={MyCalendar}/>
         <Route exact path="/instructorMenu" component={InstructorMenu}/>
-        <Route exact path="/instructorMenu/newSession" component={NewSession}/>
+        <Route exact path="/instructorMenu/newSession/:is" component={NewSession}/>
+        <Route exact path="/adminMenu/newSession/:is" component={NewSession}/>
         <Route exact path="/newReservation" component={NewReservation}/>
       </Switch>
     </Router>

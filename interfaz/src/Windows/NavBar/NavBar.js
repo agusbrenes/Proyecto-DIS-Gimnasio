@@ -14,6 +14,8 @@ export default class Navbar extends Component {
         const token = localStorage.getItem("token")
         if (token === null) {
             this.setState({show: true})
+        } else {
+            this.setState({show: false})
         }
     }
 
@@ -37,6 +39,9 @@ export default class Navbar extends Component {
                     )
                 }) : 
                     <li className="navItem" key="1">
+                        <Link className="navLinks" onClick={() => window.location=("/")}>
+                            Buzón
+                        </Link>
                         <Link className="navLinks" onClick={() => window.location=("/")}>
                             Logout
                         </Link>
