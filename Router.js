@@ -952,7 +952,7 @@ router.post("/NewCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomName
+            name: object.room.name
         }, 
         month: object.month, 
         year: object.year
@@ -975,7 +975,7 @@ router.post("/GetCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomName
+            name: object.room.name
         }, 
         month: object.month, 
         year: object.year
@@ -996,7 +996,7 @@ router.post("/ModifyCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomName
+            name: object.room.name
         }, 
         month: object.month, 
         year: object.year
@@ -1022,7 +1022,7 @@ router.post("/DeleteCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomNoom
+            name: object.room.name
         }, 
         month: object.month, 
         year: object.year

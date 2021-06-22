@@ -1,12 +1,12 @@
 const Calendar = require("../../Modelo/Calendar");
-const DaoRoom = require("../Daos/DaoRoom");
+const DaoCalendar = require("../Daos/DaoCalendar");
 const ControlDay = require("./ControlDay");
 const Controller = require("./Controller");
 const ControlRoom = require("./ControlRoom");
 
 module.exports = class ControlCalendar extends Controller {
     constructor() {
-        super(new DaoRoom());
+        super(new DaoCalendar());
     }
 
     async toObject(schema) {
@@ -24,11 +24,13 @@ module.exports = class ControlCalendar extends Controller {
     }
 
     async save(object) {
+        console.log(object);
         const calendar = new Calendar (
             object.room, 
             object.month, 
             object.year
         );
+        console.log(calendar);
         return await this.handler.save(calendar);
     }
 
