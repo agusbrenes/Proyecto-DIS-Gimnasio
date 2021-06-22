@@ -17,7 +17,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         lastName: {type: String}
     },
     service: {
-        description: {type: String},
+        name: {type: String},
         roomCapacity: {type: Number}
     },
     capacity: {type: Number},
@@ -54,7 +54,7 @@ module.exports = class DaoSession extends Dao {
             lastName: object.instructor.lastName
         };
         schema.service = {
-            description: object.service.description,
+            name: object.service.name,
             roomCapacity: object.service.roomCapacity
         };
         schema.capacity = object.capacity;
@@ -108,7 +108,7 @@ module.exports = class DaoSession extends Dao {
                 lastName: object.instructor.lastName
             },
             service: {
-                description: object.service.description,
+                name: object.service.name,
                 roomCapacity: object.service.roomCapacity
             },
             capacity: object.capacity,
