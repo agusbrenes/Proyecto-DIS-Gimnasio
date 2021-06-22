@@ -2,11 +2,14 @@ const Calendar = require('./Calendar.js');
 const Schedule = require('./Schedule.js');
 
 module.exports = class Room {
-    constructor(name, maxCapacity, capacity, administrator, beginTime, endTime) {
+    constructor(name, maxCapacity, capacity, administrator, initialHour, totalHours) {
         this.name = name;
         this.maxCapacity = maxCapacity;
         this.capacity = capacity;
-        this.schedule = new Schedule(beginTime, endTime);
+        this.schedule = {
+            initialHour: initialHour, 
+            totalHours: totalHours
+        };
         this.administrators = [administrator];
         this.instructors = [];
         this.services = [];
