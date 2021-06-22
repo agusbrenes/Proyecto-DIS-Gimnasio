@@ -760,7 +760,14 @@ router.get("/GetReservations", (req, res) => {
 router.post("/NewSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
-    const filter = {id: object.id}; // como revisar si ya existe
+    const filter = {
+        schedule: {
+            initialHour: object.initialHour,
+            totalHours: object.totalHours,
+            month: object.month,
+            day: object.day
+        }
+    };
     try {
         const foundSession = await control.find(filter);
         if (foundSession.length != 0) {
@@ -777,7 +784,14 @@ router.post("/NewSession", async (req, res) => {
 router.post("/GetSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
-    const filter = {id: object.id};
+    const filter = {
+        schedule: {
+            initialHour: object.initialHour,
+            totalHours: object.totalHours,
+            month: object.month,
+            day: object.day
+        }
+    };
     try {
         const foundSession = await control.find(filter);
         if (!foundSession) {
@@ -792,7 +806,14 @@ router.post("/GetSession", async (req, res) => {
 router.post("/ModifySession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
-    const filter = {id: object.id};
+    const filter = {
+        schedule: {
+            initialHour: object.initialHour,
+            totalHours: object.totalHours,
+            month: object.month,
+            day: object.day
+        }
+    };
     try {
         const foundSession = await control.find(filter);
         if (!foundSession) {
@@ -812,7 +833,14 @@ router.post("/ModifySession", async (req, res) => {
 router.post("/DeleteSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
-    const filter = {id: object.id};
+    const filter = {
+        schedule: {
+            initialHour: object.initialHour,
+            totalHours: object.totalHours,
+            month: object.month,
+            day: object.day
+        }
+    };
     try {
         const foundService = await control.find(filter);
         if (!foundService) {
@@ -994,7 +1022,7 @@ router.post("/DeleteCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.roomName
+            name: object.roomNoom
         }, 
         month: object.month, 
         year: object.year
@@ -1052,7 +1080,8 @@ router.post("/GetSchedule", async (req, res) => {
     const filter = {
         month: object.month, 
         day: object.day, 
-        initialHour: object.initialHour
+        initialHour: object.initialHour,
+        totalHours: object.totalHours
     }
     try {
         const foundSchedule = await control.find(filter);
@@ -1096,7 +1125,8 @@ router.post("/DeleteSchedule", async (req, res) => {
     const filter = {
         month: object.month, 
         day: object.day, 
-        initialHour: object.initialHour
+        initialHour: object.initialHour,
+        totalHours: object.totalHours
     }
     try {
         const foundSchedule = await control.find(filter);
