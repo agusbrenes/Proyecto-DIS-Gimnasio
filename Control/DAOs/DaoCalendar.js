@@ -15,8 +15,8 @@ const SessionTempSchema = new Schema({
         lastName: {type: String}
     },
     service: {
-        description: {type: String},
-        roomCapacity: {type: Number}
+        name: {type: String},
+        capacity: {type: Number}
     },
     capacity: {type: Number},
     schedule: {
@@ -85,8 +85,8 @@ module.exports = class DaoCalendar extends Dao {
                         lastName: session.instructor.lastName
                     },
                     service: {
-                        description: session.service.description,
-                        roomCapacity: session.service.roomCapacity
+                        name: session.service.name,
+                        capacity: session.service.capacity
                     },
                     capacity: session.capacity,
                     schedule: {
@@ -97,7 +97,9 @@ module.exports = class DaoCalendar extends Dao {
                     },
                     status: session.status
                 }
+                sessions1.push(schema1);
             });
+            schema.sessions = sessions1;
         }
         
         return await CalendarSchema.updateOne(filter, schema);
@@ -139,6 +141,7 @@ module.exports = class DaoCalendar extends Dao {
                     },
                     status: session.status
                 }
+                sessions1.push(schema1);
             });
         }
 
@@ -149,7 +152,8 @@ module.exports = class DaoCalendar extends Dao {
             month: object.month,
             monthName: object.monthName,
             year: object.year,
-            days: days1
+            days: days1,
+            sessions: sessions1
         });
     }
 }
