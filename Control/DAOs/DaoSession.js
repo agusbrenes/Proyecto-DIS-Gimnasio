@@ -68,7 +68,7 @@ module.exports = class DaoSession extends Dao {
 
         const reservations1 = [];
         if (object.reservations.length > 0) {
-            object.reservations.values().forEach(reservation => {
+            object.reservations.forEach(reservation => {
                 const schema1 = { 
                     client: {
                         email: reservation.client.email
@@ -90,7 +90,7 @@ module.exports = class DaoSession extends Dao {
     toMongoSchema(object) {
         const reservations1 = [];
         if (object.reservations.length > 0) {
-            object.reservations.values().forEach(reservation => {
+            object.reservations.forEach(reservation => {
                 const schema = { 
                     client: {
                         email: reservation.client.email

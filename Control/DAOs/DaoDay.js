@@ -58,7 +58,7 @@ module.exports = class DaoDay extends Dao {
         
         const calendars1 = [];
         if (object.calendars.length > 0) {
-            object.calendars.values().forEach(calendar => {
+            object.calendars.forEach(calendar => {
                 const tempCalendar = { 
                     month: calendar.month, 
                     year: calendar.year 
@@ -70,7 +70,7 @@ module.exports = class DaoDay extends Dao {
 
         const sessions1 = [];
         if (object.sessions.length > 0) {
-            object.sessions.values().forEach(session => {
+            object.sessions.forEach(session => {
                 const tempSession = { 
                     instructor: {
                         id: session.instructor.id,
@@ -96,7 +96,7 @@ module.exports = class DaoDay extends Dao {
     toMongoSchema(object) {
         const calendars1 = [];
         if (object.calendars.length > 0) {
-            object.calendars.values().forEach(calendar => {
+            object.calendars.forEach(calendar => {
                 const tempCalendar = { 
                     month: calendar.month, 
                     year: calendar.year 
@@ -107,7 +107,7 @@ module.exports = class DaoDay extends Dao {
 
         const sessions1 = [];
         if (object.sessions.length > 0) {
-            object.sessions.values().forEach(session => {
+            object.sessions.forEach(session => {
                 const tempSession = { 
                     instructor: {
                         id: session.instructor.id,

@@ -57,7 +57,7 @@ module.exports = class DaoInstructor extends Dao {
 
         const services1 = [];
         if (object.services.length > 0) {
-            object.services.values().forEach(service => {
+            object.services.forEach(service => {
                 const schema1 = { 
                     name: service.name 
                 };
@@ -68,7 +68,7 @@ module.exports = class DaoInstructor extends Dao {
 
         const sessions1 = [];
         if (object.sessions.length > 0) {
-            object.sessions.values().forEach(session => {
+            object.sessions.forEach(session => {
                 const schema1 = { 
                     service: {
                         name: session.service.name
@@ -89,7 +89,7 @@ module.exports = class DaoInstructor extends Dao {
     toMongoSchema(object) {
         const services1 = [];
         if (object.services.length > 0) {
-            object.services.values().forEach(service => {
+            object.services.forEach(service => {
                 const schema = { 
                     name: service.name 
                 };
@@ -99,7 +99,7 @@ module.exports = class DaoInstructor extends Dao {
 
         const sessions1 = [];
         if (object.sessions.length > 0) {
-            object.sessions.values().forEach(session => {
+            object.sessions.forEach(session => {
                 const schema = { 
                     service: {
                         name: session.service.name

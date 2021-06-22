@@ -67,7 +67,7 @@ module.exports = class DaoClient extends Dao {
 
         const reservations1 = [];
         if (object.reservations.length > 0) {
-            object.reservations.values().forEach(reservation => {
+            object.reservations.forEach(reservation => {
                 const schema1 = { 
                     session: {
                         instructor: {
@@ -90,7 +90,7 @@ module.exports = class DaoClient extends Dao {
         }
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
-            object.subscriptions.values().forEach(subscription => {
+            object.subscriptions.forEach(subscription => {
                 const schema1 = { 
                     fee: subscription.fee,
                     limit: subscription.limit 
@@ -110,7 +110,7 @@ module.exports = class DaoClient extends Dao {
     toMongoSchema(object) {
         const reservations1 = [];
         if (object.reservations.length > 0) {
-            object.reservations.values().forEach(reservation => {
+            object.reservations.forEach(reservation => {
                 const schema = { 
                     session: {
                         instructor: {
@@ -132,7 +132,7 @@ module.exports = class DaoClient extends Dao {
         }
         const subscriptions1 = [];
         if (object.subscriptions.length > 0) {
-            object.subscriptions.values().forEach(subscription => {
+            object.subscriptions.forEach(subscription => {
                 const schema = { 
                     fee: subscription.fee,
                     limit: subscription.limit 
