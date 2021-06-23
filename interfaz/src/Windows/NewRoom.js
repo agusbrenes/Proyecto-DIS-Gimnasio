@@ -245,15 +245,15 @@ class NewRoom extends Component {
                             </select>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
+                    <div className="text-center">
+                    <button type="submit" className="btn btn-primary" style={{width:"220px",marginTop:"20px"}}>
                         Crear
                     </button>
+                    </div>
                 </form>
-                <div className="d-flex justify-content-center" style={{marginTop:"10px"}}>
-                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => window.location=("/adminMenu/manageRooms")}>
+                <button className="btn btn-danger" style={{width:"220px", marginTop:"10px"}} onClick={() => window.location=("/adminMenu/manageRooms")}>
                         Regresar
-                    </button>
-                </div>
+                </button>
             </div>
             </div>
         )
