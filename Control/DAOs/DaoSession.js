@@ -27,7 +27,9 @@ const SessionSchema = mongoose.model("Session", new Schema ({
     year: {type: Number},
     schedule: {
         month: {type: Number},
-        day: {type: Number},
+        day: {type: Number}
+    },
+    plan: {
         initialHour: {type: Number},
         totalHours: {type: Number}
     },
@@ -68,7 +70,9 @@ module.exports = class DaoSession extends Dao {
         schema.year = object.year;
         schema.schedule = {
             month: object.schedule.month,
-            day: object.schedule.day,
+            day: object.schedule.day
+        };
+        schema.plan = {
             initialHour: object.schedule.initialHour,
             totalHours: object.schedule.totalHours
         };
@@ -126,7 +130,9 @@ module.exports = class DaoSession extends Dao {
             year: object.year, 
             schedule: {
                 month: object.schedule.month,
-                day: object.schedule.day,
+                day: object.schedule.day
+            },
+            plan: {
                 initialHour: object.schedule.initialHour,
                 totalHours: object.schedule.totalHours
             },

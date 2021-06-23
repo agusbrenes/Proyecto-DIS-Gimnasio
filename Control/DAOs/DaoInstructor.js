@@ -10,7 +10,15 @@ const TempServiceSchema = new Schema({
 const TempSessionSchema = new Schema({
     service: {
         name: {type: String}
-    }
+    },
+    schedule: {
+        month: {type: Number},
+        day: {type: Number}
+    },
+    plan: {
+        initialHour: {type: Number},
+        totalHours: {type: Number}
+    },
 }, { _id: false });
 
 const InstructorSchema = mongoose.model("Instructor", new Schema({
@@ -72,6 +80,14 @@ module.exports = class DaoInstructor extends Dao {
                 const schema1 = { 
                     service: {
                         name: session.service.name
+                    },
+                    schedule: {
+                        month: session.schedule.month,
+                        day: session.schedule.day
+                    },
+                    plan: {
+                        initialHour: session.plan.initialHour,
+                        totalHours: session.plan.totalHours
                     }
                 };
                 sessions1.push(schema1);
@@ -103,7 +119,15 @@ module.exports = class DaoInstructor extends Dao {
                 const schema = { 
                     service: {
                         name: session.service.name
-                    } 
+                    },
+                    schedule: {
+                        month: session.schedule.month,
+                        day: session.schedule.day
+                    },
+                    plan: {
+                        initialHour: session.plan.initialHour,
+                        totalHours: session.plan.totalHours
+                    }
                 };
                 sessions1.push(schema);
             });

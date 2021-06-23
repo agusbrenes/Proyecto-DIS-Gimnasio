@@ -31,8 +31,8 @@ module.exports = class ControlSession extends Controller {
             object.year,
             object.schedule.month,
             object.schedule.day,            
-            object.schedule.initialHour,
-            object.schedule.totalHours
+            object.plan.initialHour,
+            object.plan.totalHours
         );
         const schema = await this.handler.save(session);
         await this.addtoCalendar(schema);

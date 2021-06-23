@@ -14,11 +14,13 @@ const ReservationSchema = mongoose.model("Reservation", new Schema ({
             name: {type: String}
         },
         schedule: {
-            initialHour: {type: Number, required: true},
-            totalHours: {type: Number},
             month: {type: Number},
             day: {type: Number}
         },
+        plan: {
+            initialHour: {type: Number, required: true},
+            totalHours: {type: Number},
+        }
     },
     paymentMethod: {
         name: {type: String}
@@ -59,9 +61,11 @@ module.exports = class DaoReservation extends Dao {
             },
             schedule: {
                 initialHour: object.session.schedule.initialHour,
-                totalHours: object.session.schedule.totalHours,
-                month: object.session.schedule.month,
-                day: object.session.schedule.day
+                totalHours: object.session.schedule.totalHours
+            },
+            plan: {
+                month: object.session.plan.month,
+                day: object.session.plan.day
             }
         };
         schema.paymentMethod = {
@@ -93,9 +97,11 @@ module.exports = class DaoReservation extends Dao {
                 },
                 schedule: {
                     initialHour: object.session.schedule.initialHour,
-                    totalHours: object.session.schedule.totalHours,
-                    month: object.session.schedule.month,
-                    day: object.session.schedule.day
+                    totalHours: object.session.schedule.totalHours
+                },
+                plan: {
+                    month: object.session.plan.month,
+                    day: object.session.plan.day
                 }
             },
             paymentMethod: {

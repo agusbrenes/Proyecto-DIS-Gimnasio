@@ -16,10 +16,12 @@ const TempSessionSchema = new Schema({
         lastName: {type: String}
     },
     schedule: {
-        initialHour: {type: Number},
-        totalHours: {type: Number},
         month: {type: Number},
         day: {type: Number}
+    },
+    plan: {
+        initialHour: {type: Number},
+        totalHours: {type: Number}
     }
 }, { _id: false });
 
@@ -81,10 +83,12 @@ module.exports = class DaoService extends Dao {
                         lastName: session.instructor.lastName
                     },
                     schedule: {
-                        initialHour: session.schedule.initialHour,
-                        totalHours: session.schedule.totalHours,
                         month: session.schedule.month,
                         day: session.schedule.day
+                    },
+                    plan: {
+                        initialHour: session.plan.initialHour,
+                        totalHours: session.plan.totalHours
                     }
                 };
                 sessions1.push(schema1);
@@ -123,10 +127,12 @@ module.exports = class DaoService extends Dao {
                         lastName: session.instructor.lastName
                     },
                     schedule: {
-                        initialHour: session.schedule.initialHour,
-                        totalHours: session.schedule.totalHours,
                         month: session.schedule.month,
                         day: session.schedule.day
+                    },
+                    plan: {
+                        initialHour: session.plan.initialHour,
+                        totalHours: session.plan.totalHours
                     }
                 };
                 sessions1.push(schema);

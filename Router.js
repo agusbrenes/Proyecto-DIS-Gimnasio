@@ -812,7 +812,8 @@ router.post("/GetCalendarSessions", async (req, res) => {
     const control = new ControlSession();
     const filter = {
         room: {
-            name: object.room.name
+            name: object.room.name,
+            capacity: object.room.capacity
         },
         year: object.year,
         schedule: {
