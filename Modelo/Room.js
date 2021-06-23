@@ -112,4 +112,26 @@ module.exports = class Room {
         let adm = this.administrators.find(administrator => administrator.getId() == id);
         return adm;
     }
+
+    updateCalendar(instructorName, incomingCalendar) {
+        if (this.calendars.length > 0) {
+            this.calendars.forEach(calendar => {
+                if (calendar.room.name === incomingCalendar.room.name &&
+                    calendar.month === incomingCalendar.month &&
+                    calendar.year === incomingCalendar.year) {
+
+                        calendar = incomingCalendar;
+
+                    }
+            });
+
+            var message = instructorName + " has requested a new session!";
+
+            if (this.administrators.length > 0) {
+                this.administrators.forEach(administrator => {
+                    administrator.messages.push(message);
+                });
+            }
+        }
+    }
 }

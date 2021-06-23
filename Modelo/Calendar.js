@@ -96,6 +96,10 @@ module.exports = class Calendar {
         }
         var daySessions = this.sessions.get(dayNum);
         daySessions.push(session);
+
+        let instructorName = session.instructor.firstName + " " + session.instructor.lastName;
+
+        this.notify(instructorName);
     }
 
     sessionScheduleCollides(dayNum, schedule) {
@@ -119,5 +123,9 @@ module.exports = class Calendar {
         } else {
             return true;
         }
+    }
+
+    notify(instructorName) {
+        this.room.updateCalendar(instructorName, this);
     }
 }
