@@ -9,6 +9,8 @@ const SessionRegisterAdmin = require("../../Modelo/SessionRegisterAdmin");
 const SessionRegisterInstructor = require("../../Modelo/SessionRegisterInstructor");
 const ControlCalendar = require("./ControlCalendar");
 const ControlRoom = require("./ControlRoom");
+const DaoService = require("../DAOs/DaoService");
+const DaoCalendar = require("../Daos/DaoCalendar");
 
 module.exports = class ControlSession extends Controller {
     constructor() {
@@ -24,15 +26,18 @@ module.exports = class ControlSession extends Controller {
         const session = strategy.createSession(
             object.instructor,
             object.service,
-            object.capacity,
             object.room,
+            object.capacity,
             object.year,
             object.schedule.month,
             object.schedule.day,            
             object.schedule.initialHour,
             object.schedule.totalHours
         );
-        return await this.handler.save(session);
+        const schema = await this.handler.save(session);
+        await this.addtoCalendar(schema);
+        await this.addtoService(schema);
+        return schema;
     }
     
     async toObject(schema) {
@@ -61,7 +66,6 @@ module.exports = class ControlSession extends Controller {
             schema.totalHours,
             schema.status
         );
-        // session = await this.setSessionReservations(reservation, schema.reservations);
         return session;
     }
 
@@ -77,21 +81,32 @@ module.exports = class ControlSession extends Controller {
     }
 
     async addtoCalendar(sessionSchema) {
-        const control = new ControlCalendar();
+        const dao = new DaoCalendar();
         const query = {
             room: {
-                name: sessionSchema.room.name,
-                capacity: sessionSchema.room.capacity
+                name: sessionSchema.room.name
             },
             month: sessionSchema.schedule.month,
             year: sessionSchema.year
         };
-        const calendarQuery = await control.find(query);
+        const calendarQuery = await dao.find(query);
 
-        const session = await this.toObject(sessionSchema);
-        const calendar = await control.toObject(calendarQuery[0]);
-        calendar.addSession(session, session.getDay());
+        const calendar = calendarQuery[0];
+        calendar.sessions.push(sessionSchema);
 
-        return await control.save(calendar);
+        return await dao.modify(query, calendar);
+    }
+
+    async addtoService(sessionSchema) {
+        const dao = new DaoService();
+        const query = {
+            name: sessionSchema.service.name
+        };
+        const serviceQuery = await dao.find(query);
+
+        const service = serviceQuery[0];
+        service.sessions.push(sessionSchema);
+
+        return await dao.modify(query, service);
     }
 }

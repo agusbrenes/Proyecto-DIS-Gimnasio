@@ -761,6 +761,7 @@ router.post("/NewSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        year: object.year,
         schedule: {
             month: object.month,
             day: object.day,
@@ -775,7 +776,7 @@ router.post("/NewSession", async (req, res) => {
         }
 
         const savedSession = await control.save(object);
-        await control.addtoCalendar(savedSesion);
+        // await control.addtoCalendar(savedSession);
         // control.addtoService(savedSession)
         res.json(savedSession);
     } catch (err) {
@@ -787,6 +788,7 @@ router.post("/GetSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        year: object.year,
         schedule: {
             month: object.month,
             day: object.day,
@@ -809,6 +811,7 @@ router.post("/ModifySession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        year: object.year,
         schedule: {
             month: object.month,
             day: object.day,
@@ -836,6 +839,7 @@ router.post("/DeleteSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        year: object.year,
         schedule: {
             month: object.month,
             day: object.day,
