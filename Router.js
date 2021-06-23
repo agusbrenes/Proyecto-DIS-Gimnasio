@@ -807,6 +807,30 @@ router.post("/GetSession", async (req, res) => {
     }
 });
 
+router.post("/GetCalendarSessions", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const filter = {
+        room: {
+            name: object.room.name
+        },
+        year: object.year,
+        schedule: {
+            month: object.schedule.month,
+            day: object.schedule.day
+        }
+    };
+    try {
+        const foundSession = await control.find(filter);
+        if (!foundSession) {
+            return res.json({msg:true});
+        }
+        res.json(foundSession);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
 router.post("/ModifySession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
