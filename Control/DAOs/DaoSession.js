@@ -24,13 +24,13 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         capacity: {type: Number}
     },
     capacity: {type: Number},
+    year: {type: Number},
     schedule: {
         month: {type: Number},
         day: {type: Number},
         initialHour: {type: Number},
         totalHours: {type: Number}
     },
-    year: {type: Number},
     reservations: [TempReservationSchema],
     status: {type: String}
 }));
@@ -65,13 +65,13 @@ module.exports = class DaoSession extends Dao {
             capacity: object.room.capacity
         }
         schema.capacity = object.capacity;
+        schema.year = object.year;
         schema.schedule = {
             month: object.schedule.month,
             day: object.schedule.day,
             initialHour: object.schedule.initialHour,
             totalHours: object.schedule.totalHours
         };
-        schema.year = object.year;
         schema.status = object.status;
 
         const reservations1 = [];
@@ -123,13 +123,13 @@ module.exports = class DaoSession extends Dao {
                 capacity: object.room.capacity
             },
             capacity: object.capacity,
+            year: object.year, 
             schedule: {
                 month: object.schedule.month,
                 day: object.schedule.day,
                 initialHour: object.schedule.initialHour,
                 totalHours: object.schedule.totalHours
             },
-            year: object.year, 
             reservations: reservations1,
             status: object.status
         });
