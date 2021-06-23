@@ -6,6 +6,7 @@ module.exports = class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
+        this.messages = [];
     }
 
     setEmail(email) {
