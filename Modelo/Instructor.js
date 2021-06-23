@@ -52,17 +52,19 @@ module.exports = class Instructor extends User {
     }
 
     updateSession(adminName, incomingSession) {
-        this.sessions.forEach(session => {
-            if (session.schedule.month == incomingSession.schedule.month && 
-                session.schedule.day === incomingSession.schedule.day && 
-                session.schedule.initialHour === incomingSession.schedule.initialHour && 
-                session.schedule.totalHours === incomingSession.schedule.totalHours) {
-                    
-                    session.status = incomingSession.status;
+        if (this.sessions.length > 0) {
+            this.sessions.forEach(session => {
+                if (session.schedule.month == incomingSession.schedule.month && 
+                    session.schedule.day === incomingSession.schedule.day && 
+                    session.schedule.initialHour === incomingSession.schedule.initialHour && 
+                    session.schedule.totalHours === incomingSession.schedule.totalHours) {
 
-                }
-        });
+                        session.status = incomingSession.status;
 
+                    }
+            });
+        }
+        
         var message = adminName + " has modified the status of the session scheduled to day: " + incomingSession.schedule.day + ", month: " + incomingSession.schedule.month + ", starting at: " + incomingSession.schedule.initialHour + ", duration: " + incomingSession.schedule.totalHours;
 
         this.messages.push(message);
