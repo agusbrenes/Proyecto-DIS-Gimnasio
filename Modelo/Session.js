@@ -97,4 +97,8 @@ module.exports = class Session {
     reject() {
         this.status = Status.Rejected;
     }
+
+    notify(adminName) {
+        this.instructor.updateSession(adminName, this);
+    }
 }

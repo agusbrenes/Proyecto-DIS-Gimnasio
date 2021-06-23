@@ -30,6 +30,7 @@ const SessionSchema = mongoose.model("Session", new Schema ({
         initialHour: {type: Number},
         totalHours: {type: Number}
     },
+    year: {type: Number},
     reservations: [TempReservationSchema],
     status: {type: String}
 }));
@@ -70,6 +71,7 @@ module.exports = class DaoSession extends Dao {
             initialHour: object.schedule.initialHour,
             totalHours: object.schedule.totalHours
         };
+        schema.year = object.year;
         schema.status = object.status;
 
         const reservations1 = [];
@@ -127,6 +129,7 @@ module.exports = class DaoSession extends Dao {
                 initialHour: object.schedule.initialHour,
                 totalHours: object.schedule.totalHours
             },
+            year: object.year, 
             reservations: reservations1,
             status: object.status
         });
