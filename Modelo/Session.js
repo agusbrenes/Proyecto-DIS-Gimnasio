@@ -2,9 +2,10 @@ const Schedule = require("./Schedule");
 const Status = require('./SessionStatus');
 
 module.exports = class Session {
-    constructor(instructor, service, capacity, month, day, initialHour, totalHours, status) {
+    constructor(instructor, service, room, capacity, month, day, initialHour, totalHours, status) {
         this.instructor = instructor;
         this.service = service;
+        this.room = room;
         this.capacity = capacity;
         this.schedule = new Schedule(month, day, initialHour, totalHours);
         this.reservations = new Map();

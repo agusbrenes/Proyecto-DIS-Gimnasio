@@ -775,7 +775,7 @@ router.post("/NewSession", async (req, res) => {
         }
 
         const savedSession = await control.save(object);
-        // control.addtoCalendar(savedSesion)
+        await control.addtoCalendar(savedSesion);
         // control.addtoService(savedSession)
         res.json(savedSession);
     } catch (err) {

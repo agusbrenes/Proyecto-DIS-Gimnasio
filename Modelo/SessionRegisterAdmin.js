@@ -7,6 +7,7 @@ module.exports = class SessionRegisterAdmin extends SessionRegisterStrategy {
         return new Session(
             instructor, 
             service, 
+            room,
             capacity, 
             month, 
             day, 
