@@ -9,8 +9,8 @@ class ManageSessions extends Component {
                 <Navbar/>
             <div className="adminMenu">
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => window.location=("/adminMenu/newSession/admin")}>
-                        Crear una Sesion
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => window.location=("/adminMenu/selectCalendar/admin")}>
+                        Ver Calendario
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>

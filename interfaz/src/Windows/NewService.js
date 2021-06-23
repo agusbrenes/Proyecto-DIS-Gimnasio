@@ -89,7 +89,7 @@ class NewService extends Component {
             }); 
         })
         .catch(() => {
-            console.log("Hubo un error al buscar los Instructores");
+            console.log("Hubo un error al buscar los Rooms");
         });
     }
 

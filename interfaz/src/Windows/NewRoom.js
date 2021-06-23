@@ -248,10 +248,12 @@ class NewRoom extends Component {
                     <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
                         Crear
                     </button>
-                    <button className="btn btn-secondary" onClick={() => window.location=("/adminMenu/manageRooms")} style={{marginTop:"20px", marginLeft: "20px"}}>
+                </form>
+                <div className="d-flex justify-content-center" style={{marginTop:"10px"}}>
+                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => window.location=("/adminMenu/manageRooms")}>
                         Regresar
                     </button>
-                </form>
+                </div>
             </div>
             </div>
         )

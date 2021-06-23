@@ -145,21 +145,19 @@ class NewSession extends Component {
     submit = (event) => {
         event.preventDefault();
 
-        if (this.state.isInstru)
-            var status = "standBy"
-        else 
-            var status = "aprove"
-
         /*const data = {
             instructor:
             service:
             capacity:
+            year:
             schedule: {
                 month:
                 day:
+            },
+            hours: {
                 initialHour:
                 totalHours:
-            },
+            }
             isAdmin: !this.state.isInstru
 
         }*/
@@ -212,7 +210,7 @@ class NewSession extends Component {
                     <div className="form-group">
                         <label>Seleccione el dia</label>
                             <select
-                            name="capacity"
+                            name="dia"
                             className="form-control"
                             onChange={this.handleChange}
                         >
