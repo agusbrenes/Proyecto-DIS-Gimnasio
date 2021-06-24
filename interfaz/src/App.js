@@ -24,6 +24,8 @@ import NewReservation from './Windows/NewReservation';
 import ManageSessions from './Windows/ManageSessions';
 import SelectCalendar from './Windows/SelectCalendar';
 import ViewCalendar from './Windows/ViewCalendar';
+import SelectCalendarIns from './Windows/SelectCalendarIns';
+import ViewCalendarIns from './Windows/ViewCalendarIns';
 
 function App() {
   return (
@@ -52,8 +54,9 @@ function App() {
         <Route exact path="/instructorMenu/newSession/:is" component={NewSession}/>
         <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is/newSession" component={NewSession}/>
         <Route exact path="/adminMenu/selectCalendar/:is" component={SelectCalendar}/>
-        <Route exact path="/instructorMenu/selectCalendar/:is" component={SelectCalendar}/>
+        <Route exact path="/instructorMenu/selectCalendar/:is" component={SelectCalendarIns}/>
         <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is" component={ViewCalendar}/>
+        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is" component={ViewCalendarIns}/>
         <Route exact path="/newReservation" component={NewReservation}/>
       </Switch>
     </Router>

@@ -93,6 +93,19 @@
     background-attachment: fixed;
   }
 
+  .showDataIns {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./Windows/Imagen4.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
   .menuInstru { 
     flex-direction: column;
     background-image: url('./Windows/Imagen4.jpg');
