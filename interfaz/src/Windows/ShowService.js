@@ -55,9 +55,11 @@ class ShowService extends Component {
         .catch(() => {
             swal.fire({
                 title: 'Ocurrio un problema al cargar los datos',
+                background: "black",
+                confirmButtonText: "Reload",
                 icon: 'error'
             }).then(() => {
-                window.history.back();
+                window.location.reload(false);
             });
         });
     }
@@ -102,7 +104,7 @@ class ShowService extends Component {
                         )}
                     </div>
                     <div className="card-footer text-center">
-                        <button className="btn btn-dark button" onClick={() => window.history.back()}>
+                        <button className="btn btn-dark button" onClick={() => window.location=("/adminMenu/manageServices")}>
                             Regresar
                         </button>
                     </div>

@@ -94,7 +94,7 @@ class AdminManage extends Component {
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu")}}>
+                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu")}}>
                         Regresar
                     </button>
                 </div>

@@ -135,12 +135,12 @@ class SelectMonth extends Component {
                         </select>
                     </div>
                     <div className="form-group text-center">
-                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px", width:"100px"}}>
+                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px", width:"220px"}}>
                         Ver
                     </button>  
                     </div>
                 </form>
-                <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
+                <div className="d-flex justify-content-center" style={{marginTop:"20px"}}>
                     <button className="btn btn-danger" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/sessionManage")}}>
                         Regresar
                     </button>

@@ -19,12 +19,12 @@ class InstructorMenu extends Component {
                     Bienvenido
                 </h1>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/modifyInstructor/id")}}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/modifyInstructor/:id")}}>
                         Modificar Cuenta
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/instructorMenu/newSession/instructor")}}>
+                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/instructorMenu/selectCalendar/instructor")}}>
                         Crear una Sesión
                     </button>
                 </div>

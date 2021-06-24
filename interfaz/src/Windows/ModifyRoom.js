@@ -257,13 +257,15 @@ class ModifyRoom extends Component {
                             </select>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
+                    <div className="text-center">
+                    <button type="submit" className="btn btn-primary" style={{width:"220px",marginTop:"20px"}}>
                         Modificar
                     </button>
-                    <button className="btn btn-secondary" onClick={() => window.location=("/adminMenu/viewRoom")} style={{marginTop:"20px", marginLeft: "20px"}}>
-                        Regresar
-                    </button>
+                    </div>
                 </form>
+                <button className="btn btn-danger" style={{width:"220px", marginTop:"10px"}} onClick={() => window.location=("/adminMenu/viewRoom")}>
+                        Regresar
+                </button>
             </div>
             </div>
         )
