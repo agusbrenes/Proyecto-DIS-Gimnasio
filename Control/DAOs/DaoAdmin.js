@@ -17,7 +17,9 @@ const AdminSchema = mongoose.model("Admin", new Schema({
     room: {
         name: {type: String}
     },
-    messages: [MessageSchema]
+    messages: {
+        msgs: [MessageSchema]
+    }
 }));
 
 module.exports = class DaoAdmin extends Dao {
@@ -57,7 +59,7 @@ module.exports = class DaoAdmin extends Dao {
                 };
                 messages1.push(schema1);
             });
-            schema.messages = messages1;
+            schema.messages.msgs = messages1;
         }
 
         return await AdminSchema.updateOne(filter, schema);
@@ -88,7 +90,9 @@ module.exports = class DaoAdmin extends Dao {
             room: {
                 name: ""
             },
-            messages: messages1
+            messages: {
+                msgs: messages1
+            }
         });
     }
 }
