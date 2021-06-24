@@ -18,7 +18,7 @@ const AdminSchema = mongoose.model("Admin", new Schema({
         name: {type: String}
     },
     messages: {
-        msgs: [MessageSchema]
+        msgs: [{type:String}]
     }
 }));
 

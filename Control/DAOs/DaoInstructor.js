@@ -39,7 +39,7 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     services: [TempServiceSchema],
     sessions: [TempSessionSchema],
     messages: {
-        msgs: [MessageSchema]
+        msgs: [{type:String}]
     }
 }));
 
