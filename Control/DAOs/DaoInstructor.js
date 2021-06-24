@@ -21,6 +21,10 @@ const TempSessionSchema = new Schema({
     },
 }, { _id: false });
 
+const MessageSchema = new Schema({
+    message: {type: String}
+}, { _id: false });
+
 const InstructorSchema = mongoose.model("Instructor", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
@@ -33,7 +37,8 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
         name: {type: String}
     },
     services: [TempServiceSchema],
-    sessions: [TempSessionSchema]
+    sessions: [TempSessionSchema],
+    messages: [MessageSchema]
 }));
 
 module.exports = class DaoInstructor extends Dao {
@@ -95,6 +100,17 @@ module.exports = class DaoInstructor extends Dao {
             schema.sessions = sessions1;
         }
 
+        const messages1 = [];
+        if (object.messages.length > 0) {
+            object.messages.forEach(messageN => {
+                const schema1 = {
+                    message: messageN
+                };
+                messages1.push(schema1);
+            });
+            schema.messages = messages1;
+        }
+
         return await InstructorSchema.updateOne(filter, schema);
     }
 
@@ -133,6 +149,16 @@ module.exports = class DaoInstructor extends Dao {
             });
         }
 
+        const messages1 = [];
+        if (object.messages.length > 0) {
+            object.messages.forEach(messageN => {
+                const schema1 = {
+                    message: messageN
+                };
+                messages1.push(schema1);
+            });
+        }
+
         return new InstructorSchema({
             email: object.email,
             password: object.password,
@@ -145,7 +171,8 @@ module.exports = class DaoInstructor extends Dao {
                 name: object.room.name
             },
             services: services1,
-            sessions: sessions1
+            sessions: sessions1,
+            messages: messages1
         });
     }
 }

@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
+const MessageSchema = new Schema({
+    message: {type: String}
+}, { _id: false });
+
 const AdminSchema = mongoose.model("Admin", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
@@ -12,7 +16,8 @@ const AdminSchema = mongoose.model("Admin", new Schema({
     phone: {type: String},
     room: {
         name: {type: String}
-    }
+    },
+    messages: [MessageSchema]
 }));
 
 module.exports = class DaoAdmin extends Dao {
@@ -44,6 +49,17 @@ module.exports = class DaoAdmin extends Dao {
             room: object.room.name
         };
 
+        const messages1 = [];
+        if (object.messages.length > 0) {
+            object.messages.forEach(messageN => {
+                const schema1 = {
+                    message: messageN
+                };
+                messages1.push(schema1);
+            });
+            schema.messages = messages1;
+        }
+
         return await AdminSchema.updateOne(filter, schema);
     }
 
@@ -52,6 +68,16 @@ module.exports = class DaoAdmin extends Dao {
     }
 
     toMongoSchema(object) {
+        const messages1 = [];
+        if (object.messages.length > 0) {
+            object.messages.forEach(messageN => {
+                const schema1 = {
+                    message: messageN
+                };
+                messages1.push(schema1);
+            });
+        }
+
         return new AdminSchema({
             email: object.email,
             password: object.password,
@@ -61,7 +87,8 @@ module.exports = class DaoAdmin extends Dao {
             phone: object.phone,
             room: {
                 name: ""
-            }
+            },
+            messages: messages1
         });
     }
 }
