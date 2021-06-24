@@ -152,7 +152,7 @@ class NewSession extends Component {
 
         var index = document.form.instructor.selectedIndex;
         var index2 = document.form.service.selectedIndex;
-        console.log("indice",this.state.services[index2].capacity, this.state.capacity, index2);
+        
         const data = {
             instructor: {
                 id: this.state.instructors[index].id,
@@ -192,9 +192,15 @@ class NewSession extends Component {
                 icon: "success"
             })
             .then(() => {
-                window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                        this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                        this.props.match.params.day +"/admin");
+                if (this.props.match.params.is === "admin"){
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/admin");
+                } else {
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/instructor");
+                }
             })
         })
     }
@@ -300,9 +306,16 @@ class NewSession extends Component {
                     </div>
                 </form>
                 <button className="btn btn-danger" style={{width:"220px", marginTop:"10px"}} 
-                onClick={() => window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                this.props.match.params.day +"/admin")}>
+                onClick={() => {if (this.props.match.params.is === "admin"){
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/admin");
+                } else {
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/instructor");
+                }
+                }}>
                         Regresar
                 </button>
             </div>
