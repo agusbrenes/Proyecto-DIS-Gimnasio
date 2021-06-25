@@ -24,6 +24,8 @@ const TempCalendarSchema = new Schema({
     year: {type: Number, required: true}
 }, { _id: false });
 
+//En el calendar meter el filtro como dato para poder consultarlo despues del schema de calendar.
+
 const RoomSchema = mongoose.model("Room", new Schema({
     name: {type: String, index: true},
     maxCapacity: {type: Number, required: true},
