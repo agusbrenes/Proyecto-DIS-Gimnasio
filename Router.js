@@ -784,10 +784,10 @@ router.post("/NewSession", async (req, res) => {
 
         const savedSession = await control.save(object);
         console.log("Guarda Session");
-        // await auxControl.addSessiontoCalendar(savedSession); // control dependiendo
-        // console.log("Agrega Session a calendar");
-        await auxControl.addSessiontoService(savedSession);
-        console.log("Agrega Session a service");
+        await auxControl.addSessiontoCalendar(savedSession); // control dependiendo
+        console.log("Agrega Session a calendar");
+        // await auxControl.addSessiontoService(savedSession);
+        // console.log("Agrega Session a service");
         res.json(savedSession);
     } catch (err) {
         res.status(500).json({error: err.message});
@@ -817,7 +817,7 @@ router.post("/GetSession", async (req, res) => {
     }
 });
 
-router.post("/GetCalendarSessions", async (req, res) => {
+router.post("/GetCalendarSessionsAdmin", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
@@ -832,11 +832,53 @@ router.post("/GetCalendarSessions", async (req, res) => {
         }
     };
     try {
-        const foundSession = await control.find(filter);
-        if (!foundSession) {
+        const foundSessions = await control.find(filter);
+        if (!foundSessions) {
             return res.json({msg:true});
         }
-        res.json(foundSession);
+        res.json(foundSessions);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/GetCalendarDaySessions", async (req, res) => {
+    const object = req.body;
+    const controlAdmin = new ControlAdmin();
+    const controlCalendar = new ControlCalendar();
+    const controlInstructor = new ControlInstructor();
+
+    const filterCalendar = {
+        room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours
+            },
+            name: object.room.name,
+        }, 
+        month: object.month,
+        year: object.year
+    };
+    const filterInstructor = {
+        id: object.idInstructor
+    }
+
+    try {
+        const foundCalendar = await controlCalendar.find(filterCalendar);
+        if (foundCalendar.length === 0) {
+            return res.json({msg:"Calendar not found!"});
+        }
+        const calendarSchema = foundCalendar[0];
+
+        const foundInstructor = await controlInstructor.find(filterInstructor);
+        if (foundInstructor.length === 0) {
+            return res.json({msg:"Instructor not found!"});
+        }
+        const instructorSchema = foundInstructor[0];
+
+        const foundSessions = await controlAdmin.getCalendarSessions(calendarSchema, instructorSchema);
+        
+        res.json(foundSessions);
     } catch (err) {
         res.status(500).json({error: err.message});
     }
@@ -1024,7 +1066,6 @@ router.post("/GetCalendar", async (req, res) => {
         }, 
         month: object.month
     }
-    console.log(filter);
     try {
         const foundCalendar = await control.find(filter);
         if (!foundCalendar) {

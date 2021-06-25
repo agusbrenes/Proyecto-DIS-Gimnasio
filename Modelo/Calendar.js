@@ -127,6 +127,10 @@ module.exports = class Calendar {
         this.notify(instructorName, session);
     }
 
+    getSessions(dayNum) {
+        return this.sessions.get(dayNum);
+    }
+
     sessionScheduleCollides(dayNum, schedule) {
         // Recordar que this.sessions lo que trae es un Map
 

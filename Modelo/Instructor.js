@@ -74,73 +74,62 @@ module.exports = class Instructor extends User {
         this.messages.push(info);
     }
 
-    visitMySessions(month, year, day) {
+    visitMySessions(calendar, dayNum) {
         if (this.room !== null) {
-            if (this.room.calendars.length > 0) {
-                let calendar = this.room.getCalendar(year, month);
-                let daySchedules = calendar.sessions.get(day); //Esto es un map.
+            let daySchedules = calendar.getSessions(dayNum); 
 
-                var mySessions = [];
+            var mySessions = [];
 
-                daySchedules.forEach((sessionArray) => {
-                    if (sessionArray.length > 0) {
-                        sessionArray.forEach(session => {
-                            if (session.instructor.id === this.id) {
-                                mySessions.push(session);
-                            }
-                        });
-                    }
-                });
-                return mySessions;
-            }
+            daySchedules.forEach((sessionArray) => {
+                if (sessionArray.length > 0) {
+                    sessionArray.forEach(session => {
+                        if (session.instructor.id === this.id) {
+                            mySessions.push(session);
+                        }
+                    });
+                }
+            });
+            return mySessions;
         }
         return [];
     }
 
-    visitOtherSessions(month, year, day) {
+    visitOtherSessions(calendar, dayNum) {
         if (this.room !== null) {
-            if (this.room.calendars.length > 0) {
-                let calendar = this.room.getCalendar(year, month);
-                let daySchedules = calendar.sessions.get(day); //Esto es un map.
+            let daySchedules = calendar.getSessions(dayNum); 
 
-                var notMySessions = [];
+            var notMySessions = [];
 
-                daySchedules.forEach((sessionArray) => {
-                    if (sessionArray.length > 0) {
-                        sessionArray.forEach(session => {
-                            if (session.instructor.id == this.id) {
-                                notMySessions.push(session);
-                            }
-                        });
-                    }
-                });
-
-                return notMySessions;
-            }
+            daySchedules.forEach((sessionArray) => {
+                if (sessionArray.length > 0) {
+                    sessionArray.forEach(session => {
+                        if (session.instructor.id == this.id) {
+                            notMySessions.push(session);
+                        }
+                    });
+                }
+            });
+            return notMySessions;
         }
         return [];
     }
 
-    visitFreeSpaces(month, year, day) {
+    visitFreeSpaces(calendar, dayNum) {
         if (this.room !== null) {
-            if (this.room.calendars.length > 0) {
-                let calendar = this.room.getCalendar(year, month);
-                let daySchedules = calendar.sessions.get(day); //Esto es un map.
+            let daySchedules = calendar.getSessions(dayNum); 
 
-                var freeSpaces = [];
+            var freeSpaces = [];
 
-                daySchedules.forEach((sessionArray, key) => {
-                    if (sessionArray.length === 0) {
-                        let value = {
-                            startHour: key.startHour,
-                            endHour: key.endHour
-                        };
-                        freeSpaces.push(value);
-                    }
-                });
-
-                return freeSpaces;
-            }
+            daySchedules.forEach((sessionArray, key) => {
+                if (sessionArray.length === 0) {
+                    let value = {
+                        startHour: key.startHour,
+                        endHour: key.endHour
+                    };
+                    freeSpaces.push(value);
+                }
+            });
+            return freeSpaces;
         }
         return [];
     }

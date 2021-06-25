@@ -66,6 +66,16 @@ module.exports = class ControlAdmin extends ControlUsers {
         // const room = control.toObject(roomQuery[0]);
     }
 
+    async getCalendarSessions(calendarSchema, instructorSchema) {
+        const controlSession = new ControlSession();
+        const controlInstructor = new ControlInstructor();
+        const controlService = new ControlService();
+        const controlRoom = new ControlRoom();
+        const controlCalendar = new ControlCalendar();
+
+        
+    }
+
     async addSessiontoCalendar(sessionSchema) {
         /* To create Session Object */
         // Primary
