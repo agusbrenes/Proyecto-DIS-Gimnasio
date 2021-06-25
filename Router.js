@@ -1274,4 +1274,52 @@ router.get("/GetDays", (req, res) => {
     });
 });
 
+router.post("/ModifyDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (!foundDay) {
+            return res.json({msg:true});
+        }
+        
+        const modifiedDay = await control.modify(
+            filter,
+            object
+        );
+        res.json(modifiedDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/DeleteDay", async (req, res) => {
+    const object = req.body;
+    const control = new ControlDay();
+    const filter = {id: object.id};
+    try {
+        const foundDay = await control.find(filter);
+        if (!foundDay) {
+            return res.json({msg:true});
+        }
+
+        const deletedDay = await control.delete(filter);
+        res.json(deletedDay);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/GetDays", (req, res) => {
+    const control = new ControlDay();
+    control.getAll()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+});
+
 module.exports = router;

@@ -23,7 +23,7 @@ class ShowData extends Component {
 
     componentWillMount = () => {
         const token = localStorage.getItem("token")
-        console.log(token);
+        
         if (token === null) {
             window.location=("/loginClient");
         }

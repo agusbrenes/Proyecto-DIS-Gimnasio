@@ -3,13 +3,12 @@ import axios from "axios";
 import swal from "sweetalert2";
 import Navbar from "./NavBar/NavBar";
 
-class ViewCalendar extends Component {
+class ViewCalendarIns extends Component {
     state = {
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
         days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         sessions: [],
-        list: [],
-        myID: ""
+        list: []
     }
 
     componentDidMount = () => {
@@ -56,33 +55,29 @@ class ViewCalendar extends Component {
                     if (result.isConfirmed){
                         window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
                         this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                        this.props.match.params.day +"/admin/newSession");
+                        this.props.match.params.day +"/instructor/newSession");
                     } else {
-                        window.location=("/adminMenu/selectCalendar/admin")
+                        window.location=("/instructorMenu/selectCalendar/instructor")
                     }
                 });
             } else {
                 await data.forEach((item) => {
-                    //if (item.isFree === false){
-                        //if (item.instructor.id === parseInt(this.state.myID)) {
-                        const info = {
-                            instructor: {
-                                id: item.instructor.id,
-                                name: item.instructor.firstName,
-                                lastName: item.instructor.lastName
-                            },
-                            service: item.service.name,
-                            room: {
-                                name: item.room.name,
-                                capacity: item.room.capacity
-                            },
-                            begin: item.plan.initialHour,
-                            end: item.plan.initialHour + item.plan.totalHours,
-                            capacity: item.capacity
-                        }
-                        this.state.list.push(info);
-                        //}
-                    //}
+                    const info = {
+                        instructor: {
+                            id: item.instructor.id,
+                            name: item.instructor.firstName,
+                            lastName: item.instructor.lastName
+                        },
+                        service: item.service.name,
+                        room: {
+                            name: item.room.name,
+                            capacity: item.room.capacity
+                        },
+                        begin: item.plan.initialHour,
+                        end: item.plan.initialHour + item.plan.totalHours,
+                        capacity: item.capacity
+                    }
+                    this.state.list.push(info);
                 })
                 this.setState({
                     sessions: this.state.list
@@ -105,8 +100,8 @@ class ViewCalendar extends Component {
         return (
             <div>
                 <Navbar/>
-                <div className="showData">
-                    <h4>
+                <div className="showDataIns">
+                    <h4 style={{color: "green", webkitTextStroke: ".7px black"}}>
                         Sesiones Disponibles en el Room {this.props.match.params.room} para el día {this.state.days[this.props.match.params.day]}
                     </h4>
                     <div className="col-md-12">
@@ -141,12 +136,12 @@ class ViewCalendar extends Component {
                         <button className="btn btn-success button" style={{marginTop:"20px"}} 
                         onClick={() => window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
                         this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                        this.props.match.params.day +"/admin/newSession")}>
+                        this.props.match.params.day +"/instructor/newSession")}>
                             Crear Nueva Sesión
                         </button>
                     </div>
                     <div className="card-footer text-center">
-                        <button className="btn btn-dark button" onClick={() => window.location=("/adminMenu/selectCalendar/admin")}>
+                        <button className="btn btn-dark button" onClick={() => window.location=("/instructorMenu/selectCalendar/instructor")}>
                             Regresar
                         </button>
                     </div>
@@ -156,4 +151,4 @@ class ViewCalendar extends Component {
     }
 }
 
-export default ViewCalendar
+export default ViewCalendarIns

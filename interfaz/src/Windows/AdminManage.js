@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import axios from "axios";
 import Navbar from "./NavBar/NavBar";
 
 class AdminManage extends Component {
@@ -9,7 +8,7 @@ class AdminManage extends Component {
 
     componentDidMount = () => {
         const token = localStorage.getItem("token")
-        console.log(token);
+        
         if (token === null) {
             window.location=("/loginClient");
         }
@@ -94,7 +93,7 @@ class AdminManage extends Component {
                     </button>
                 </div>
                 <div className="d-flex justify-content-center" style={{marginTop:"35px"}}>
-                    <button className="btn btn-primary" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu")}}>
+                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu")}}>
                         Regresar
                     </button>
                 </div>

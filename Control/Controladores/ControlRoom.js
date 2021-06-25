@@ -2,21 +2,16 @@ const Room = require('../../Modelo/Room');
 const Controller = require("./Controller");
 
 const DaoRoom = require('../Daos/DaoRoom');
-const ControlAdmin = require('./ControlAdmin');
-const ControlInstructor = require('./ControlInstructor');
-const ControlService = require('./ControlService');
-const ControlCalendar = require('./ControlCalendar');
 
 module.exports = class ControlRoom extends Controller {
     constructor() {
         super(new DaoRoom());
     }
 
-    async toObject(schema) {
-        const controlAdmin = new ControlAdmin();
-        
-        const adminQuery = await controlAdmin.find({id: schema.admin.id});
-        const admin = await controlAdmin.toObject(adminQuery[0]);
+    async toObject(schema, controlAdmin) {
+        console.log("Schema Room ", schema);
+        const adminQuery = await controlAdmin.find({id: schema.administrators[0].id});
+        const admin = await controlAdmin.toAuxObject(adminQuery[0]);
         let room = new Room (
             schema.name, 
             schema.maxCapacity, 
@@ -28,6 +23,22 @@ module.exports = class ControlRoom extends Controller {
         room = await this.setRoomInstructors(room, schema.instructors);
         room = await this.setRoomServices(room, schema.services);
         room = await this.setRoomCalendars(room, schema.calendars);
+        return room;
+    }
+
+    async toAuxObject(schema, controlAdmin) {
+        console.log("Schema Room Aux", schema, controlAdmin);
+        const administator = schema.administrators[0];
+        const adminQuery = await controlAdmin.find({id: administator.id});
+        const admin = await controlAdmin.toAuxObject(adminQuery[0]);
+        let room = new Room (
+            schema.name, 
+            schema.maxCapacity, 
+            schema.capacity, 
+            admin, 
+            schema.initialHour, 
+            schema.totalHours
+        );
         return room;
     }
 
@@ -43,31 +54,28 @@ module.exports = class ControlRoom extends Controller {
         return await this.handler.save(room);
     }
 
-    async setRoomInstructors(room, instructorArray) {
-        const control = new ControlInstructor();
+    async setRoomInstructors(room, control, instructorArray) {
         for (var i = 0; i < instructorArray.length; i++) {
             const instructorQuery = await control.find(instructorArray[i]);
-            const instructor = control.toObject(instructorQuery[0]);
+            const instructor = control.toAuxObject(instructorQuery[0]);
             room.addInstructor(instructor);
         }
         return room;
     }
 
-    async setRoomServices(room, serviceArray) {
-        const control = new ControlService();
+    async setRoomServices(room, control, serviceArray) {
         for (var i = 0; i < serviceArray.length; i++) {
             const serviceQuery = await control.find(serviceArray[i]);
-            const service = control.toObject(serviceQuery[0]);
+            const service = control.toAuxObject(serviceQuery[0]);
             room.addService(service);
         }
         return room;
     }
 
-    async setRoomCalendars(room, calendarArray) {
-        const control = new ControlCalendar();
+    async setRoomCalendars(room, control, calendarArray) {
         for (var i = 0; i < calendarArray.length; i++) {
             const calendarQuery = await control.find(calendarArray[i]);
-            const calendar = control.toObject(calendarQuery[0]);
+            const calendar = control.toAuxObject(calendarQuery[0]);
             room.addService(calendar);
         }
         return room;

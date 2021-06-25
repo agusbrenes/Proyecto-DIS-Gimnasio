@@ -1,25 +1,32 @@
 const Calendar = require("../../Modelo/Calendar");
 const DaoCalendar = require("../Daos/DaoCalendar");
-const ControlDay = require("./ControlDay");
 const Controller = require("./Controller");
-const ControlRoom = require("./ControlRoom");
 
 module.exports = class ControlCalendar extends Controller {
     constructor() {
         super(new DaoCalendar());
     }
 
-    async toObject(schema) {
-        const controlRoom = new ControlRoom();
-        
-        const roomQuery = await controlRoom.find({id: schema.room.id});
-        const room = await controlRoom.toObject(roomQuery[0]);
+    async toObject(schema, controlRoom, controlAdmin, controlSession, controlInstructor, controlService) {        
+        const roomQuery = await controlRoom.find({name: schema.room.name});
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
         let calendar = new Calendar (
             room, 
             schema.month, 
             schema.year 
         );
-        calendar = await this.setCalendarDays(calendar, schema.days);
+        calendar = this.setCalendarSessions(calendar, schema.sessions, controlSession, controlInstructor, controlService, controlRoom, controlAdmin);
+        return calendar;
+    }
+
+    async toAuxObject(schema, controlRoom, controlAdmin) {        
+        const roomQuery = await controlRoom.find({name: schema.room.name});
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        let calendar = new Calendar (
+            room, 
+            schema.month, 
+            schema.year 
+        );
         return calendar;
     }
 
@@ -33,14 +40,12 @@ module.exports = class ControlCalendar extends Controller {
         return await this.handler.save(calendar);
     }
 
-    async setCalendarDays(calendar, dayArray) {
-        const control = new ControlDay();
-        for (var i = 0; i < dayArray.length; i++) {
-            const dayQuery = await control.find(dayArray[i]);
-            const day = control.toObject(dayQuery[0]);
-            calendar.addDay(day);
+    async setCalendarSessions(calendar, sessionArray, controlSession, controlInstructor, controlService, controlRoom, controlAdmin) {
+        for (var i = 0; i < sessionArray.length; i++) {
+            const sessionQuery = await controlSession.find(sessionArray[i]);
+            const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
+            calendar.addSession(session, session.getDay()); 
         }
         return calendar;
     }
-
 }

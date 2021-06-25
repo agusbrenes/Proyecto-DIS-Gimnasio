@@ -28,7 +28,7 @@ class NewService extends Component {
 
     componentDidMount = () => {
         const token = localStorage.getItem("token")
-        console.log(token);
+        
         if (token === null) {
             window.location=("/loginClient");
         }
@@ -180,10 +180,15 @@ class NewService extends Component {
                             )}
                         </select>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
+                    <div className="text-center">
+                    <button type="submit" className="btn btn-primary" style={{width:"220px",marginTop:"20px"}}>
                         Crear
                     </button>
+                    </div>
                 </form>
+                <button className="btn btn-danger" style={{width:"220px", marginTop:"10px"}} onClick={() => window.location=("/adminMenu/manageServices")}>
+                        Regresar
+                </button>
             </div>
             </div>
         )

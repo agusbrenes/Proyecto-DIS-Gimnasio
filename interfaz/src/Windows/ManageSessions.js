@@ -1,8 +1,15 @@
 import React, {Component} from "react";
-import axios from "axios";
 import Navbar from "./NavBar/NavBar";
 
 class ManageSessions extends Component {
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        
+        if (token === null) {
+            window.location=("/loginClient");
+        }
+    }
+
     render() {
         return (
             <div>

@@ -70,7 +70,7 @@ module.exports = class Room {
     }
 
     getCalendar(y, m) {
-        const c = new Calendar(y, m);
+        const c = new Calendar(this, y, m);
         const index = this.calendars.indexOf(c);
         return this.calendars[index];
     }

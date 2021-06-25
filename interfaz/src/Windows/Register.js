@@ -85,7 +85,7 @@ class Register extends Component {
             return;
         }
         if (this.state.is === "Instructor"){
-            if (this.state.temp == "Fijo")
+            if (this.state.temp === "Fijo")
                 this.setState({var: false})
             else 
             this.setState({var: true})
@@ -100,7 +100,7 @@ class Register extends Component {
                 room: {name: this.state.room}
             }
         } else {
-            var user = {
+            user = {
                 email: this.state.email,
                 password: this.state.password,
                 id: this.state.id,

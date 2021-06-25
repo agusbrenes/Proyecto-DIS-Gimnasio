@@ -34,7 +34,7 @@ class Modify extends Component {
 
     componentDidMount = async () => {
         const token = localStorage.getItem("token")
-        console.log(token);
+        
         if (token === null) {
             window.location=("/loginClient");
         }
@@ -144,7 +144,7 @@ class Modify extends Component {
             return;
         }
         if (this.state.is === "Instructor"){
-            if (this.state.temp == "Fijo")
+            if (this.state.temp === "Fijo")
                 this.setState({var: false})
             else 
                 this.setState({var: true})
@@ -161,7 +161,7 @@ class Modify extends Component {
                 sessions: [],
             }
         } else if (this.state.is === "Cliente"){
-            var user = {
+            user = {
                 email: this.state.email,
                 password: this.state.password,
                 id: this.state.id,
@@ -173,7 +173,7 @@ class Modify extends Component {
                 subscriptions:[],
             }
         } else {
-            var user = {
+            user = {
                 admRoom: {roomName: ""},
                 email: this.state.email,
                 password: this.state.password,
@@ -183,7 +183,6 @@ class Modify extends Component {
                 phone: this.state.phone
             }
         }
-        console.log(user);
 
         axios({
             url: "/api/Modify"+this.props.match.params.is,

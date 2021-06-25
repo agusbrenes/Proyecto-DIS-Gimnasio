@@ -7,15 +7,16 @@ class NewSession extends Component {
     state = {
         instructor: "",
         service: "",
-        capacity: "1",
+        capacity: "10",
         day: "",
-        beginTime: "00",
+        beginTime: "0",
         endTime: "1",
         isInstru: true,
         nums: [], 
         services: [], 
         instructors: [],
-        list: []
+        list: [],
+        days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     }
 
     //Función que actualiza los states
@@ -31,7 +32,12 @@ class NewSession extends Component {
     }
 
     componentDidMount = async () => {
-        const token = JSON.parse(localStorage.getItem("token"));
+        var token = localStorage.getItem("token")
+        
+        if (token === null) {
+            window.location=("/loginClient");
+        }
+        token = JSON.parse(localStorage.getItem("token"));
 
         if (token === null) {
             window.location=("/loginClient");
@@ -91,11 +97,13 @@ class NewSession extends Component {
             const data = response.data;
 
             await data.forEach((item) => {
+                if (item.room.name === this.props.match.params.room) {
                     const info = {
                         name: item.name,
                         capacity: item.room.capacity
                     }
                     this.state.list.push(info);
+                }
             });
             this.setState({
                 services: this.state.list
@@ -105,9 +113,11 @@ class NewSession extends Component {
         .catch(() => {
             swal.fire({
                 title: 'Ocurrio un problema al cargar los datos',
+                background: "black",
+                confirmButtonText: "Reload",
                 icon: 'error'
             }).then(() => {
-                window.history.back();
+                window.location.reload(false);
             });
         });
     }
@@ -145,22 +155,59 @@ class NewSession extends Component {
     submit = (event) => {
         event.preventDefault();
 
-        /*const data = {
-            instructor:
-            service:
-            capacity:
-            year:
-            schedule: {
-                month:
-                day:
+        var index = document.form.instructor.selectedIndex;
+        var index2 = document.form.service.selectedIndex;
+        
+        const data = {
+            instructor: {
+                id: this.state.instructors[index].id,
+                firstName: this.state.instructors[index].name,
+                lastName: this.state.instructors[index].lastname
             },
-            hours: {
-                initialHour:
-                totalHours:
-            }
+            service: {
+                name: this.state.services[index2].name
+            },
+            room: {
+                name: this.props.match.params.room,
+                capacity: parseInt(this.props.match.params.capacity),
+            },
+            schedule: {
+                month: parseInt(this.props.match.params.month),
+                day: parseInt(this.props.match.params.day)
+            },
+            plan: {
+                initialHour: parseInt(this.state.beginTime),
+                totalHours: parseInt(this.state.endTime)
+            },
+            capacity: Math.floor((parseInt(this.state.services[index2].capacity) * parseInt(this.state.capacity))/100),
+            year: parseInt(this.props.match.params.year),
             isAdmin: !this.state.isInstru
 
-        }*/
+        }
+
+        axios({
+            url: "/api/NewSession",
+            method: "POST",
+            data: data
+        })
+        .then((res) => {
+            swal.fire({
+                title: "Se ha creado la sesión con éxito",
+                background: "black",
+                icon: "success"
+            })
+            .then(() => {
+                if (this.props.match.params.is === "admin"){
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/admin");
+                } else {
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/instructor");
+                }
+            })
+        })
     }
 
     render() {
@@ -171,7 +218,7 @@ class NewSession extends Component {
                 {this.fill()}
                 <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
-                        Ingrese los datos de la sesión
+                        Ingrese los datos para la sesión en el Room {this.props.match.params.room} en el dia {this.state.days[this.props.match.params.day]}
                     </h4>
                     {this.show()}
                     <div className="form-group">
@@ -191,7 +238,7 @@ class NewSession extends Component {
                     <div className="form-group">
                         <label>Porcentaje de aforo para la sesión (%)</label>
                         <select
-                            name="allowCapacity"
+                            name="capacity"
                             className="form-control"
                             onChange={this.handleChange}
                         >
@@ -206,38 +253,22 @@ class NewSession extends Component {
                             <option>90</option>
                             <option>100</option>
                         </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Seleccione el dia</label>
-                            <select
-                            name="dia"
-                            className="form-control"
-                            onChange={this.handleChange}
-                        >
-                            <option>Lunes</option>
-                            <option>Martes</option>
-                            <option>Miercoles</option>
-                            <option>Jueves</option>
-                            <option>Viernes</option>
-                            <option>Sábado</option>
-                            <option>Domingo</option>
-                        </select>
-                    </div>    
+                    </div> 
                     <div className="row">
                         <div className="col">
                             <label for="begin">Hora de Inicio</label>
-                            <select type="text" className="form-control" id="begin" name="beginSchedule" value={this.state.beginSchedule}
+                            <select type="text" className="form-control" id="begin" name="beginTime" value={this.state.beginTime}
                             onChange={this.handleChange}>
-                                <option>00</option>
-                                <option>01</option>
-                                <option>02</option>
-                                <option>03</option>
-                                <option>04</option>
-                                <option>05</option>
-                                <option>06</option>
-                                <option>07</option>
-                                <option>08</option>
-                                <option>09</option>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
                                 <option>10</option>
                                 <option>11</option>
                                 <option>12</option>
@@ -256,7 +287,7 @@ class NewSession extends Component {
                         </div>
                         <div className="col">
                             <label for="end">Duración</label>
-                            <select type="text" className="form-control" id="end" name="endSchedule" value={this.state.endSchedule}
+                            <select type="text" className="form-control" id="end" name="endTime" value={this.state.endTime}
                             onChange={this.handleChange}>
                                 <option>1</option>
                                 <option>2</option>
@@ -273,13 +304,25 @@ class NewSession extends Component {
                             </select>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{marginTop:"20px"}}>
+                    <div className="text-center">
+                    <button type="submit" className="btn btn-primary" style={{width:"220px",marginTop:"20px"}}>
                         Crear
                     </button>
-                    <button className="btn btn-secondary" onClick={() => window.location=("/adminMenu/sessionManage")} style={{marginTop:"20px", marginLeft: "20px"}}>
-                        Regresar
-                    </button>
+                    </div>
                 </form>
+                <button className="btn btn-danger" style={{width:"220px", marginTop:"10px"}} 
+                onClick={() => {if (this.props.match.params.is === "admin"){
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/admin");
+                } else {
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.day +"/instructor");
+                }
+                }}>
+                        Regresar
+                </button>
             </div>
             </div>
         )

@@ -13,7 +13,7 @@ module.exports = class ControlSubscription extends Controller {
         const control = new ControlClient();
 
         const clientQuery = await control.find({id: schema.client.id});
-        const client = control.toObject(clientQuery[0]);
+        const client = control.toAuxObject(clientQuery[0]);
         return new Subscription(client);
     }
 

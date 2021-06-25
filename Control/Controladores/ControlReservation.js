@@ -24,16 +24,31 @@ module.exports = class ControlReservation extends Controller {
         const controlSession = new ControlSession();
 
         const clientQuery = await controlClient.find({id: schema.client.id});
-        const client = await controlClient.toObject(clientQuery[0]);
+        const client = await controlClient.toAuxObject(clientQuery[0]);
         const sessionQuery = await controlSession.find({id: idSession});
-        const session = await controlSession.toObject(sessionQuery[0]); 
+        const session = await controlSession.toAuxObject(sessionQuery[0]); 
 
         let reservation = new Reservation (
             client,
             session
         );
-        reservation.setId(schema.id);
         reservation = await this.setPaymentMethod(reservation, schema.paymentMethod);
+        return reservation;
+    }
+
+    async toAuxObject(schema) {
+        const controlClient = new ControlClient();
+        const controlSession = new ControlSession();
+
+        const clientQuery = await controlClient.find({id: schema.client.id});
+        const client = await controlClient.toAuxObject(clientQuery[0]);
+        const sessionQuery = await controlSession.find({id: idSession});
+        const session = await controlSession.toAuxObject(sessionQuery[0]); 
+
+        let reservation = new Reservation (
+            client,
+            session
+        );
         return reservation;
     }
 

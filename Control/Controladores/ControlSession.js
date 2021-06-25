@@ -2,13 +2,9 @@ const Session = require("../../Modelo/Session");
 const Controller = require("./Controller");
 
 const DaoSession = require("../DAOs/DaoSession");
-const ControlInstructor = require("./ControlInstructor");
-const ControlService = require("./ControlService");
-const ControlReservation = require("./ControlReservation");
+const ControlReservation = require("./ControlReservation"); // no se usa
 const SessionRegisterAdmin = require("../../Modelo/SessionRegisterAdmin");
 const SessionRegisterInstructor = require("../../Modelo/SessionRegisterInstructor");
-const ControlCalendar = require("./ControlCalendar");
-const ControlRoom = require("./ControlRoom");
 const DaoService = require("../DAOs/DaoService");
 const DaoCalendar = require("../Daos/DaoCalendar");
 
@@ -40,19 +36,41 @@ module.exports = class ControlSession extends Controller {
         return schema;
     }
     
-    async toObject(schema) {
-        const controlInstructor = new ControlInstructor();
-        const controlService = new ControlService();
-        const controlRoom = new ControlRoom();
-
+    async toObject(schema, controlInstructor, controlService, controlRoom) {
+        console.log("Schema Session ", schema);
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
-        const instructor = await controlInstructor.toObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toObject(serviceQuery[0]); 
+        const service = await controlService.toAuxObject(serviceQuery[0]); 
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toObject(roomQuery[0]); 
+        const room = await controlRoom.toAuxObject(roomQuery[0]); 
+
+        let session = new Session ( ///
+            instructor,
+            service,
+            room,
+            schema.capacity,
+            schema.year,
+            schema.schedule.month,
+            schema.schedule.day,            
+            schema.plan.initialHour,
+            schema.plan.totalHours,
+            schema.status
+        );
+        return session;
+    }
+    
+    async toAuxObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
+        const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+
+        const serviceQuery = await controlService.find({name: schema.service.name});
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin); 
+
+        const roomQuery = await controlRoom.find({name: schema.room.name});
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);       
 
         let session = new Session (
             instructor,
@@ -60,10 +78,10 @@ module.exports = class ControlSession extends Controller {
             room,
             schema.capacity,
             schema.year,
-            schema.month,
-            schema.day,            
-            schema.initialHour,
-            schema.totalHours,
+            schema.schedule.month,
+            schema.schedule.day,            
+            schema.plan.initialHour,
+            schema.plan.totalHours,
             schema.status
         );
         return session;
@@ -74,7 +92,7 @@ module.exports = class ControlSession extends Controller {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
             const reservationQuery = await control.find(reservationArray[i]); 
-            const reservation = control.toObject(reservationQuery[0]);
+            const reservation = await control.toAuxObject(reservationQuery[0]);
             session.addReservation(reservation);
         }
         return session;

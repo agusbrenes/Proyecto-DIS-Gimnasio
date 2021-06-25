@@ -32,6 +32,18 @@ module.exports = class ControlClient extends ControlUsers {
         return user;
     }
 
+    async toAuxObject(schema) {
+        let user = this.factory.createUser(
+            schema.email,
+            schema.password,
+            schema.id,
+            schema.firstName,
+            schema.lastName,
+            schema.phone
+        );
+        return user;
+    }
+
     async save(object) {
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(object.password, salt);
@@ -51,7 +63,7 @@ module.exports = class ControlClient extends ControlUsers {
         const control = new ControlReservation();
         for (var i = 0; i < reservationArray.length; i++) {
             const reservationQuery = await control.find(reservationArray[i]);
-            const reservation = control.toObject(reservationQuery[0]);
+            const reservation = control.toAuxObject(reservationQuery[0]);
             client.addReservation(reservation);
         }
         return client;
@@ -61,7 +73,7 @@ module.exports = class ControlClient extends ControlUsers {
         const control = new ControlSubscription();
         for (var i = 0; i < subscriptionArray.length; i++) {
             const subscriptionQuery = await control.find(subscriptionArray[i]);
-            const subscription = control.toObject(subscriptionQuery[0]);
+            const subscription = control.toAuxObject(subscriptionQuery[0]);
             client.addSubscription(subscription);
         }
         return client;
@@ -73,11 +85,11 @@ module.exports = class ControlClient extends ControlUsers {
 
         // Obtener Client de BD
         const clientQuery = await this.find({id: idClient});
-        const client = await this.toObject(clientQuery[0]);
+        const client = await this.toAuxObject(clientQuery[0]);
 
         // Obtener Session de BD
         const sessionQuery = await controlSession.find({id: idSession});
-        const session = await this.toObject(sessionQuery[0]);
+        const session = await this.toAuxObject(sessionQuery[0]);
         const reservation = new Reservation( 
             idClient, 
             idSession
@@ -101,11 +113,11 @@ module.exports = class ControlClient extends ControlUsers {
             session1: {id: idSession}
         };
         const reservationQuery = await controlReservation.find(query);
-        const reservation = await controlReservation.toObject(reservationQuery[0]);
+        const reservation = await controlReservation.toAuxObject(reservationQuery[0]);
 
         // Obtener PaymentMethod de BD
         const payMethodQuery = await controlPayMethod.find({id: idPayMethod});
-        const payMethod = await controlPayMethod.toObject(payMethodQuery[0]); 
+        const payMethod = await controlPayMethod.toAuxObject(payMethodQuery[0]); 
         
         reservation.setPaymentMethod(payMethod);
         reservation.pay();
@@ -123,7 +135,7 @@ module.exports = class ControlClient extends ControlUsers {
             client: {id: idClient}
         };
         const subscriptioQuery = await controlSubscription.find(query);
-        const subscription = await controlSubscription.toObject(subscriptioQuery[0]);
+        const subscription = await controlSubscription.toAuxObject(subscriptioQuery[0]);
 
         // Obtener PaymentMethod de BD
         // const payMethodQuery = await controlPayMethod.find({id: idPayMethod});

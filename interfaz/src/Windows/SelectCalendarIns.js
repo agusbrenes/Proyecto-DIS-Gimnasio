@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Navbar from "./NavBar/NavBar";
+import NavBar from "./NavBar/NavBar";
 
-class SelectMonth extends Component {
+class SelectCalendarIns extends Component {
     state = {
         year: "2020",
         month: "Enero",
@@ -62,20 +62,20 @@ class SelectMonth extends Component {
         const month = document.form.month.selectedIndex;
         const day = document.form.day.selectedIndex;
 
-        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" + this.state.year +"/"+ month +"/"+ day +"/admin");
+        window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" + this.state.year +"/"+ month +"/"+ day +"/instructor");
     }
 
     render() {
         return (
             <div>
-                <Navbar/>
-            <div className="adminMenu">
-                <form onSubmit={this.show} name="form">
-                    <h4 className="text-center">
+                <NavBar/>
+            <div className="window menuInstru">
+            <form onSubmit={this.show} name="form">
+                    <h3 className="text-center" style={{color: "green", webkitTextStroke: ".7px black"}}>
                         Seleccione Room, Año, Mes y Dia para ver el calendario
-                    </h4>
+                    </h3>
                     <div className="form-group">
-                        <h5>Room</h5>
+                        <h4 style={{color: "red", webkitTextStroke: ".7px black"}}>Room</h4>
                         <select
                             name="room"
                             id="room"
@@ -90,7 +90,7 @@ class SelectMonth extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <h5>Seleccione el año</h5>
+                        <h4 style={{color: "red", webkitTextStroke: ".7px black"}}>Seleccione el año</h4>
                         <select
                             name="year"
                             className="form-control"
@@ -103,7 +103,7 @@ class SelectMonth extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <h5>Seleccione el mes</h5>
+                        <h4 style={{color: "red", webkitTextStroke: ".7px black"}}>Seleccione el mes</h4>
                         <select
                             name="month"
                             className="form-control"
@@ -124,7 +124,7 @@ class SelectMonth extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <h5>Seleccione el dia</h5>
+                        <h4 style={{color: "red", webkitTextStroke: ".7px black"}}>Seleccione el dia</h4>
                             <select
                             name="day"
                             className="form-control"
@@ -146,7 +146,7 @@ class SelectMonth extends Component {
                     </div>
                 </form>
                 <div className="d-flex justify-content-center" style={{marginTop:"20px"}}>
-                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => {window.location=("/adminMenu/sessionManage")}}>
+                    <button className="btn btn-danger" style={{width:"220px"}} onClick={() => {window.location=("/instructorMenu")}}>
                         Regresar
                     </button>
                 </div>
@@ -156,4 +156,4 @@ class SelectMonth extends Component {
     }
 }
 
-export default SelectMonth
+export default SelectCalendarIns

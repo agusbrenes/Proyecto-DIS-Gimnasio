@@ -69,4 +69,46 @@ module.exports = class Instructor extends User {
 
         this.messages.push(message);
     }
+
+    visitMySessions(month, year, day) {
+        if (this.room !== null) {
+            if (this.room.calendars.length > 0) {
+                let calendar = this.room.getCalendar(year, month);
+                let sessions = calendar.sessions.get(day);
+
+                var mySessions = [];
+                if (sessions.length > 0) {
+                    sessions.forEach(session => {
+                        if (session.instructor.id === this.id) {
+                            mySessions.push(session);
+                        }
+                    });
+                }
+
+                return mySessions;
+            }
+        }
+        return [];
+    }
+
+    visitOtherSessions(month, year, day) {
+        if (this.room !== null) {
+            if (this.room.calendars.length > 0) {
+                let calendar = this.room.getCalendar(year, month);
+                let sessions = calendar.sessions.get(day);
+
+                var notMySessions = [];
+                if (sessions.length > 0) {
+                    sessions.forEach(session => {
+                        if (session.instructor.id !== this.id) {
+                            notMySessions.push(session);
+                        }
+                    });
+                }
+
+                return notMySessions;
+            }
+        }
+        return [];
+    }
 }

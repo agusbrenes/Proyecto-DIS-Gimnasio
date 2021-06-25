@@ -128,4 +128,13 @@ module.exports = class Calendar {
     notify(instructorName) {
         this.room.updateCalendar(instructorName, this);
     }
+
+    acceptVisit(instructorVisitor, month, year, day) {
+        var listOfSessions = [];
+        listOfSessions.push(instructorVisitor.visitMySessions(month, year, day));
+        listOfSessions.push(instructorVisitor.visitOtherSessions(month, year, day));
+
+        //[[mySessions],[otherSessions]]
+        return listOfSessions;
+    }
 }
