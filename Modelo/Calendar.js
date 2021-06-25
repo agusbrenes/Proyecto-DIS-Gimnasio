@@ -161,8 +161,9 @@ module.exports = class Calendar {
         var listOfSessions = [];
         listOfSessions.push(instructorVisitor.visitMySessions(month, year, day));
         listOfSessions.push(instructorVisitor.visitOtherSessions(month, year, day));
+        listOfSessions.push(instructorVisitor.visitFreeSpaces(month, year, day));
 
-        //[[mySessions],[otherSessions]]
+        //[[mySessions],[otherSessions],[freeSpaces]]
         return listOfSessions;
     }
 }

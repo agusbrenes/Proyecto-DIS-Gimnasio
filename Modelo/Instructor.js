@@ -120,4 +120,28 @@ module.exports = class Instructor extends User {
         }
         return [];
     }
+
+    visitFreeSpaces(month, year, day) {
+        if (this.room !== null) {
+            if (this.room.calendars.length > 0) {
+                let calendar = this.room.getCalendar(year, month);
+                let daySchedules = calendar.sessions.get(day); //Esto es un map.
+
+                var freeSpaces = [];
+
+                daySchedules.forEach((sessionArray, key) => {
+                    if (sessionArray.length === 0) {
+                        let value = {
+                            startHour: key.startHour,
+                            endHour: key.endHour
+                        };
+                        freeSpaces.push(value);
+                    }
+                });
+
+                return freeSpaces;
+            }
+        }
+        return [];
+    }
 }
