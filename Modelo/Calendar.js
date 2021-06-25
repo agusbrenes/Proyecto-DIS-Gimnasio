@@ -17,7 +17,7 @@ module.exports = class Calendar {
     setSchedules() {
         for (var i = 0; i < 7; i++) {
             var mapping = this.sessions.get(i);
-            for (var start = this.room.schedule.initialHour; start < this.room.schedule.initialHour + this.room.schedule.totalHours; start++) {
+            for (var start = this.room.schedule.initialHour; start < (this.room.schedule.initialHour + this.room.schedule.totalHours); start++) {
                 let key = {
                     startHour: start,
                     endHour: start + 1
