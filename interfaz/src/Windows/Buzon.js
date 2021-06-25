@@ -69,11 +69,11 @@ class Buzon extends Component {
                             <div key={index} className="col-md-12">
                                 <div className ="card text-white bg-dark mt-4">
                                     <p className="card-header text-center text">
-                                        {post}
+                                        {post.msg}
                                     </p>
                                     <div className="card-footer text-center">
-                                    <button className="btn btn-danger button" onClick={() => this.modify(post.id)}>
-                                        Aprovar Sesión
+                                    <button className="btn btn-danger button" onClick={() => this.modify(post.session)}>
+                                        Aprobar Sesión
                                     </button>
                                     </div>
                                 </div>

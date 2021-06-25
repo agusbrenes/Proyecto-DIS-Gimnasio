@@ -1016,11 +1016,15 @@ router.post("/GetCalendar", async (req, res) => {
     const control = new ControlCalendar();
     const filter = {
         room: {
-            name: object.room.name
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours
+            },
+            name: object.room.name,
         }, 
-        month: object.month, 
-        year: object.year
+        month: object.month
     }
+    console.log(filter);
     try {
         const foundCalendar = await control.find(filter);
         if (!foundCalendar) {
