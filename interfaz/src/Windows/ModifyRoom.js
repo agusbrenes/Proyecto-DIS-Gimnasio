@@ -31,7 +31,7 @@ class ModifyRoom extends Component {
 
     componentDidMount = async () => {
         const token = localStorage.getItem("token")
-        console.log(token);
+        
         if (token === null) {
             window.location=("/loginClient");
         }

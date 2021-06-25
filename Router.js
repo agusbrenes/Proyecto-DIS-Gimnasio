@@ -75,7 +75,8 @@ router.post('/loginAdmin', async (req, res) => {
             token,
             id: foundUser[0].id,
             name: foundUser[0].firstName,
-            lastName: foundUser[0].lastName
+            lastName: foundUser[0].lastName,
+            isAdmin: true
         })
     } catch (e) {
       res.status(400).json({ msg: e.message });
@@ -103,7 +104,8 @@ router.post('/loginInstructor', async (req, res) => {
             token,
             id: foundUser[0].id,
             name: foundUser[0].firstName,
-            lastName: foundUser[0].lastName
+            lastName: foundUser[0].lastName,
+            isAdmin: false
         })
     } catch (e) {
       res.status(400).json({ msg: e.message });

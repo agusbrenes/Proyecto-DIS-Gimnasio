@@ -107,14 +107,16 @@
   }
 
   .menuInstru { 
+    display: flex;
     flex-direction: column;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
     background-image: url('./Windows/Imagen4.jpg');
-    background-position: center;
+    background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-    color: #fff;
-    font-size: 100px;
-    font-size: 3rem;
+    background-attachment: fixed;
   }
 
   .showSessions {

@@ -1,4 +1,4 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 import { MenuItems } from "./MenuItems";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
@@ -28,7 +28,7 @@ export default class Navbar extends Component {
             <div className="menuIcon" onClick={this.handleClick}>
             </div>
             <ul className="navMenu">
-                {console.log(this.state.show)}
+                
                 {this.state.show ? MenuItems.map((item, index) => {
                     return (
                         <li className="navItem" key={index}>
@@ -39,7 +39,7 @@ export default class Navbar extends Component {
                     )
                 }) : 
                     <li className="navItem" key="1">
-                        <Link className="navLinks" onClick={() => window.location=("/")}>
+                        <Link className="navLinks" onClick={() => window.location=("/buzon")}>
                             Buzón
                         </Link>
                         <Link className="navLinks" onClick={() => window.location=("/")}>

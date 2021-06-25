@@ -1,9 +1,8 @@
-import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import "./App.css"
 import AdminManage from './Windows/AdminManage';
 import AdminMenu from './Windows/AdminMenu';
 import GymMenu from './Windows/GymMenu';
-import Navbar from './Windows/NavBar/NavBar';
 import Register from './Windows/Register';
 import Login from './Windows/Login';
 import Modify from './Windows/Modify';
@@ -18,7 +17,6 @@ import NewRoom from './Windows/NewRoom';
 import ShowRooms from './Windows/ShowRooms';
 import DeleteRoom from './Windows/DeleteRoom';
 import InstructorMenu from './Windows/InstructorMenu';
-import MyCalendar from './Windows/MyCalendar';
 import NewSession from './Windows/NewSession';
 import NewReservation from './Windows/NewReservation';
 import ManageSessions from './Windows/ManageSessions';
@@ -26,6 +24,7 @@ import SelectCalendar from './Windows/SelectCalendar';
 import ViewCalendar from './Windows/ViewCalendar';
 import SelectCalendarIns from './Windows/SelectCalendarIns';
 import ViewCalendarIns from './Windows/ViewCalendarIns';
+import Buzon from './Windows/Buzon';
 
 function App() {
   return (
@@ -49,7 +48,8 @@ function App() {
         <Route exact path="/delete:is" component={Delete}/>
         <Route exact path="/eraseRoom" component={DeleteRoom}/>
         <Route exact path="/clientMenu" component={ClientMenu}/>
-        <Route exact path="/clientMenu/viewCalendar/:id" component={MyCalendar}/>
+        {//<Route exact path="/clientMenu/viewCalendar/:id" component={MyCalendar}/>}
+}
         <Route exact path="/instructorMenu" component={InstructorMenu}/>
         <Route exact path="/instructorMenu/newSession/:is" component={NewSession}/>
         <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is/newSession" component={NewSession}/>
@@ -58,6 +58,7 @@ function App() {
         <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is" component={ViewCalendar}/>
         <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is" component={ViewCalendarIns}/>
         <Route exact path="/newReservation" component={NewReservation}/>
+        <Route exact path="/buzon" component={Buzon}/>
       </Switch>
     </Router>
   );

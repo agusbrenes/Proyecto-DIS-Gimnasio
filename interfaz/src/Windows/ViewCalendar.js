@@ -8,10 +8,16 @@ class ViewCalendar extends Component {
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
         days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         sessions: [],
-        list: []
+        list: [],
+        myID: ""
     }
 
     componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        
+        if (token === null) {
+            window.location=("/loginClient");
+        }
         this.getSessions();
     }
 
@@ -57,22 +63,26 @@ class ViewCalendar extends Component {
                 });
             } else {
                 await data.forEach((item) => {
-                    const info = {
-                        instructor: {
-                            id: item.instructor.id,
-                            name: item.instructor.firstName,
-                            lastName: item.instructor.lastName
-                        },
-                        service: item.service.name,
-                        room: {
-                            name: item.room.name,
-                            capacity: item.room.capacity
-                        },
-                        begin: item.plan.initialHour,
-                        end: item.plan.initialHour + item.plan.totalHours,
-                        capacity: item.capacity
-                    }
-                    this.state.list.push(info);
+                    //if (item.isFree === false){
+                        //if (item.instructor.id === parseInt(this.state.myID)) {
+                        const info = {
+                            instructor: {
+                                id: item.instructor.id,
+                                name: item.instructor.firstName,
+                                lastName: item.instructor.lastName
+                            },
+                            service: item.service.name,
+                            room: {
+                                name: item.room.name,
+                                capacity: item.room.capacity
+                            },
+                            begin: item.plan.initialHour,
+                            end: item.plan.initialHour + item.plan.totalHours,
+                            capacity: item.capacity
+                        }
+                        this.state.list.push(info);
+                        //}
+                    //}
                 })
                 this.setState({
                     sessions: this.state.list
