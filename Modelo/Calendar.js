@@ -11,6 +11,7 @@ module.exports = class Calendar {
         this.sessions = new Map();
 
         this.setDays();
+        this.setSchedules();
     }
 
     setSchedules() {
