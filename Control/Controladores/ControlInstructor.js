@@ -27,7 +27,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         user.setTemp(schema.isTemp);
         user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin);
         // user = await this.setInstructorServices(user, schema.services);
-        user = await this.setInstructorSessions(user, schema.sessions);
+        // user = await this.setInstructorSessions(user, schema.sessions);
         return user;
     }
 
@@ -73,6 +73,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         return instructor;
     }
 
+    // Puede que no se use????
     async setInstructorSessions(instructor, sessionArray, controlSession, controlInstructor, controlService, controlRoom, controlAdmin) {
         for (var i = 0; i < sessionArray.length; i++) {
             const sessionQuery = await controlSession.find(sessionArray[i]);
