@@ -762,6 +762,11 @@ router.get("/GetReservations", (req, res) => {
 router.post("/NewSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
+    if (object.isAdmin) {
+        var auxControl = new ControlAdmin();
+    } else {
+        var auxControl = new ControlInstructor();
+    }
     const filter = {
         year: object.year,
         schedule: {
@@ -778,8 +783,11 @@ router.post("/NewSession", async (req, res) => {
         }
 
         const savedSession = await control.save(object);
-        // await control.addtoCalendar(savedSession);
-        // control.addtoService(savedSession)
+        console.log("Guarda Session");
+        await auxControl.addSessiontoCalendar(savedSession); // control dependiendo
+        console.log("Agrega Session a calendar");
+        await auxControl.addSessiontoService(savedSession);
+        console.log("Agrega Session a service");
         res.json(savedSession);
     } catch (err) {
         res.status(500).json({error: err.message});
