@@ -107,8 +107,8 @@ module.exports = class Calendar {
     addSession(session, dayNum) {
         if (dayNum < 0 || dayNum > 6) {
             throw new Error("Invalid day number. Please choose a valid day.");
-        } else if (sessionScheduleCollides(dayNum, session.schedule)) {
-            print();
+        } else if (this.sessionScheduleCollides(dayNum, session.schedule)) {
+            console.log("CHOQUEEEE AA");
         }
         var daySchedule = this.sessions.get(dayNum);
         for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {
