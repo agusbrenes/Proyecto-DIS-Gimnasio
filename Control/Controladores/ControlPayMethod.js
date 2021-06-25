@@ -16,10 +16,8 @@ module.exports = class ControlPayMethod extends Controller {
     }
 
     toObject(schema) {
-        let method = new PaymentMethod(
+        return new PaymentMethod(
             schema.name
         );
-        method.setId(schema.id);
-        return method;
     }
 }

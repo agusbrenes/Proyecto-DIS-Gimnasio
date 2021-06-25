@@ -9,19 +9,22 @@ module.exports = class ControlSchedule extends Controller {
     }
 
     async save(object) {
-        const schedule = new Schedule (
-            object.beginTime, 
-            object.endTime
+        const schedule = new Schedule(
+            object.month, 
+            object.day, 
+            object.initialHour, 
+            object.totalHours
         );
         return await this.handler.save(schedule);
     }
 
     toObject(schema) {
-        const schedule = new Schedule (
-            schema.beginTime,
-            schema.endTime
+        const schedule = new Schedule(
+            schema.month, 
+            schema.day, 
+            schema.initialHour, 
+            schema.totalHours
         );
-        schedule.setId(schema.id);
         return schedule;
     }
 }

@@ -27,7 +27,20 @@ module.exports = class ControlInstructor extends ControlUsers {
         user.setTemp(schema.isTemp);
         user = await this.setInstructorRoom(user, schema.room);
         user = await this.setInstructorServices(user, schema.services);
-        user = await this.setInstructorSessions(user, schema.sessions)
+        user = await this.setInstructorSessions(user, schema.sessions);
+        return user;
+    }
+
+    async toAuxObject(schema) {
+        let user = this.factory.createUser(
+            schema.email,
+            schema.password,
+            schema.id,
+            schema.firstName,
+            schema.lastName,
+            schema.phone
+        );
+        user.setTemp(schema.isTemp);
         return user;
     }
 
@@ -46,7 +59,7 @@ module.exports = class ControlInstructor extends ControlUsers {
     async setInstructorRoom(instructor, instructorRoom) {
         const control = new ControlRoom();
         const roomQuery = await control.find({room: instructorRoom.name});
-        const room = control.toObject(roomQuery[0]); // falta toObject
+        const room = await control.toAuxObject(roomQuery[0]); // falta toObject
         instructor.setRoom(room);
         return instructor;
     }
@@ -55,7 +68,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         const control = new ControlService();
         for (var i = 0; i < serviceArray.length; i++) {
             const serviceQuery = await control.find(serviceArray[i]);
-            const service = control.toObject(serviceQuery[0]);
+            const service = await control.toAuxObject(serviceQuery[0]);
             instructor.addService(service);
         }
         return instructor;
@@ -65,7 +78,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         const control = new ControlSession();
         for (var i = 0; i < sessionArray.length; i++) {
             const sessionQuery = await control.find(sessionArray[i]);
-            const session = control.toObject(sessionQuery[0]);
+            const session = await control.toAuxObject(sessionQuery[0]);
             instructor.addSession(session);
         }
         return instructor;
@@ -76,10 +89,10 @@ module.exports = class ControlInstructor extends ControlUsers {
 
         // Obtener Instructor de BD
         const instructorQuery = await this.find({id: idInstructor});
-        const instructor = await this.toObject(instructorQuery[0]);
+        const instructor = await this.toAuxObject(instructorQuery[0]);
 
         const serviceQuery = await controlService.find({name: serviceName});
-        const service = controlService.toObject(serviceQuery[0]);
+        const service = await controlService.toAuxObject(serviceQuery[0]);
 
         instructor.addService(service);
         service.addInstructor(instructor);

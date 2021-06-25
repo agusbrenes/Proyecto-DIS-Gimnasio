@@ -23,7 +23,7 @@ module.exports = class ControlDay extends Controller {
         const controlSchedule = new ControlSchedule();
 
         const scheduleQuery = await controlSchedule.find({id: schema.schedule.id});
-        const schedule = await controlSchedule.toObject(scheduleQuery[0]);
+        const schedule = await controlSchedule.toAuxObject(scheduleQuery[0]);
         return new Day(
             schema.number,
             schema.name,
