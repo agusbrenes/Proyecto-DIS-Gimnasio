@@ -103,7 +103,7 @@ module.exports = class Instructor extends User {
             daySchedules.forEach((sessionArray) => {
                 if (sessionArray.length > 0) {
                     sessionArray.forEach(session => {
-                        if (session.instructor.id == this.id) {
+                        if (!session.instructor.id === this.id) {
                             notMySessions.push(session);
                         }
                     });

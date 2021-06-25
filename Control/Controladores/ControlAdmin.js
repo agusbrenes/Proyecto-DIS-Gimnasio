@@ -1,4 +1,5 @@
 const FactoryAdmin = require("../../Modelo/FactoryAdmin");
+const Decorator = require("../../Modelo/Decorator");
 
 const ControlRoom = require("./ControlRoom");
 const ControlUsers = require("./ControlUsers");
@@ -66,14 +67,24 @@ module.exports = class ControlAdmin extends ControlUsers {
         // const room = control.toObject(roomQuery[0]);
     }
 
-    async getCalendarSessions(calendarSchema, instructorSchema) {
+    async getCalendarSessions(dayNum, calendarSchema, instructorSchema) {
         const controlSession = new ControlSession();
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
         const controlCalendar = new ControlCalendar();
+        const decorator = new Decorator();
 
-        
+        const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
+        const instructor = await controlInstructor.toObject(instructorSchema); // faltan
+
+        const instructorSessions = instructor.visitMySessions(calendar, dayNum);
+        const otherSessions = instructor.visitOtherSessions(calendar, dayNum);
+        const freeSpaces = instructor.visitFreeSpaces(calendar, dayNum);
+        const sessions = [instructorSessions, otherSessions, freeSpaces];
+
+        const decoratedSessions = decorator.decorate(sessions);
+        return decoratedSessions;
     }
 
     async addSessiontoCalendar(sessionSchema) {

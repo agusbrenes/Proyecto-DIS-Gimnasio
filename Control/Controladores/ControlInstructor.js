@@ -15,7 +15,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         this.factory = new FactoryInstructor();
     }
 
-    async toObject(schema) {
+    async toObject(schema, controlRoom, controlAdmin) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -25,8 +25,8 @@ module.exports = class ControlInstructor extends ControlUsers {
             schema.phone
         );
         user.setTemp(schema.isTemp);
-        user = await this.setInstructorRoom(user, schema.room);
-        user = await this.setInstructorServices(user, schema.services);
+        user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin);
+        // user = await this.setInstructorServices(user, schema.services);
         user = await this.setInstructorSessions(user, schema.sessions);
         return user;
     }
@@ -56,16 +56,15 @@ module.exports = class ControlInstructor extends ControlUsers {
         return await handler.save(instructor);
     }
 
-    async setInstructorRoom(instructor, instructorRoom) {
-        const control = new ControlRoom();
-        const roomQuery = await control.find({room: instructorRoom.name});
-        const room = await control.toAuxObject(roomQuery[0]); // falta toObject
+    async setInstructorRoom(instructor, instructorRoom, controlRoom, controlAdmin) {
+        const roomQuery = await controlRoom.find({name: instructorRoom.name});
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin); // falta toObject
         instructor.setRoom(room);
         return instructor;
     }
 
+    // Ya no se usa
     async setInstructorServices(instructor, serviceArray) {
-        const control = new ControlService();
         for (var i = 0; i < serviceArray.length; i++) {
             const serviceQuery = await control.find(serviceArray[i]);
             const service = await control.toAuxObject(serviceQuery[0]);
@@ -74,11 +73,10 @@ module.exports = class ControlInstructor extends ControlUsers {
         return instructor;
     }
 
-    async setInstructorSessions(instructor, sessionArray) {
-        const control = new ControlSession();
+    async setInstructorSessions(instructor, sessionArray, controlSession, controlInstructor, controlService, controlRoom, controlAdmin) {
         for (var i = 0; i < sessionArray.length; i++) {
-            const sessionQuery = await control.find(sessionArray[i]);
-            const session = await control.toAuxObject(sessionQuery[0]);
+            const sessionQuery = await controlSession.find(sessionArray[i]);
+            const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
             instructor.addSession(session);
         }
         return instructor;

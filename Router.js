@@ -876,7 +876,8 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
         }
         const instructorSchema = foundInstructor[0];
 
-        const foundSessions = await controlAdmin.getCalendarSessions(calendarSchema, instructorSchema);
+        const dayNum = object.day;
+        const foundSessions = await controlAdmin.getCalendarSessions(dayNum, calendarSchema, instructorSchema);
         
         res.json(foundSessions);
     } catch (err) {
