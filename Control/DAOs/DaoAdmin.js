@@ -14,7 +14,22 @@ const AdminSchema = mongoose.model("Admin", new Schema({
         name: {type: String}
     },
     messages: {
-        msgs: [{type:String}]
+        msgs: [{
+            msg: {type: String},
+            session: {
+                service: {
+                    name: {type: String}
+                },
+                schedule: {
+                    month: {type: Number},
+                    day: {type: Number}
+                },
+                plan: {
+                    initialHour: {type: Number},
+                    totalHours: {type: Number}
+                }
+            }
+        }]
     }
 }));
 
@@ -51,8 +66,21 @@ module.exports = class DaoAdmin extends Dao {
         if (object.messages.length > 0) {
             object.messages.forEach(messageN => {
                 const schema1 = {
-                    message: messageN
-                };
+                    msg: messageN.msg,
+                    session: {
+                        service: {
+                            name: messageN.session.service.name
+                        },
+                        schedule: {
+                            month: messageN.session.schedule.month,
+                            day: messageN.session.schedule.day
+                        },
+                        plan: {
+                            initialHour: messageN.session.plan.initialHour,
+                            totalHours: messageN.session.plan.totalHours
+                        }
+                    }
+                }
                 messages1.push(schema1);
             });
             schema.messages.msgs = messages1;
@@ -70,8 +98,21 @@ module.exports = class DaoAdmin extends Dao {
         if (object.messages.length > 0) {
             object.messages.forEach(messageN => {
                 const schema1 = {
-                    message: messageN
-                };
+                    msg: messageN.msg,
+                    session: {
+                        service: {
+                            name: messageN.session.service.name
+                        },
+                        schedule: {
+                            month: messageN.session.schedule.month,
+                            day: messageN.session.schedule.day
+                        },
+                        plan: {
+                            initialHour: messageN.session.plan.initialHour,
+                            totalHours: messageN.session.plan.totalHours
+                        }
+                    }
+                }
                 messages1.push(schema1);
             });
         }
