@@ -32,7 +32,11 @@ const NewSessionTempSchema = new Schema({
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
-        name: {type: String}
+        name: {type: String},
+        schedule: {
+            initialHour: {type: Number},
+            totalHours: {type: Number}
+        }
     },
     month: {type: Number},
     monthName: {type: String},
@@ -59,7 +63,11 @@ module.exports = class DaoCalendar extends Dao {
         const schema = await CalendarSchema.findOne(filter);
 
         schema.room = {
-            name: object.room.name
+            name: object.room.name,
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours
+            }
         };
         schema.month = object.month;
         schema.monthName = object.monthName;
@@ -168,7 +176,11 @@ module.exports = class DaoCalendar extends Dao {
 
         return new CalendarSchema({
             room: {
-                name: object.room.name
+                name: object.room.name,
+                schedule: {
+                    initialHour: object.room.schedule.initialHour,
+                    totalHours: object.room.schedule.totalHours
+                }
             },
             month: object.month,
             monthName: object.monthName,
