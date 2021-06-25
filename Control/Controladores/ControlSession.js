@@ -31,13 +31,13 @@ module.exports = class ControlSession extends Controller {
             object.plan.totalHours
         );
         const schema = await this.handler.save(session);
-        await this.addtoCalendar(schema);
-        await this.addtoService(schema);
+        // await this.addtoCalendar(schema);
+        // await this.addtoService(schema);
         return schema;
     }
     
     async toObject(schema, controlInstructor, controlService, controlRoom) {
-        console.log("Schema Session ", schema);
+        console.log("toObject Session ", schema);
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 
@@ -63,6 +63,7 @@ module.exports = class ControlSession extends Controller {
     }
     
     async toAuxObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
+        console.log("Session Aux:", schema, controlInstructor, controlService, controlRoom, controlAdmin, "Final de datosss 1000");
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 

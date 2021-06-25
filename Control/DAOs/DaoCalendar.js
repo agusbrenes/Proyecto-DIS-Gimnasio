@@ -85,7 +85,7 @@ module.exports = class DaoCalendar extends Dao {
             const sessions2 = [];
             daySchedule.forEach((value, key) => {
                 if (value.length > 0) {
-                    const schema1 = {
+                    var schema1 = {
                         startHour: key.startHour,
                         endHour: key.endHour,
                         session: {
@@ -107,7 +107,7 @@ module.exports = class DaoCalendar extends Dao {
                         }
                     };
                 } else {
-                    const schema1 = {
+                    var schema1 = {
                         startHour: key.startHour,
                         endHour: key.endHour,
                         session: {

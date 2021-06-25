@@ -79,18 +79,26 @@ module.exports = class ControlAdmin extends ControlUsers {
         // Primary
         const controlCalendar = new ControlCalendar();
         // controlRoom
+        console.log("Schema de Session", sessionSchema);
 
         const query = {
+            month: sessionSchema.schedule.month, 
             room: {
+                schedule: {
+                    initialHour: sessionSchema.room.schedule.initialHour, 
+                    totalHours: sessionSchema.room.schedule.totalHours
+                }, 
                 name: sessionSchema.room.name
-            },
-            month: sessionSchema.schedule.month,
-            year: sessionSchema.year
+            }
         };
+        console.log("Schema de query para calendar", query);
         const calendarQuery = await controlCalendar.find(query);     
-        const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService);
+        console.log("Calendar QUERY", calendarQuery);
+        const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
+        console.log("Calendar", calendar);
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
+        console.log("Session", session);
         
         calendar.addSession(session, session.getDay());
 
@@ -99,7 +107,7 @@ module.exports = class ControlAdmin extends ControlUsers {
 
     async addSessiontoService(sessionSchema) {
         const controlSession = new ControlSession();
-        console.log("Entra a addSessiontoService ????????????????");
+        console.log("Entra a addSessiontoService ???????????????? schema de session:", sessionSchema);
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
@@ -109,7 +117,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         };
         const serviceQuery = await controlService.find(query);     
         const service = await controlService.toObject(serviceQuery[0], controlInstructor, controlRoom, this, controlSession);
-        console.log("Crea el Service", service);
+        console.log("Crea el Service", service, "SEssion schema", sessionSchema);
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
         console.log("Crea el Session Aux", session);
 

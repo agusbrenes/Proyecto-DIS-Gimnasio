@@ -21,7 +21,6 @@ module.exports = class ControlService extends Controller {
     }
 
     async toObject(schema, controlInstructor, controlRoom, controlAdmin, controlSession) {
-        console.log("Service toObject, mete datos",schema, controlInstructor, controlRoom, controlAdmin, controlSession, "FIN DE DATOSS");
         const roomQuery = await controlRoom.find({name: schema.room.name});
         const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
         
@@ -68,9 +67,13 @@ module.exports = class ControlService extends Controller {
     }
 
     async setServiceSessions(service, sessionArray, controlSession, controlInstructor, controlRoom, controlAdmin) {
-        for (var i = 0; i < sessionArray.length; i++) {
-            const sessionQuery = await controlSession.find(sessionArray[i]);
-            const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, this, controlRoom, controlAdmin);
+        console.log("EnsetServiceSessions en ControlService", service, sessionArray)
+        for (var i = 1; i < sessionArray.length; i++) {
+            console.log("sessionArray[",i,"]=",sessionArray[i]);
+            const sessionQuery = await controlSession.find(sessionArray[i]); // query da vacio, undefined abajo
+            console.log("sessionQuery=",sessionQuery);
+            const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, this, controlRoom, controlAdmin); //
+            console.log("Sesion Aux creada en setServiceSessions", session);
             service.addSession(session);
         }
         return service;
