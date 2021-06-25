@@ -21,10 +21,6 @@ const TempSessionSchema = new Schema({
     },
 }, { _id: false });
 
-const MessageSchema = new Schema({
-    message: {type: String}
-}, { _id: false });
-
 const InstructorSchema = mongoose.model("Instructor", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},

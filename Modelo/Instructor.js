@@ -74,17 +74,19 @@ module.exports = class Instructor extends User {
         if (this.room !== null) {
             if (this.room.calendars.length > 0) {
                 let calendar = this.room.getCalendar(year, month);
-                let sessions = calendar.sessions.get(day);
+                let daySchedules = calendar.sessions.get(day); //Esto es un map.
 
                 var mySessions = [];
-                if (sessions.length > 0) {
-                    sessions.forEach(session => {
-                        if (session.instructor.id === this.id) {
-                            mySessions.push(session);
-                        }
-                    });
-                }
 
+                daySchedules.forEach((sessionArray) => {
+                    if (sessionArray.length > 0) {
+                        sessionArray.forEach(session => {
+                            if (session.instructor.id === this.id) {
+                                mySessions.push(session);
+                            }
+                        });
+                    }
+                });
                 return mySessions;
             }
         }
@@ -95,16 +97,19 @@ module.exports = class Instructor extends User {
         if (this.room !== null) {
             if (this.room.calendars.length > 0) {
                 let calendar = this.room.getCalendar(year, month);
-                let sessions = calendar.sessions.get(day);
+                let daySchedules = calendar.sessions.get(day); //Esto es un map.
 
                 var notMySessions = [];
-                if (sessions.length > 0) {
-                    sessions.forEach(session => {
-                        if (session.instructor.id !== this.id) {
-                            notMySessions.push(session);
-                        }
-                    });
-                }
+
+                daySchedules.forEach((sessionArray) => {
+                    if (sessionArray.length > 0) {
+                        sessionArray.forEach(session => {
+                            if (session.instructor.id == this.id) {
+                                notMySessions.push(session);
+                            }
+                        });
+                    }
+                });
 
                 return notMySessions;
             }

@@ -10,7 +10,7 @@ module.exports = class Admin extends User {
         this.room = room;
     }
 
-    get getRoom() {
+    getRoom() {
         return this.room;
     }
 }

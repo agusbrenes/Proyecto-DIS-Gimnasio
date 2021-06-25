@@ -3,10 +3,6 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const MessageSchema = new Schema({
-    message: {type: String}
-}, { _id: false });
-
 const AdminSchema = mongoose.model("Admin", new Schema({
     email: {type: String, index: true},
     password: {type: String, required: true, minlength: 8},
