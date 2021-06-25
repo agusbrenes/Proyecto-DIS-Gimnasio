@@ -9,7 +9,23 @@ module.exports = class Calendar {
         this.year = year;
         this.days = new Map();
         this.sessions = new Map();
+
         this.setDays();
+    }
+
+    setSchedules() {
+        for (var i = 0; i < 7; i++) {
+            var mapping = this.sessions.get(i);
+            for (var start = this.room.schedule.initialHour; start < this.room.schedule.initialHour + this.room.schedule.totalHours; start++) {
+                let key = {
+                    startHour: start,
+                    endHour: start + 1
+                };
+
+                mapping.set(key, []);
+            }
+            this.sessions.set(i, mapping);
+        }
     }
 
     setRoom(room) {
@@ -84,7 +100,7 @@ module.exports = class Calendar {
         const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
         for (var dayNum = 0; dayNum < 7; dayNum++) {
             this.days.set(dayNum, days[dayNum]);
-            this.sessions.set(dayNum, []);
+            this.sessions.set(dayNum, new Map());
         }        
     }
 
@@ -94,8 +110,16 @@ module.exports = class Calendar {
         } else if (sessionScheduleCollides(dayNum, session.schedule)) {
             print();
         }
-        var daySessions = this.sessions.get(dayNum);
-        daySessions.push(session);
+        var daySchedule = this.sessions.get(dayNum);
+        for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {
+            let key = {
+                startHour: start,
+                endHour: start + 1
+            };
+            daySchedule.set(key, [session]);
+        }
+
+        this.sessions.set(dayNum, daySchedule);
 
         let instructorName = session.instructor.firstName + " " + session.instructor.lastName;
 
@@ -103,10 +127,13 @@ module.exports = class Calendar {
     }
 
     sessionScheduleCollides(dayNum, schedule) {
-        var daySessions = this.sessions.get(dayNum);
-        if (daySessions.length > 0) {
-            daySession.forEach(session => {
-                if (schedulesCollidese(session.schedule, schedule)) {
+        // Recordar que this.sessions lo que trae es un Map
+
+        // daySchedules es un map, que tiene como valor un array de máximo un elemento.
+        var daySchedules = this.sessions.get(dayNum);
+        if (daySchedules.values().length > 0) {
+            daySchedules.forEach((value, key) => {
+                if ((key.startHour >= schedule.initialHour && key.startHour <= (schedule.initialHour + schedule.totalHours)) && value.length > 0) {
                     return true;
                 }
             });
