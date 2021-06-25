@@ -113,30 +113,18 @@ module.exports = class Room {
         return adm;
     }
 
-    updateCalendar(instructorName, incomingCalendar, incomingSession) {
-        if (this.calendars.length > 0) {
-            this.calendars.forEach(calendar => {
-                if (calendar.room.name === incomingCalendar.room.name &&
-                    calendar.month === incomingCalendar.month &&
-                    calendar.year === incomingCalendar.year) {
+    updateCalendar(instructorName, incomingSession) {
+        var message = instructorName + " has requested a new session!";
 
-                        calendar = incomingCalendar;
+        var info = {
+            msg: message,
+            session: incomingSession
+        };
 
-                    }
+        if (this.administrators.length > 0) {
+            this.administrators.forEach(administrator => {
+                administrator.messages.push(info);
             });
-
-            var message = instructorName + " has requested a new session!";
-
-            var info = {
-                msg: message,
-                session: incomingSession
-            };
-
-            if (this.administrators.length > 0) {
-                this.administrators.forEach(administrator => {
-                    administrator.messages.push(info);
-                });
-            }
         }
     }
 }

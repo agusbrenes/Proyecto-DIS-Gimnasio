@@ -158,7 +158,7 @@ module.exports = class Calendar {
     }
 
     notify(instructorName, session) {
-        this.room.updateCalendar(instructorName, this, session);
+        this.room.updateCalendar(instructorName, session);
     }
 
     acceptVisit(instructorVisitor, month, year, day) {
