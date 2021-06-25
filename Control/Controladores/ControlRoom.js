@@ -36,8 +36,8 @@ module.exports = class ControlRoom extends Controller {
             schema.maxCapacity, 
             schema.capacity, 
             admin, 
-            schema.initialHour, 
-            schema.totalHours
+            schema.schedule.initialHour, 
+            schema.schedule.totalHours
         );
         return room;
     }
