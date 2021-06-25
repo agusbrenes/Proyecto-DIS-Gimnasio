@@ -8,27 +8,27 @@ const DayTempSchema = new Schema ({
     name: {type: String}
 }, { _id: false });
 
-const SessionTempSchema = new Schema({
-    instructor: {
-        id: {type: Number},
-        firstName: {type: String},
-        lastName: {type: String}
-    },
-    service: {
-        name: {type: String},
-        capacity: {type: Number}
-    },
-    capacity: {type: Number},
-    schedule: {
-        month: {type: Number},
-        day: {type: Number}
-    },
-    plan: {
-        initialHour: {type: Number},
-        totalHours: {type: Number}
-    },
-    status: {type: String}
-}, { _id: false });
+const NewSessionTempSchema = new Schema({
+    startHour: {type: Number},
+    endHour: {type: Number},
+    session: {
+        instructor: {
+            id: {type: Number},
+            firstName: {type: String},
+            lastName: {type: String}
+        },
+        service: {
+            name: {type: String},
+            capacity: {type: Number}
+        },
+        capacity: {type: Number},
+        schedule: {
+            month: {type: Number},
+            day: {type: Number}
+        },
+        status: {type: String}
+    }
+});
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
@@ -38,7 +38,7 @@ const CalendarSchema = mongoose.model("Calendar", new Schema({
     monthName: {type: String},
     year: {type: Number},
     days: [DayTempSchema],
-    sessions: [SessionTempSchema]
+    sessions: [NewSessionTempSchema]
 }));
 
 module.exports = class DaoCalendar extends Dao {
@@ -78,31 +78,39 @@ module.exports = class DaoCalendar extends Dao {
         }
 
         const sessions1 = [];
-        if (object.sessions.length > 0) {
-            object.sessions.forEach(session => {
-                const schema1 = {
-                    instructor: {
-                        id: session.instructor.id,
-                        firstName: session.instructor.firstName,
-                        lastName: session.instructor.lastName
-                    },
-                    service: {
-                        name: session.service.name,
-                        capacity: session.service.capacity
-                    },
-                    capacity: session.capacity,
-                    schedule: {
-                        month: session.schedule.month,
-                        day: session.schedule.day
-                    },
-                    plan: {
-                        initialHour: session.plan.initialHour,
-                        totalHours: session.plan.totalHours
-                    },
-                    status: session.status
+        if (object.sessions.values().length > 0) {
+            object.sessions.values().forEach(daySchedule => {
+                // daySchedule es un Map.
+                // Key: {startHour, endHour}
+                // Value: [session]
+                if (daySchedule.values().length > 0) {
+                    daySchedule.forEach((value, key) => {
+                        const schema1 = {
+                            startHour: key.startHour,
+                            endHour: key.endHour,
+                            session: {
+                                instructor: {
+                                    id: value[0].instructor.id,
+                                    firstName: value[0].instructor.firstName,
+                                    lastName: value[0].instructor.lastName
+                                },
+                                service: {
+                                    name: value[0].service.name,
+                                    capacity: value[0].service.capacity
+                                },
+                                capacity: value[0].capacity,
+                                schedule: {
+                                    month: value[0].schedule.month,
+                                    day: value[0].schedule.day
+                                },
+                                status: value[0].status
+                            }
+                        };
+                        sessions1.push(schema1);
+                    });
                 }
-                sessions1.push(schema1);
             });
+
             schema.sessions = sessions1;
         }
         
@@ -124,30 +132,37 @@ module.exports = class DaoCalendar extends Dao {
         }
 
         const sessions1 = [];
-        if (object.sessions.length > 0) {
-            object.sessions.forEach(session => {
-                const schema1 = {
-                    instructor: {
-                        id: session.instructor.id,
-                        firstName: session.instructor.firstName,
-                        lastName: session.instructor.lastName
-                    },
-                    service: {
-                        description: session.service.description,
-                        roomCapacity: session.service.roomCapacity
-                    },
-                    capacity: session.capacity,
-                    schedule: {
-                        month: session.schedule.month,
-                        day: session.schedule.day
-                    },
-                    plan: {
-                        initialHour: session.plan.initialHour,
-                        totalHours: session.plan.totalHours
-                    },
-                    status: session.status
+        if (object.sessions.values().length > 0) {
+            object.sessions.values().forEach(daySchedule => {
+                // daySchedule es un Map.
+                // Key: {startHour, endHour}
+                // Value: [session]
+                if (daySchedule.values().length > 0) {
+                    daySchedule.forEach((value, key) => {
+                        const schema1 = {
+                            startHour: key.startHour,
+                            endHour: key.endHour,
+                            session: {
+                                instructor: {
+                                    id: value[0].instructor.id,
+                                    firstName: value[0].instructor.firstName,
+                                    lastName: value[0].instructor.lastName
+                                },
+                                service: {
+                                    name: value[0].service.name,
+                                    capacity: value[0].service.capacity
+                                },
+                                capacity: value[0].capacity,
+                                schedule: {
+                                    month: value[0].schedule.month,
+                                    day: value[0].schedule.day
+                                },
+                                status: value[0].status
+                            }
+                        };
+                        sessions1.push(schema1);
+                    });
                 }
-                sessions1.push(schema1);
             });
         }
 
