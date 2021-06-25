@@ -9,12 +9,12 @@ module.exports = class Decorator {
             if (listA.length > 0) {
                 for (var i = 0; i < 2; i++) {
                     if (i === 0) {
-                        let mondongo = {
+                        var mondongo = {
                             isModifyable: true,
                             session: listA[i]
                         };
                     }
-                    let mondongo = {
+                    var mondongo = {
                         isModifyable: false,
                         session: listA[i]
                     };
