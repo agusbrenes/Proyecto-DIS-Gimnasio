@@ -11,7 +11,7 @@ const TempInstructorSchema = new Schema({
 
 const TempSessionSchema = new Schema({
     instructor: {
-        email: {type: String},
+        id: {type: String},
         firstName: {type: String},
         lastName: {type: String}
     },
