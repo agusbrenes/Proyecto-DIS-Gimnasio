@@ -78,7 +78,7 @@ module.exports = class DaoService extends Dao {
             object.sessions.forEach(session => {
                 const schema1 = { 
                     instructor: {
-                        email: session.instructor.email,
+                        id: session.instructor.id,
                         firstName: session.instructor.firstName,
                         lastName: session.instructor.lastName
                     },
@@ -122,7 +122,7 @@ module.exports = class DaoService extends Dao {
             object.sessions.forEach(session => {
                 const schema = { 
                     instructor: {
-                        email: session.instructor.email,
+                        id: session.instructor.id,
                         firstName: session.instructor.firstName,
                         lastName: session.instructor.lastName
                     },
