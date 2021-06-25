@@ -66,8 +66,12 @@ module.exports = class Instructor extends User {
         }
         
         var message = adminName + " has modified the status of the session scheduled to day: " + incomingSession.schedule.day + ", month: " + incomingSession.schedule.month + ", starting at: " + incomingSession.schedule.initialHour + ", duration: " + incomingSession.schedule.totalHours;
+        var info = {
+            msg: message,
+            session: incomingSession
+        }
 
-        this.messages.push(message);
+        this.messages.push(info);
     }
 
     visitMySessions(month, year, day) {

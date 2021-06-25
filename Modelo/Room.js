@@ -113,7 +113,7 @@ module.exports = class Room {
         return adm;
     }
 
-    updateCalendar(instructorName, incomingCalendar) {
+    updateCalendar(instructorName, incomingCalendar, incomingSession) {
         if (this.calendars.length > 0) {
             this.calendars.forEach(calendar => {
                 if (calendar.room.name === incomingCalendar.room.name &&
@@ -127,9 +127,14 @@ module.exports = class Room {
 
             var message = instructorName + " has requested a new session!";
 
+            var info = {
+                msg: message,
+                session: incomingSession
+            };
+
             if (this.administrators.length > 0) {
                 this.administrators.forEach(administrator => {
-                    administrator.messages.push(message);
+                    administrator.messages.push(info);
                 });
             }
         }

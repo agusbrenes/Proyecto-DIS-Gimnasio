@@ -123,7 +123,7 @@ module.exports = class Calendar {
 
         let instructorName = session.instructor.firstName + " " + session.instructor.lastName;
 
-        this.notify(instructorName);
+        this.notify(instructorName, session);
     }
 
     sessionScheduleCollides(dayNum, schedule) {
@@ -152,8 +152,8 @@ module.exports = class Calendar {
         }
     }
 
-    notify(instructorName) {
-        this.room.updateCalendar(instructorName, this);
+    notify(instructorName, session) {
+        this.room.updateCalendar(instructorName, this, session);
     }
 
     acceptVisit(instructorVisitor, month, year, day) {
