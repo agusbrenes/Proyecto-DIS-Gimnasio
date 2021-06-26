@@ -91,8 +91,9 @@ module.exports = class Session {
         return this.status;
     }
 
-    authorize() {
+    authorize(adminName) {
         this.status = Status.Authorized;
+        updateSession(adminName);
     }
 
     reject() {
