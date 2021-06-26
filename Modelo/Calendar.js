@@ -117,6 +117,7 @@ module.exports = class Calendar {
                 startHour: start,
                 endHour: start + 1
             };
+            daySchedule.delete(key);
             daySchedule.set(key, [session]);
         }
 

@@ -853,11 +853,11 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
 
     const filterCalendar = {
         room: {
-            name: object.room.name,
             schedule: {
                 initialHour: object.room.schedule.initialHour,
                 totalHours: object.room.schedule.totalHours
-            }
+            },
+            name: object.room.name,
         }, 
         month: object.month,
         year: object.year
