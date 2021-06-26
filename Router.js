@@ -786,9 +786,10 @@ router.post("/NewSession", async (req, res) => {
         try {
             await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
             res.json(savedSession);
-        } catch (error) {
+        } catch (error2) {
             await control.delete(savedSession);
-            res.status(800).json({error: "Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."});
+            res.status(800).json({error: error2.message});
+            //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
         }
     } catch (err) {
         res.status(500).json({error: err.message});
