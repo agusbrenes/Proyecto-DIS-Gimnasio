@@ -78,7 +78,7 @@ module.exports = class DaoCalendar extends Dao {
             const tempArray = [];
             daySchedule.forEach((element, key) => {
                 
-                const innerMapElement = {};
+                var innerMapElement = {};
                 if (element.length > 0) {
                     innerMapElement = {
                         startHour: key,

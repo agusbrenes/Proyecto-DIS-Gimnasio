@@ -141,6 +141,7 @@ module.exports = class Calendar {
         return false;
     }
 
+    /*
     schedulesCollidese(schedule1, schedule2) {
         const firstSchedule = (schedule1.initialHour < schedule2.initialHour ? schedule1 : schedule2);
         const secondSchedule = (firstSchedule === schedule1 ? schedule2 : schedule1);        
@@ -150,7 +151,7 @@ module.exports = class Calendar {
         } else {
             return true;
         }
-    }
+    }*/
 
     notify(instructorName, session) {
         this.room.updateCalendar(instructorName, session);
