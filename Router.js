@@ -767,10 +767,10 @@ router.post("/NewSession", async (req, res) => {
     const filter = {
         year: object.year,
         schedule: {
-            month: object.month,
-            day: object.day,
-            initialHour: object.initialHour,
-            totalHours: object.totalHours
+            month: object.schedule.month,
+            day: object.schedule.day,
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
         }
     };
     try {
@@ -785,7 +785,7 @@ router.post("/NewSession", async (req, res) => {
             await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
             res.json(savedSession);
         } catch (error) {
-            
+            await control.delete(savedSession);
             res.status(800).json({error: "Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."});
         }
     } catch (err) {
