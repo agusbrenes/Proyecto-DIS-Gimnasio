@@ -80,11 +80,15 @@ module.exports = class Instructor extends User {
 
             var mySessions = [];
             //console.log(daySchedules);
-            daySchedules.forEach((sessionArray) => {
+            daySchedules.forEach((sessionArray, key) => {
                 if (sessionArray.length > 0) {
                     sessionArray.forEach(session => {
                         if (session.instructor.id === this.id) {
-                            mySessions.push(session);
+                            let value = {
+                                start: key,
+                                session: session
+                            };
+                            mySessions.push(value);
                         }
                     });
                 }
@@ -102,14 +106,17 @@ module.exports = class Instructor extends User {
 
             var notMySessions = [];
             console.log("notMySession AAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHArray:", daySchedules)
-            daySchedules.forEach((sessionArray) => {
+            daySchedules.forEach((sessionArray, key) => {
                 console.log("SessionArrayASDASDADSADASDASDADASDADASDASDASDADASD", sessionArray)
                 if (sessionArray.length > 0) {
                     sessionArray.forEach(session => {
                         
                         if (!(session.instructor.id === this.id)) {
-                            
-                            notMySessions.push(session);
+                            let value = {
+                                startHour: key,
+                                session: session
+                            };
+                            notMySessions.push(value);
                         }
                     });
                 }
