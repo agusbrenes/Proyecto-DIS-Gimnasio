@@ -5,7 +5,6 @@ const Dao = require("./DAO");
 
 const NewSessionTempSchema = new Schema({
     startHour: {type: Number},
-    endHour: {type: Number},
     session: {
         instructor: {
             id: {type: Number},
@@ -70,56 +69,58 @@ module.exports = class DaoCalendar extends Dao {
         schema.monthName = object.monthName;
         schema.year = object.year;
 
-
-        const sessions1 = [];
-        object.sessions.forEach((daySchedule, key) => {
-            // daySchedule es un Map.
-            // Key: {startHour, endHour}
-            // Value: [session]
-            const sessions2 = [];
-            daySchedule.forEach((value, key) => {
-                if (value.length > 0) {
-                    var schema1 = {
-                        startHour: key.startHour,
-                        endHour: key.endHour,
+        const newSessions = [];
+        object.sessions.forEach((daySchedule, dayNum) => {
+            //daySchedule es un Map con:
+                //Key: startHour (int)
+                //Value: [session]
+            
+            const tempArray = [];
+            daySchedule.forEach((element, key) => {
+                
+                const innerMapElement = {};
+                if (element.length > 0) {
+                    innerMapElement = {
+                        startHour: key,
                         session: {
                             instructor: {
-                                id: value[0].instructor.id,
-                                firstName: value[0].instructor.firstName,
-                                lastName: value[0].instructor.lastName
+                                id: element.instructor.id, 
+                                firstName: element.instructor.firstName, 
+                                lastName: element.instructor.lastName
                             },
                             service: {
-                                name: value[0].service.name,
-                                capacity: value[0].service.capacity,
+                                name: element.service.name,
+                                capacity: element.service.capacity
                             },
-                            capacity: value[0].capacity,
+                            capacity: element.capacity,
                             schedule: {
-                                month: value[0].schedule.month,
-                                day: value[0].schedule.day
+                                month: element.schedule.month,
+                                day: element.schedule.day
                             },
-                            status: value[0].status
+                            status: element.status
                         }
                     };
                 } else {
-                    var schema1 = {
-                        startHour: key.startHour,
-                        endHour: key.endHour,
+                    innerMapElement = {
+                        startHour: key,
                         session: {
                             status: "Free Space"
                         }
                     };
                 }
-                
-                sessions2.push(schema1);
+
+                tempArray.push(innerMapElement);
             });
-            const schema2 = {
-                day: key,
-                sessions1: sessions2
+
+            const outerMapElement = {
+                day: dayNum,
+                sessions1: tempArray
             };
-            sessions1.push(schema2);
+
+            newSessions.push(outerMapElement);
         });
 
-        schema.sessions = sessions1;
+        schema.sessions = newSessions;
         
         return await CalendarSchema.updateOne(filter, schema);
     }
@@ -129,27 +130,26 @@ module.exports = class DaoCalendar extends Dao {
     }
 
     toMongoSchema(object) {
-        const sessions1 = [];
+        const newSessions = [];
         object.sessions.forEach((daySchedule, key) => {
             // daySchedule es un Map.
-            // Key: {startHour, endHour}
+            // Key: startHour
             // Value: [session]
-            const sessions2 = [];
+            const tempArray = [];
             daySchedule.forEach((value, key) => {
-                const schema1 = {
-                    startHour: key.startHour,
-                    endHour: key.endHour,
+                const innerMapElement = {
+                    startHour: key,
                     session: {
                         status: "Free Space"
                     }
                 };
-                sessions2.push(schema1);
+                tempArray.push(innerMapElement);
             });
-            const schema2 = {
+            const outerMapElement = {
                 day: key,
-                sessions1: sessions2
+                sessions1: tempArray
             };
-            sessions1.push(schema2);
+            newSessions.push(outerMapElement);
         });
 
         return new CalendarSchema({
@@ -163,7 +163,7 @@ module.exports = class DaoCalendar extends Dao {
             month: object.month,
             monthName: object.monthName,
             year: object.year,
-            sessions: sessions1
+            sessions: newSessions
         });
     }
 }

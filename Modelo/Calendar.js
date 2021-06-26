@@ -26,10 +26,7 @@ module.exports = class Calendar {
         for (var i = 0; i < 7; i++) {
             var mapping = this.sessions.get(i);
             for (var start = this.room.schedule.initialHour; start < (this.room.schedule.initialHour + this.room.schedule.totalHours); start++) {
-                let key = {
-                    startHour: start,
-                    endHour: start + 1
-                };
+                let key = start;
 
                 mapping.set(key, []);
             }
@@ -113,10 +110,7 @@ module.exports = class Calendar {
         }
         var daySchedule = this.sessions.get(dayNum);
         for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {
-            let key = {
-                startHour: start,
-                endHour: start + 1
-            };
+            let key = start;
             daySchedule.delete(key);
             daySchedule.set(key, [session]);
         }
@@ -139,7 +133,7 @@ module.exports = class Calendar {
         var daySchedules = this.sessions.get(dayNum);
         if (daySchedules.values().length > 0) {
             daySchedules.forEach((value, key) => {
-                if ((key.startHour >= schedule.initialHour && key.startHour <= (schedule.initialHour + schedule.totalHours)) && value.length > 0) {
+                if ((key >= schedule.initialHour && key <= (schedule.initialHour + schedule.totalHours)) && value.length > 0) {
                     return true;
                 }
             });
