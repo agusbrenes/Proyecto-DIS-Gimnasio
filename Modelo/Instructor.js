@@ -76,10 +76,10 @@ module.exports = class Instructor extends User {
 
     visitMySessions(calendar, dayNum) {
         if (this.room !== null) {
-            let daySchedules = calendar.sessions.get(dayNum); 
+            let daySchedules = calendar.sessions.get(dayNum);
 
             var mySessions = [];
-
+            //console.log(daySchedules);
             daySchedules.forEach((sessionArray) => {
                 if (sessionArray.length > 0) {
                     sessionArray.forEach(session => {
@@ -89,7 +89,9 @@ module.exports = class Instructor extends User {
                     });
                 }
             });
+            console.log("mySessions", mySessions);
             return mySessions;
+        
         }
         return [];
     }
@@ -99,16 +101,20 @@ module.exports = class Instructor extends User {
             let daySchedules = calendar.sessions.get(dayNum); 
 
             var notMySessions = [];
-
+            //console.log("notMySession AAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHArray:", daySchedules)
             daySchedules.forEach((sessionArray) => {
+                //console.log("SessionArrayASDASDADSADASDASDADASDADASDASDASDADASD", sessionArray)
                 if (sessionArray.length > 0) {
                     sessionArray.forEach(session => {
-                        if (!session.instructor.id === this.id) {
+                        
+                        if (!(session.instructor.id === this.id)) {
+                            
                             notMySessions.push(session);
                         }
                     });
                 }
             });
+            console.log("notMySessions", notMySessions);
             return notMySessions;
         }
         return [];
@@ -129,6 +135,7 @@ module.exports = class Instructor extends User {
                     freeSpaces.push(value);
                 }
             });
+            console.log("freeSpaces", freeSpaces);
             return freeSpaces;
         }
         return [];
