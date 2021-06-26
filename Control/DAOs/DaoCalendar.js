@@ -3,11 +3,6 @@ const { Schema } = mongoose;
 
 const Dao = require("./DAO");
 
-const DayTempSchema = new Schema ({
-    number: {type: Number},
-    name: {type: String}
-}, { _id: false });
-
 const NewSessionTempSchema = new Schema({
     startHour: {type: Number},
     endHour: {type: Number},
@@ -28,7 +23,7 @@ const NewSessionTempSchema = new Schema({
         },
         status: {type: String}
     }
-});
+}, { _id: false });
 
 const CalendarSchema = mongoose.model("Calendar", new Schema({
     room: {
@@ -41,7 +36,6 @@ const CalendarSchema = mongoose.model("Calendar", new Schema({
     month: {type: Number},
     monthName: {type: String},
     year: {type: Number},
-    days: [DayTempSchema],
     sessions: [{
         day: {type: Number},
         sessions1: [NewSessionTempSchema]
@@ -135,12 +129,6 @@ module.exports = class DaoCalendar extends Dao {
     }
 
     toMongoSchema(object) {
-        const days1 = [];
-        object.days.forEach((day, dayNumber) => {
-            const tempDay = { number: dayNumber, name: day };
-            days1.push(tempDay);
-        });
-
         const sessions1 = [];
         object.sessions.forEach((daySchedule, key) => {
             // daySchedule es un Map.
@@ -175,7 +163,6 @@ module.exports = class DaoCalendar extends Dao {
             month: object.month,
             monthName: object.monthName,
             year: object.year,
-            days: days1,
             sessions: sessions1
         });
     }
