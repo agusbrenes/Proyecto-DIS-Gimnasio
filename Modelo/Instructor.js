@@ -76,7 +76,7 @@ module.exports = class Instructor extends User {
 
     visitMySessions(calendar, dayNum) {
         if (this.room !== null) {
-            let daySchedules = calendar.getSessions(dayNum); 
+            let daySchedules = calendar.sessions.get(dayNum); 
 
             var mySessions = [];
 
@@ -96,7 +96,7 @@ module.exports = class Instructor extends User {
 
     visitOtherSessions(calendar, dayNum) {
         if (this.room !== null) {
-            let daySchedules = calendar.getSessions(dayNum); 
+            let daySchedules = calendar.sessions.get(dayNum); 
 
             var notMySessions = [];
 
@@ -116,7 +116,7 @@ module.exports = class Instructor extends User {
 
     visitFreeSpaces(calendar, dayNum) {
         if (this.room !== null) {
-            let daySchedules = calendar.getSessions(dayNum); 
+            let daySchedules = calendar.sessions.get(dayNum); 
 
             var freeSpaces = [];
 
