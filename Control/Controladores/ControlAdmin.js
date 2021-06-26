@@ -76,7 +76,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const decorator = new Decorator();
 
         const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
-        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, controlAdmin);
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
 
         const instructorSessions = instructor.visitMySessions(calendar, dayNum);
         const otherSessions = instructor.visitOtherSessions(calendar, dayNum);
@@ -105,6 +105,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             }
         };
         const calendarQuery = await controlCalendar.find(query);   
+        console.log("calendarQuery", calendarQuery);
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);

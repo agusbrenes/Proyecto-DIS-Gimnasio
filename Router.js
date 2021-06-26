@@ -765,12 +765,14 @@ router.post("/NewSession", async (req, res) => {
     const auxControl = new ControlAdmin();
 
     const filter = {
+        room: {
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
         year: object.year,
         schedule: {
             month: object.schedule.month,
             day: object.schedule.day,
-            initialHour: object.plan.initialHour,
-            totalHours: object.plan.totalHours
         }
     };
     try {
@@ -797,12 +799,14 @@ router.post("/GetSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        room: {
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
         year: object.year,
         schedule: {
-            month: object.month,
-            day: object.day,
-            initialHour: object.initialHour,
-            totalHours: object.totalHours
+            month: object.schedule.month,
+            day: object.schedule.day,
         }
     };
     try {
@@ -888,12 +892,14 @@ router.post("/ModifySession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        room: {
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
         year: object.year,
         schedule: {
-            month: object.month,
-            day: object.day,
-            initialHour: object.initialHour,
-            totalHours: object.totalHours
+            month: object.schedule.month,
+            day: object.schedule.day,
         }
     };
     try {
@@ -916,12 +922,14 @@ router.post("/DeleteSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
     const filter = {
+        room: {
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
         year: object.year,
         schedule: {
-            month: object.month,
-            day: object.day,
-            initialHour: object.initialHour,
-            totalHours: object.totalHours
+            month: object.schedule.month,
+            day: object.schedule.day,
         }
     };
     try {
