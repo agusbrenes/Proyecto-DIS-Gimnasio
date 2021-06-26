@@ -84,20 +84,20 @@ module.exports = class DaoCalendar extends Dao {
                         startHour: key,
                         session: {
                             instructor: {
-                                id: element.instructor.id, 
-                                firstName: element.instructor.firstName, 
-                                lastName: element.instructor.lastName
+                                id: element[0].instructor.id, 
+                                firstName: element[0].instructor.firstName, 
+                                lastName: element[0].instructor.lastName
                             },
                             service: {
-                                name: element.service.name,
-                                capacity: element.service.capacity
+                                name: element[0].service.name,
+                                capacity: element[0].service.capacity
                             },
-                            capacity: element.capacity,
+                            capacity: element[0].capacity,
                             schedule: {
-                                month: element.schedule.month,
-                                day: element.schedule.day
+                                month: element[0].schedule.month,
+                                day: element[0].schedule.day
                             },
-                            status: element.status
+                            status: element[0].status
                         }
                     };
                 } else {
