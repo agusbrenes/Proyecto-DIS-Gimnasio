@@ -7,9 +7,19 @@ module.exports = class Calendar {
         this.month = month;        
         this.monthName = this.setMonthName();
         this.year = year;
+        this.days = new Map();
         this.sessions = new Map();
 
+        this.setDays();
         this.setSchedules();
+    }
+
+    setDays() {
+        const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+        for (var dayNum = 0; dayNum < 7; dayNum++) {
+            this.days.set(dayNum, days[dayNum]);
+            this.sessions.set(dayNum, new Map());
+        }
     }
 
     setSchedules() {
