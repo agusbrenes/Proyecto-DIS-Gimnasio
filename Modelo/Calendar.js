@@ -7,10 +7,8 @@ module.exports = class Calendar {
         this.month = month;        
         this.monthName = this.setMonthName();
         this.year = year;
-        this.days = new Map();
         this.sessions = new Map();
 
-        this.setDays();
         this.setSchedules();
     }
 
@@ -97,19 +95,11 @@ module.exports = class Calendar {
         }
     }
 
-    setDays() {
-        const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-        for (var dayNum = 0; dayNum < 7; dayNum++) {
-            this.days.set(dayNum, days[dayNum]);
-            this.sessions.set(dayNum, new Map());
-        }        
-    }
-
     addSession(session, dayNum) {
         if (dayNum < 0 || dayNum > 6) {
             throw new Error("Invalid day number. Please choose a valid day.");
         } else if (this.sessionScheduleCollides(dayNum, session.schedule)) {
-            console.log("CHOQUEEEE AA");
+            throw new Error("Another Session is already registered in the introduced hours. Please check the calendar for the valid free spaces.");
         }
         var daySchedule = this.sessions.get(dayNum);
         for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {

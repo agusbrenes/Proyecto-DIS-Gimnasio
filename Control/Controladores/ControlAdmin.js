@@ -76,7 +76,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const decorator = new Decorator();
 
         const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
-        const instructor = await controlInstructor.toObject(instructorSchema); // faltan
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, controlAdmin);
 
         const instructorSessions = instructor.visitMySessions(calendar, dayNum);
         const otherSessions = instructor.visitOtherSessions(calendar, dayNum);
@@ -88,19 +88,11 @@ module.exports = class ControlAdmin extends ControlUsers {
     }
 
     async addSessiontoCalendar(sessionSchema) {
-        /* To create Session Object */
-        // Primary
         const controlSession = new ControlSession();
-        // Secondary
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
-        
-        /* To create Calendar Object */
-        // Primary
         const controlCalendar = new ControlCalendar();
-        // controlRoom
-        console.log("Schema de Session", sessionSchema);
 
         const query = {
             month: sessionSchema.schedule.month, 
@@ -112,17 +104,12 @@ module.exports = class ControlAdmin extends ControlUsers {
                 name: sessionSchema.room.name
             }
         };
-        console.log("Schema de query para calendar", query);
-        const calendarQuery = await controlCalendar.find(query);     
-        console.log("Calendar QUERY", calendarQuery);
+        const calendarQuery = await controlCalendar.find(query);   
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
-        console.log("Calendar", calendar);
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
-        console.log("Session", session);
         
         calendar.addSession(session, session.getDay());
-
         return await controlCalendar.modify(query, calendar);
     }
 
