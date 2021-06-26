@@ -128,10 +128,7 @@ module.exports = class Instructor extends User {
 
             daySchedules.forEach((sessionArray, key) => {
                 if (sessionArray.length === 0) {
-                    let value = {
-                        startHour: key.startHour,
-                        endHour: key.endHour
-                    };
+                    let value = key;
                     freeSpaces.push(value);
                 }
             });
