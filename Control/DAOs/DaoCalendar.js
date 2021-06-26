@@ -60,11 +60,11 @@ module.exports = class DaoCalendar extends Dao {
         const schema = await CalendarSchema.findOne(filter);
 
         schema.room = {
-            name: object.room.name,
             schedule: {
                 initialHour: object.room.schedule.initialHour,
                 totalHours: object.room.schedule.totalHours
-            }
+            },
+            name: object.room.name
         };
         schema.month = object.month;
         schema.monthName = object.monthName;

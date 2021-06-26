@@ -102,6 +102,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             }
         };
         const calendarQuery = await controlCalendar.find(query);   
+        console.log("calendarQuery", calendarQuery);
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
