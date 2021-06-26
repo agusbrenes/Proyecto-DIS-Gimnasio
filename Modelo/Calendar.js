@@ -161,11 +161,11 @@ module.exports = class Calendar {
         this.room.updateCalendar(instructorName, session);
     }
 
-    acceptVisit(instructorVisitor, month, year, day) {
+    acceptVisit(instructorVisitor, day) {
         var listOfSessions = [];
-        listOfSessions.push(instructorVisitor.visitMySessions(month, year, day));
-        listOfSessions.push(instructorVisitor.visitOtherSessions(month, year, day));
-        listOfSessions.push(instructorVisitor.visitFreeSpaces(month, year, day));
+        listOfSessions.push(instructorVisitor.visitMySessions(this, day));
+        listOfSessions.push(instructorVisitor.visitOtherSessions(this, day));
+        listOfSessions.push(instructorVisitor.visitFreeSpaces(this, day));
 
         //[[mySessions],[otherSessions],[freeSpaces]]
         return listOfSessions;

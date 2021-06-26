@@ -30,7 +30,7 @@ module.exports = class ControlAdmin extends ControlUsers {
     }
 
     async toAuxObject(schema) {
-        console.log("Schema Admin Aux", schema);
+        //console.log("Schema Admin Aux", schema);
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -76,13 +76,10 @@ module.exports = class ControlAdmin extends ControlUsers {
         const decorator = new Decorator();
 
         const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
-        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, controlAdmin);
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
 
-        const instructorSessions = instructor.visitMySessions(calendar, dayNum);
-        const otherSessions = instructor.visitOtherSessions(calendar, dayNum);
-        const freeSpaces = instructor.visitFreeSpaces(calendar, dayNum);
-        const sessions = [instructorSessions, otherSessions, freeSpaces];
-
+        const sessions = calendar.acceptVisit(instructor, dayNum);
+        console.log("Array para el decoradorRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR:", sessions);
         const decoratedSessions = decorator.decorate(sessions);
         return decoratedSessions;
     }
@@ -115,7 +112,7 @@ module.exports = class ControlAdmin extends ControlUsers {
 
     async addSessiontoService(sessionSchema) {
         const controlSession = new ControlSession();
-        console.log("Entra a addSessiontoService ???????????????? schema de session:", sessionSchema);
+        //console.log("Entra a addSessiontoService ???????????????? schema de session:", sessionSchema);
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
@@ -125,12 +122,12 @@ module.exports = class ControlAdmin extends ControlUsers {
         };
         const serviceQuery = await controlService.find(query);     
         const service = await controlService.toObject(serviceQuery[0], controlInstructor, controlRoom, this, controlSession);
-        console.log("Crea el Service", service, "SEssion schema", sessionSchema);
+        //console.log("Crea el Service", service, "SEssion schema", sessionSchema);
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
-        console.log("Crea el Session Aux", session);
+        //console.log("Crea el Session Aux", session);
 
         service.addSession(session, session.getDay());
-        console.log("Agrega la Session al Service", service);
+        //console.log("Agrega la Session al Service", service);
 
         return await controlService.modify(query, service);
     }

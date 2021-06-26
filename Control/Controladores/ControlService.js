@@ -33,11 +33,11 @@ module.exports = class ControlService extends Controller {
             room,
             instructor
         );
-        console.log("CREA SERVICE", service);
+        //console.log("CREA SERVICE", service);
         service = await this.setServiceInstructors(service, schema.instructors, controlInstructor); //
-        console.log("Instructor Aux agregado al Service:", service);
+        //console.log("Instructor Aux agregado al Service:", service);
         service = await this.setServiceSessions(service, schema.sessions, controlSession, controlInstructor, controlRoom, controlAdmin); //
-        console.log("Session Aux agregado al Service:", service);
+        //console.log("Session Aux agregado al Service:", service);
         return service;
     }
 
@@ -67,13 +67,13 @@ module.exports = class ControlService extends Controller {
     }
 
     async setServiceSessions(service, sessionArray, controlSession, controlInstructor, controlRoom, controlAdmin) {
-        console.log("EnsetServiceSessions en ControlService", service, sessionArray)
+        //console.log("EnsetServiceSessions en ControlService", service, sessionArray)
         for (var i = 1; i < sessionArray.length; i++) {
-            console.log("sessionArray[",i,"]=",sessionArray[i]);
+            //console.log("sessionArray[",i,"]=",sessionArray[i]);
             const sessionQuery = await controlSession.find(sessionArray[i]); // query da vacio, undefined abajo
-            console.log("sessionQuery=",sessionQuery);
+            //console.log("sessionQuery=",sessionQuery);
             const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, this, controlRoom, controlAdmin); //
-            console.log("Sesion Aux creada en setServiceSessions", session);
+            //console.log("Sesion Aux creada en setServiceSessions", session);
             service.addSession(session);
         }
         return service;

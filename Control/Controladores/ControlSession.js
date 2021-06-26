@@ -37,7 +37,7 @@ module.exports = class ControlSession extends Controller {
     }
     
     async toObject(schema, controlInstructor, controlService, controlRoom) {
-        console.log("toObject Session ", schema);
+        //console.log("toObject Session ", schema);
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 
@@ -63,7 +63,7 @@ module.exports = class ControlSession extends Controller {
     }
     
     async toAuxObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
-        console.log("Session Aux:", schema, controlInstructor, controlService, controlRoom, controlAdmin, "Final de datosss 1000");
+        //console.log("Session Aux:", schema, controlInstructor, controlService, controlRoom, controlAdmin, "Final de datosss 1000");
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 

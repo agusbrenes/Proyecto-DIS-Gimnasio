@@ -9,7 +9,7 @@ module.exports = class ControlRoom extends Controller {
     }
 
     async toObject(schema, controlAdmin) {
-        console.log("Schema Room ", schema);
+        //console.log("Schema Room ", schema);
         const adminQuery = await controlAdmin.find({id: schema.administrators[0].id});
         const admin = await controlAdmin.toAuxObject(adminQuery[0]);
         let room = new Room (
@@ -27,7 +27,7 @@ module.exports = class ControlRoom extends Controller {
     }
 
     async toAuxObject(schema, controlAdmin) {
-        console.log("Schema Room Aux", schema, controlAdmin);
+        //console.log("Schema Room Aux", schema, controlAdmin);
         const administator = schema.administrators[0];
         const adminQuery = await controlAdmin.find({id: administator.id});
         const admin = await controlAdmin.toAuxObject(adminQuery[0]);

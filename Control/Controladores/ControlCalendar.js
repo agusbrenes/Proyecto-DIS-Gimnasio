@@ -8,19 +8,19 @@ module.exports = class ControlCalendar extends Controller {
     }
 
     async toObject(schema, controlRoom, controlAdmin, controlSession, controlInstructor, controlService) {  
-        console.log("Schema Calendar en TO OBJECT", schema);      
+        //console.log("Schema Calendar en TO OBJECT", schema);      
         const roomQuery = await controlRoom.find({name: schema.room.name});
         const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
-        console.log("Room OBJECT AUX ControlCalendar", room);
+        //console.log("Room OBJECT AUX ControlCalendar aloooooooooooooo", room);
         let calendar = new Calendar (
             room, 
             schema.month, 
             schema.year 
         );
-        console.log("Calendar OBJECT ControlCalendar", calendar);
-        console.log("Calendar Schema Sessions", schema.sessions);
+        //console.log("Calendar OBJECT ControlCalendar", calendar);
+        //console.log("Calendar Schema Sessions", schema.sessions);
         calendar = await this.setCalendarSessions(calendar, schema.sessions, controlSession, controlInstructor, controlService, controlRoom, controlAdmin);
-        console.log("Calendar completo :=0000000", calendar);
+        //console.log("Calendar completo :=0000000", calendar);
         return calendar;
     }
 
@@ -41,23 +41,24 @@ module.exports = class ControlCalendar extends Controller {
             object.month, 
             object.year
         );
-        console.log(calendar);
+        //console.log(calendar);
         return await this.handler.save(calendar);
     }
 
     async setCalendarSessions(calendar, sessionArray, controlSession, controlInstructor, controlService, controlRoom, controlAdmin) {
         // sessionArray es para cada dia un espacio
-        console.log("En setCalendarSessions en ControlCalendar", calendar, sessionArray);
+        //console.log("En setCalendarSessions en ControlCalendar", calendar, sessionArray);
         for (var dayNum = 0; dayNum < sessionArray.length; dayNum++) {
             const day = sessionArray[dayNum];
             const scheduleSpaces = day.sessions1;
             for (var scheduleSpaceNum = 0; scheduleSpaceNum < scheduleSpaces.length; scheduleSpaceNum++) {
                 const hourSpace = scheduleSpaces[scheduleSpaceNum];
-                console.log("HourSpace", hourSpace);
-                if (!hourSpace.session.status==="Free Space") {
+                //console.log("HourSpace", hourSpace);
+                if (!(hourSpace.session.status === "Free Space")) {
                     // conseguir session
                     const sessionQuery = await controlSession.find(hourSpace.session);
                     const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
+                    //console.log("Session creada asdsdasdasdasdasdasdasdasd:", session);
                     calendar.addSession(session, session.getDay());
                 }
             }

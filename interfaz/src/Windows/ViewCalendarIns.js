@@ -8,39 +8,47 @@ class ViewCalendarIns extends Component {
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"],
         days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         sessions: [],
-        list: []
+        list: [],
+        token: {}
     }
 
-    componentDidMount = () => {
-        const token = localStorage.getItem("token")
+    componentDidMount = async () => {
+        const token = await JSON.parse(localStorage.getItem("token"));
         
         if (token === null) {
             window.location=("/loginClient");
         }
+        this.setState({
+            token
+        });
+        
         this.getSessions();
     }
 
     getSessions = () => {
+        console.log("token",this.state);
         const data = {
             room: {
-                name: this.props.match.params.room,
-                capacity: parseInt(this.props.match.params.capacity)
+                schedule: {
+                    initialHour: parseInt(this.props.match.params.begin),
+                    totalHours: parseInt(this.props.match.params.end)
+                },
+                name: this.props.match.params.room
             },
-            year: this.props.match.params.year,
-            schedule: {
-                month: parseInt(this.props.match.params.month),
-                day: parseInt(this.props.match.params.day)
-            }
+            month: parseInt(this.props.match.params.month),
+            year: parseInt(this.props.match.params.year),
+            day: parseInt(this.props.match.params.day),
+            idInstructor: parseInt(this.state.token.id)
         }
-
+        console.log("JSon",data);
         axios({
-            url: "/api/GetCalendarSessions",
+            url: "/api/GetCalendarDaySessions",
             method: "POST",
             data: data
         })
         .then(async (res) => {
             const data = res.data;
-            console.log(data);
+            console.log("Caca",data);
             if (data.length === 0) {
                 swal.fire({
                     title: 'No hay sesiones registradas para ese dia',
@@ -84,9 +92,10 @@ class ViewCalendarIns extends Component {
                 })
             }
         })
-        .catch(() => {
+        .catch((err) => {
             swal.fire({
                 title: 'Ocurrio un problema al cargar los datos',
+                text: err,
                 background: "black",
                 confirmButtonText: "Reload",
                 icon: 'error'

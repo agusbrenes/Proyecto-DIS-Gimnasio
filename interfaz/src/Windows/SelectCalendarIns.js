@@ -42,7 +42,10 @@ class SelectCalendarIns extends Component {
             await data.forEach((item) => {
                 const info = {
                     name: item.name,
-                    capacity: item.capacity
+                    schedule: {
+                        initialHour: item.schedule.initialHour,
+                        totalHours: item.schedule.totalHours
+                    }
                 }
                 this.state.rooms.push(info);
             })
@@ -62,14 +65,15 @@ class SelectCalendarIns extends Component {
         const month = document.form.month.selectedIndex;
         const day = document.form.day.selectedIndex;
 
-        window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" + this.state.year +"/"+ month +"/"+ day +"/instructor");
+        window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].schedule.initialHour +
+                            "/" + this.state.rooms[index].schedule.totalHours + "/"+ this.state.year +"/"+ month +"/"+ day +"/instructor");
     }
 
     render() {
         return (
             <div>
                 <NavBar/>
-            <div className="window menuInstru">
+            <div className="menuInstru">
             <form onSubmit={this.show} name="form">
                     <h3 className="text-center" style={{color: "green", webkitTextStroke: ".7px black"}}>
                         Seleccione Room, Año, Mes y Dia para ver el calendario

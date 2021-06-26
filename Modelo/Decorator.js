@@ -5,24 +5,27 @@ module.exports = class Decorator {
         //[[mySessions],[otherSessions],[freeSpaces]]
         var finalArray = [];
 
-        listOfSessions.forEach(listA => {
-            if (listA.length > 0) {
-                for (var i = 0; i < 2; i++) {
-                    if (i === 0) {
+        for (var i = 0; i <= 2; i++) {
+            if (listOfSessions[i].length > 0) {
+                if (i === 0) {
+                    listOfSessions[i].forEach(mySession => {
                         var mondongo = {
                             isModifyable: true,
-                            session: listA[i]
+                            session: mySession
                         };
-                    }
-                    var mondongo = {
-                        isModifyable: false,
-                        session: listA[i]
-                    };
-
-                    finalArray.push(mondongo);
+                        finalArray.push(mondongo);
+                    });
+                } else {
+                    listOfSessions[i].forEach(notMySession => {
+                        var candanga = {
+                            isModifyable: false,
+                            session: notMySession
+                        };
+                        finalArray.push(candanga);
+                    });
                 }
             }
-        });
+        }
 
         //Esto definitivamente está bien. Estoy 45% seguro... creo
         finalArray.sort((element1, element2) => (element1.session.startHour > element2.session.startHour) ? 1 : -1);
