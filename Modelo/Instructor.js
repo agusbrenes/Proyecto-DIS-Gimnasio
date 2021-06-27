@@ -85,7 +85,7 @@ module.exports = class Instructor extends User {
                     sessionArray.forEach(session => {
                         if (session.instructor.id === this.id) {
                             let value = {
-                                start: key,
+                                startHour: key,
                                 session: session
                             };
                             mySessions.push(value);
