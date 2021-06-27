@@ -25,6 +25,7 @@ import ViewCalendar from './Windows/ViewCalendar';
 import SelectCalendarIns from './Windows/SelectCalendarIns';
 import ViewCalendarIns from './Windows/ViewCalendarIns';
 import Buzon from './Windows/Buzon';
+import ModifySession from './Windows/ModifySession';
 
 function App() {
   return (
@@ -51,12 +52,13 @@ function App() {
         {//<Route exact path="/clientMenu/viewCalendar/:id" component={MyCalendar}/>}
 }
         <Route exact path="/instructorMenu" component={InstructorMenu}/>
-        <Route exact path="/instructorMenu/newSession/:is" component={NewSession}/>
-        <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is/newSession" component={NewSession}/>
+        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is/newSession" component={NewSession}/>
+        <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is/newSession" component={NewSession}/>
         <Route exact path="/adminMenu/selectCalendar/:is" component={SelectCalendar}/>
         <Route exact path="/instructorMenu/selectCalendar/:is" component={SelectCalendarIns}/>
-        <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:year/:month/:day/:is" component={ViewCalendar}/>
-        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:begin/:end/:year/:month/:day/:is" component={ViewCalendarIns}/>
+        <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is" component={ViewCalendar}/>
+        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is" component={ViewCalendarIns}/>
+        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:service/:is/modifySession" component={ModifySession}/>
         <Route exact path="/newReservation" component={NewReservation}/>
         <Route exact path="/buzon" component={Buzon}/>
       </Switch>

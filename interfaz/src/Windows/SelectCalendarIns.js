@@ -4,7 +4,7 @@ import NavBar from "./NavBar/NavBar";
 
 class SelectCalendarIns extends Component {
     state = {
-        year: "2020",
+        year: "2021",
         month: "Enero",
         day: "Lunes",
         room: "",
@@ -45,7 +45,8 @@ class SelectCalendarIns extends Component {
                     schedule: {
                         initialHour: item.schedule.initialHour,
                         totalHours: item.schedule.totalHours
-                    }
+                    },
+                    capacity: item.capacity
                 }
                 this.state.rooms.push(info);
             })
@@ -65,8 +66,9 @@ class SelectCalendarIns extends Component {
         const month = document.form.month.selectedIndex;
         const day = document.form.day.selectedIndex;
 
-        window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].schedule.initialHour +
-                            "/" + this.state.rooms[index].schedule.totalHours + "/"+ this.state.year +"/"+ month +"/"+ day +"/instructor");
+        window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" 
+        + this.state.rooms[index].schedule.initialHour +
+        "/" + this.state.rooms[index].schedule.totalHours + "/"+ this.state.year +"/"+ month +"/"+ day +"/instructor");
     }
 
     render() {
@@ -100,7 +102,6 @@ class SelectCalendarIns extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            <option>2020</option>
                             <option>2021</option>
                             <option>2022</option>
                             <option>2023</option>

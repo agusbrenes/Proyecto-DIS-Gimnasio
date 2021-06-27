@@ -3,20 +3,20 @@ import axios from "axios";
 import swal from "sweetalert2";
 import Navbar from "./NavBar/NavBar";
 
-class NewSession extends Component {
+class ModifySession extends Component {
     state = {
         instructor: "",
         service: "",
-        capacity: "10",
+        capacity: "",
         day: "",
-        beginTime: "0",
-        endTime: "1",
+        beginTime: "",
+        endTime: "",
         isInstru: true,
-        nums: [], 
         services: [], 
         instructors: [],
         list: [],
-        days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+        days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+        token: {}
     }
 
     //Función que actualiza los states
@@ -32,29 +32,24 @@ class NewSession extends Component {
     }
 
     componentDidMount = async () => {
-        var token = localStorage.getItem("token")
+        var token = await JSON.parse(localStorage.getItem("token"));
         
         if (token === null) {
             window.location=("/loginClient");
         }
-        token = JSON.parse(localStorage.getItem("token"));
-
+        this.setState({
+            token
+        })
+        console.log("token",this.state.token)
         if (this.props.match.params.is === "admin"){
             this.getInstructors();
         } else {
             this.setState({
-                instructor: token.name + " " + token.lastName
+                instructor: this.state.token.name + " " + this.state.token.lastName
             });
         }
         this.getServices();
-    }
-
-    fill = () => {
-        if (this.state.nums.length === 0){
-            for(var j=1; j <= 30; j++){
-                this.state.nums.push(j);
-            }
-        }
+        this.getSession();
     }
 
     getInstructors = () => {
@@ -84,6 +79,52 @@ class NewSession extends Component {
         });
     }
 
+    getSession = () => {
+        const data = {
+            room: {
+                schedule: {
+                    initialHour: parseInt(this.props.match.params.begin),
+                    totalHours: parseInt(this.props.match.params.end)
+                },
+                name: this.props.match.params.room,
+                capacity: parseInt(this.props.match.params.capacity)
+            },
+            instructor: {
+                id: parseInt(this.state.token.id),
+                firstName: this.state.token.name,
+                lastName: this.state.token.lastName
+            },
+            service: {
+                name: this.props.match.params.service
+            },
+            year: parseInt(this.props.match.params.year)
+        }
+        console.log("filtro", data);
+        axios({
+            url: "/api/GetSession",
+            method: "POST",
+            data
+        })
+        .then( async (response) => {
+            const data = response.data;
+            await data.forEach((item) => {
+                for (var i = 0; i < this.state.services.length; i++){
+                    if (this.state.services[i].name === item.service.name){
+                        this.setState({
+                            service: this.state.services[i].name + " - Capacidad: " + this.state.services[i].capacity,
+                            capacity: Math.round((Math.round((item.capacity * 100) / this.state.services[i].capacity))/10)*10,
+                            beginTime: item.plan.initialHour,
+                            endTime: item.plan.totalHours,
+                        })
+                    }
+                }
+            })
+        })
+        .catch(() => {
+            console.log("Hubo un error al buscar las sesiones");
+        });
+    }
+
     getServices = async () => {
         await axios({
             url: "/api/GetServices",
@@ -104,7 +145,6 @@ class NewSession extends Component {
             this.setState({
                 services: this.state.list
             })
-            console.log(this.state)
         })
         .catch(() => {
             swal.fire({
@@ -194,13 +234,13 @@ class NewSession extends Component {
             })
             .then(() => {
                 if (this.props.match.params.is === "admin"){
-                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                            this.props.match.params.day +"/admin");
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
+                    + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
+                    this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day +"/admin");
                 } else {
-                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                            this.props.match.params.day +"/instructor");
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
+                    + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
+                    this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/instructor")
                 }
             })
         })
@@ -211,10 +251,9 @@ class NewSession extends Component {
             <div>
                 <Navbar/>
             <div className="window">
-                {this.fill()}
                 <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
-                        Ingrese los datos para la sesión en el Room {this.props.match.params.room} en el dia {this.state.days[this.props.match.params.day]}
+                        Ingrese los nuevos datos para la sesión en el Room {this.props.match.params.room} en el dia {this.state.days[this.props.match.params.day]}
                     </h4>
                     {this.show()}
                     <div className="form-group">
@@ -223,6 +262,7 @@ class NewSession extends Component {
                             name="service"
                             className="form-control"
                             onChange={this.handleChange}
+                            value={this.state.service}
                         >
                             {this.state.list.map((num,index) => 
                                 <option key={index}>
@@ -237,6 +277,7 @@ class NewSession extends Component {
                             name="capacity"
                             className="form-control"
                             onChange={this.handleChange}
+                            value={this.state.capacity}
                         >
                             <option>10</option>
                             <option>20</option>
@@ -325,4 +366,4 @@ class NewSession extends Component {
     }
 }
 
-export default NewSession
+export default ModifySession

@@ -62,7 +62,9 @@ class SelectMonth extends Component {
         const month = document.form.month.selectedIndex;
         const day = document.form.day.selectedIndex;
 
-        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" + this.state.year +"/"+ month +"/"+ day +"/admin");
+        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity 
+        + "/" + this.state.rooms[index].schedule.initialHour + "/" + this.state.rooms[index].schedule.totalHours + 
+        "/"+ this.state.year +"/"+ month +"/"+ day +"/admin");
     }
 
     render() {
