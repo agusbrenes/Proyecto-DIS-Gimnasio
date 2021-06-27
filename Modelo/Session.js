@@ -29,6 +29,14 @@ module.exports = class Session {
         return this.service;
     }
 
+    setRoom(room) {
+        this.room = room;
+    }
+
+    getRoom() {
+        return this.room;
+    }
+
     getMonth() {
         return this.schedule.getMonth();
     }
@@ -93,7 +101,7 @@ module.exports = class Session {
 
     authorize(adminName) {
         this.status = Status.Authorized;
-        updateSession(adminName);
+        this.notify(adminName);
     }
 
     reject() {

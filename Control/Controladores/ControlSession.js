@@ -30,24 +30,20 @@ module.exports = class ControlSession extends Controller {
             object.plan.initialHour,
             object.plan.totalHours
         );
-        const schema = await this.handler.save(session);
-        // await this.addtoCalendar(schema);
-        // await this.addtoService(schema);
-        return schema;
+        return await this.handler.save(session);
     }
     
-    async toObject(schema, controlInstructor, controlService, controlRoom) {
-        //console.log("toObject Session ", schema);
+    async toObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toAuxObject(serviceQuery[0]); 
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin); 
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0]); 
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);       
 
-        let session = new Session ( ///
+        let session = new Session (
             instructor,
             service,
             room,
@@ -59,6 +55,9 @@ module.exports = class ControlSession extends Controller {
             schema.plan.totalHours,
             schema.status
         );
+        session = this.setSessionRoom(session, schema.room, controlRoom, controlAdmin);
+        session = this.setSessionInstructor(session, schema.instructor, controlInstructor);
+        session = this.setSessionService(session, schema.service, controlService, controlInstructor, controlRoom, controlAdmin);
         return session;
     }
     
@@ -98,34 +97,28 @@ module.exports = class ControlSession extends Controller {
         }
         return session;
     }
+    
+    async setSessionRoom(session, sessionRoom, controlRoom, controlAdmin) {
+        const roomQuery = await controlRoom.find({name: sessionRoom.name});
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
 
-    async addtoCalendar(sessionSchema) {
-        const dao = new DaoCalendar();
-        const query = {
-            room: {
-                name: sessionSchema.room.name
-            },
-            month: sessionSchema.schedule.month,
-            year: sessionSchema.year
-        };
-        const calendarQuery = await dao.find(query);
-
-        const calendar = calendarQuery[0];
-        calendar.sessions.push(sessionSchema);
-
-        return await dao.modify(query, calendar);
+        session.setRoom(room);
+        return session;
     }
+    
+    async setSessionInstructor(session, sessionInstructor, controlInstructor) {
+        const instructorQuery = await controlInstructor.find({id: sessionInstructor.id});
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
 
-    async addtoService(sessionSchema) {
-        const dao = new DaoService();
-        const query = {
-            name: sessionSchema.service.name
-        };
-        const serviceQuery = await dao.find(query);
+        session.setInstructor(instructor);
+        return session;
+    }
+    
+    async setSessionService(session, sessionService, controlService, controlInstructor, controlRoom, controlAdmin) {
+        const serviceQuery = await controlService.find({name: sessionService.name});
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin);
 
-        const service = serviceQuery[0];
-        service.sessions.push(sessionSchema);
-
-        return await dao.modify(query, service);
+        session.setService(service);
+        return session;
     }
 }

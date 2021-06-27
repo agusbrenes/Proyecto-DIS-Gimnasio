@@ -59,12 +59,8 @@ module.exports = class ControlAdmin extends ControlUsers {
 
     async getAdminRoom(idAdmin) {
         const control = new ControlRoom();
-
-        const admin = await this.find(idAdmin);
-        
+        const admin = await this.find(idAdmin);        
         return await control.find({name: admin.room.name});
-        // const roomQuery = await control.find({room: adminRoom.roomName});
-        // const room = control.toObject(roomQuery[0]);
     }
 
     async getCalendarSessions(dayNum, calendarSchema, instructorSchema) {
@@ -79,7 +75,6 @@ module.exports = class ControlAdmin extends ControlUsers {
         const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
 
         const sessions = calendar.acceptVisit(instructor, dayNum);
-        console.log("Array para el decoradorRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR:", sessions);
         const decoratedSessions = decorator.decorate(sessions);
         return decoratedSessions;
     }
@@ -101,14 +96,24 @@ module.exports = class ControlAdmin extends ControlUsers {
                 name: sessionSchema.room.name
             }
         };
-        const calendarQuery = await controlCalendar.find(query);   
-        console.log("calendarQuery", calendarQuery);
+        const calendarQuery = await controlCalendar.find(query);  
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
         
         calendar.addSession(session, session.getDay());
         return await controlCalendar.modify(query, calendar);
+    }
+
+    async authorizeSession(sessionSchema) {
+        const controlSession = new ControlSession();
+        const controlInstructor = new ControlInstructor();
+        const controlService = new ControlService();
+        const controlRoom = new ControlRoom();
+
+        const session = await controlSession.toObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
+        session.authorize(sessionSchema.adminName);
+        return await controlSession.modify(filter, session);
     }
 
     async addSessiontoService(sessionSchema) {

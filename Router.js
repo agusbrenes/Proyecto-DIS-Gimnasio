@@ -919,6 +919,44 @@ router.post("/ModifySession", async (req, res) => {
     }
 });
 
+router.post("/AuthorizeSession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const auxControl = new ControlAdmin();
+
+    const filter = {
+        room: {
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
+        year: object.year,
+        schedule: {
+            month: object.schedule.month,
+            day: object.schedule.day,
+        }
+    };
+    try {
+        const foundSession = await control.find(filter);
+        if (foundSession.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const authSession = await auxControl.authorizeSession(object);
+        console.log("Autoriza Session");
+        res.json(authSession);
+        // try {
+        //     await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
+        //     res.json(savedSession);
+        // } catch (error2) {
+        //     await control.delete(savedSession);
+        //     res.status(800).json({error: error2.message});
+        //     //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
+        // }
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
 router.post("/DeleteSession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
