@@ -11,14 +11,25 @@ module.exports = class Decorator {
                     listOfSessions[i].forEach(mySession => {
                         var mondongo = {
                             isModifyable: true,
+                            color: "Blue",
                             session: mySession
                         };
                         finalArray.push(mondongo);
+                    });
+                } else if (i === 1) {
+                    listOfSessions[i].forEach(notMySession => {
+                        var candanga = {
+                            isModifyable: false,
+                            color: "Red",
+                            session: notMySession
+                        };
+                        finalArray.push(candanga);
                     });
                 } else {
                     listOfSessions[i].forEach(notMySession => {
                         var candanga = {
                             isModifyable: false,
+                            color: "Green",
                             session: notMySession
                         };
                         finalArray.push(candanga);
@@ -28,7 +39,7 @@ module.exports = class Decorator {
         }
 
         //Esto definitivamente está bien. Estoy 45% seguro... creo
-        finalArray.sort((element1, element2) => (element1.session.startHour > element2.session.startHour) ? -1 : 1);
+        finalArray.sort((element1, element2) => (element1.session.startHour > element2.session.startHour) ? 1 : -1);
 
         return finalArray;
     }
