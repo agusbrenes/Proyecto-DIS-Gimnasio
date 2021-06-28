@@ -20,6 +20,10 @@ const NewSessionTempSchema = new Schema({
             month: {type: Number},
             day: {type: Number}
         },
+        plan: {
+            initialHour: {type: Number},
+            totalHours: {type: Number}
+        },
         status: {type: String}
     }
 }, { _id: false });
@@ -96,6 +100,10 @@ module.exports = class DaoCalendar extends Dao {
                             schedule: {
                                 month: element[0].schedule.month,
                                 day: element[0].schedule.day
+                            },
+                            plan: {
+                                initialHour: element[0].plan.initialHour,
+                                totalHours: element[0].plan.totalHours
                             },
                             status: element[0].status
                         }
