@@ -127,5 +127,6 @@ module.exports = class Room {
                 administrator.messages.push(info);
             });
         }
+        return this.administrators;
     }
 }

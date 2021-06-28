@@ -120,7 +120,7 @@ module.exports = class Calendar {
 
         let instructorName = session.instructor.firstName + " " + session.instructor.lastName;
 
-        this.notify(instructorName, session);
+        return this.notify(instructorName, session);
     }
 
     setSession(session, dayNum) {
@@ -193,7 +193,7 @@ module.exports = class Calendar {
     }*/
 
     notify(instructorName, session) {
-        this.room.updateCalendar(instructorName, session);
+        return this.room.updateCalendar(instructorName, session);
     }
 
     acceptVisit(instructorVisitor, day) {
