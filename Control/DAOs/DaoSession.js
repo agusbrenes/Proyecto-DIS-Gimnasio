@@ -68,12 +68,12 @@ module.exports = class DaoSession extends Dao {
             name: object.service.name
         };
         schema.room = {
-            name: object.room.name,
-            capacity: object.room.capacity,
             schedule: {
                 initialHour: object.room.schedule.initialHour,
                 totalHours: object.room.schedule.totalHours
-            }
+            },
+            name: object.room.name,
+            capacity: object.room.capacity
         }
         schema.capacity = object.capacity;
         schema.year = object.year;
@@ -132,12 +132,12 @@ module.exports = class DaoSession extends Dao {
                 name: object.service.name
             },
             room: {
-                name: object.room.name,
-                capacity: object.room.capacity,
                 schedule: {
                     initialHour: object.room.schedule.initialHour,
                     totalHours: object.room.schedule.totalHours
-                }
+                },
+                name: object.room.name,
+                capacity: object.room.capacity
             },
             capacity: object.capacity,
             year: object.year, 
