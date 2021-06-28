@@ -16,7 +16,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         this.factory = new FactoryAdmin();
     }
 
-    async toObject(schema) {
+    async toObject(schema, controlSession, controlInstructor, controlService, controlRoom) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -26,10 +26,11 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.phone
         );
         user = await this.setAdminRoom(user, schema.room);
+        user = await this.setAdminMessages(user, schema.messages, controlSession, controlInstructor, controlService, controlRoom);
         return user;
     }
 
-    async toAuxObject(schema) {
+    async toAuxObject(schema, controlSession, controlInstructor, controlService, controlRoom) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -38,6 +39,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.lastName,
             schema.phone
         );
+        user = await this.setAdminMessages(user, schema.messages, controlSession, controlInstructor, controlService, controlRoom);
         return user;
     }
 
@@ -56,6 +58,15 @@ module.exports = class ControlAdmin extends ControlUsers {
         return admin;
     }
 
+    async setAdminMessages(user, messageArray, controlSession, controlInstructor, controlService, controlRoom) {
+        for (var i = 0; i < messageArray.length; i++) {
+            const sessionQuery = await controlSession.find(messageArray[i].session, controlInstructor, controlService, controlRoom, this);
+            const session = controlSession.toObject(sessionQuery[0]);
+            user.addMessage(messageArray[i].msg, session);
+        }
+        return user;
+    }
+
     async getAdminRoom(idAdmin) {
         const control = new ControlRoom();
         const admin = await this.find(idAdmin);        
@@ -71,7 +82,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const decorator = new Decorator();
 
         const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
-        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
 
         const sessions = calendar.acceptVisit(instructor, dayNum);
         const decoratedSessions = decorator.decorate(sessions);
@@ -117,7 +128,7 @@ module.exports = class ControlAdmin extends ControlUsers {
             id: auxInstructor.id
         }
         const instructorSchema = await controlInstructor.find(filterInstructor);
-        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
         
         await controlInstructor.modify(filterInstructor, instructor);
 

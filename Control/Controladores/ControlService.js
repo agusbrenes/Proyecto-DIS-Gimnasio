@@ -22,11 +22,11 @@ module.exports = class ControlService extends Controller {
 
     async toObject(schema, controlInstructor, controlRoom, controlAdmin, controlSession) {
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, controlInstructor, this);
         
         const instruc = schema.instructors[0];
         const instructorQuery = await controlInstructor.find({id: instruc.id});
-        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, controlSession, this);
 
         let service = new Service (
             schema.name,
@@ -34,20 +34,20 @@ module.exports = class ControlService extends Controller {
             instructor
         );
         //console.log("CREA SERVICE", service);
-        service = await this.setServiceInstructors(service, schema.instructors, controlInstructor); //
+        service = await this.setServiceInstructors(service, schema.instructors, controlInstructor, controlRoom, controlAdmin, controlSession); //
         //console.log("Instructor Aux agregado al Service:", service);
         service = await this.setServiceSessions(service, schema.sessions, controlSession, controlInstructor, controlRoom, controlAdmin); //
         //console.log("Session Aux agregado al Service:", service);
         return service;
     }
 
-    async toAuxObject(schema, controlInstructor, controlRoom, controlAdmin) {
+    async toAuxObject(schema, controlInstructor, controlRoom, controlAdmin, controlSession) {
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, controlInstructor, this);
         
         const instruc = schema.instructors[0];
         const instructorQuery = await controlInstructor.find({id: instruc.id});
-        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, controlSession, this);
 
         let service = new Service (
             schema.name,
@@ -57,10 +57,10 @@ module.exports = class ControlService extends Controller {
         return service;
     }
 
-    async setServiceInstructors(service, instructorArray, controlInstructor) {
+    async setServiceInstructors(service, instructorArray, controlInstructor, controlRoom, controlAdmin, controlSession) { 
         for (var i = 0; i < instructorArray.length; i++) {
             const instructorQuery = await controlInstructor.find(instructorArray[i]);
-            const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+            const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, controlSession, this);
             service.addInstructor(instructor);
         }
         return service;

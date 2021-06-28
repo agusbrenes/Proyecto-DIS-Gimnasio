@@ -8,6 +8,7 @@ const ControlSession = require("./ControlSession");
 const ControlUsers = require("./ControlUsers");
 
 const DaoInstructor = require("../Daos/DaoInstructor");
+const ControlAdmin = require("./ControlAdmin");
 
 module.exports = class ControlInstructor extends ControlUsers {
     constructor() {
@@ -15,7 +16,7 @@ module.exports = class ControlInstructor extends ControlUsers {
         this.factory = new FactoryInstructor();
     }
 
-    async toObject(schema, controlRoom, controlAdmin) {
+    async toObject(schema, controlRoom, controlAdmin, controlSession, controlService) {
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -25,13 +26,12 @@ module.exports = class ControlInstructor extends ControlUsers {
             schema.phone
         );
         user.setTemp(schema.isTemp);
-        user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin);
-        // user = await this.setInstructorServices(user, schema.services);
-        // user = await this.setInstructorSessions(user, schema.sessions);
+        user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin, controlSession);
+        user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
         return user;
     }
 
-    async toAuxObject(schema) {
+    async toAuxObject(schema, controlRoom, controlAdmin, controlSession, controlService) { 
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -41,6 +41,7 @@ module.exports = class ControlInstructor extends ControlUsers {
             schema.phone
         );
         user.setTemp(schema.isTemp);
+        user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
         return user;
     }
 
@@ -56,11 +57,20 @@ module.exports = class ControlInstructor extends ControlUsers {
         return await handler.save(instructor);
     }
 
-    async setInstructorRoom(instructor, instructorRoom, controlRoom, controlAdmin) {
+    async setInstructorRoom(instructor, instructorRoom, controlRoom, controlAdmin, controlSession) {
         const roomQuery = await controlRoom.find({name: instructorRoom.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin); // falta toObject
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, this, controlService);
         instructor.setRoom(room);
         return instructor;
+    }
+
+    async setInstructorMessages(user, messageArray, controlSession, controlService, controlRoom, controlAdmin) {
+        for (var i = 0; i < messageArray.length; i++) {
+            const sessionQuery = await controlSession.find(messageArray[i].session, this, controlService, controlRoom, controlAdmin);
+            const session = controlSession.toObject(sessionQuery[0]);
+            user.addMessage(messageArray[i].msg, session);
+        }
+        return user;
     }
 
     // Ya no se usa
@@ -85,13 +95,16 @@ module.exports = class ControlInstructor extends ControlUsers {
 
     async addServiceInstructor(idInstructor, serviceName) {
         const controlService = new ControlService();
+        const controlRoom = new ControlRoom();
+        const controlAdmin = new ControlAdmin();
+        const controlSession = new ControlSession();
 
         // Obtener Instructor de BD
         const instructorQuery = await this.find({id: idInstructor});
         const instructor = await this.toAuxObject(instructorQuery[0]);
 
         const serviceQuery = await controlService.find({name: serviceName});
-        const service = await controlService.toAuxObject(serviceQuery[0]);
+        const service = await controlService.toAuxObject(serviceQuery[0], this, controlRoom, controlAdmin, controlSession);
 
         instructor.addService(service);
         service.addInstructor(instructor);

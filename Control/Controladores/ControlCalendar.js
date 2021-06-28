@@ -10,7 +10,7 @@ module.exports = class ControlCalendar extends Controller {
     async toObject(schema, controlRoom, controlAdmin, controlSession, controlInstructor, controlService) {  
         //console.log("Schema Calendar en TO OBJECT", schema);      
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlRoom, controlAdmin, controlSession, controlInstructor, controlService);
         //console.log("Room OBJECT AUX ControlCalendar aloooooooooooooo", room);
         let calendar = new Calendar (
             room, 
@@ -24,9 +24,9 @@ module.exports = class ControlCalendar extends Controller {
         return calendar;
     }
 
-    async toAuxObject(schema, controlRoom, controlAdmin) {        
+    async toAuxObject(schema, controlRoom, controlAdmin, controlSession, controlInstructor, controlService) {        
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, controlInstructor, controlService);
         let calendar = new Calendar (
             room, 
             schema.month, 

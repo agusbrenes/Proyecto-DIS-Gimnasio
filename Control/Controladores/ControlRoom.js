@@ -8,10 +8,10 @@ module.exports = class ControlRoom extends Controller {
         super(new DaoRoom());
     }
 
-    async toObject(schema, controlAdmin) {
+    async toObject(schema, controlAdmin, controlSession, controlInstructor, controlService) {
         //console.log("Schema Room ", schema);
         const adminQuery = await controlAdmin.find({id: schema.administrators[0].id});
-        const admin = await controlAdmin.toAuxObject(adminQuery[0]);
+        const admin = await controlAdmin.toAuxObject(adminQuery[0], controlSession, controlInstructor, controlService, this);
         let room = new Room (
             schema.name, 
             schema.maxCapacity, 
@@ -26,11 +26,11 @@ module.exports = class ControlRoom extends Controller {
         return room;
     }
 
-    async toAuxObject(schema, controlAdmin) {
+    async toAuxObject(schema, controlAdmin, controlSession, controlInstructor, controlService) {
         //console.log("Schema Room Aux", schema, controlAdmin);
         const administator = schema.administrators[0];
         const adminQuery = await controlAdmin.find({id: administator.id});
-        const admin = await controlAdmin.toAuxObject(adminQuery[0]);
+        const admin = await controlAdmin.toAuxObject(adminQuery[0], controlSession, controlInstructor, controlService, this);
         let room = new Room (
             schema.name, 
             schema.maxCapacity, 

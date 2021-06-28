@@ -35,13 +35,13 @@ module.exports = class ControlSession extends Controller {
     
     async toObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
-        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin); 
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this); 
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);       
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);       
 
         let session = new Session (
             instructor,
@@ -55,8 +55,8 @@ module.exports = class ControlSession extends Controller {
             schema.plan.totalHours,
             schema.status
         );
-        session = this.setSessionRoom(session, schema.room, controlRoom, controlAdmin);
-        session = this.setSessionInstructor(session, schema.instructor, controlInstructor);
+        session = this.setSessionRoom(session, schema.room, controlRoom, controlAdmin, controlInstructor, controlService);
+        session = this.setSessionInstructor(session, schema.instructor, controlInstructor, controlRoom, controlAdmin, controlService);
         session = this.setSessionService(session, schema.service, controlService, controlInstructor, controlRoom, controlAdmin);
         return session;
     }
@@ -64,13 +64,13 @@ module.exports = class ControlSession extends Controller {
     async toAuxObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
         //console.log("Session Aux:", schema, controlInstructor, controlService, controlRoom, controlAdmin, "Final de datosss 1000");
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
-        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin); 
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this); 
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);       
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);       
 
         let session = new Session (
             instructor,
@@ -98,17 +98,17 @@ module.exports = class ControlSession extends Controller {
         return session;
     }
     
-    async setSessionRoom(session, sessionRoom, controlRoom, controlAdmin) {
+    async setSessionRoom(session, sessionRoom, controlRoom, controlAdmin, controlInstructor, controlService) {
         const roomQuery = await controlRoom.find({name: sessionRoom.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin);
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);
 
         session.setRoom(room);
         return session;
     }
     
-    async setSessionInstructor(session, sessionInstructor, controlInstructor) {
+    async setSessionInstructor(session, sessionInstructor, controlInstructor, controlRoom, controlAdmin, controlService) {
         const instructorQuery = await controlInstructor.find({id: sessionInstructor.id});
-        const instructor = await controlInstructor.toAuxObject(instructorQuery[0]);
+        const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
 
         session.setInstructor(instructor);
         return session;
@@ -116,7 +116,7 @@ module.exports = class ControlSession extends Controller {
     
     async setSessionService(session, sessionService, controlService, controlInstructor, controlRoom, controlAdmin) {
         const serviceQuery = await controlService.find({name: sessionService.name});
-        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin);
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this);
 
         session.setService(service);
         return session;

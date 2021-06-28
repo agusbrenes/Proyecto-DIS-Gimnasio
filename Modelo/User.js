@@ -57,4 +57,11 @@ module.exports = class User {
         return this.phone;
     }   
 
+    addMessage(text, session) {
+        this.messages.push({
+            msg: text, 
+            session: session
+        });
+    }
+
 }
