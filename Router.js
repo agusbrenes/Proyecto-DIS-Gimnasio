@@ -773,20 +773,17 @@ router.post("/NewSession", async (req, res) => {
             name: object.room.name,
             capacity: object.room.capacity
         },
-        instructor: {
-            id: object.instructor.id,
-            firstName: object.instructor.firstName,
-            lastName: object.instructor.lastName
-        },
-        service: {
-            name: object.service.name
-        },
         year: object.year,
+        plan: {
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
+        }
     };
     try {
         const foundSession = await control.find(filter);
-        if (foundSession.length === 0) {
-            return res.json({msg:true});
+        if (foundSession.length !== 0) {
+            console.log(foundSession);
+            return res.status(500).json({error: "Sesión Repetida"});
         }
 
         const savedSession = await control.save(object);
