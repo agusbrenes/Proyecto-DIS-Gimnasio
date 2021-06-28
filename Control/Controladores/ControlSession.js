@@ -38,10 +38,10 @@ module.exports = class ControlSession extends Controller {
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this); 
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this);
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);       
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);    
 
         let session = new Session (
             instructor,
@@ -62,15 +62,14 @@ module.exports = class ControlSession extends Controller {
     }
     
     async toAuxObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
-        //console.log("Session Aux:", schema, controlInstructor, controlService, controlRoom, controlAdmin, "Final de datosss 1000");
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
 
         const serviceQuery = await controlService.find({name: schema.service.name});
-        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this); 
+        const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this);
 
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);       
+        const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, this, controlInstructor, controlService);      
 
         let session = new Session (
             instructor,

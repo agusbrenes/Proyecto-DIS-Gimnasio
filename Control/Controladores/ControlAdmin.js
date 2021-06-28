@@ -31,6 +31,7 @@ module.exports = class ControlAdmin extends ControlUsers {
     }
 
     async toAuxObject(schema, controlSession, controlInstructor, controlService, controlRoom) {
+
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -60,8 +61,8 @@ module.exports = class ControlAdmin extends ControlUsers {
 
     async setAdminMessages(user, messageArray, controlSession, controlInstructor, controlService, controlRoom) {
         for (var i = 0; i < messageArray.length; i++) {
-            const sessionQuery = await controlSession.find(messageArray[i].session, controlInstructor, controlService, controlRoom, this);
-            const session = controlSession.toObject(sessionQuery[0]);
+            const sessionQuery = await controlSession.find(messageArray[i].session);
+            const session = controlSession.toObject(sessionQuery[0], controlInstructor, controlService, controlRoom, this);
             user.addMessage(messageArray[i].msg, session);
         }
         return user;
@@ -154,7 +155,6 @@ module.exports = class ControlAdmin extends ControlUsers {
     // No se usa, obviado
     async addSessiontoService(sessionSchema) {
         const controlSession = new ControlSession();
-        //console.log("Entra a addSessiontoService ???????????????? schema de session:", sessionSchema);
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
@@ -164,12 +164,9 @@ module.exports = class ControlAdmin extends ControlUsers {
         };
         const serviceQuery = await controlService.find(query);     
         const service = await controlService.toObject(serviceQuery[0], controlInstructor, controlRoom, this, controlSession);
-        //console.log("Crea el Service", service, "SEssion schema", sessionSchema);
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
-        //console.log("Crea el Session Aux", session);
 
         service.addSession(session, session.getDay());
-        //console.log("Agrega la Session al Service", service);
 
         return await controlService.modify(query, service);
     }

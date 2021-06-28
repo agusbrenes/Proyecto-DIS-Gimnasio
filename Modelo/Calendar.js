@@ -109,6 +109,7 @@ module.exports = class Calendar {
             throw new Error("Another Session is already registered in the introduced hours. Please check the calendar for the valid free spaces.");
         }
         var daySchedule = this.sessions.get(dayNum);
+        console.log(session);
         for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {
             let key = start;
             daySchedule.delete(key);

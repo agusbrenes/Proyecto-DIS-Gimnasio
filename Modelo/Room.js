@@ -114,8 +114,8 @@ module.exports = class Room {
     }
 
     updateCalendar(instructorName, incomingSession) {
-        const duration = incomingSession.plan.initialHour + incomingSession.plan.totalHours;
-        var message = instructorName + " ha solicitado una nueva sesión! En el siguiente horario: Desde las " + incomingSession.plan.initialHour + " horas hasta las " + duration + " horas";
+        const duration = incomingSession.schedule.initialHour + incomingSession.schedule.totalHours;
+        var message = instructorName + " ha solicitado una nueva sesión! En el siguiente horario: Desde las " + incomingSession.schedule.initialHour + " horas hasta las " + duration + " horas";
 
         var info = {
             msg: message,
