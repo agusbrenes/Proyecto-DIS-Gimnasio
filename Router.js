@@ -766,18 +766,26 @@ router.post("/NewSession", async (req, res) => {
 
     const filter = {
         room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours,
+            },
             name: object.room.name,
             capacity: object.room.capacity
         },
+        instructor: {
+            id: object.instructor.id,
+            firstName: object.instructor.firstName,
+            lastName: object.instructor.lastName
+        },
+        service: {
+            name: object.service.name
+        },
         year: object.year,
-        schedule: {
-            month: object.schedule.month,
-            day: object.schedule.day,
-        }
     };
     try {
         const foundSession = await control.find(filter);
-        if (foundSession.length != 0) {
+        if (foundSession.length === 0) {
             return res.json({msg:true});
         }
 
@@ -934,6 +942,10 @@ router.post("/AuthorizeSession", async (req, res) => {
 
     const filter = {
         room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours
+            },
             name: object.room.name,
             capacity: object.room.capacity
         },
