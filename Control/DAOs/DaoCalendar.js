@@ -103,8 +103,8 @@ module.exports = class DaoCalendar extends Dao {
                                 day: element[0].schedule.day
                             },
                             plan: {
-                                initialHour: element[0].plan.initialHour,
-                                totalHours: element[0].plan.totalHours
+                                initialHour: element[0].schedule.initialHour,
+                                totalHours: element[0].schedule.totalHours
                             },
                             year: element[0].year,
                             status: element[0].status
