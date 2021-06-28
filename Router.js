@@ -916,18 +916,34 @@ router.post("/ModifySession", async (req, res) => {
             totalHours: object.oldPlan.totalHours
         }
     };
+    const newFilter = {
+        room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours,
+            },
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
+        year: object.year,
+        plan: {
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
+        }
+    };
     try {
         const foundSession = await control.find(filter);
         if (foundSession.length === 0) {
             return res.status(500).json({error: "Sesión no encontrada!"});
         }
 
-        const modifiedSession = await control.modify(
+        var modifiedSession = await control.modify(
             filter,
             object
         );
 
         try {
+            modifiedSession = await control.find(newFilter);
             await auxControl.replaceSessionInCalendar(foundSession, modifiedSession); // puede tirar error
             res.json(modifiedSession);
         } catch (error2) {
