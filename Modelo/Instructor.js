@@ -65,9 +65,9 @@ module.exports = class Instructor extends User {
             });
         }*/
         
-        const duration = incomingSession.plan.initialHour + incomingSession.plan.totalHours;
+        const duration = incomingSession.schedule.initialHour + incomingSession.schedule.totalHours;
 
-        var message = adminName + " Ha actualizado el estado de la sesión agendada para el día: " + incomingSession.schedule.day + ", mes: " + incomingSession.schedule.month + ", empezando a las: " + incomingSession.plan.initialHour + ", y terminando a las: " + duration;
+        var message = adminName + " Ha actualizado el estado de la sesión agendada para el día: " + incomingSession.schedule.day + ", mes: " + incomingSession.schedule.month + ", empezando a las: " + incomingSession.schedule.initialHour + ", y terminando a las: " + duration;
         var info = {
             msg: message,
             session: incomingSession

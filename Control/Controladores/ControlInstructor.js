@@ -26,7 +26,7 @@ module.exports = class ControlInstructor extends ControlUsers {
             schema.phone
         );
         user.setTemp(schema.isTemp);
-        user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin, controlSession);
+        user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin, controlSession, controlService);
         user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
         return user;
     }
@@ -57,17 +57,19 @@ module.exports = class ControlInstructor extends ControlUsers {
         return await handler.save(instructor);
     }
 
-    async setInstructorRoom(instructor, instructorRoom, controlRoom, controlAdmin, controlSession) {
+    async setInstructorRoom(instructor, instructorRoom, controlRoom, controlAdmin, controlSession, controlService) {
+
         const roomQuery = await controlRoom.find({name: instructorRoom.name});
         const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, this, controlService);
+
         instructor.setRoom(room);
         return instructor;
     }
 
     async setInstructorMessages(user, messageArray, controlSession, controlService, controlRoom, controlAdmin) {
         for (var i = 0; i < messageArray.length; i++) {
-            const sessionQuery = await controlSession.find(messageArray[i].session, this, controlService, controlRoom, controlAdmin);
-            const session = controlSession.toObject(sessionQuery[0]);
+            const sessionQuery = await controlSession.find(messageArray[i].session);
+            const session = controlSession.toObject(sessionQuery[0], this, controlService, controlRoom, controlAdmin);
             user.addMessage(messageArray[i].msg, session);
         }
         return user;
