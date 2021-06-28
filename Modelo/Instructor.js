@@ -65,7 +65,9 @@ module.exports = class Instructor extends User {
             });
         }*/
         
-        var message = adminName + " has modified the status of the session scheduled to day: " + incomingSession.schedule.day + ", month: " + incomingSession.schedule.month + ", starting at: " + incomingSession.schedule.initialHour + ", duration: " + incomingSession.schedule.totalHours;
+        const duration = incomingSession.plan.initialHour + incomingSession.plan.totalHours;
+
+        var message = adminName + " Ha actualizado el estado de la sesión agendada para el día: " + incomingSession.schedule.day + ", mes: " + incomingSession.schedule.month + ", empezando a las: " + incomingSession.plan.initialHour + ", y terminando a las: " + duration;
         var info = {
             msg: message,
             session: incomingSession

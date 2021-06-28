@@ -13,24 +13,22 @@ const AdminSchema = mongoose.model("Admin", new Schema({
     room: {
         name: {type: String}
     },
-    messages: {
-        msgs: [{
-            msg: {type: String},
-            session: {
-                service: {
-                    name: {type: String}
-                },
-                schedule: {
-                    month: {type: Number},
-                    day: {type: Number}
-                },
-                plan: {
-                    initialHour: {type: Number},
-                    totalHours: {type: Number}
-                }
+    messages: [{
+        msg: {type: String},
+        session: {
+            service: {
+                name: {type: String}
+            },
+            schedule: {
+                month: {type: Number},
+                day: {type: Number}
+            },
+            plan: {
+                initialHour: {type: Number},
+                totalHours: {type: Number}
             }
-        }]
-    }
+        }
+    }]
 }));
 
 module.exports = class DaoAdmin extends Dao {
@@ -83,7 +81,7 @@ module.exports = class DaoAdmin extends Dao {
                 }
                 messages1.push(schema1);
             });
-            schema.messages.msgs = messages1;
+            schema.messages = messages1;
         }
 
         return await AdminSchema.updateOne(filter, schema);
@@ -127,9 +125,7 @@ module.exports = class DaoAdmin extends Dao {
             room: {
                 name: ""
             },
-            messages: {
-                msgs: messages1
-            }
+            messages: messages1
         });
     }
 }

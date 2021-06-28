@@ -30,7 +30,6 @@ module.exports = class ControlAdmin extends ControlUsers {
     }
 
     async toAuxObject(schema) {
-        //console.log("Schema Admin Aux", schema);
         let user = this.factory.createUser(
             schema.email,
             schema.password,
@@ -112,10 +111,36 @@ module.exports = class ControlAdmin extends ControlUsers {
         const controlRoom = new ControlRoom();
 
         const session = await controlSession.toObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
-        session.authorize(sessionSchema.adminName);
+        const auxInstructor = session.authorize(sessionSchema.adminName);
+
+        const filterInstructor = {
+            id: auxInstructor.id
+        }
+        const instructorSchema = await controlInstructor.find(filterInstructor);
+        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this);
+        
+        await controlInstructor.modify(filterInstructor, instructor);
+
+        const filter = {
+            room: {
+                schedule: {
+                    initialHour: sessionSchema.room.schedule.initialHour,
+                    totalHours: sessionSchema.room.schedule.totalHours,
+                },
+                name: sessionSchema.room.name,
+                capacity: sessionSchema.room.capacity
+            },
+            year: sessionSchema.year,
+            schedule: {
+                month: sessionSchema.schedule.month,
+                day: sessionSchema.schedule.day,
+            }
+        };
+
         return await controlSession.modify(filter, session);
     }
 
+    // No se usa, obviado
     async addSessiontoService(sessionSchema) {
         const controlSession = new ControlSession();
         //console.log("Entra a addSessiontoService ???????????????? schema de session:", sessionSchema);

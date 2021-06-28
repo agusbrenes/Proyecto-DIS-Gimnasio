@@ -34,24 +34,22 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     },
     services: [TempServiceSchema],
     sessions: [TempSessionSchema],
-    messages: {
-        msgs: [{
-            msg: {type: String},
-            session: {
-                service: {
-                    name: {type: String}
-                },
-                schedule: {
-                    month: {type: Number},
-                    day: {type: Number}
-                },
-                plan: {
-                    initialHour: {type: Number},
-                    totalHours: {type: Number}
-                }
+    messages:  [{
+        msg: {type: String},
+        session: {
+            service: {
+                name: {type: String}
+            },
+            schedule: {
+                month: {type: Number},
+                day: {type: Number}
+            },
+            plan: {
+                initialHour: {type: Number},
+                totalHours: {type: Number}
             }
-        }]
-    }
+        }
+    }]
 }));
 
 module.exports = class DaoInstructor extends Dao {
@@ -134,7 +132,7 @@ module.exports = class DaoInstructor extends Dao {
                 }
                 messages1.push(schema1);
             });
-            schema.messages.msgs = messages1;
+            schema.messages = messages1;
         }
 
         return await InstructorSchema.updateOne(filter, schema);
@@ -211,9 +209,7 @@ module.exports = class DaoInstructor extends Dao {
             },
             services: services1,
             sessions: sessions1,
-            messages: {
-                msgs: messages1
-            }
+            messages: messages1
         });
     }
 }
