@@ -102,6 +102,7 @@ module.exports = class Session {
     authorize(adminName) {
         this.status = Status.Authorized;
         this.notify(adminName);
+        return this.instructor;
     }
 
     reject() {
