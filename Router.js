@@ -912,8 +912,8 @@ router.post("/ModifySession", async (req, res) => {
         },
         year: object.year,
         plan: {
-            initialHour: object.plan.initialHour,
-            totalHours: object.plan.totalHours
+            initialHour: object.oldPlan.initialHour,
+            totalHours: object.oldPlan.totalHours
         }
     };
     try {
@@ -932,6 +932,7 @@ router.post("/ModifySession", async (req, res) => {
             res.json(modifiedSession);
         } catch (error2) {
             await control.delete(modifiedSession);
+            await control.save(foundSession[0]); // para dejar la anterior
             res.status(800).json({error: error2.message});
             //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
         }
