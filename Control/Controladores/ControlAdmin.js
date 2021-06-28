@@ -116,6 +116,34 @@ module.exports = class ControlAdmin extends ControlUsers {
         return await controlCalendar.modify(query, calendar);
     }
 
+    async replaceSessionInCalendar(oldSessionSchema, newSessionSchema) {
+        const controlSession = new ControlSession();
+        const controlInstructor = new ControlInstructor();
+        const controlService = new ControlService();
+        const controlRoom = new ControlRoom();
+        const controlCalendar = new ControlCalendar();
+
+        const query = {
+            month: newSessionSchema.schedule.month, 
+            room: {
+                schedule: {
+                    initialHour: newSessionSchema.room.schedule.initialHour, 
+                    totalHours: newSessionSchema.room.schedule.totalHours
+                }, 
+                name: newSessionSchema.room.name
+            }
+        };
+        const calendarQuery = await controlCalendar.find(query);  
+        const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
+        
+        // aqui con session, y usar old (poner arriba)
+        const oldSession = await controlSession.toAuxObject(oldSessionSchema, controlInstructor, controlService, controlRoom, this);
+        const newSession = await controlSession.toAuxObject(newSessionSchema, controlInstructor, controlService, controlRoom, this);
+        
+        calendar.addSession(oldSession, newSession, newSession.getDay());
+        return await controlCalendar.modify(query, calendar);
+    }
+
     async authorizeSession(sessionSchema) {
         const controlSession = new ControlSession();
         const controlInstructor = new ControlInstructor();

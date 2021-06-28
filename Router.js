@@ -811,20 +811,16 @@ router.post("/GetSession", async (req, res) => {
             name: object.room.name,
             capacity: object.room.capacity
         },
-        instructor: {
-            id: object.instructor.id,
-            firstName: object.instructor.firstName,
-            lastName: object.instructor.lastName
-        },
-        service: {
-            name: object.service.name
-        },
         year: object.year,
+        plan: {
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
+        }
     };
     try {
         const foundSession = await control.find(filter);
         if (foundSession.length === 0) {
-            return res.json({msg:true});
+            return res.json({msg:"Sesión no exitente!"});
         }
         res.json(foundSession);
     } catch (err) {
@@ -903,28 +899,42 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
 router.post("/ModifySession", async (req, res) => {
     const object = req.body;
     const control = new ControlSession();
+    const auxControl = new ControlAdmin();
+
     const filter = {
         room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours,
+            },
             name: object.room.name,
             capacity: object.room.capacity
         },
         year: object.year,
-        schedule: {
-            month: object.schedule.month,
-            day: object.schedule.day,
+        plan: {
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
         }
     };
     try {
         const foundSession = await control.find(filter);
-        if (!foundSession) {
-            return res.json({msg:true});
+        if (foundSession.length === 0) {
+            return res.status(500).json({error: "Sesión no encontrada!"});
         }
 
         const modifiedSession = await control.modify(
             filter,
             object
         );
-        res.json(modifiedSession);
+
+        try {
+            await auxControl.replaceSessionInCalendar(foundSession, modifiedSession); // puede tirar error
+            res.json(modifiedSession);
+        } catch (error2) {
+            await control.delete(modifiedSession);
+            res.status(800).json({error: error2.message});
+            //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
+        }
     } catch (err) {
         res.status(500).json({error: err.message});
     }

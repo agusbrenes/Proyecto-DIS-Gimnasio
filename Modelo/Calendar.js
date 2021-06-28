@@ -123,6 +123,32 @@ module.exports = class Calendar {
         this.notify(instructorName, session);
     }
 
+    replaceSession(oldSession, newSession, dayNum) {
+        if (dayNum < 0 || dayNum > 6) {
+            throw new Error("Invalid day number. Please choose a valid day.");
+        } else if (this.sessionScheduleCollides(dayNum, newSession.schedule)) {
+            throw new Error("Another Session is already registered in the introduced hours. Please check the calendar for the valid free spaces.");
+        }
+        var daySchedule = this.sessions.get(dayNum);
+        
+        // Quitar la vieja
+        for (var oldStart = oldSession.schedule.initialHour; oldStart < (oldSession.schedule.initialHour + oldSession.schedule.totalHours); oldStart++) {
+            let key = oldStart;
+            daySchedule.delete(key);
+        }
+        // Poner la nueva
+        for (var newStart = newSession.schedule.initialHour; newStart < (newSession.schedule.initialHour + newSession.schedule.totalHours); newStart++) {
+            let key = newStart;
+            daySchedule.set(key, [newSession]);
+        }
+
+        this.sessions.set(dayNum, daySchedule);
+
+        let instructorName = oldSession.instructor.firstName + " " + oldSession.instructor.lastName;
+
+        this.notify(instructorName, newSession);
+    }
+
     getSessions(dayNum) {
         return this.sessions.get(dayNum);
     }
