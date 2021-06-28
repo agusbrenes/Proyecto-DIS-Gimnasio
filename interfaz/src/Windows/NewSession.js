@@ -140,7 +140,7 @@ class NewSession extends Component {
             return (
                 <div className="form-group">
                     <label>Instructor</label>
-                    <input type="text" className="form-control" placeholder="Nombre del instructor" name="name" value={this.state.instructor}
+                    <input type="text" className="form-control" placeholder="Nombre del instructor" name="instructor" value={this.state.instructor}
                     onChange={this.handleChange} disabled="disabled"/>
                 </div>
                 
@@ -148,24 +148,39 @@ class NewSession extends Component {
         }
     }
 
-    submit = (event) => {
+    submit = async (event) => {
         event.preventDefault();
 
-        var index = document.form.instructor.selectedIndex;
         var index2 = document.form.service.selectedIndex;
-        
-        const data = {
-            instructor: {
+
+        if (this.state.isInstru) {
+            const token = await JSON.parse(localStorage.getItem("token"));
+            var instructor = {
+                id: parseInt(token.id),
+                firstName: token.name,
+                lastName: token.lastName
+            }
+        } else {
+            var index = document.form.instructor.selectedIndex;
+            instructor = {
                 id: this.state.instructors[index].id,
                 firstName: this.state.instructors[index].name,
                 lastName: this.state.instructors[index].lastname
-            },
+            }
+        }
+        
+        const data = {
+            instructor,
             service: {
                 name: this.state.services[index2].name
             },
             room: {
                 name: this.props.match.params.room,
                 capacity: parseInt(this.props.match.params.capacity),
+                schedule: {
+                    initialHour: parseInt(this.props.match.params.begin),
+                    totalHours: parseInt(this.props.match.params.end)
+                }
             },
             schedule: {
                 month: parseInt(this.props.match.params.month),
@@ -180,7 +195,7 @@ class NewSession extends Component {
             isAdmin: !this.state.isInstru
 
         }
-
+        console.log(data);
         axios({
             url: "/api/NewSession",
             method: "POST",
@@ -195,12 +210,14 @@ class NewSession extends Component {
             .then(() => {
                 if (this.props.match.params.is === "admin"){
                     window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                            this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + 
+                            this.props.match.params.end + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
                             this.props.match.params.day +"/admin");
                 } else {
                     window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                            this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                            this.props.match.params.day +"/instructor");
+                    this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + 
+                    this.props.match.params.end + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                    this.props.match.params.day +"/instructor");
                 }
             })
         })
