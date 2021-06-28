@@ -132,7 +132,7 @@ module.exports = class DaoInstructor extends Dao {
                 }
                 messages1.push(schema1);
             });
-            schema.msgs = messages1;
+            schema.messages = messages1;
         }
 
         return await InstructorSchema.updateOne(filter, schema);
