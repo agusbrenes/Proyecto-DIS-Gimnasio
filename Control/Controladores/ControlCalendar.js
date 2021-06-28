@@ -66,7 +66,7 @@ module.exports = class ControlCalendar extends Controller {
                     };
                     const sessionQuery = await controlSession.find(filter);
                     const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
-                    calendar.addSession(session, session.getDay());
+                    calendar.setSession(session, session.getDay());
                 }
             }
         }
