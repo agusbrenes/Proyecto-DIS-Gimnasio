@@ -47,8 +47,24 @@ module.exports = class ControlCalendar extends Controller {
             for (var scheduleSpaceNum = 0; scheduleSpaceNum < scheduleSpaces.length; scheduleSpaceNum++) {
                 const hourSpace = scheduleSpaces[scheduleSpaceNum];
                 if (!(hourSpace.session.status === "Free Space")) {
+                    const object = hourSpace.session;
                     // conseguir session
-                    const sessionQuery = await controlSession.find(hourSpace.session);
+                    const filter = {
+                        room: {
+                            schedule: {
+                                initialHour: object.room.schedule.initialHour,
+                                totalHours: object.room.schedule.totalHours,
+                            },
+                            name: object.room.name,
+                            capacity: object.room.capacity
+                        },
+                        year: object.year,
+                        plan: {
+                            initialHour: object.plan.initialHour,
+                            totalHours: object.plan.totalHours
+                        }
+                    };
+                    const sessionQuery = await controlSession.find(filter);
                     const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
                     calendar.addSession(session, session.getDay());
                 }

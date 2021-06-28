@@ -123,6 +123,18 @@ module.exports = class Calendar {
         this.notify(instructorName, session);
     }
 
+    setSession(session, dayNum) {
+        var daySchedule = this.sessions.get(dayNum);
+        console.log(session);
+        for (var start = session.schedule.initialHour; start < (session.schedule.initialHour + session.schedule.totalHours); start++) {
+            let key = start;
+            daySchedule.delete(key);
+            daySchedule.set(key, [session]);
+        }
+
+        this.sessions.set(dayNum, daySchedule);
+    }
+
     replaceSession(oldSession, newSession, dayNum) {
         if (dayNum < 0 || dayNum > 6) {
             throw new Error("Invalid day number. Please choose a valid day.");
