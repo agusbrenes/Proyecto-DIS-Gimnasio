@@ -782,12 +782,10 @@ router.post("/NewSession", async (req, res) => {
     try {
         const foundSession = await control.find(filter);
         if (foundSession.length !== 0) {
-            console.log(foundSession);
             return res.status(500).json({error: "Sesión Repetida"});
         }
 
         const savedSession = await control.save(object);
-        console.log("Guarda Session");
         try {
             await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
             res.json(savedSession);
@@ -861,7 +859,6 @@ router.post("/GetCalendarSessionsAdmin", async (req, res) => {
 
 router.post("/GetCalendarDaySessions", async (req, res) => {
     const object = req.body;
-    console.log(object);
     const controlAdmin = new ControlAdmin();
     const controlCalendar = new ControlCalendar();
     const controlInstructor = new ControlInstructor();
@@ -881,12 +878,8 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
         id: object.idInstructor
     }
 
-    console.log(filterCalendar);
-    console.log(filterInstructor);
-
     try {
         const foundCalendar = await controlCalendar.find(filterCalendar);
-        console.log(foundCalendar);
         if (foundCalendar.length === 0) {
             return res.json({msg:"Calendar not found!"});
         }
@@ -899,9 +892,7 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
         const instructorSchema = foundInstructor[0];
 
         const dayNum = object.day;
-        console.log("Me cago en Adriana");
         const foundSessions = await controlAdmin.getCalendarSessions(dayNum, calendarSchema, instructorSchema);
-        console.log("Mega Caca");
 
         res.json(foundSessions);
     } catch (err) {
@@ -966,7 +957,6 @@ router.post("/AuthorizeSession", async (req, res) => {
         }
 
         const authSession = await auxControl.authorizeSession(object);
-        console.log("Autoriza Session");
         res.json(authSession);
         // try {
         //     await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
