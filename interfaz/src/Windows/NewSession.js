@@ -221,6 +221,15 @@ class NewSession extends Component {
                 }
             })
         })
+        .catch((err) => {
+            swal.fire({
+                title: 'Ocurrio un problema al crear la sesión',
+                text: err,
+                background: "black",
+                confirmButtonText: "Try Again",
+                icon: 'warning'
+            })
+        })
     }
 
     render() {
