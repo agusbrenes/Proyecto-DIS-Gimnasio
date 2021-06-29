@@ -35,26 +35,7 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     services: [TempServiceSchema],
     sessions: [TempSessionSchema],
     messages:  [{
-        msg: {type: String},
-        session: {
-            room: {
-                schedule: {
-                    initialHour: {type: Number},
-                    totalHours: {type: Number}
-                },
-                name: {type: String},
-                capacity: {type: Number}
-            },
-            year: {type: Number},
-            schedule: {
-                month: {type: Number},
-                day: {type: Number}
-            },
-            plan: {
-                initialHour: {type: Number},
-                totalHours: {type: Number}
-            }
-        }
+        msg: {type: String}
     }]
 }));
 
@@ -121,30 +102,11 @@ module.exports = class DaoInstructor extends Dao {
         if (object.messages.length > 0) {
             object.messages.forEach(messageN => {
                 const schema1 = {
-                    msg: messageN.msg,
-                    session: {
-                        room: {
-                            schedule: {
-                                initialHour: messageN.session.room.schedule.initialHour,
-                                totalHours: messageN.session.room.schedule.totalHours
-                            },
-                            name: messageN.session.room.name,
-                            capacity: messageN.session.room.capacity
-                        },
-                        year: messageN.session.year,
-                        schedule: {
-                            month: messageN.session.schedule.month,
-                            day: messageN.session.schedule.day
-                        },
-                        plan: {
-                            initialHour: messageN.session.schedule.initialHour,
-                            totalHours: messageN.session.schedule.totalHours
-                        }
-                    }
+                    msg: messageN.msg
                 }
-                messages1.push(schema1);
+                schema.messages.push(schema1);
             });
-            schema.messages = messages1;
+            //schema.messages = messages1;
         }
 
         return await InstructorSchema.updateOne(filter, schema);
