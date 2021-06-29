@@ -27,9 +27,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         );
 
         user = await this.setAdminRoom(user, schema.room);
-        console.log("YA CASI SALIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
         user = await this.setAdminMessages(user, schema.messages, controlSession, controlInstructor, controlService, controlRoom);
-        console.log("SALIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
         return user;
     }
 
@@ -58,24 +56,21 @@ module.exports = class ControlAdmin extends ControlUsers {
         const controlService = new ControlService();
 
         const roomQuery = await control.find({name: adminRoom.name});
-        //REALLY
         const room = await control.toAuxObject(roomQuery[0], this, controlSession, controlInstructor, controlService);
-        console.log("Al FINNNNNNNNNNNNNNNN")
         admin.setRoom(room);
         return admin;
     }
 
     async setAdminMessages(user, messageArray, controlSession, controlInstructor, controlService, controlRoom) {
         for (var i = 0; i < messageArray.length; i++) {
-            console.log("SERA?????????????", messageArray, messageArray.length)
-            const sessionQuery = await controlSession.find(messageArray[i].session);
-            console.log("SERA Imbecil", sessionQuery[0], controlInstructor, controlService, controlRoom, this)
+            const auxSession = messageArray[i].session;
+            const sessionQuery = await controlSession.find(auxSession);
+            console.log("Antes de session", sessionQuery)
             const session = await controlSession.toObject(sessionQuery[0], controlInstructor, controlService, controlRoom, this);
-            console.log("SERA el GARFIOOO", session)
+            console.log("Antes de addMessage", session)
             user.addMessage(messageArray[i].msg, session);
-            console.log("MAMA ME CAGUE; PAPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEL", i)
-        }
-        
+        }        
+        console.log("ES POR ACA")
         return user;
     }
 
@@ -119,10 +114,8 @@ module.exports = class ControlAdmin extends ControlUsers {
             }
         };
         const calendarQuery = await controlCalendar.find(query);  
-        console.log("PUTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        //AQUI
-        const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
+        const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
         
         const adminsInCharge = calendar.addSession(session, session.getDay());
@@ -132,12 +125,10 @@ module.exports = class ControlAdmin extends ControlUsers {
         const filter = {id: adminAux.id};
         
         const adminQuery = await this.find(filter);
-        console.log("YA AQUI NO LLEGO.....................", adminQuery)
-        const admin = await this.toObject(adminQuery[0], controlSession, controlInstructor, controlService, controlRoom)
-        admin.messages = adminAux.messages;        
-        console.log("DIGAMELO INGRID")
-        await this.modify(filter, admin);
-        console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFF")
+        // se cae, falta restaurar mensajes bien (filtro con año)
+        const admin = await this.toObject(adminQuery[0], controlSession, controlInstructor, controlService, controlRoom); // aqui se cae
+        admin.messages = adminAux.messages;    
+        await this.modify(filter, admin, false);
         return await controlCalendar.modify(query, calendar);
     }
 
@@ -161,11 +152,13 @@ module.exports = class ControlAdmin extends ControlUsers {
         const calendarQuery = await controlCalendar.find(query);  
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
+        console.log("Va a entrar a replace con old y new SCHEMAS", oldSessionSchema, newSessionSchema)
         // aqui con session, y usar old (poner arriba)
         const oldSession = await controlSession.toAuxObject(oldSessionSchema, controlInstructor, controlService, controlRoom, this);
         const newSession = await controlSession.toAuxObject(newSessionSchema, controlInstructor, controlService, controlRoom, this);
         
-        calendar.addSession(oldSession, newSession, newSession.getDay());
+        console.log("Va a entrar a replace con old y new", oldSession, newSession)
+        calendar.replaceSession(oldSession, newSession, newSession.getDay());
         return await controlCalendar.modify(query, calendar);
     }
 
@@ -184,7 +177,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const instructorSchema = await controlInstructor.find(filterInstructor);
         const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
         
-        await controlInstructor.modify(filterInstructor, instructor);
+        await controlInstructor.modify(filterInstructor, instructor.addMessage, false);
 
         const filter = {
             room: {

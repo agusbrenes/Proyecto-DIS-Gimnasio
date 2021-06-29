@@ -9,9 +9,7 @@ module.exports = class ControlCalendar extends Controller {
 
     async toObject(schema, controlRoom, controlAdmin, controlSession, controlInstructor, controlService) {       
         const roomQuery = await controlRoom.find({name: schema.room.name});
-        console.log("FUCKER")
         const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, controlInstructor, controlService);
-        console.log("AGH")
         let calendar = new Calendar (
             room, 
             schema.month, 
@@ -51,7 +49,6 @@ module.exports = class ControlCalendar extends Controller {
                 const hourSpace = scheduleSpaces[scheduleSpaceNum];
                 if (!(hourSpace.session.status === "Free Space")) {
                     const object = hourSpace.session;
-                    console.log("Entra al IF", object);
                     // conseguir session
                     const filter = {
                         room: {
@@ -74,7 +71,6 @@ module.exports = class ControlCalendar extends Controller {
                     };
                     const sessionQuery = await controlSession.find(filter);
                     const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
-                    console.log("Hace auxSession bien", session);
                     calendar.setSession(session, session.getDay());
                 }
             }

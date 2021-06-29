@@ -41,7 +41,7 @@ module.exports = class ControlInstructor extends ControlUsers {
             schema.phone
         );
         user.setTemp(schema.isTemp);
-        user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
+        // user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
         return user;
     }
 

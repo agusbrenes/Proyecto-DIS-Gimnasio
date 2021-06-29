@@ -793,7 +793,7 @@ router.post("/NewSession", async (req, res) => {
 
         try {
             console.log("Antes de agregar a calendar")
-            await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
+            await auxControl.addSessiontoCalendar(savedSession); // puede tirar error (lo tira)
             console.log("LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             res.json(savedSession);
         } catch (error2) {
@@ -803,6 +803,142 @@ router.post("/NewSession", async (req, res) => {
         }
     } catch (err) {
         return res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/ModifySession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const auxControl = new ControlAdmin();
+
+    console.log("Objecto de Post", object);
+    const filter = {
+        room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours,
+            },
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
+        year: object.year,
+        schedule: {
+            month:  object.schedule.month,
+            day: object.schedule.day
+        },
+        plan: {
+            initialHour: object.oldPlan.initialHour,
+            totalHours: object.oldPlan.totalHours
+        }
+    };
+    // const newFilter = {
+
+    //     instructor: { 
+    //         id: object.instructor.id, 
+    //         firstName: object.instructor.firstName, 
+    //         lastName: object.instructor.lastName 
+    //     },
+    //     service: { 
+    //         name: object.service.name
+    //     },
+    //     room: {
+    //         schedule: {
+    //             initialHour: object.room.schedule.initialHour,
+    //             totalHours: object.room.schedule.totalHours,
+    //         },
+    //         name: object.room.name,
+    //         capacity: object.room.capacity
+    //     },
+    //     capacity: object.capacity,
+    //     year: object.year,
+    //     schedule: {
+    //         month:  object.schedule.month,
+    //         day: object.schedule.day
+    //     },
+    //     plan: {
+    //         initialHour: object.plan.initialHour,
+    //         totalHours: object.plan.totalHours
+    //     },
+    //     status: object.status
+    // };
+    try {
+        const foundSession = await control.find(filter);
+        console.log("Session encontrada original", foundSession)        
+        if (foundSession.length === 0) {
+            return res.status(500).json({error: "Sesión no encontrada!"});
+        }
+        const backupSession = foundSession;
+        var modifiedSession = await control.modify(
+            filter,
+            object
+        );
+        console.log("Session modificada (ANTES DE RECUPERAR)", modifiedSession) 
+
+        try {
+            // const allSesh = await control.getAll();
+            // console.log("Todas las sesiones en la BD )))))))))))))))))))))))))))))))00000000000000000000000000((((((((((",allSesh)
+            // console.log("Filtro para buscar nueva sesion modificada", newFilter)
+            // modifiedSession = await control.find(newFilter);
+            console.log("Session backup", backupSession) 
+
+            modifiedSession = foundSession;
+            modifiedSession.plan = object.plan;
+            modifiedSession.capacity = object.capacity;
+            console.log("Objeto que entra a reemplazar", modifiedSession[0]) 
+
+            await auxControl.replaceSessionInCalendar(foundSession[0], modifiedSession[0]); // (newFilter) puede tirar error (tal vez arrays)
+            res.json(modifiedSession);
+        } catch (error2) {
+            await control.delete(modifiedSession);
+            console.log(backupSession);
+            await control.save(backupSession); // para dejar la anterior
+            return res.status(800).json({error: error2.message});
+            //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
+        }
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.post("/AuthorizeSession", async (req, res) => {
+    const object = req.body;
+    const control = new ControlSession();
+    const auxControl = new ControlAdmin();
+
+    const filter = {
+        room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours
+            },
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
+        year: object.year,
+        schedule: {
+            month: object.schedule.month,
+            day: object.schedule.day,
+        }
+    };
+    try {
+        const foundSession = await control.find(filter);
+        if (foundSession.length != 0) {
+            return res.json({msg:true});
+        }
+
+        const authSession = await auxControl.authorizeSession(object);
+        res.json(authSession);
+        try {
+            await auxControl.replaceSessionInCalendar(foundSession, authSession); // puede tirar error (tal vez arrays)
+            res.json(authSession);
+        } catch (error2) {
+            await control.delete(authSession);
+            await control.save(foundSession[0]); // para dejar la anterior
+            return res.status(800).json({error: error2.message});
+            //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
+        }
+    } catch (err) {
+         (500).json({error: err.message});
     }
 });
 
@@ -898,108 +1034,6 @@ router.post("/GetCalendarDaySessions", async (req, res) => {
         const foundSessions = await controlAdmin.getCalendarSessions(dayNum, calendarSchema, instructorSchema);
 
         res.json(foundSessions);
-    } catch (err) {
-        res.status(500).json({error: err.message});
-    }
-});
-
-router.post("/ModifySession", async (req, res) => {
-    const object = req.body;
-    const control = new ControlSession();
-    const auxControl = new ControlAdmin();
-
-    const filter = {
-        room: {
-            schedule: {
-                initialHour: object.room.schedule.initialHour,
-                totalHours: object.room.schedule.totalHours,
-            },
-            name: object.room.name,
-            capacity: object.room.capacity
-        },
-        year: object.year,
-        plan: {
-            initialHour: object.oldPlan.initialHour,
-            totalHours: object.oldPlan.totalHours
-        }
-    };
-    const newFilter = {
-        room: {
-            schedule: {
-                initialHour: object.room.schedule.initialHour,
-                totalHours: object.room.schedule.totalHours,
-            },
-            name: object.room.name,
-            capacity: object.room.capacity
-        },
-        year: object.year,
-        plan: {
-            initialHour: object.plan.initialHour,
-            totalHours: object.plan.totalHours
-        }
-    };
-    try {
-        const foundSession = await control.find(filter);
-        if (foundSession.length === 0) {
-            return res.status(500).json({error: "Sesión no encontrada!"});
-        }
-
-        var modifiedSession = await control.modify(
-            filter,
-            object
-        );
-
-        try {
-            modifiedSession = await control.find(newFilter);
-            await auxControl.replaceSessionInCalendar(foundSession, modifiedSession); // puede tirar error
-            res.json(modifiedSession);
-        } catch (error2) {
-            await control.delete(modifiedSession);
-            await control.save(foundSession[0]); // para dejar la anterior
-            res.status(800).json({error: error2.message});
-            //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
-        }
-    } catch (err) {
-        res.status(500).json({error: err.message});
-    }
-});
-
-router.post("/AuthorizeSession", async (req, res) => {
-    const object = req.body;
-    const control = new ControlSession();
-    const auxControl = new ControlAdmin();
-
-    const filter = {
-        room: {
-            schedule: {
-                initialHour: object.room.schedule.initialHour,
-                totalHours: object.room.schedule.totalHours
-            },
-            name: object.room.name,
-            capacity: object.room.capacity
-        },
-        year: object.year,
-        schedule: {
-            month: object.schedule.month,
-            day: object.schedule.day,
-        }
-    };
-    try {
-        const foundSession = await control.find(filter);
-        if (foundSession.length != 0) {
-            return res.json({msg:true});
-        }
-
-        const authSession = await auxControl.authorizeSession(object);
-        res.json(authSession);
-        // try {
-        //     await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
-        //     res.json(savedSession);
-        // } catch (error2) {
-        //     await control.delete(savedSession);
-        //     res.status(800).json({error: error2.message});
-        //     //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
-        // }
     } catch (err) {
         res.status(500).json({error: err.message});
     }
