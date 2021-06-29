@@ -113,8 +113,15 @@ module.exports = class ControlAdmin extends ControlUsers {
         const session = await controlSession.toAuxObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
         
         const adminsInCharge = calendar.addSession(session, session.getDay());
-        const admin = await this.toObject(adminsInCharge[0], controlSession, controlInstructor, controlService, controlRoom);
-        const filter = {id: admin.id};
+        // const admin = this.toObject(adminsInCharge[0], controlSession, controlInstructor, controlService, controlRoom);
+        var adminAux = adminsInCharge[0];
+        
+        const filter = {id: adminAux.id};
+        const adminQuery = await this.find(filter);
+        const admin = await this.toObject(adminQuery[0], controlSession, controlInstructor, controlService, controlRoom);
+        console.log("Antes de mensajes", admin)
+        admin.messages = adminAux.messages;
+        console.log("Antes de modificar", admin)
         await this.modify(filter, admin);
 
         return await controlCalendar.modify(query, calendar);
