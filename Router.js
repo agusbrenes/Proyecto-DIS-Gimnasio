@@ -881,10 +881,15 @@ router.post("/ModifySession", async (req, res) => {
             // modifiedSession = await control.find(newFilter);
             console.log("Session backup", backupSession) 
 
-            modifiedSession = foundSession;
-            modifiedSession.plan = object.plan;
+            modifiedSession = foundSession[0];
+            console.log("Session nuevaaa OJO 11111111111111", modifiedSession) 
+            modifiedSession.plan.initialHour = object.plan.initialHour;
+            console.log("Session nuevaaa OJO 2222222222222222", modifiedSession) 
+            modifiedSession.plan.totalHours = object.plan.totalHours;
+            console.log("Session nuevaaa OJO 33333333333333333", modifiedSession) 
+        
             modifiedSession.capacity = object.capacity;
-            console.log("Objeto que entra a reemplazar", modifiedSession[0]) 
+            console.log("Objeto que entra a reemplazar", modifiedSession) 
 
             await auxControl.replaceSessionInCalendar(foundSession[0], modifiedSession[0]); // (newFilter) puede tirar error (tal vez arrays)
             res.json(modifiedSession);
