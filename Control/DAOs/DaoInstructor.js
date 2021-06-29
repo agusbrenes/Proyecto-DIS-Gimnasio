@@ -37,9 +37,15 @@ const InstructorSchema = mongoose.model("Instructor", new Schema({
     messages:  [{
         msg: {type: String},
         session: {
-            service: {
-                name: {type: String}
+            room: {
+                schedule: {
+                    initialHour: {type: Number},
+                    totalHours: {type: Number}
+                },
+                name: {type: String},
+                capacity: {type: Number}
             },
+            year: {type: Number},
             schedule: {
                 month: {type: Number},
                 day: {type: Number}
@@ -117,16 +123,22 @@ module.exports = class DaoInstructor extends Dao {
                 const schema1 = {
                     msg: messageN.msg,
                     session: {
-                        service: {
-                            name: messageN.session.service.name
+                        room: {
+                            schedule: {
+                                initialHour: messageN.session.room.schedule.initialHour,
+                                totalHours: messageN.session.room.schedule.totalHours
+                            },
+                            name: messageN.session.room.name,
+                            capacity: messageN.session.room.capacity
                         },
+                        year: messageN.session.year,
                         schedule: {
                             month: messageN.session.schedule.month,
                             day: messageN.session.schedule.day
                         },
                         plan: {
-                            initialHour: messageN.session.plan.initialHour,
-                            totalHours: messageN.session.plan.totalHours
+                            initialHour: messageN.session.schedule.initialHour,
+                            totalHours: messageN.session.schedule.totalHours
                         }
                     }
                 }
