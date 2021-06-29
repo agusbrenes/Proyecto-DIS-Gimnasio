@@ -177,7 +177,7 @@ module.exports = class ControlAdmin extends ControlUsers {
         const instructorSchema = await controlInstructor.find(filterInstructor);
         const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
         
-        await controlInstructor.modify(filterInstructor, instructor.addMessage, false);
+        await controlInstructor.modify(filterInstructor, instructor, false);
 
         const filter = {
             room: {

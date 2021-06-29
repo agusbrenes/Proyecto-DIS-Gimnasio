@@ -539,8 +539,8 @@ router.post("/GetService", async (req, res) => {
     const filter = {name: object.name};
     try {
         const foundService = await control.find(filter);
-        if (!foundService) {
-            return res.json({msg:true});
+        if (foundService.length === 0) {
+            return res.json({msg:"Service not found"});
         }
         res.json(foundService);
     } catch (err) {
@@ -831,36 +831,35 @@ router.post("/ModifySession", async (req, res) => {
             totalHours: object.oldPlan.totalHours
         }
     };
-    // const newFilter = {
+    const newSession = {
 
-    //     instructor: { 
-    //         id: object.instructor.id, 
-    //         firstName: object.instructor.firstName, 
-    //         lastName: object.instructor.lastName 
-    //     },
-    //     service: { 
-    //         name: object.service.name
-    //     },
-    //     room: {
-    //         schedule: {
-    //             initialHour: object.room.schedule.initialHour,
-    //             totalHours: object.room.schedule.totalHours,
-    //         },
-    //         name: object.room.name,
-    //         capacity: object.room.capacity
-    //     },
-    //     capacity: object.capacity,
-    //     year: object.year,
-    //     schedule: {
-    //         month:  object.schedule.month,
-    //         day: object.schedule.day
-    //     },
-    //     plan: {
-    //         initialHour: object.plan.initialHour,
-    //         totalHours: object.plan.totalHours
-    //     },
-    //     status: object.status
-    // };
+        instructor: { 
+            id: object.instructor.id, 
+            firstName: object.instructor.firstName, 
+            lastName: object.instructor.lastName 
+        },
+        service: { 
+            name: object.service.name
+        },
+        room: {
+            schedule: {
+                initialHour: object.room.schedule.initialHour,
+                totalHours: object.room.schedule.totalHours,
+            },
+            name: object.room.name,
+            capacity: object.room.capacity
+        },
+        capacity: object.capacity,
+        year: object.year,
+        schedule: {
+            month:  object.schedule.month,
+            day: object.schedule.day
+        },
+        plan: {
+            initialHour: object.plan.initialHour,
+            totalHours: object.plan.totalHours
+        }
+    };
     try {
         const foundSession = await control.find(filter);
         console.log("Session encontrada original", foundSession)        
@@ -891,7 +890,7 @@ router.post("/ModifySession", async (req, res) => {
             modifiedSession.capacity = object.capacity;
             console.log("Objeto que entra a reemplazar", modifiedSession) 
 
-            await auxControl.replaceSessionInCalendar(foundSession[0], modifiedSession[0]); // (newFilter) puede tirar error (tal vez arrays)
+            await auxControl.replaceSessionInCalendar(foundSession[0], modifiedSession); // (newFilter) puede tirar error (tal vez arrays)
             res.json(modifiedSession);
         } catch (error2) {
             await control.delete(modifiedSession);
@@ -943,7 +942,7 @@ router.post("/AuthorizeSession", async (req, res) => {
             //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
         }
     } catch (err) {
-         (500).json({error: err.message});
+        res.status(500).json({error: err.message});
     }
 });
 
