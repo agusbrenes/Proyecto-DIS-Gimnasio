@@ -45,11 +45,11 @@ module.exports = class DaoAdmin extends Dao {
         return await AdminSchema.remove(filter);
     }
 
-    async modify(filter, object) {
+    async modify(filter, object, passwordFlag = false) {
         const schema = await AdminSchema.findOne(filter);
         
         schema.email = object.email;
-        if (!(object.password.length === 0)) {
+        if (passwordFlag === true) {
             schema.password = object.password;
         }
         schema.id = object.id;

@@ -66,11 +66,11 @@ module.exports = class DaoInstructor extends Dao {
         return await InstructorSchema.remove(filter);
     }
 
-    async modify(filter, object) {
+    async modify(filter, object, passwordFlag = false) {
         const schema = await InstructorSchema.findOne(filter);
 
         schema.email = object.email;
-        if (!(object.password.length === 0)) {
+        if (passwordFlag === true) {
             schema.password = object.password;
         }
         schema.id = object.id;
