@@ -92,9 +92,9 @@ module.exports = class DaoAdmin extends Dao {
                         }
                     }
                 }
-                messages1.push(schema1);
+                schema.messages.push(schema1);
             });
-            schema.messages = messages1;
+            //schema.messages = messages1;
         }
 
         return await AdminSchema.updateOne(filter, schema);
