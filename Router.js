@@ -784,23 +784,25 @@ router.post("/NewSession", async (req, res) => {
         }
     };
     try {
-        const foundSession = await control.find(filter);
+        const foundSession = await control.find(filter);    
         if (foundSession.length !== 0) {
             return res.status(500).json({error: "Sesión Repetida"});
         }
 
         const savedSession = await control.save(object);
+
         try {
             console.log("Antes de agregar a calendar")
             await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
+            console.log("LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             res.json(savedSession);
         } catch (error2) {
             await control.delete(savedSession);
-            res.status(800).json({error: error2.message});
+            return res.status(800).json({error: error2.message});
             //"Otra Sesión está registrada en el rango de horas introducido. Favor revisar el calendario para ver los espacios vacíos."
         }
     } catch (err) {
-        res.status(500).json({error: err.message});
+        return res.status(500).json({error: err.message});
     }
 });
 

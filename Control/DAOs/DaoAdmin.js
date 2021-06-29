@@ -47,7 +47,7 @@ module.exports = class DaoAdmin extends Dao {
 
     async modify(filter, object) {
         const schema = await AdminSchema.findOne(filter);
-
+        
         schema.email = object.email;
         if (!(object.password.length === 0)) {
             schema.password = object.password;
@@ -63,6 +63,7 @@ module.exports = class DaoAdmin extends Dao {
         const messages1 = [];
         if (object.messages.length > 0) {
             object.messages.forEach(messageN => {
+                console.log("ES COMO UN GARFIO", messageN.session)
                 const schema1 = {
                     msg: messageN.msg,
                     session: {

@@ -12,6 +12,7 @@ module.exports = class Controller {
     }
 
     async modify(filter, object) {
+        console.log("PUTAAAAAAAAAAAAAAAAAA", filter, object)
         return await this.handler.modify(filter, object);
     }
 

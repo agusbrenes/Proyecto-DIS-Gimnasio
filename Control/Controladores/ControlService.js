@@ -43,6 +43,7 @@ module.exports = class ControlService extends Controller {
         const room = await controlRoom.toAuxObject(roomQuery[0], controlAdmin, controlSession, controlInstructor, this);
         
         const instruc = schema.instructors[0];
+        
         const instructorQuery = await controlInstructor.find({id: instruc.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, controlSession, this);
 

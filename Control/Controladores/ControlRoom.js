@@ -28,7 +28,9 @@ module.exports = class ControlRoom extends Controller {
     async toAuxObject(schema, controlAdmin, controlSession, controlInstructor, controlService) {
         const administator = schema.administrators[0];
         const adminQuery = await controlAdmin.find({id: administator.id});
+        
         const admin = await controlAdmin.toAuxObject(adminQuery[0], controlSession, controlInstructor, controlService, this);
+        
         let room = new Room (
             schema.name, 
             schema.maxCapacity, 
