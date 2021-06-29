@@ -791,6 +791,7 @@ router.post("/NewSession", async (req, res) => {
 
         const savedSession = await control.save(object);
         try {
+            console.log("Antes de agregar a calendar")
             await auxControl.addSessiontoCalendar(savedSession); // puede tirar error
             res.json(savedSession);
         } catch (error2) {

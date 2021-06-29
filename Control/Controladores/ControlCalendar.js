@@ -49,6 +49,7 @@ module.exports = class ControlCalendar extends Controller {
                 const hourSpace = scheduleSpaces[scheduleSpaceNum];
                 if (!(hourSpace.session.status === "Free Space")) {
                     const object = hourSpace.session;
+                    console.log("Entra al IF", object);
                     // conseguir session
                     const filter = {
                         room: {
@@ -71,6 +72,7 @@ module.exports = class ControlCalendar extends Controller {
                     };
                     const sessionQuery = await controlSession.find(filter);
                     const session = await controlSession.toAuxObject(sessionQuery[0], controlInstructor, controlService, controlRoom, controlAdmin);
+                    console.log("Hace auxSession bien", session);
                     calendar.setSession(session, session.getDay());
                 }
             }
