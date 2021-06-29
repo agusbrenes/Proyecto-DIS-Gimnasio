@@ -46,7 +46,6 @@ module.exports = class DaoAdmin extends Dao {
     }
 
     async modify(filter, object) {
-        console.log("JUEPUTA ABER SI SIRVE", filter, object)
         const schema = await AdminSchema.findOne(filter);
 
         schema.email = object.email;
@@ -62,7 +61,6 @@ module.exports = class DaoAdmin extends Dao {
         };
 
         const messages1 = [];
-        console.log("Se vienen mensajes", object.messages)
         if (object.messages.length > 0) {
             object.messages.forEach(messageN => {
                 const schema1 = {
@@ -76,18 +74,15 @@ module.exports = class DaoAdmin extends Dao {
                             day: messageN.session.schedule.day
                         },
                         plan: {
-                            initialHour: messageN.session.plan.initialHour,
-                            totalHours: messageN.session.plan.totalHours
+                            initialHour: messageN.session.schedule.initialHour,
+                            totalHours: messageN.session.schedule.totalHours
                         }
                     }
                 }
                 messages1.push(schema1);
             });
-            
-            console.log("lolazo si sirvio", messages1)
             schema.messages = messages1;
         }
-        console.log("NUEVO SCHEMA QUE UPDATEA", schema)
 
         return await AdminSchema.updateOne(filter, schema);
     }

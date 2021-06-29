@@ -102,8 +102,8 @@ module.exports = class DaoInstructor extends Dao {
                         day: session.schedule.day
                     },
                     plan: {
-                        initialHour: session.plan.initialHour,
-                        totalHours: session.plan.totalHours
+                        initialHour: session.schedule.initialHour,
+                        totalHours: session.schedule.totalHours
                     }
                 };
                 sessions1.push(schema1);
