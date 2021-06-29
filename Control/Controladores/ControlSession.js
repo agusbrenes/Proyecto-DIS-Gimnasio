@@ -55,9 +55,9 @@ module.exports = class ControlSession extends Controller {
             schema.plan.totalHours,
             schema.status
         );
-        session = this.setSessionRoom(session, schema.room, controlRoom, controlAdmin, controlInstructor, controlService);
-        session = this.setSessionInstructor(session, schema.instructor, controlInstructor, controlRoom, controlAdmin, controlService);
-        session = this.setSessionService(session, schema.service, controlService, controlInstructor, controlRoom, controlAdmin);
+        session = await this.setSessionRoom(session, schema.room, controlRoom, controlAdmin, controlInstructor, controlService);
+        session = await this.setSessionInstructor(session, schema.instructor, controlInstructor, controlRoom, controlAdmin, controlService);
+        session = await this.setSessionService(session, schema.service, controlService, controlInstructor, controlRoom, controlAdmin);
         return session;
     }
     
@@ -117,7 +117,7 @@ module.exports = class ControlSession extends Controller {
         const serviceQuery = await controlService.find({name: sessionService.name});
         const service = await controlService.toAuxObject(serviceQuery[0], controlInstructor, controlRoom, controlAdmin, this);
 
-        session.setService(service);
+        session.service = service;
         return session;
     }
 }
