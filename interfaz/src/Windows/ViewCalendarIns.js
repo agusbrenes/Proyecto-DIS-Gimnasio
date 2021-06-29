@@ -212,7 +212,7 @@ class ViewCalendarIns extends Component {
                         onClick={() => window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
                         this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
                         this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/instructor/newSession")}>
-                            Crear Nueva Sesión
+                            Crear nueva Sessión
                         </button>
                     </div>
                     <div className="card-footer text-center">

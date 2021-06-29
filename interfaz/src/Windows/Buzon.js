@@ -6,17 +6,18 @@ import swal from "sweetalert2";
 class Buzon extends Component {
     state = {
         isAdmin: true,
-        msgs: []
+        msgs: [], 
+        list: []
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         var token = localStorage.getItem("token")
         
         if (token === null) {
             window.location=("/loginClient");
         }
 
-        token = JSON.parse(localStorage.getItem("token"));
+        token = await JSON.parse(localStorage.getItem("token"));
 
         if(token.isAdmin === false){
             this.setState({
@@ -41,10 +42,24 @@ class Buzon extends Component {
         })
         .then(async (res) => {
             const data = res.data;
-            console.log(data[0].messages.msgs)
-            this.setState({
-                msgs: data[0].messages.msgs
-            })
+            if (data[0].messages.length === 0){
+                swal.fire({
+                    title: 'Actualmente no tiene mensajes registrados',
+                    background: "black",
+                    confirmButtonText: "Regresar",
+                    icon: 'warning'
+                }).then(() => {
+                    window.history.back();
+                });
+            } else {
+                console.log(data[0].messages)
+                data[0].messages.forEach((item) => {
+                    this.state.list.push(item.msg);
+                })
+                this.setState({
+                    msgs: this.state.list
+                })
+            }
         })
         .catch((res) => {
             console.log(res);
@@ -94,6 +109,7 @@ class Buzon extends Component {
             <div className="menuInstru">
                 <div className="col-md-12">
                     <div className="row">
+                        {console.log(this.state)}
                         {this.state.msgs.map((post, index) =>
                         <div key={index} className="col-md-12">
                             <div className ="card text-white bg-dark mt-4">
