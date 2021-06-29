@@ -84,7 +84,7 @@ module.exports = class ControlAdmin extends ControlUsers {
 
         const calendar = await controlCalendar.toObject(calendarSchema, controlRoom, this, controlSession, controlInstructor, controlService);
         const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
-
+        
         const sessions = calendar.acceptVisit(instructor, dayNum);
         const decoratedSessions = decorator.decorate(sessions);
         return decoratedSessions;

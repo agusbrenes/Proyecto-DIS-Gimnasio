@@ -47,7 +47,6 @@ module.exports = class DaoSession extends Dao {
     }
 
     async save(object) {
-        console.log("Entra al DAO :0", object);
         const schema = this.toMongoSchema(object);
         return await schema.save();
     }

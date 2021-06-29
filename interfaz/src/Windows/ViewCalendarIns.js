@@ -47,7 +47,7 @@ class ViewCalendarIns extends Component {
         })
         .then(async (res) => {
             const data = res.data;
-            
+            console.log("Respuesta", data);
             await data.forEach((item) => {
                 if (item.color === "Red"){
                     const info = {
@@ -82,7 +82,8 @@ class ViewCalendarIns extends Component {
                         },
                         begin: item.session.startHour,
                         end: item.session.startHour + 1,
-                        capacity: item.session.session.capacity
+                        capacity: item.session.session.capacity,
+                        totalHours: item.session.session.schedule.totalHours
                     }
                     this.state.list.push(info);
                 } else {
@@ -112,11 +113,11 @@ class ViewCalendarIns extends Component {
         })
     }
 
-    modify = (service) => {
+    modify = (post) => {
         window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
         + this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
-        this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/" + service +
-         "/instructor/modifySession")
+        this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/" + post.begin +
+        "/" + post.totalHours + "/instructor/modifySession")
     }
 
     show = (post, index) => {
@@ -137,7 +138,7 @@ class ViewCalendarIns extends Component {
                             Capacidad de la sesión: {post.capacity}
                         </p>
                         <div className="card-footer text-center">
-                        <button className="btn btn-dark button" onClick={() => this.modify(post.service)}>
+                        <button className="btn btn-dark button" onClick={() => this.modify(post)}>
                             Modificar Sesión
                         </button>
                         </div>

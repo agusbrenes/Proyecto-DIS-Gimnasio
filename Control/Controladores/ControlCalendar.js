@@ -15,6 +15,7 @@ module.exports = class ControlCalendar extends Controller {
             schema.month, 
             schema.year 
         );
+        
         calendar = await this.setCalendarSessions(calendar, schema.sessions, controlSession, controlInstructor, controlService, controlRoom, controlAdmin);
         return calendar;
     }
@@ -52,13 +53,17 @@ module.exports = class ControlCalendar extends Controller {
                     const filter = {
                         room: {
                             schedule: {
-                                initialHour: object.room.schedule.initialHour,
-                                totalHours: object.room.schedule.totalHours,
+                                initialHour: calendar.room.schedule.initialHour,
+                                totalHours: calendar.room.schedule.totalHours,
                             },
-                            name: object.room.name,
-                            capacity: object.room.capacity
+                            name: calendar.room.name,
+                            capacity: calendar.room.capacity
                         },
                         year: object.year,
+                        schedule: {
+                            month:  object.schedule.month,
+                            day: object.schedule.day
+                        },
                         plan: {
                             initialHour: object.plan.initialHour,
                             totalHours: object.plan.totalHours

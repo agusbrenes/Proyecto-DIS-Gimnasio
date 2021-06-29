@@ -104,7 +104,6 @@ module.exports = class DaoService extends Dao {
     }
 
     toMongoSchema(object) {
-        console.log(object);
         const instructors1 = [];
         if (object.instructors.length > 0) {
             object.instructors.forEach(instructor => {

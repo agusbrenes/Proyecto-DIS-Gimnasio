@@ -774,6 +774,10 @@ router.post("/NewSession", async (req, res) => {
             capacity: object.room.capacity
         },
         year: object.year,
+        schedule: {
+            month:  object.schedule.month,
+            day: object.schedule.day
+        },
         plan: {
             initialHour: object.plan.initialHour,
             totalHours: object.plan.totalHours

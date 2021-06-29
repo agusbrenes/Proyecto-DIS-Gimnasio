@@ -89,15 +89,11 @@ class ModifySession extends Component {
                 name: this.props.match.params.room,
                 capacity: parseInt(this.props.match.params.capacity)
             },
-            instructor: {
-                id: parseInt(this.state.token.id),
-                firstName: this.state.token.name,
-                lastName: this.state.token.lastName
-            },
-            service: {
-                name: this.props.match.params.service
-            },
-            year: parseInt(this.props.match.params.year)
+            year: parseInt(this.props.match.params.year),
+            plan: {
+                initialHour: parseInt(this.props.match.params.initial),
+                totalHours: parseInt(this.props.match.params.total)
+            }
         }
         console.log("filtro", data);
         axios({
@@ -188,28 +184,47 @@ class ModifySession extends Component {
         }
     }
 
-    submit = (event) => {
+    submit = async (event) => {
         event.preventDefault();
 
-        var index = document.form.instructor.selectedIndex;
         var index2 = document.form.service.selectedIndex;
-        
-        const data = {
-            instructor: {
+
+        if (this.state.isInstru) {
+            const token = await JSON.parse(localStorage.getItem("token"));
+            var instructor = {
+                id: parseInt(token.id),
+                firstName: token.name,
+                lastName: token.lastName
+            }
+        } else {
+            var index = document.form.instructor.selectedIndex;
+            instructor = {
                 id: this.state.instructors[index].id,
                 firstName: this.state.instructors[index].name,
                 lastName: this.state.instructors[index].lastname
-            },
+            }
+        }
+        
+        const data = {
+            instructor,
             service: {
                 name: this.state.services[index2].name
             },
             room: {
+                schedule: {
+                    initialHour: parseInt(this.props.match.params.begin),
+                    totalHours: parseInt(this.props.match.params.end),
+                },
                 name: this.props.match.params.room,
                 capacity: parseInt(this.props.match.params.capacity),
             },
             schedule: {
                 month: parseInt(this.props.match.params.month),
                 day: parseInt(this.props.match.params.day)
+            },
+            oldPlan: {
+                initialHour: parseInt(this.props.match.params.initial),
+                totalHours: parseInt(this.props.match.params.total)
             },
             plan: {
                 initialHour: parseInt(this.state.beginTime),
@@ -220,9 +235,8 @@ class ModifySession extends Component {
             isAdmin: !this.state.isInstru
 
         }
-
         axios({
-            url: "/api/NewSession",
+            url: "/api/ModifySession",
             method: "POST",
             data: data
         })
@@ -343,7 +357,7 @@ class ModifySession extends Component {
                     </div>
                     <div className="text-center">
                     <button type="submit" className="btn btn-primary" style={{width:"220px",marginTop:"20px"}}>
-                        Crear
+                        Modificar
                     </button>
                     </div>
                 </form>
