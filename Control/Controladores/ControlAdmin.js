@@ -43,7 +43,6 @@ module.exports = class ControlAdmin extends ControlUsers {
             schema.lastName,
             schema.phone
         );
-        //user = await this.setAdminMessages(user, schema.messages, controlSession, controlInstructor, controlService, controlRoom);
         return user;
     }
 
