@@ -58,7 +58,7 @@ function App() {
         <Route exact path="/instructorMenu/selectCalendar/:is" component={SelectCalendarIns}/>
         <Route exact path="/adminMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is" component={ViewCalendar}/>
         <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:is" component={ViewCalendarIns}/>
-        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:initial/:total/:is/modifySession" component={ModifySession}/>
+        <Route exact path="/instructorMenu/selectCalendar/viewCalendar/:room/:capacity/:begin/:end/:year/:month/:day/:initial/:total/:service/:is/modifySession" component={ModifySession}/>
         <Route exact path="/newReservation" component={NewReservation}/>
         <Route exact path="/buzon" component={Buzon}/>
       </Switch>

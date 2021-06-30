@@ -27,7 +27,8 @@ module.exports = class ControlInstructor extends ControlUsers {
         );
         user.setTemp(schema.isTemp);
         user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin, controlSession, controlService);
-        user = await this.setInstructorMessages(user, schema.messages, controlSession, controlService, controlRoom, controlAdmin);
+        console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", schema, "OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        user = await this.setInstructorMessages(user, schema.messages);
         return user;
     }
 
@@ -66,11 +67,9 @@ module.exports = class ControlInstructor extends ControlUsers {
         return instructor;
     }
 
-    async setInstructorMessages(user, messageArray, controlSession, controlService, controlRoom, controlAdmin) {
+    async setInstructorMessages(user, messageArray) {
         for (var i = 0; i < messageArray.length; i++) {
-            const sessionQuery = await controlSession.find(messageArray[i].session);
-            const session = controlSession.toObject(sessionQuery[0], this, controlService, controlRoom, controlAdmin);
-            user.addMessage(messageArray[i].msg, session);
+            user.addText(messageArray[i].msg);
         }
         return user;
     }

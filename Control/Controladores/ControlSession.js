@@ -34,6 +34,7 @@ module.exports = class ControlSession extends Controller {
     }
     
     async toObject(schema, controlInstructor, controlService, controlRoom, controlAdmin) {
+
         const instructorQuery = await controlInstructor.find({id: schema.instructor.id});
         const instructor = await controlInstructor.toAuxObject(instructorQuery[0], controlRoom, controlAdmin, this, controlService);
         
@@ -55,6 +56,7 @@ module.exports = class ControlSession extends Controller {
             schema.plan.totalHours,
             schema.status
         );
+
         session =  await this.setSessionRoom(session, schema.room, controlRoom, controlAdmin, controlInstructor, controlService);
         session =  await this.setSessionInstructor(session, schema.instructor, controlInstructor, controlRoom, controlAdmin, controlService);
         session =  await this.setSessionService(session, schema.service, controlService, controlInstructor, controlRoom, controlAdmin);

@@ -142,20 +142,17 @@ module.exports = class Calendar {
             throw new Error("Another Session is already registered in the introduced hours. Please check the calendar for the valid free spaces.");
         }
         var daySchedule = this.sessions.get(dayNum);
-        console.log("Day schedule (todas las horas)", daySchedule)
         
         // Quitar la vieja
         for (var oldStart = oldSession.schedule.initialHour; oldStart < (oldSession.schedule.initialHour + oldSession.schedule.totalHours); oldStart++) {
             let key = oldStart;
             daySchedule.delete(key);
         }
-        console.log("Day schedule quitando vieja (todas las horas)", daySchedule)
         // Poner la nueva
         for (var newStart = newSession.schedule.initialHour; newStart < (newSession.schedule.initialHour + newSession.schedule.totalHours); newStart++) {
             let key = newStart;
             daySchedule.set(key, [newSession]);
         }
-        console.log("Day schedule poniendo nueva (todas las horas)", daySchedule)
         this.sessions.set(dayNum, daySchedule);
 
         let instructorName = oldSession.instructor.firstName + " " + oldSession.instructor.lastName;
@@ -168,7 +165,6 @@ module.exports = class Calendar {
     }
 
     sessionScheduleCollides(dayNum, schedule) {
-        console.log("Entra a ver si chocan horarios", schedule)
         // Recordar que this.sessions lo que trae es un Map
 
         // daySchedules es un map, que tiene como valor un array de máximo un elemento.

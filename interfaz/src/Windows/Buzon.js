@@ -7,7 +7,8 @@ class Buzon extends Component {
     state = {
         isAdmin: true,
         msgs: [], 
-        list: []
+        list: [],
+        token: {}
     }
 
     componentDidMount = async () => {
@@ -18,7 +19,9 @@ class Buzon extends Component {
         }
 
         token = await JSON.parse(localStorage.getItem("token"));
-
+        this.setState({
+            token
+        })
         if(token.isAdmin === false){
             this.setState({
                 isAdmin: false
@@ -51,10 +54,22 @@ class Buzon extends Component {
                 }).then(() => {
                     window.history.back();
                 });
-            } else {
+            } else if (!this.state.isAdmin){
                 console.log(data[0].messages)
                 data[0].messages.forEach((item) => {
                     this.state.list.push(item.msg);
+                })
+                this.setState({
+                    msgs: this.state.list
+                })
+            } else {
+                console.log(data[0].messages)
+                data[0].messages.forEach((item) => {
+                    const info = {
+                        msg: item.msg,
+                        session: item.session
+                    }
+                    this.state.list.push(info);
                 })
                 this.setState({
                     msgs: this.state.list
@@ -67,6 +82,55 @@ class Buzon extends Component {
                 title: 'Ocurrio un problema al cargar los datos',
                 background: "black",
                 confirmButtonText: "Reload",
+                icon: 'error'
+            }).then(() => {
+                window.location.reload(false);
+            });
+        })
+    }
+
+    authorize = (session) => {
+        const data = {
+            room: {
+                schedule: {
+                    initialHour: session.room.schedule.initialHour,
+                    totalHours: session.room.schedule.totalHours
+                },
+                name: session.room.name,
+                capacity: session.room.capacity
+            },
+            schedule: {
+                month: session.schedule.month,
+                day: session.schedule.day
+            },
+            plan: {
+                initialHour: session.plan.initialHour,
+                totalHours: session.plan.totalHours
+            },
+            year: session.year,
+            adminName: this.state.token.name + " " + this.state.token.lastName
+        }
+        console.log(data)
+        axios({
+            url: "/api/AuthorizeSession",
+            method: "POST",
+            data
+        })
+        .then((res) => {
+            console.log(res);
+            swal.fire({
+                title: 'Se ha autorizado la sesión',
+                background: "black",
+                confirmButtonText: "YEEEIIII",
+                icon: 'success'
+            })
+        })
+        .catch((res) => {
+            console.log(res);
+            swal.fire({
+                title: 'Ocurrio un problema al autorizar la sesión',
+                background: "black",
+                confirmButtonText: "Try Again",
                 icon: 'error'
             }).then(() => {
                 window.location.reload(false);
@@ -87,7 +151,7 @@ class Buzon extends Component {
                                         {post.msg}
                                     </p>
                                     <div className="card-footer text-center">
-                                    <button className="btn btn-danger button" onClick={() => this.modify(post.session)}>
+                                    <button className="btn btn-danger button" onClick={() => this.authorize(post.session)}>
                                         Aprobar Sesión
                                     </button>
                                     </div>

@@ -65,12 +65,9 @@ module.exports = class ControlAdmin extends ControlUsers {
         for (var i = 0; i < messageArray.length; i++) {
             const auxSession = messageArray[i].session;
             const sessionQuery = await controlSession.find(auxSession);
-            console.log("Antes de session", sessionQuery)
             const session = await controlSession.toObject(sessionQuery[0], controlInstructor, controlService, controlRoom, this);
-            console.log("Antes de addMessage", session)
             user.addMessage(messageArray[i].msg, session);
         }        
-        console.log("ES POR ACA")
         return user;
     }
 
@@ -138,7 +135,6 @@ module.exports = class ControlAdmin extends ControlUsers {
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
         const controlCalendar = new ControlCalendar();
-
         const query = {
             month: newSessionSchema.schedule.month, 
             room: {
@@ -152,31 +148,29 @@ module.exports = class ControlAdmin extends ControlUsers {
         const calendarQuery = await controlCalendar.find(query);  
         const calendar = await controlCalendar.toObject(calendarQuery[0], controlRoom, this, controlSession, controlInstructor, controlService); // tamos aqui
         
-        console.log("Va a entrar a replace con old y new SCHEMAS", oldSessionSchema, newSessionSchema)
         // aqui con session, y usar old (poner arriba)
         const oldSession = await controlSession.toAuxObject(oldSessionSchema, controlInstructor, controlService, controlRoom, this);
         const newSession = await controlSession.toAuxObject(newSessionSchema, controlInstructor, controlService, controlRoom, this);
         
-        console.log("Va a entrar a replace con old y new", oldSession, newSession)
         calendar.replaceSession(oldSession, newSession, newSession.getDay());
         return await controlCalendar.modify(query, calendar);
     }
 
-    async authorizeSession(sessionSchema) {
+    async authorizeSession(sessionSchema, adminName) {
         const controlSession = new ControlSession();
         const controlInstructor = new ControlInstructor();
         const controlService = new ControlService();
         const controlRoom = new ControlRoom();
-
         const session = await controlSession.toObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
-        const auxInstructor = session.authorize(sessionSchema.adminName);
-
+        
+        const auxInstructor = session.authorize(adminName);
+        
         const filterInstructor = {
             id: auxInstructor.id
         }
         const instructorSchema = await controlInstructor.find(filterInstructor);
-        const instructor = await controlInstructor.toObject(instructorSchema, controlRoom, this, controlSession, controlService);
-        
+        const instructor = await controlInstructor.toObject(instructorSchema[0], controlRoom, this, controlSession, controlService);
+        console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",instructor, "EHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         await controlInstructor.modify(filterInstructor, instructor, false);
 
         const filter = {

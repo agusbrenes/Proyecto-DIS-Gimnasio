@@ -123,19 +123,22 @@ class ModifySession extends Component {
 
     getServices = async () => {
         await axios({
-            url: "/api/GetServices",
-            method: "GET",
+            url: "/api/GetService",
+            method: "POST",
+            data: {name: this.props.match.params.service}
         })
         .then( async (response) => {
             const data = response.data;
-
+            console.log(this.props.match.params.service)
             await data.forEach((item) => {
                 if (item.room.name === this.props.match.params.room) {
                     const info = {
                         name: item.name,
                         capacity: item.room.capacity
                     }
-                    this.state.list.push(info);
+                    this.setState({
+                        service: info.name + " - Capacidad: " + info.capacity
+                    })
                 }
             });
             this.setState({
@@ -242,20 +245,31 @@ class ModifySession extends Component {
         })
         .then((res) => {
             swal.fire({
-                title: "Se ha creado la sesión con éxito",
+                title: "Se ha modificado la sesión con éxito",
                 background: "black",
                 icon: "success"
             })
             .then(() => {
                 if (this.props.match.params.is === "admin"){
-                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
-                    + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
-                    this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day +"/admin");
+                    window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                    this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + 
+                    this.props.match.params.end + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                    this.props.match.params.day +"/admin");
                 } else {
-                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
-                    + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
-                    this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/instructor")
+                    window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
+                    this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + 
+                    this.props.match.params.end + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
+                    this.props.match.params.day +"/instructor");
                 }
+            })
+        })
+        .catch((err) => {
+            swal.fire({
+                title: 'Ocurrio un problema al modificar la sesión',
+                text: err,
+                background: "black",
+                confirmButtonText: "Try Again",
+                icon: 'warning'
             })
         })
     }
@@ -267,23 +281,19 @@ class ModifySession extends Component {
             <div className="window">
                 <form onSubmit={this.submit} name="form">
                     <h4 className="text-center">
-                        Ingrese los nuevos datos para la sesión en el Room {this.props.match.params.room} en el dia {this.state.days[this.props.match.params.day]}
+                        Ingrese el nuevo horario para la sesión en el Room {this.props.match.params.room} en el dia {this.state.days[this.props.match.params.day]}
                     </h4>
                     {this.show()}
                     <div className="form-group">
-                        <label>Seleccione el Servicio para el que sera la sesión</label>
-                        <select
+                        <label>Servicio de la sesión</label>
+                        <input
                             name="service"
                             className="form-control"
                             onChange={this.handleChange}
                             value={this.state.service}
+                            disabled="disabled"
                         >
-                            {this.state.list.map((num,index) => 
-                                <option key={index}>
-                                    {num.name} - Capacidad: {num.capacity}
-                                </option>
-                            )}
-                        </select>
+                        </input>
                     </div>
                     <div className="form-group">
                         <label>Porcentaje de aforo para la sesión (%)</label>

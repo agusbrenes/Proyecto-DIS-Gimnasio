@@ -117,7 +117,7 @@ class ViewCalendarIns extends Component {
         window.location=("/instructorMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"
         + this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
         this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/" + post.begin +
-        "/" + post.totalHours + "/instructor/modifySession")
+        "/" + post.totalHours + "/" + post.service + "/instructor/modifySession")
     }
 
     show = (post, index) => {

@@ -9,15 +9,19 @@ class ViewCalendar extends Component {
         days: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         sessions: [],
         list: [],
-        myID: ""
+        token: {}
     }
 
-    componentDidMount = () => {
-        const token = localStorage.getItem("token")
+    componentDidMount = async () => {
+        const token = await JSON.parse(localStorage.getItem("token"));
         
         if (token === null) {
             window.location=("/loginClient");
         }
+        this.setState({
+            token
+        });
+        
         this.getSessions();
     }
 
@@ -25,69 +29,76 @@ class ViewCalendar extends Component {
         const data = {
             room: {
                 name: this.props.match.params.room,
-                capacity: parseInt(this.props.match.params.capacity)
+                schedule: {
+                    initialHour: parseInt(this.props.match.params.begin),
+                    totalHours: parseInt(this.props.match.params.end)
+                },
             },
-            year: this.props.match.params.year,
-            schedule: {
-                month: parseInt(this.props.match.params.month),
-                day: parseInt(this.props.match.params.day)
-            }
+            month: parseInt(this.props.match.params.month),
+            year: parseInt(this.props.match.params.year),
+            day: parseInt(this.props.match.params.day),
+            idInstructor: parseInt(this.state.token.id)
         }
 
         axios({
-            url: "/api/GetCalendarSessions",
+            url: "/api/GetCalendarDaySessionsAdmin",
             method: "POST",
             data: data
         })
         .then(async (res) => {
             const data = res.data;
-            console.log(data);
-            if (data.length === 0) {
-                swal.fire({
-                    title: 'No hay sesiones registradas para ese dia',
-                    icon: 'warning',
-                    background: "black",
-                    showCancelButton: true,
-                    cancelButtonText: "Regresar",
-                    cancelButtonColor: "red",
-                    confirmButtonText: "Crear una nueva",
-                    confirmButtonColor: "green"
-                }).then((result) => {
-                    if (result.isConfirmed){
-                        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                        this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                        this.props.match.params.day +"/admin/newSession");
-                    } else {
-                        window.location=("/adminMenu/selectCalendar/admin")
+            console.log("Respuesta", data);
+            await data.forEach((item) => {
+                if (item.color === "Red"){
+                    const info = {
+                        is: "notMine",
+                        instructor: {
+                            id: item.session.session.instructor.id,
+                            name: item.session.session.instructor.firstName,
+                            lastName: item.session.session.instructor.lastName
+                        },
+                        service: item.session.session.service.name,
+                        room: {
+                            name: item.session.session.room.name,
+                            capacity: item.session.session.room.capacity
+                        },
+                        begin: item.session.startHour,
+                        end: item.session.startHour + 1,
+                        capacity: item.session.session.capacity
                     }
-                });
-            } else {
-                await data.forEach((item) => {
-                    //if (item.isFree === false){
-                        //if (item.instructor.id === parseInt(this.state.myID)) {
-                        const info = {
-                            instructor: {
-                                id: item.instructor.id,
-                                name: item.instructor.firstName,
-                                lastName: item.instructor.lastName
-                            },
-                            service: item.service.name,
-                            room: {
-                                name: item.room.name,
-                                capacity: item.room.capacity
-                            },
-                            begin: item.plan.initialHour,
-                            end: item.plan.initialHour + item.plan.totalHours,
-                            capacity: item.capacity
-                        }
-                        this.state.list.push(info);
-                        //}
-                    //}
-                })
-                this.setState({
-                    sessions: this.state.list
-                })
-            }
+                    this.state.list.push(info);
+                } else if (item.color === "Blue") {
+                    const info = {
+                        is: "Mine",
+                        instructor: {
+                            id: item.session.session.instructor.id,
+                            name: item.session.session.instructor.firstName,
+                            lastName: item.session.session.instructor.lastName
+                        },
+                        service: item.session.session.service.name,
+                        room: {
+                            name: item.session.session.room.name,
+                            capacity: item.session.session.room.capacity
+                        },
+                        begin: item.session.startHour,
+                        end: item.session.startHour + 1,
+                        capacity: item.session.session.capacity,
+                        totalHours: item.session.session.schedule.totalHours
+                    }
+                    this.state.list.push(info);
+                } else {
+                    const info = {
+                        is: "Free",
+                        text: "Campo Libre",
+                        begin: item.session.startHour,
+                        end: item.session.startHour + 1,
+                    }
+                    this.state.list.push(info);
+                }
+            })
+            this.setState({
+                sessions: this.state.list
+            })            
         })
         .catch(() => {
             swal.fire({
@@ -101,48 +112,99 @@ class ViewCalendar extends Component {
         })
     }
 
+    show = (post, index) => {
+        if (post.is === "Mine"){
+            return (
+                <div key = {index} className="col-md-4">
+                    <div className ="card text-white bg-info mt-4">
+                        <p className="card-header text-center text">
+                            Servicio: {post.service}
+                        </p>
+                        <p className="text-center">
+                            Instructor: {post.instructor.name} {post.instructor.lastName}
+                        </p>
+                        <p className="text-center">
+                            Horario de la sesión: {post.begin} - {post.end}
+                        </p>
+                        <p className="text-center">
+                            Capacidad de la sesión: {post.capacity}
+                        </p>
+                        <div className="card-footer text-center">
+                        <button className="btn btn-dark button" onClick={() => this.modify(post)}>
+                            Modificar Sesión
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            )
+        } else if (post.is === "notMine") {
+            return (
+                <div key = {index} className="col-md-4">
+                    <div className ="card text-white bg-danger mt-4">
+                        <p className="card-header text-center text">
+                            Servicio: {post.service}
+                        </p>
+                        <p className="text-center">
+                            Instructor: {post.instructor.name} {post.instructor.lastName}
+                        </p>
+                        <p className="text-center">
+                            Horario de la sesión: {post.begin} - {post.end}
+                        </p>
+                        <p className="text-center">
+                            Capacidad de la sesión: {post.capacity}
+                        </p>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+            <div key = {index} className="col-md-4">
+                    <div className ="card text-white bg-success mt-4">
+                        <p className="card-header text-center text">
+                            {post.text}
+                        </p>
+                        <p>
+
+                        </p>
+                        <p>
+                            
+                        </p>
+                        <p className="text-center">
+                            Horario {post.begin} - {post.end}
+                        </p>
+                        <p>
+                            
+                        </p>
+                        <p>
+                            
+                        </p>
+                    </div>
+                </div>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
                 <Navbar/>
                 <div className="showData">
-                    <h4>
+                    <h4 style={{color: "white", webkitTextStroke: ".7px black"}}>
                         Sesiones Disponibles en el Room {this.props.match.params.room} para el día {this.state.days[this.props.match.params.day]}
                     </h4>
                     <div className="col-md-12">
                         <div className="row">
-                            {console.log(this.state)}
                             {this.state.sessions.map((post, index) =>
-                            <div key = {index} className="col-md-4">
-                                <div className ="card text-white bg-dark mt-4">
-                                    <p className="card-header text-center text">
-                                        Servicio: {post.service}
-                                    </p>
-                                    <p className="text-center">
-                                        Instructor: {post.instructor.name} {post.instructor.lastName}
-                                    </p>
-                                    <p className="text-center">
-                                        Horario de la sesión: {post.begin} - {post.end}
-                                    </p>
-                                    <p className="text-center">
-                                        Capacidad de la sesión: {post.capacity}
-                                    </p>
-                                    <div className="card-footer text-center">
-                                    <button className="btn btn-danger button" onClick={() => this.modify()}>
-                                        Modificar Sesión
-                                    </button>
-                                </div>
-                                </div>
-                            </div>
+                                this.show(post, index)
                             )}
                         </div>
                     </div>
                     <div className="card-footer text-center">
                         <button className="btn btn-success button" style={{marginTop:"20px"}} 
                         onClick={() => window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.props.match.params.room + "/"+ 
-                        this.props.match.params.capacity + "/" + this.props.match.params.year +"/"+ this.props.match.params.month +"/"+ 
-                        this.props.match.params.day +"/admin/newSession")}>
-                            Crear Nueva Sesión
+                        this.props.match.params.capacity + "/" + this.props.match.params.begin + "/" + this.props.match.params.end + "/" + 
+                        this.props.match.params.year + "/"+ this.props.match.params.month +"/"+ this.props.match.params.day + "/admin/newSession")}>
+                            Crear nueva Sessión
                         </button>
                     </div>
                     <div className="card-footer text-center">

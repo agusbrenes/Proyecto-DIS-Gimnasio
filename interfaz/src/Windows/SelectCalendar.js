@@ -4,7 +4,7 @@ import Navbar from "./NavBar/NavBar";
 
 class SelectMonth extends Component {
     state = {
-        year: "2020",
+        year: "2021",
         month: "Enero",
         day: "Lunes",
         room: "",
@@ -42,6 +42,10 @@ class SelectMonth extends Component {
             await data.forEach((item) => {
                 const info = {
                     name: item.name,
+                    schedule: {
+                        initialHour: item.schedule.initialHour,
+                        totalHours: item.schedule.totalHours
+                    },
                     capacity: item.capacity
                 }
                 this.state.rooms.push(info);
@@ -62,9 +66,9 @@ class SelectMonth extends Component {
         const month = document.form.month.selectedIndex;
         const day = document.form.day.selectedIndex;
 
-        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity 
-        + "/" + this.state.rooms[index].schedule.initialHour + "/" + this.state.rooms[index].schedule.totalHours + 
-        "/"+ this.state.year +"/"+ month +"/"+ day +"/admin");
+        window.location=("/adminMenu/selectCalendar/viewCalendar/"+ this.state.room + "/"+ this.state.rooms[index].capacity + "/" 
+        + this.state.rooms[index].schedule.initialHour +
+        "/" + this.state.rooms[index].schedule.totalHours + "/"+ this.state.year +"/"+ month +"/"+ day +"/admin");
     }
 
     render() {
@@ -98,7 +102,6 @@ class SelectMonth extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                         >
-                            <option>2020</option>
                             <option>2021</option>
                             <option>2022</option>
                             <option>2023</option>

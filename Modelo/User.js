@@ -63,5 +63,9 @@ module.exports = class User {
             session: session
         });
     }
-
+    addText(text) {
+        this.messages.push({
+            msg: text
+        });
+    }
 }
