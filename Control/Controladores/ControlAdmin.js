@@ -164,13 +164,13 @@ module.exports = class ControlAdmin extends ControlUsers {
         const session = await controlSession.toObject(sessionSchema, controlInstructor, controlService, controlRoom, this);
         
         const auxInstructor = session.authorize(adminName);
-        
         const filterInstructor = {
             id: auxInstructor.id
         }
         const instructorSchema = await controlInstructor.find(filterInstructor);
-        const instructor = await controlInstructor.toObject(instructorSchema[0], controlRoom, this, controlSession, controlService);
-        console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",instructor, "EHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        const instruc = instructorSchema[0];
+        instruc.messages = auxInstructor.messages;
+        const instructor = await controlInstructor.toObject(instruc, controlRoom, this, controlSession, controlService);
         await controlInstructor.modify(filterInstructor, instructor, false);
 
         const filter = {

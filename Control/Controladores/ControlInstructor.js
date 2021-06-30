@@ -27,7 +27,6 @@ module.exports = class ControlInstructor extends ControlUsers {
         );
         user.setTemp(schema.isTemp);
         user = await this.setInstructorRoom(user, schema.room, controlRoom, controlAdmin, controlSession, controlService);
-        console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", schema, "OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
         user = await this.setInstructorMessages(user, schema.messages);
         return user;
     }
